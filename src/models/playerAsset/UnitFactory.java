@@ -1,4 +1,4 @@
-package application.models.playerAsset;
+package models.playerAsset;
 
 public class UnitFactory {
 

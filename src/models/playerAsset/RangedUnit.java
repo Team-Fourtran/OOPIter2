@@ -1,4 +1,4 @@
-package application.models.playerAsset;
+package models.playerAsset;
 
 //Unit type
 //Responsibilities: Attacker, can attack over multiple tiles

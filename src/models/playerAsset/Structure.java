@@ -1,4 +1,4 @@
-package application.models.playerAsset;
+package models.playerAsset;
 
 /* Class representing the PlayerAsset Structure
    At this time, only represents a base

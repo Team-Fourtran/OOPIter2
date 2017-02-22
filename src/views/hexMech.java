@@ -1,10 +1,8 @@
-package application.views;
+package views;
 
 import java.awt.*;
 import javax.swing.*;
-/**
- * Created by TK on 2/21/17.
- */
+
 public class hexMech {
 
     public static boolean XYVertex=true;	//true: x,y are the co-ords of the first vertex.

@@ -1,7 +1,5 @@
-package application.models.playerAsset;
+package models.playerAsset;
 
-import application.models.commands.Command;
-import java.util.*;
 
 /* High level unit class used to define the Unit type
 	and define some basic functionality
