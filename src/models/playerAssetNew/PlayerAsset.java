@@ -11,6 +11,7 @@ import java.util.Queue;
 */
 public abstract class PlayerAsset {
 
+    private String ID;
     private int offDamage;
     private int defDamage;
     private int armor;
@@ -19,7 +20,7 @@ public abstract class PlayerAsset {
     private int upkeep;
     private boolean poweredUp;
     private boolean hasExecutedCommand = false;
-    protected Queue<Command> commandQueue = new LinkedList<Command>();
+    protected Queue<Command> commandQueue = new LinkedList<>();
     int commandCount = 0;
     private  int moveCounter = 0;
 
@@ -60,11 +61,6 @@ public abstract class PlayerAsset {
             upkeep /= 4;
     }
 
-    //get asset type, overridden in subclasses
-    public String getType(){
-       return "basic asset type";
-    }
-
     public void addCommand(Command c){
         commandQueue.add(c);
         if (!hasExecutedCommand) {
@@ -76,7 +72,7 @@ public abstract class PlayerAsset {
     //if turns are divisible by 1, then execute or wait until enough turns have passed
     //if it's a movement command, make sure the max amount of moves can be made
     public void executeCommand() {
-        if (!hasExecutedCommand) {
+        if (!hasExecutedCommand && !commandQueue.isEmpty()) {
 
             int turns = (int) commandQueue.peek().getTurns();
 
@@ -133,5 +129,14 @@ public abstract class PlayerAsset {
     //clear all entries in the queue
     public void clearQueue(){
         commandQueue.clear();
+    }
+
+    //reset the asset's ability to execute a command
+    public void resetCommands(){
+        hasExecutedCommand = false;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 }

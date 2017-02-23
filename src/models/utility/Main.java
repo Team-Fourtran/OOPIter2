@@ -24,7 +24,6 @@ public class Main {
         _tiles.get(9).add(u2);
         Unit u3 = new Explorer();
 
-
         Army a1 = new Army(u3, u1, u2);
         _tiles.get(14).add(a1);
 
@@ -42,23 +41,8 @@ public class Main {
         );
         mrp.execute();
 
-        //_tiles.get(4).add(u1);
-
-
-
-//        new MovementGenerator(
-//                u1,
-//                _tiles.get(4),
-//                _tiles.get(15)
-//        );
         map.debugPrint();
         Thread.sleep(1000);
-//        new MovementGenerator(
-//                a1,
-//                _tiles.get(0),
-//                _tiles.get(3)
-//        );
-//        map.debugPrint();
     }
 }
 

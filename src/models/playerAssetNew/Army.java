@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 public class Army extends PlayerAsset {
     private ArrayList<Unit> battleGroup = new ArrayList<>();
-    ArrayList<Unit> reinforcements = new ArrayList<>();
+    private ArrayList<Unit> reinforcements = new ArrayList<>();
 
     public Army(Unit initial, Unit ... units) {
         battleGroup.add(initial);

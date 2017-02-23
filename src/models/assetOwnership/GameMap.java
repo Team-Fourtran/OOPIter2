@@ -1,7 +1,7 @@
 package models.assetOwnership;
 
 import models.playerAssetNew.PlayerAsset;
-import models.utility.AStarPathfinder;
+import models.utility.ReverseAStar;
 import java.util.ArrayList;
 
 /*
@@ -25,7 +25,7 @@ public class GameMap {
     // Gerneate degrees representing the optimal path to get from start to end
     public ArrayList<TileAssociation> generatePath(PlayerAsset asset, TileAssociation end)  {
         TileAssociation start = getAssociation(asset);
-        AStarPathfinder path = new AStarPathfinder(start, end);
+        ReverseAStar path = new ReverseAStar(end, asset);
         return path.execute();
     }
     private TileAssociation getAssociation(PlayerAsset asset){
