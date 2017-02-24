@@ -1,0 +1,245 @@
+package src.models.playerAsset;
+
+import java.util.*;
+
+/* Manager for a Player's Units
+   Helps create units and pass commands to them
+ */
+public class UnitManager {
+
+    ArrayList<Unit> unitList;
+    UnitFactory factory;
+    ArrayList<Unit> explorerList;
+    ArrayList<Unit> colonistList;
+    ArrayList<Unit> meleeList;
+    ArrayList<Unit> rangedList;
+    final int maxUnits = 25;
+    final int maxUnitType = 10;
+    static ArrayList<String> unitIDs = new ArrayList<String>();
+    ArrayList<Iterator<Unit>> unitIterators;
+
+
+    public UnitManager() {
+        unitList = new ArrayList<>();
+        explorerList = new ArrayList<>();
+        colonistList = new ArrayList<>();
+        meleeList = new ArrayList<>();
+        rangedList = new ArrayList<>();
+        factory = new UnitFactory();
+        for (int i = 1; i <= 50; i++)
+            unitIDs.add("u" + i);
+        unitIterators = new ArrayList<>();
+        unitIterators.add(makeIterator(explorerList));
+        unitIterators.add(makeIterator(colonistList));
+        unitIterators.add(makeIterator(meleeList));
+        unitIterators.add(makeIterator(rangedList));
+
+    }
+
+
+
+    //add a new unit to the map on the structure's location that created it
+    public Unit addNewUnit(String unitLocation, String type) {
+        Unit newUnit = factory.makeUnit(type);
+        newUnit.setLocation(unitLocation);
+        newUnit.setID(unitIDs.get(0));
+        unitIDs.remove(0);
+        addUnitToList(newUnit, type);
+        return newUnit;
+    }
+
+    public void addUnitToList(Unit u, String type){
+
+        switch(type){
+            case "explorer":
+                unitList.add(u);
+                explorerList.add((Explorer)u);
+                break;
+            case "colonist":
+                unitList.add(u);
+                colonistList.add((Colonist)u);
+                break;
+            case "melee":
+                unitList.add(u);
+                meleeList.add((MeleeUnit)u);
+                break;
+            case "ranged":
+                unitList.add(u);
+                rangedList.add((RangedUnit)u);
+                break;
+        }
+    }
+
+    //method to add units from disbanded army into the unit list
+    public void addUnits(ArrayList<Unit> units) {
+        unitList.addAll(units);
+    }
+
+    public void decommissionUnit(String unitID) {
+        for (Unit u : unitList)
+            if (u.getID().equals(unitID)) {
+                unitIDs.add(u.getID());
+                if (u instanceof MeleeUnit)
+                    decrementUnit("melee");
+                else if (u instanceof RangedUnit)
+                    decrementUnit("ranged");
+                else if (u instanceof Explorer)
+                    decrementUnit("explorer");
+                else
+                    decrementUnit("colonist");
+                unitList.remove(u);
+            }
+    }
+
+    //recycle an ID of a unit who doesn't need one anymore
+    public void freeID(String assetID) {
+        int escapee = Integer.parseInt(assetID.substring(assetID.lastIndexOf("u") + 1).trim());
+        for (int i = 0; i < unitIDs.size(); i++) {
+            String currentID = unitIDs.get(i);
+            int id = Integer.parseInt(currentID.substring(currentID.lastIndexOf("u") + 1).trim());
+            if (escapee < id) {
+                unitIDs.add(i, assetID);
+                break;
+            }
+        }
+    }
+
+    //find position of unit on the map
+    public String getPosition(String assetID) {
+        for (Unit u : unitList) {
+            if (u.getID().equals(assetID)) {
+
+                return u.getLocation();
+            }
+        }
+        return null;
+    }
+
+    //depending on the type of unit made, increment that count
+    public void incrementUnit(String type) {
+        switch (type) {
+            case "melee":
+                meleeCount++;
+            case "ranged":
+                rangedCount++;
+            case "explorer":
+                explorerCount++;
+            case "colonist":
+                colonistCount++;
+        }
+    }
+
+    //decrement count of a decommissioned unit based on its type
+    public void decrementUnit(String type) {
+        switch (type) {
+            case "melee":
+                meleeCount--;
+            case "ranged":
+                rangedCount--;
+            case "explorer":
+                explorerCount--;
+            case "colonist":
+                colonistCount--;
+        }
+    }
+
+    //check if unit creation is valid
+    public boolean checkIfValid(String type) {
+        if (unitCount < 25) {
+            switch (type) {
+                case "melee":
+                    if (meleeCount < 10) return true;
+                case "ranged":
+                    if (rangedCount < 10) return true;
+                case "explorer":
+                    if (explorerCount < 10) return true;
+                case "colonist":
+                    if (colonistCount < 10) return true;
+            }
+        }
+        return true;
+    }
+
+    //get a specific unit based on ID
+    public Unit getUnit(String unitID) {
+        for (Unit u : unitList)
+            if (u.getID().equals(unitID))
+                return u;
+        return null;
+    }
+
+    public Iterator<Unit> makeIterator(ArrayList<Unit> list){
+        return new Iterator<Unit>() {
+
+            private int index = 0;
+
+            public boolean hasNext() {
+                if (list.get(index+1) != null)
+                    return true;
+                return false;
+            }
+
+            @Override
+            public Unit first() {
+                if (!list.isEmpty())
+                    return list.get(0);
+                return null;
+            }
+
+            @Override
+            public void next() {
+                index = (index+1) % list.size();
+            }
+
+            @Override
+            public void prev() {
+                if (index != 0)
+                    index--;
+                else
+                    index = list.size()-1;
+            }
+
+            public Unit current(){
+                return list.get(index);
+            }
+        };
+    }
+
+    public Iterator<Iterator<Unit>> makeIterIterator(ArrayList<Iterator<Unit>> list){
+        return new Iterator<Iterator<Unit>>() {
+
+            private int index = 0;
+            private Iterator<Unit> current = current();
+
+            public boolean hasNext() {
+                ;if (list.get(index+1) != null)
+                    return true;
+                return false;
+            }
+
+            @Override
+            public Iterator<Unit> first() {
+                return list.get(0);
+            }
+
+            @Override
+            public void next() {
+                index = (index+1) % list.size();
+                current = list.get(index);
+            }
+
+            @Override
+            public void prev() {
+                if (index != 0)
+                    index--;
+                else
+                    index = list.size()-1;
+                current = list.get(index);
+            }
+
+            @Override
+            public Iterator<Unit> current() {
+                return list.get(index);
+            }
+        }
+}
