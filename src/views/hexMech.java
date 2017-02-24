@@ -1,4 +1,4 @@
-package application.views;
+package views;
 
 import java.awt.*;
 import javax.swing.*;
@@ -104,6 +104,7 @@ public class hexMech {
         char c= 'o';
         int x = i * (s+t);
         int y = j * h + (i%2) * h/2;
+        System.out.print(n);
         if (n < 0) {
             g2.setColor(MainScreen.COLOURONE);
             g2.fillPolygon(hex(x,y));
