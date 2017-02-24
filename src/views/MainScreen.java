@@ -15,7 +15,7 @@ public class MainScreen{
     final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
     final static Color COLOURBACK =  Color.WHITE;
-    //final static BufferedImage WATER = ImageIO.read(application/views/waterHex.gif);
+    //final static BufferedImage WATER = ImageIO.read(applicatiotilesn/views/waterHex.gif);
     final static Color COLOURCELL =  Color.ORANGE;
     final static Color COLOURGRID =  Color.BLACK;
     final static Color COLOURONE = new Color(255,223,255,200);
