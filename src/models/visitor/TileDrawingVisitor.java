@@ -47,13 +47,18 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x, y, null);
+			g2.drawImage(texture, x+19, y+19, null);
 	}
 
 	@Override
 	public void visitUnit(Unit unit) {
-		// TODO Auto-generated method stub
-		
+		BufferedImage texture = null;
+		try {
+			texture = ImageIO.read(new File("src/views/Building.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			g2.drawImage(texture, x, y, null);
 	}
 
 	@Override
@@ -70,7 +75,7 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x, y, null);
+			g2.drawImage(texture, x+19, y+19, null);
 	}
 
 	@Override

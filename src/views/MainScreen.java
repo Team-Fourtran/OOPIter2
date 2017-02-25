@@ -1,6 +1,9 @@
 package views;
 
 import javax.swing.*;
+
+import models.utility.Observer;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,13 +11,13 @@ import java.io.IOException;
 
 import javax.imageio.*;
 
-public class MainScreen{
+public class MainScreen implements Observer {
     private JFrame mainScreen;
     
     final static int EMPTY = 0;
     final static int BSIZE = 30;
-    final static int HEXSIZE = 40;
-    final static int BORDERS = 15;
+    final static int HEXSIZE = 32;
+    final static int BORDERS = 17;
     final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
     final static Color COLOURBACK =  Color.WHITE;
@@ -79,5 +82,11 @@ public class MainScreen{
             }
         }
     }
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

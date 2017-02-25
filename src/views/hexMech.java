@@ -94,43 +94,12 @@ public class hexMech {
         int x = i * (s+t);
         int y = j * h + (i%2) * h/2;
         Polygon poly = hex(x,y);
-        g2.setColor(MainScreen.COLOURTWO);
+
         //g2.drawImage(MainScreen.WATER, 0, 0, null);
-        g2.fillPolygon(poly);
         g2.setColor(MainScreen.COLOURCELL);
         g2.drawPolygon(poly);
-    }
-
-    /***************************************************************************
-     * Name: fillHex()
-     * Parameters: (i,j) : the x,y coordinates of the initial point of the hexagon
-     n   : an integer number to indicate a letter to draw in the hex
-     g2  : the graphics context to draw on
-     * Return: void
-     * Called from:
-     * Calls: hex()
-     *Purpose: This draws a filled in polygon based on the coordinates of the hexagon.
-     The colour depends on whether n is negative or positive.
-     The colour is set by MainScreen.COLOURONE and MainScreen.COLOURTWO.
-     The value of n is converted to letter and drawn in the hexagon.
-     *****************************************************************************/
-    public static void fillHex(int i, int j, int n, Graphics2D g2) {  
-        char c= 'o';
-        int x = i * (s+t);
-        int y = j * h + (i%2) * h/2;
-        if (n < 0) {
-            g2.setColor(MainScreen.COLOURONE);
-            g2.fillPolygon(hex(x,y));
-            c = (char)(-n);
-            g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4);
-        }
-        if (n > 0) {
-            g2.setColor(MainScreen.COLOURTWO);
-            g2.fillPolygon(hex(x,y));
-            c = (char)n;
-            g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4);
-        }
-        
+    	g2.fillPolygon(poly);
+    	
 		// TEST STUFF FOR VISITOR
         // TODO: REMOVE THE IMPORTS FOR THESE HARDCODED ASSETS
         // TODO: WE'LL FIND A BETTER WAY TO GENERATE THE MAP AND READ FROM IT
@@ -149,6 +118,37 @@ public class hexMech {
         	TileDrawingVisitor v2 = new TileDrawingVisitor(x, y, g2, tA);
         	tA.accept(v2);
     	}
+    }
+
+    /***************************************************************************
+     * Name: fillHex()
+     * Parameters: (i,j) : the x,y coordinates of the initial point of the hexagon
+     n   : an integer number to indicate a letter to draw in the hex
+     g2  : the graphics context to draw on
+     * Return: void
+     * Called from:
+     * Calls: hex()
+     *Purpose: This draws a filled in polygon based on the coordinates of the hexagon.
+     The colour depends on whether n is negative or positive.
+     The colour is set by MainScreen.COLOURONE and MainScreen.COLOURTWO.
+     The value of n is converted to letter and drawn in the hexagon.
+     *****************************************************************************/
+    public static void fillHex(int i, int j, int n, Graphics2D g2) {
+        char c= 'o';
+        int x = i * (s+t);
+        int y = j * h + (i%2) * h/2;
+        if (n < 0) {
+            g2.setColor(MainScreen.COLOURONE);
+            g2.fillPolygon(hex(x,y));
+            c = (char)(-n);
+            g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4);
+        }
+        if (n > 0) {
+            g2.setColor(MainScreen.COLOURTWO);
+            g2.fillPolygon(hex(x,y));
+            c = (char)n;
+            g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4);
+        }
     }
 
 }
