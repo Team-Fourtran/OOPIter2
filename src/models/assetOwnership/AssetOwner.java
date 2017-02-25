@@ -1,6 +1,7 @@
 package models.assetOwnership;
 
 import models.playerAssetNew.PlayerAsset;
+import models.visitor.AssetVisitor;
 import models.visitor.TileVisitor;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class AssetOwner {
         return numAssetsOwned;
     }
     
-    public void accept(TileVisitor v) {
+    public void accept(AssetVisitor v) {
     	for (int i = 0; i < assetList.size(); i++) {
     		assetList.get(i).accept(v);
     	}

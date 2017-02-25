@@ -14,10 +14,4 @@ public class RallyPoint extends PlayerAsset{
     public void setArmy(Army a){
         this.army = a;
     }
-
-	@Override
-	public void accept(TileVisitor v) {
-		// TODO Auto-generated method stub
-		
-	}
 }

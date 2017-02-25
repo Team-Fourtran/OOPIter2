@@ -8,7 +8,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import models.assetOwnership.TileAssociation;
+import models.playerAssetNew.Army;
+import models.playerAssetNew.PlayerAsset;
+import models.playerAssetNew.RallyPoint;
 import models.playerAssetNew.Structure;
+import models.playerAssetNew.Unit;
 import models.tileInfo.Normal;
 import models.tileInfo.Terrain;
 import models.tileInfo.Tile;
@@ -44,7 +48,19 @@ public class TileDrawingVisitor implements TileVisitor {
 	}
 
 	@Override
-	public void visitStructure(Structure structure) {
+	public void visitUnit(Unit unit) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visitArmy(Army army) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visitStructure(PlayerAsset structure) {
 		System.out.println("Struct");
 		BufferedImage texture = null;
 		try {
@@ -54,6 +70,12 @@ public class TileDrawingVisitor implements TileVisitor {
 			e.printStackTrace();
 		}
 			g2.drawImage(texture, x, y, null);
+	}
+
+	@Override
+	public void visitRallyPoint(RallyPoint rallyPoint) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

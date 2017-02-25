@@ -49,9 +49,9 @@ public class TileAssociation {
         return assetOwner.getNumAssetsOwned();
     }
     
-    public void accept(TileVisitor tv) {
-    	tile.accept(tv);
-    	assetOwner.accept(tv);
+    public void accept(TileVisitor v) {
+    	tile.accept(v);
+    	assetOwner.accept(v);
     }
 
 }

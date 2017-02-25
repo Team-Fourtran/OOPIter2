@@ -40,7 +40,7 @@ public class Tile {
         return items;
     }
     
-    public void accept(TileVisitor tv) {
-    	terrainType.accept(tv);
+    public void accept(TileVisitor v) {
+    	terrainType.accept(v);
     }
 }

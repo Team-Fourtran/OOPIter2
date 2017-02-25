@@ -3,7 +3,6 @@ package models.visitor;
 import models.playerAssetNew.Structure;
 import models.tileInfo.*;
 
-public interface TileVisitor {
+public interface TileVisitor extends AssetVisitor {
 	void visitNormal(Normal normal);
-	void visitStructure(Structure structure);
 }

@@ -17,10 +17,4 @@ public class Structure extends PlayerAsset{
     public void accept(AssetVisitor v) {
         v.visitStructure(this);
     }
-
-	@Override
-	public void accept(TileVisitor v) {
-		v.visitStructure(this);
-		
-	}
 }

@@ -1,5 +1,3 @@
-
-
 /* Main application packages */
 
 import application.Game;

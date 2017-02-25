@@ -10,10 +10,4 @@ public class Colonist extends Unit{
     public String getType(){
         return "Colonist";
     }
-
-	@Override
-	public void accept(TileVisitor v) {
-		// TODO Auto-generated method stub
-		
-	}
 }
