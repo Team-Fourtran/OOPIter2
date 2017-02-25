@@ -3,6 +3,7 @@ package models.assetOwnership;
 
 import models.playerAssetNew.PlayerAsset;
 import models.tileInfo.Tile;
+import models.visitor.TileVisitor;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,11 @@ public class TileAssociation {
 
     public int debugNumAssets(){
         return assetOwner.getNumAssetsOwned();
+    }
+    
+    public void accept(TileVisitor tv) {
+    	tile.accept(tv);
+    	assetOwner.accept(tv);
     }
 
 }

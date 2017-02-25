@@ -1,7 +1,21 @@
 package views;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import models.assetOwnership.TileAssociation;
+import models.playerAssetNew.PlayerAsset;
+import models.playerAssetNew.Structure;
+import models.tileInfo.Normal;
+import models.tileInfo.Terrain;
+import models.tileInfo.Tile;
+import models.visitor.TileDrawingVisitor;
+import models.visitor.TileVisitor;
 /**
  * Created by TK on 2/21/17.
  */
@@ -100,11 +114,10 @@ public class hexMech {
      The colour is set by MainScreen.COLOURONE and MainScreen.COLOURTWO.
      The value of n is converted to letter and drawn in the hexagon.
      *****************************************************************************/
-    public static void fillHex(int i, int j, int n, Graphics2D g2) {
+    public static void fillHex(int i, int j, int n, Graphics2D g2) {        
         char c= 'o';
         int x = i * (s+t);
         int y = j * h + (i%2) * h/2;
-        System.out.print(n);
         if (n < 0) {
             g2.setColor(MainScreen.COLOURONE);
             g2.fillPolygon(hex(x,y));
@@ -117,6 +130,18 @@ public class hexMech {
             c = (char)n;
             g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4);
         }
+        
+		// TEST STUFF FOR VISITOR
+        // TODO: REMOVE THE IMPORTS FOR THESE HARDCODED ASSETS
+        // TODO: WE'LL FIND A BETTER WAY TO GENERATE THE MAP AND READ FROM IT
+    	Terrain terrain = new Normal();
+		Tile tile = new Tile(terrain);
+		TileAssociation tA = new TileAssociation(tile);
+		PlayerAsset p = new Structure();
+		tA.add(p);
+		
+    	TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2, tA);
+    	tA.accept(v);
     }
 
 }

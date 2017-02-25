@@ -3,6 +3,9 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import javax.imageio.*;
 
 public class MainScreen{
@@ -67,6 +70,7 @@ public class MainScreen{
                     hexMech.drawHex(i,j,g2);
                 }
             }
+            
             //fill in hexes
             for (int i=0;i<BSIZE;i++) {
                 for (int j=0;j<BSIZE;j++) {

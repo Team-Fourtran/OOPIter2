@@ -2,6 +2,7 @@ package models.playerAssetNew;
 
 import models.command.Command;
 import models.visitor.AssetVisitor;
+import models.visitor.TileVisitor;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -48,6 +49,7 @@ public abstract class PlayerAsset {
     }
 
     public abstract void accept(AssetVisitor v);
+    public abstract void accept(TileVisitor v);
 
     //Power up a unit, increase the resource consumption back to %100
     public void powerUp(){

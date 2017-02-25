@@ -1,6 +1,7 @@
 package models.playerAssetNew;
 
 import models.visitor.AssetVisitor;
+import models.visitor.TileVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,5 +30,11 @@ public class Army extends PlayerAsset {
             u.accept(v);
         }
     }
+
+	@Override
+	public void accept(TileVisitor v) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
