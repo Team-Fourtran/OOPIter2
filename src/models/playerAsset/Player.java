@@ -87,6 +87,8 @@ public class Player {
     public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> getAssetIterator(){
         ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list = new ArrayList<>();
         list.add(units.getTypeIterator());
+        list.add(structures.getTypeIterator());
+        //list.add(armies.getTypeIterator());
         return makeAssetIterator(list);
     }
 }

@@ -35,8 +35,13 @@ public class Main {
         um.addNewUnit("ranged");
         um.addNewUnit("ranged");
 
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
 
-        AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> iter = player.getAssetIterator();
+        AssetIterator iter = player.getAssetIterator();
 
         iter.first();
         iter.getElement();
@@ -52,11 +57,13 @@ public class Main {
         iter.getElement();
         iter.prev();
         iter.getElement();
-        iter.prev();
+        iter.nextMode();
         iter.getElement();
-        iter.prev();
+        iter.next();
         iter.getElement();
-        iter.prev();
+        iter.nextMode();
+        iter.getElement();
+        iter.prevMode();
         iter.getElement();
 
         /*
