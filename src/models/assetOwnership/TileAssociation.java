@@ -1,7 +1,7 @@
 package models.assetOwnership;
 
 
-import models.playerAssetNew.PlayerAsset;
+import models.playerAsset.PlayerAsset;
 import models.tileInfo.Tile;
 
 import java.util.ArrayList;
@@ -24,8 +24,10 @@ public class TileAssociation {
         return (assetOwner.hasAsset(asset));
     }
 
-    public boolean remove(PlayerAsset p){
-        return assetOwner.removeAsset(p);
+    public void remove(PlayerAsset ... p){
+        for (PlayerAsset _p : p){
+            assetOwner.removeAsset(_p);
+        }
     }
 
     public void add(PlayerAsset p){

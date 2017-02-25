@@ -1,4 +1,4 @@
-package models.playerAssetNew;
+package models.playerAsset;
 
 import models.visitor.AssetVisitor;
 
@@ -12,5 +12,9 @@ public class RallyPoint extends PlayerAsset{
 
     public void setArmy(Army a){
         this.army = a;
+    }
+
+    public Army getArmy(){
+        return this.army;
     }
 }

@@ -1,8 +1,12 @@
+/*
+IMMEDIATE COMMAND FROM CONTROLLER
+ */
+
 package models.command;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
-import models.playerAssetNew.PlayerAsset;
+import models.playerAsset.PlayerAsset;
 import models.visitor.MovementVisitor;
 
 public class MoveRallyPointCommand implements Command{
@@ -10,14 +14,14 @@ public class MoveRallyPointCommand implements Command{
     private PlayerAsset rallyPoint; //RallyPoint
     private GameMap gameMap;
 
-    public MoveRallyPointCommand(PlayerAsset asset, TileAssociation destination, GameMap gameMap)
+    public MoveRallyPointCommand(PlayerAsset rallyPoint, TileAssociation destination, GameMap gameMap)
     {
         this.destination = destination;
-        this.rallyPoint = asset;
+        this.rallyPoint = rallyPoint;
         this.gameMap = gameMap;
     }
     @Override
-    public boolean execute() {
+    public void execute() {
         //TDA
         //GameMap.generateImmediateMovement(rallyPoint, destination);
 //        start.remove(rallyPoint);
@@ -25,7 +29,6 @@ public class MoveRallyPointCommand implements Command{
         rallyPoint.accept(
                 new MovementVisitor(gameMap, destination)
         );
-        return true;
     }
 
     @Override

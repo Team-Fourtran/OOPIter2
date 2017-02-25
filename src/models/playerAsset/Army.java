@@ -1,4 +1,4 @@
-package models.playerAssetNew;
+package models.playerAsset;
 
 import models.visitor.AssetVisitor;
 
@@ -13,13 +13,36 @@ public class Army extends PlayerAsset {
     private ArrayList<Unit> battleGroup = new ArrayList<>();
     private ArrayList<Unit> reinforcements = new ArrayList<>();
 
-    public Army(Unit initial, Unit ... units) {
-        battleGroup.add(initial);
+    public Army(Unit ... units) {
         reinforcements.addAll(Arrays.asList(units));
     }
 
     public void addToBattleGroup(Unit u){
+        battleGroup.add(u);
+        reinforcements.remove(u);
         u.clearQueue();
+    }
+
+    public boolean hasBattleGroup(){
+        return !battleGroup.isEmpty();
+    }
+
+    public boolean includes(Unit u){
+        for (Unit _unit : battleGroup){
+            if (u == _unit){
+                return true;
+            }
+        }
+        for (Unit _unit : reinforcements) {
+            if (u == _unit) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<Unit> getBattleGroup(){
+        return battleGroup;
     }
 
     @Override

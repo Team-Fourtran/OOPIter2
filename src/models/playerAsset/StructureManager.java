@@ -1,4 +1,6 @@
-package models.playerAssetNew;
+package models.playerAsset;
+
+import models.visitor.PlayerVisitor;
 
 import java.util.ArrayList;
 
@@ -51,5 +53,10 @@ public class StructureManager {
         for (Structure s: structureList) {
             s.executeCommand();
         }
+    }
+
+    //Should be in abstract class
+    public void accept(PlayerVisitor v){
+        v.visitStructureManager(this);
     }
 }

@@ -1,7 +1,5 @@
 package models.tileInfo;
 
-import models.assetOwnership.TileAssociation;
-
 import java.util.ArrayList;
 
 public class Tile {

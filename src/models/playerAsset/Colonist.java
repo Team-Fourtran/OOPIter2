@@ -1,6 +1,4 @@
-package models.playerAssetNew;
-
-import models.visitor.AssetVisitor;
+package models.playerAsset;
 
 //Unit type
 //Responsibilities: Weak attacker, can be consumed to make structure

@@ -1,4 +1,4 @@
-package models.playerAssetNew;
+package models.playerAsset;
 
 import models.command.Command;
 import models.visitor.AssetVisitor;
@@ -11,12 +11,9 @@ import java.util.Queue;
 */
 public abstract class PlayerAsset {
 
+    private CommandArray universalQueue = new CommandArray();
     private String ID;
-    private int offDamage;
-    private int defDamage;
-    private int armor;
-    private int maxHealth;
-    private int currentHealth;
+    private double movementTurns = 0.33; //Should be overridden by subtypes
     private int upkeep;
     private boolean poweredUp;
     private boolean hasExecutedCommand = false;
@@ -25,26 +22,14 @@ public abstract class PlayerAsset {
     private  int moveCounter = 0;
 
     //Various getter and setters for attributes
-    public int getOffDamage(){
-        return offDamage;
-    }
-    public int getDefDamage(){
-        return defDamage;
-    }
-    public int getArmor(){
-        return armor;
-    }
-    public int getMaxHealth(){
-        return maxHealth;
-    }
-    public int getCurrentHealth(){
-        return currentHealth;
-    }
     public boolean getPoweredUp(){
         return poweredUp;
     }
     public int getUpkeep(){
         return upkeep;
+    }
+    public double getMovementTurns(){
+        return movementTurns;
     }
 
     public abstract void accept(AssetVisitor v);
@@ -68,10 +53,16 @@ public abstract class PlayerAsset {
         }
     }
 
+    public void addUniversalCommand(Command c){
+        universalQueue.add(c);
+    }
+
     //execute the first command in the queue
     //if turns are divisible by 1, then execute or wait until enough turns have passed
     //if it's a movement command, make sure the max amount of moves can be made
     public void executeCommand() {
+        universalQueue.execute();
+
         if (!hasExecutedCommand && !commandQueue.isEmpty()) {
 
             int turns = (int) commandQueue.peek().getTurns();
@@ -138,5 +129,9 @@ public abstract class PlayerAsset {
 
     public void setID(String ID) {
         this.ID = ID;
+    }
+
+    public void removeUniversalCommand(Command c) {
+        universalQueue.remove(c);
     }
 }

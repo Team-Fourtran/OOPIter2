@@ -3,7 +3,7 @@ package models.visitor;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.MoveCommand;
-import models.playerAssetNew.*;
+import models.playerAsset.*;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,7 @@ public class MovementVisitor implements AssetVisitor{
     }
 
     public void visitUnit(Unit unit){
+        unit.clearQueue();
         ArrayList<TileAssociation> path = gameMap.generatePath(unit, destination);
         TileAssociation cur = path.remove(0);
         for (TileAssociation next : path){
@@ -29,13 +30,18 @@ public class MovementVisitor implements AssetVisitor{
 
     @Override
     public void visitArmy(Army army) {
-        ArrayList<TileAssociation> path = gameMap.generatePath(army, destination);
-        TileAssociation cur = path.remove(0);
-        for (TileAssociation next : path){
-            army.addCommand(
-                    new MoveCommand(army, cur, next)
-            );
-            cur = next;
+        if (!army.hasBattleGroup()){
+            gameMap.generateImmediateMovement(army, destination);
+        }
+        else{
+            ArrayList<TileAssociation> path = gameMap.generatePath(army, destination);
+            TileAssociation cur = path.remove(0);
+            for (TileAssociation next : path){
+                army.addCommand(
+                        new MoveCommand(army, cur, next)
+                );
+                cur = next;
+            }
         }
     }
 

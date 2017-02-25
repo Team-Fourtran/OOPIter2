@@ -1,4 +1,6 @@
-package models.playerAssetNew;
+package models.playerAsset;
+
+import models.visitor.PlayerVisitor;
 
 import java.util.ArrayList;
 
@@ -9,15 +11,27 @@ public class UnitManager {
     
     ArrayList<Unit> unitList;
     int unitCount;
+    final private UnitFactory factory;
     final int maxUnits = 25;
     final int maxUnitType = 10;
     static ArrayList<String> unitIDs = new ArrayList<String>();
 
     public UnitManager(){
+        this.factory = new UnitFactory();
         unitList = new ArrayList<>();
         unitCount = 0;
         for (int i = 1; i <= 50; i++)
             unitIDs.add("u" + i);
+    }
+
+    //add a new unit to the map on the structure's location that created it
+    public Unit addNewUnit(String type){
+        Unit newUnit = factory.makeUnit(type);
+        newUnit.setID(unitIDs.get(0));
+        unitIDs.remove(0);
+        unitList.add(newUnit);
+        unitCount++;
+        return newUnit;
     }
 
     //method to add units from disbanded army into the unit list
@@ -50,5 +64,10 @@ public class UnitManager {
         for (Unit u: unitList) {
             u.resetCommands();
         }
+    }
+
+    //Should be in abstract class
+    public void accept(PlayerVisitor v){
+        v.visitUnitManager(this);
     }
 }

@@ -1,4 +1,4 @@
-package models.playerAssetNew;
+package models.playerAsset;
 
 //Unit type
 //Responsibilities: Weak attacker, uncovers resources on map

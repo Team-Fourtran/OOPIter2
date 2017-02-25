@@ -1,4 +1,4 @@
-package models.playerAssetNew;
+package models.playerAsset;
 
 import models.visitor.AssetVisitor;
 

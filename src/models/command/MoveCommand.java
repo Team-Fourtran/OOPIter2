@@ -1,7 +1,7 @@
 package models.command;
 
 import models.assetOwnership.TileAssociation;
-import models.playerAssetNew.PlayerAsset;
+import models.playerAsset.PlayerAsset;
 
 public class MoveCommand implements Command{
     private TileAssociation start, end;
@@ -14,10 +14,9 @@ public class MoveCommand implements Command{
         this.asset = asset;
     }
     @Override
-    public boolean execute() {
+    public void execute() {
         start.remove(asset);
         end.add(asset);
-        return true;
     }
 
     @Override
@@ -27,6 +26,6 @@ public class MoveCommand implements Command{
             --Will return representation of how far the asset can move
             --If army, it will take the largest of the BG's getTurns();
          */
-        return 0.33;
+        return asset.getMovementTurns();
     }
 }
