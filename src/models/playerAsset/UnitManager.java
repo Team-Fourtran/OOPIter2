@@ -36,11 +36,16 @@ public class UnitManager {
         unitIterators.add(makeIterator(rangedList));
     }
 
+    /*test method to grab iterator*/
+    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> getTypeIterator(){
+        return makeTypeIterator(unitIterators);
+    }
+
     public Unit addNewUnit(String type){
         Unit newUnit = factory.makeUnit(type);
         newUnit.setID(unitIDs.get(0));
         unitIDs.remove(0);
-        unitList.add(newUnit);
+        addUnitToList(newUnit, type);
         return newUnit;
     }
 
@@ -133,13 +138,18 @@ public class UnitManager {
             }
 
             public PlayerAsset current(){
+                System.out.println(list.get(index).getType());
+                return list.get(index);
+            }
+
+            public PlayerAsset getElement(){
                 return list.get(index);
             }
         };
     }
 
-    public TypeIterator<Iterator<PlayerAsset>> makeTypeIterator(ArrayList<Iterator<PlayerAsset>> list) {
-        return new TypeIterator<Iterator<PlayerAsset>>() {
+    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> makeTypeIterator(ArrayList<Iterator<PlayerAsset>> list) {
+        return new TypeIterator<PlayerAsset, Iterator<PlayerAsset>>() {
 
             private int index = 0;
             private Iterator<PlayerAsset> current = current();
@@ -173,6 +183,11 @@ public class UnitManager {
             public Iterator<PlayerAsset> current() {
                 return list.get(index);
             }
+
+            public PlayerAsset getElement(){
+                return current.current();
+            }
+
         };
     }
 }

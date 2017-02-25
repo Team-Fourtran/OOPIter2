@@ -21,6 +21,45 @@ public class Main {
         UnitManager um = player.units;
         StructureManager sm = player.structures;
 
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("ranged");
+        um.addNewUnit("ranged");
+
+
+        AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> iter = player.getAssetIterator();
+
+        iter.first();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.prevType();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.nextType();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+
+        /*
         TileGen tileGen = new TileGen(5, 5);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
 
@@ -126,5 +165,6 @@ class TileGen{
     }
         return new ArrayList<>(Arrays.asList(tiles));
 }
-
+*/
+    }
 }
