@@ -114,7 +114,7 @@ public class hexMech {
      The colour is set by MainScreen.COLOURONE and MainScreen.COLOURTWO.
      The value of n is converted to letter and drawn in the hexagon.
      *****************************************************************************/
-    public static void fillHex(int i, int j, int n, Graphics2D g2) {        
+    public static void fillHex(int i, int j, int n, Graphics2D g2) {  
         char c= 'o';
         int x = i * (s+t);
         int y = j * h + (i%2) * h/2;
@@ -137,11 +137,18 @@ public class hexMech {
     	Terrain terrain = new Normal();
 		Tile tile = new Tile(terrain);
 		TileAssociation tA = new TileAssociation(tile);
-		PlayerAsset p = new Structure();
-		tA.add(p);
 		
     	TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2, tA);
     	tA.accept(v);
+    	
+    	// Add structure in a column TEST
+    	if (i == 20) {
+    		PlayerAsset p = new Structure();
+    		tA.add(p);
+    		
+        	TileDrawingVisitor v2 = new TileDrawingVisitor(x, y, g2, tA);
+        	tA.accept(v2);
+    	}
     }
 
 }

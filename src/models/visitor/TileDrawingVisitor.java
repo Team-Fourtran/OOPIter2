@@ -47,7 +47,7 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		g2.drawImage(texture, x, y, null);
+			g2.drawImage(texture, x, y, null);
 	}
 
 	@Override
