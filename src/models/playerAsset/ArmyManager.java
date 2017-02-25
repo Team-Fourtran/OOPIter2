@@ -5,7 +5,7 @@ import java.util.*;
 /* Management class for a Player's armies. Keeps references to
    all armies and passes commands to specific ones.
  */
-public class ArmyManager extends Manager{
+public class ArmyManager implements Manager{
 
     ArrayList<Army> armyList;
     final int maxArmies = 10;
@@ -45,7 +45,7 @@ public class ArmyManager extends Manager{
     public int calculateTotalUpkeep(){
         int totalUpkeep = 0;
         for (Army a: armyList){
-            ArrayList<Unit> units = a.getUnits();
+            ArrayList<Unit> units = a.getAllUnits();
             for (Unit u: units)
                 totalUpkeep += u.getUpkeep();
         }
@@ -65,17 +65,10 @@ public class ArmyManager extends Manager{
         }
     }
 
-    //set a specific army's rally point
-    public void setRallyPoint(String armyID, String rallyPoint){
-        for (Army a: armyList)
-            if (a.getID().equals(armyID))
-                a.setRallyPoint(rallyPoint);
-    }
-
     //get the position of an army by armyID
-    public String getPosition(String assetID){
+    public String getPosition(Army army){
         for (Army a: armyList)
-            if (a.getID().equals(assetID))
+            if (a == army)
                 return a.getLocation();
         return null;
     }

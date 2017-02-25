@@ -5,7 +5,6 @@ package src.models.playerAsset;
  */
 public interface Iterator<T> {
 
-    public boolean hasNext();
     public T first();
     public void next();
     public void prev();

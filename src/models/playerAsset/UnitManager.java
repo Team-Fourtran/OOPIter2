@@ -9,14 +9,14 @@ public class UnitManager {
 
     ArrayList<Unit> unitList;
     UnitFactory factory;
-    ArrayList<Unit> explorerList;
-    ArrayList<Unit> colonistList;
-    ArrayList<Unit> meleeList;
-    ArrayList<Unit> rangedList;
+    ArrayList<PlayerAsset> explorerList;
+    ArrayList<PlayerAsset> colonistList;
+    ArrayList<PlayerAsset> meleeList;
+    ArrayList<PlayerAsset> rangedList;
     final int maxUnits = 25;
     final int maxUnitType = 10;
     static ArrayList<String> unitIDs = new ArrayList<String>();
-    ArrayList<Iterator<Unit>> unitIterators;
+    ArrayList<Iterator<PlayerAsset>> unitIterators;
 
 
     public UnitManager() {
@@ -168,19 +168,22 @@ public class UnitManager {
         return null;
     }
 
-    public Iterator<Unit> makeIterator(ArrayList<Unit> list){
-        return new Iterator<Unit>() {
+    public int calculateTotalUpkeep(){
+        int totalUpkeep = 0;
+        for (Unit u: unitList){
+            totalUpkeep += u.getUpkeep();
+        }
+
+        return totalUpkeep;
+    }
+
+    public Iterator<PlayerAsset> makeIterator(ArrayList<PlayerAsset> list){
+        return new Iterator<PlayerAsset>() {
 
             private int index = 0;
 
-            public boolean hasNext() {
-                if (list.get(index+1) != null)
-                    return true;
-                return false;
-            }
-
             @Override
-            public Unit first() {
+            public PlayerAsset first() {
                 if (!list.isEmpty())
                     return list.get(0);
                 return null;
@@ -199,47 +202,47 @@ public class UnitManager {
                     index = list.size()-1;
             }
 
-            public Unit current(){
+            public PlayerAsset current(){
                 return list.get(index);
             }
         };
     }
 
-    public Iterator<Iterator<Unit>> makeIterIterator(ArrayList<Iterator<Unit>> list){
-        return new Iterator<Iterator<Unit>>() {
+    public TypeIterator<Iterator<PlayerAsset>> makeTypeIterator(ArrayList<Iterator<PlayerAsset>> list) {
+        return new TypeIterator<Iterator<PlayerAsset>>() {
 
             private int index = 0;
-            private Iterator<Unit> current = current();
-
-            public boolean hasNext() {
-                ;if (list.get(index+1) != null)
-                    return true;
-                return false;
-            }
+            private Iterator<PlayerAsset> current = current();
 
             @Override
-            public Iterator<Unit> first() {
+            public Iterator<PlayerAsset> first() {
                 return list.get(0);
             }
 
-            @Override
-            public void next() {
-                index = (index+1) % list.size();
+            public void nextType() {
+                index = (index + 1) % list.size();
                 current = list.get(index);
             }
 
-            @Override
-            public void prev() {
+            public void prevType() {
                 if (index != 0)
                     index--;
                 else
-                    index = list.size()-1;
+                    index = list.size() - 1;
                 current = list.get(index);
             }
 
-            @Override
-            public Iterator<Unit> current() {
+            public void next() {
+                current.next();
+            }
+
+            public void prev() {
+                current.prev();
+            }
+
+            public Iterator<PlayerAsset> current() {
                 return list.get(index);
             }
-        }
+        };
+    }
 }
