@@ -23,14 +23,11 @@ public class TileDrawingVisitor implements TileVisitor {
 	private Graphics2D g2;
 	private int x;
 	private int y;
-	private TileAssociation tile;
 	
-	public TileDrawingVisitor(int x, int y, Graphics2D g2, TileAssociation tile) {
+	public TileDrawingVisitor(int x, int y, Graphics2D g2) {
 		this.g2 = g2;
 		this.x = x;
 		this.y = y;
-		this.tile = tile;
-		
 		// Reset image in graphic
 		g2.drawImage(null, x, y, null);
 	}

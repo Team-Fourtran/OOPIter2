@@ -2,7 +2,7 @@ package views;
 
 import javax.swing.*;
 
-import models.utility.Observer;
+import models.assetOwnership.TileAssociation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import javax.imageio.*;
 
-public class MainScreen implements Observer {
+public class MainScreen {
     private JFrame mainScreen;
     
     final static int EMPTY = 0;
@@ -29,6 +29,10 @@ public class MainScreen implements Observer {
 
     private int[][] board = new int[BSIZE][BSIZE];
 
+    public TileAssociation[] tiles;
+    public MainScreen(TileAssociation[] tiles){
+        this.tiles = tiles;
+    }
     public void showMainScreen(){
         mainScreen.setVisible(true);
     }
@@ -36,7 +40,6 @@ public class MainScreen implements Observer {
         hexMech.setXYasVertex(false);
         hexMech.setHeight(HEXSIZE);
         hexMech.setBorders(BORDERS);
-
         for(int i = 0; i < BSIZE; i++){
             for(int j = 0; j < BSIZE; j++){
                 board[i][j] = EMPTY;
@@ -68,9 +71,11 @@ public class MainScreen implements Observer {
             g2.translate(-100, -100);
             super.paintComponent(g2);
             //draw grid
+            int ind = 0;
             for (int i=0;i<BSIZE;i++) {
                 for (int j=0;j<BSIZE;j++) {
-                    hexMech.drawHex(i,j,g2);
+                    hexMech.drawHex(i,j,g2, tiles[ind]);
+                    ind++;
                 }
             }
             
@@ -83,10 +88,5 @@ public class MainScreen implements Observer {
         }
     }
 
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
 }
 

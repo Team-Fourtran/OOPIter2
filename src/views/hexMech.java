@@ -7,19 +7,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
+import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
 import models.playerAssetNew.PlayerAsset;
 import models.playerAssetNew.Structure;
-import models.tileInfo.Normal;
-import models.tileInfo.Terrain;
-import models.tileInfo.Tile;
+
+import java.util.HashMap;
+import java.util.Observable;
 import models.visitor.TileDrawingVisitor;
 import models.visitor.TileVisitor;
 /**
  * Created by TK on 2/21/17.
  */
-public class hexMech {
+public class hexMech implements Observer{
 
     public static boolean XYVertex=true;	//true: x,y are the co-ords of the first vertex.
     //false: x,y are the co-ords of the top left rect. co-ord.
@@ -30,14 +30,17 @@ public class hexMech {
     private static int t=0;	// short side of 30o triangle outside of each hex
     private static int r=0;	// radius of inscribed circle (centre to middle of each side). r= h/2
     private static int h=0;	// height. Distance between centres of two adjacent hexes. Distance between two opposite sides in a hex.
+    private Observable observable = null;
+    private HashMap<TileAssociation, HexProperties> gps = new HashMap<>();
+    public void update(TileAssociation tA){
 
+    }
     public static void setXYasVertex(boolean b) {
         XYVertex=b;
     }
     public static void setBorders(int b){
         BORDERS=b;
     }
-
     /** This functions takes the Side length in pixels and uses that as the basic dimension of the hex.
      It calculates all other needed constants from this dimension.
      */
@@ -90,7 +93,7 @@ public class hexMech {
      Purpose: This function draws a hexagon based on the initial point (x,y).
      The hexagon is drawn in the colour specified in MainScreen.COLOURELL.
      *********************************************************************/
-    public static void drawHex(int i, int j, Graphics2D g2) {
+    public static void drawHex(int i, int j, Graphics2D g2, TileAssociation tileAssoc) {
         int x = i * (s+t);
         int y = j * h + (i%2) * h/2;
         Polygon poly = hex(x,y);
@@ -99,25 +102,27 @@ public class hexMech {
         g2.setColor(MainScreen.COLOURCELL);
         g2.drawPolygon(poly);
     	g2.fillPolygon(poly);
-    	
+
+
 		// TEST STUFF FOR VISITOR
         // TODO: REMOVE THE IMPORTS FOR THESE HARDCODED ASSETS
         // TODO: WE'LL FIND A BETTER WAY TO GENERATE THE MAP AND READ FROM IT
-    	Terrain terrain = new Normal();
+    	/*Terrain terrain = new Normal();
 		Tile tile = new Tile(terrain);
-		TileAssociation tA = new TileAssociation(tile);
-		
-    	TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2, tA);
-    	tA.accept(v);
-    	
-    	// Add structure in a column TEST
-    	if (i == 20) {
-    		PlayerAsset p = new Structure();
-    		tA.add(p);
-    		
-        	TileDrawingVisitor v2 = new TileDrawingVisitor(x, y, g2, tA);
-        	tA.accept(v2);
-    	}
+
+		TileAssociation tA = new TileAssociation(tile);*/
+
+        TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2);
+        tileAssoc.accept(v);
+        /*if (i == 20) {
+            PlayerAsset p = new Structure();
+            tileAssoc.add(p);
+
+            TileDrawingVisitor v2 = new TileDrawingVisitor(x, y, g2);
+            tileAssoc.accept(v2);
+        }*/
+
+
     }
 
     /***************************************************************************

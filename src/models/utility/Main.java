@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        TileGen tileGen = new TileGen(5, 5);
+        TileGen tileGen = new TileGen(30, 30);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
 
         Unit u1 = new Colonist();
@@ -44,42 +44,4 @@ public class Main {
         map.debugPrint();
         Thread.sleep(1000);
     }
-}
-
-class TileGen{
-    private int length, width, total;
-    TileGen(int l, int w){
-        this.length = l;
-        this.width = w;
-        this.total = length*width;
-    }
-    public ArrayList<TileAssociation> execute(){
-        TileAssociation[] tiles = new TileAssociation[total];
-        Random rand = new Random();
-        for (int i = 0; i < total; i++){
-            Terrain t = new Normal();
-            Tile tile = new Tile(t);
-            tiles[i] = new TileAssociation(tile);
-        }
-        for (int i = 0; i < total; i++) {
-        if(i-length >= 0)
-            tiles[i].setNeighbor(tiles[i-length]);
-        if((i+1)%length != 0 && i-length >= 0)
-            tiles[i].setNeighbor(tiles[i-length+1]);
-        if((i+1)%length != 0)
-            tiles[i].setNeighbor(tiles[i+1]);
-        if((i+1)%length != 0 && i+length < total)
-            tiles[i].setNeighbor(tiles[i+length+1]);
-        if(i+length < total)
-            tiles[i].setNeighbor(tiles[i+length]);
-        if(i%length != 0 && i+length < total)
-            tiles[i].setNeighbor(tiles[i+length-1]);
-        if(i%length != 0)
-            tiles[i].setNeighbor(tiles[i-1]);
-        if(i%length != 0 && i-length >= 0)
-            tiles[i].setNeighbor(tiles[i-length-1]);
-    }
-        return new ArrayList<>(Arrays.asList(tiles));
-}
-
 }

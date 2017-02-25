@@ -3,12 +3,11 @@ package models.assetOwnership;
 
 import models.playerAssetNew.PlayerAsset;
 import models.tileInfo.Tile;
-import models.utility.Observer;
 import models.visitor.TileVisitor;
-
+import java.util.Observable;
 import java.util.ArrayList;
 
-public class TileAssociation {
+public class TileAssociation extends Observable{
     private Tile tile;
     private AssetOwner assetOwner;
     private ArrayList<TileAssociation> neighbors = new ArrayList<>(0);
@@ -28,13 +27,13 @@ public class TileAssociation {
     }
 
     public boolean remove(PlayerAsset p){
-    	notifyObservers();
+        notifyObservers();
         return assetOwner.removeAsset(p);
     }
 
     public void add(PlayerAsset p){
-    	notifyObservers();
         assetOwner.addAsset(p);
+        notifyObservers();
     }
 
     // Eventually have a method for removing Resources
@@ -59,15 +58,12 @@ public class TileAssociation {
     	tile.accept(v);
     	assetOwner.accept(v);
     }
-    
-    public void attach(Observer o) {
-    	observers.add(o);
-    }
-    
-    public void notifyObservers() {
-    	for (int i = 0; i < observers.size(); i++) {
-    		observers.get(i).update();
-    	}
+
+    @Override
+    public void notifyObservers(){
+        for(Observer ob : observers){
+            ob.update(this);
+        }
     }
 
 }

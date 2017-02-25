@@ -1,12 +1,15 @@
+import models.assetOwnership.TileAssociation;
 import models.playerAssetNew.*;
 import models.tileInfo.*;
 import models.utility.*;
 import models.assetOwnership.GameMap;
 import views.*;
 
+import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Timer;
 import java.util.TimerTask;
+import models.utility.*;
 
 public class Game {
 //  private Player[] players;
@@ -33,16 +36,13 @@ public class Game {
 //    cGen1.generateCommand("IU_T100_colonist");
 //    cGen1.generateCommand("IU_T115_explorer");
 //    cGen1.generateCommand("IU_T130_explorer");
-      for(int i = 0; i < 15; i++){
-          for(int j = 0; j < 15; j++){
-              System.out.println(i + " " + j);
-//              System.out.println(map.getTiles().get(("T"+ String.valueOf((j*15) + i))).getProperties());
-          }
-      }
+      TileGen tileGen = new TileGen(30, 30);
+      tileGen.execute();
+      TileAssociation[] _tiles = tileGen.returnTileAssoc();
 //      ListIterator unitIterator = currentPlayer.getUnitIterator();
 //      ListIterator structureIterator = currentPlayer.getStructureIterator();
 //      ListIterator armyIterator = currentPlayer.getArmyIterator();
-      mainScreen = new MainScreen();
+      mainScreen = new MainScreen(_tiles);
       mainScreen.initialize();
       mainScreen.generateMainScreen();
       mainScreen.showMainScreen();
