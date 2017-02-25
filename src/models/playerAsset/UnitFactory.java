@@ -1,4 +1,8 @@
+
 package models.playerAsset;
+
+import models.playerAsset.MeleeUnit;
+import models.playerAsset.MeleeUnit;
 
 public class UnitFactory {
 
@@ -6,11 +10,16 @@ public class UnitFactory {
     public Unit makeUnit(String type){
         switch (type){
             case "explorer":
-                    return new Explorer();
+                return new Explorer();
             case "colonist":
                 return new Colonist();
+            case "melee":
+                return new MeleeUnit();
+            case "ranged":
+                return new RangedUnit();
+
         }
+
         return null;
     }
-
 }

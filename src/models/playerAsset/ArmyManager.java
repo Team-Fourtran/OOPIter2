@@ -47,6 +47,11 @@ public class ArmyManager {
     	}
     }
 
+    //calculate total upkeep from each army, unit by unit
+    public int calculateTotalUpkeep(){
+        int totalUpkeep = 0;
+        return totalUpkeep;
+    }
 
     //Go through all of the armies and, if possible, execute a command
     public void executeCommands(){

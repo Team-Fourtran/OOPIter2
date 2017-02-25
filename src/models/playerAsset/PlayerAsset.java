@@ -12,16 +12,43 @@ import java.util.Queue;
 public abstract class PlayerAsset {
 
     private CommandArray universalQueue = new CommandArray();
-    private String ID;
     private double movementTurns = 0.33; //Should be overridden by subtypes
-    private int upkeep;
-    private boolean poweredUp;
-    private boolean hasExecutedCommand = false;
+
+    protected int offDamage;
+    protected int defDamage;
+    protected int armor;
+    protected int maxHealth;
+    protected int currentHealth;
+    protected int upkeep;
+    protected boolean poweredUp;
+    protected String assetID;
+    protected boolean hasExecutedCommand = false;
     protected Queue<Command> commandQueue = new LinkedList<>();
-    int commandCount = 0;
-    private  int moveCounter = 0;
+    protected int commandCount = 0;
+    protected int moveCounter = 0;
 
     //Various getter and setters for attributes
+    public void setID(String id){
+        assetID = id;
+    }
+    public String getID(){
+        return assetID;
+    }
+    public int getOffDamage(){
+        return offDamage;
+    }
+    public int getDefDamage(){
+        return defDamage;
+    }
+    public int getArmor(){
+        return armor;
+    }
+    public int getMaxHealth(){
+        return maxHealth;
+    }
+    public int getCurrentHealth(){
+        return currentHealth;
+    }
     public boolean getPoweredUp(){
         return poweredUp;
     }
@@ -31,8 +58,6 @@ public abstract class PlayerAsset {
     public double getMovementTurns(){
         return movementTurns;
     }
-
-    public abstract void accept(AssetVisitor v);
 
     //Power up a unit, increase the resource consumption back to %100
     public void powerUp(){
@@ -46,6 +71,8 @@ public abstract class PlayerAsset {
             upkeep /= 4;
     }
 
+    //Add a command to its queue
+    //if no command has been executed this turn, execute it
     public void addCommand(Command c){
         commandQueue.add(c);
         if (!hasExecutedCommand) {
@@ -55,6 +82,10 @@ public abstract class PlayerAsset {
 
     public void addUniversalCommand(Command c){
         universalQueue.add(c);
+    }
+
+    public void removeUniversalCommand(Command c) {
+        universalQueue.remove(c);
     }
 
     //execute the first command in the queue
@@ -103,16 +134,17 @@ public abstract class PlayerAsset {
 
     }
 
-    //check if queue is empty or not
-    public boolean emptyQueue() {
-        if (commandQueue.size() == 0)
+    //helper method for execute to compare equality for double and int
+    public boolean equal(double d, int i){
+        double n = d-i;
+        if (n < 0.000001)
             return true;
         return false;
     }
 
-    public boolean equal(double d, int i){
-        double n = d-i;
-        if (n < 0.000001)
+    //check if queue is empty or not
+    public boolean emptyQueue() {
+        if (commandQueue.size() == 0)
             return true;
         return false;
     }
@@ -122,16 +154,17 @@ public abstract class PlayerAsset {
         commandQueue.clear();
     }
 
+
     //reset the asset's ability to execute a command
     public void resetCommands(){
         hasExecutedCommand = false;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    //get asset type, overridden in subclasses
+    public String getType(){
+        return "basic asset type";
     }
 
-    public void removeUniversalCommand(Command c) {
-        universalQueue.remove(c);
-    }
+    public abstract void accept(AssetVisitor v);
+
 }
