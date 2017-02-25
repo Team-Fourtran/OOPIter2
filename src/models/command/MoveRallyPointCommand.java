@@ -22,10 +22,9 @@ public class MoveRallyPointCommand implements Command{
     }
     @Override
     public void execute() {
-        //TDA
-        //GameMap.generateImmediateMovement(rallyPoint, destination);
-//        start.remove(rallyPoint);
-//        destination.add(rallyPoint);
+
+        //TODO: CHECK IF ARMY HAS A SOLDIER
+
         rallyPoint.accept(
                 new MovementVisitor(gameMap, destination)
         );

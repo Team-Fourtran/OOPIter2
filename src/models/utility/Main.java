@@ -3,7 +3,9 @@ package models.utility;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
-import models.command.CreateArmyCommand;
+import models.command.CTRLCreateArmyCommand;
+import models.command.CTRLCreateStructureCommand;
+import models.command.MoveRallyPointCommand;
 import models.playerAsset.*;
 import models.tileInfo.Normal;
 import models.tileInfo.Terrain;
@@ -16,10 +18,17 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
+        new testArmyCreationAndMovement().run();
+        //new testCapitalCreation().run();
+    }
+}
+
+class testCapitalCreation{
+    public void run() throws InterruptedException {
         Player player = new Player();
-        ArmyManager am = player.armies;
-        UnitManager um = player.units;
-        StructureManager sm = player.structures;
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
 
         TileGen tileGen = new TileGen(5, 5);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
@@ -32,12 +41,49 @@ public class Main {
         _tiles.get(24).add(u2);
 
         GameMap map = new GameMap(_tiles, 5, 5);
+        System.out.println("INITIAL:");
+        map.debugPrint();
+        Thread.sleep(1000);
+
+
+        new CTRLCreateStructureCommand(map, player, u0, "capital").execute();
+
+        System.out.println("CREATED CAPITAL");
+        map.debugPrint();
+        Thread.sleep(1000);
+
+        player.endTurn();
+        player.beginTurn();
+        System.out.println("NEW TURN");
+        map.debugPrint();
+        Thread.sleep(1000);
+    }
+}
+
+class testArmyCreationAndMovement{
+    public void run() throws InterruptedException {
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+
+        TileGen tileGen = new TileGen(30, 30);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("colonist");
+        _tiles.get(4).add(u0);
+        _tiles.get(3).add(u1);
+        _tiles.get(24).add(u2);
+
+        GameMap map = new GameMap(_tiles, 30, 30);
 
         map.debugPrint();
         Thread.sleep(1000);
 
-        CreateArmyCommand createArmyCommand = new CreateArmyCommand(map, player, _tiles.get(20),u0, u1, u2);
-        createArmyCommand.execute();
+        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(map, player, _tiles.get(20),u0, u1, u2);
+        CTRLCreateArmyCommand.execute();
 
         RallyPoint rallyPoint = am.debugGetRallyPoint();
         Army army = am.debugGetArmy();
@@ -46,15 +92,9 @@ public class Main {
         map.debugPrint();
         Thread.sleep(1000);
 
-//        System.out.println("MOVED RALLY POINT:");
-//        MoveRallyPointCommand mrp = new MoveRallyPointCommand(rallyPoint, _tiles.get(20), map);
-//        mrp.execute();
-//        map.debugPrint();
-//        Thread.sleep(1000);
-
-        player.endTurn();
-        player.beginTurn();
-        System.out.println("NEW TURN");
+        System.out.println("MOVED RALLY POINT:");
+        MoveRallyPointCommand mrp = new MoveRallyPointCommand(rallyPoint, _tiles.get(24), map);
+        mrp.execute();
         map.debugPrint();
         Thread.sleep(1000);
 
@@ -69,27 +109,14 @@ public class Main {
         System.out.println("NEW TURN");
         map.debugPrint();
         Thread.sleep(1000);
-    }
 
-    private class newArmySim{
-        private ArmyManager am = new ArmyManager();
-
-        newArmySim(Player player, GameMap map, TileAssociation start, Unit ... units){
-            RallyPoint rp = am.formRallyPoint(
-                    am.formArmy(units)
-            );
-            new CreateArmyCommand(
-                    map,
-                    player,
-                    start,
-                    units
-            );
-
-        }
+        player.endTurn();
+        player.beginTurn();
+        System.out.println("NEW TURN");
+        map.debugPrint();
+        Thread.sleep(1000);
     }
 }
-
-
 
 class TileGen{
     private int length, width, total;

@@ -1,6 +1,5 @@
 package models.playerAsset;
 
-import models.command.Command;
 import models.visitor.PlayerVisitor;
 import java.util.ArrayList;
 
@@ -11,11 +10,14 @@ import java.util.ArrayList;
 public class StructureManager implements Manager{
     public ArrayList<Structure> structureList;
     final int maxStructures = 10;
+    final private StructureFactory factory;
     static ArrayList<String> structureIDs = new ArrayList<>();
+    //TODO: Structure Factory
 
 
     public StructureManager(){
         structureList = new ArrayList<>();
+        factory = new StructureFactory();
         for (int i = 1; i <= 20; i++)
             structureIDs.add("s" + i);
     }
@@ -25,13 +27,12 @@ public class StructureManager implements Manager{
         return structureList.size();
     }
 
-    //add a new structure to the map on an Army's location
-    public Structure createStructure(String location){
-        Structure s = new Structure();
-        s.setID(structureIDs.get(0));
-        structureList.add(s);
+    public Structure createStructure(String type){
+        Structure newStructure = factory.makeStructure(type);
+        newStructure.setID(structureIDs.get(0));
         structureIDs.remove(0);
-        return s;
+        structureList.add(newStructure);
+        return newStructure;
     }
 
     //destroy a structure

@@ -18,6 +18,13 @@ public class ArmyCreationVisitor implements PlayerVisitor{
     }
 
     @Override
+    public void visitPlayer(Player player) {
+        this.visitArmyManager(player.getArmies());
+        this.visitUnitManager(player.getUnits());
+        this.visitStructureManager(player.getStructures());
+    }
+
+    @Override
     public void visitArmyManager(ArmyManager armyManager) {
 
         //Should have Army Factory to return new army...

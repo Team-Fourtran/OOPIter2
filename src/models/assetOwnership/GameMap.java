@@ -3,6 +3,7 @@ package models.assetOwnership;
 import models.playerAsset.PlayerAsset;
 import models.utility.ReverseAStar;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
  * Class for containing TileStates and optimal path between tiles
@@ -17,10 +18,6 @@ public class GameMap {
     	this.width = width;
         this.tiles = new ArrayList<>(tiles);
     }
-
-//    public void printOut(){
-//        tiles.forEach(TileAssociation::print);
-//    }
 
     // Gerneate degrees representing the optimal path to get from start to end
     public ArrayList<TileAssociation> generatePath(PlayerAsset asset, TileAssociation end)  {
@@ -40,13 +37,11 @@ public class GameMap {
         searchForTileAssociation(asset).remove(asset);
     }
 
-//    public void removeAsset(PlayerAsset asset){
-//        for (TileAssociation t : tiles){
-//            if (t.isAssetOwner(asset)){
-//                t.remove(asset);
-//            }
-//        }
-//    }
+    public void replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){
+        TileAssociation tileAssociation = searchForTileAssociation(oldAsset);
+        tileAssociation.remove(oldAsset);
+        tileAssociation.add(newAsset);
+    }
 
     public void generateImmediateMovement(PlayerAsset asset, TileAssociation destination){
         //Precondition -> asset exists on a tile
@@ -59,13 +54,12 @@ public class GameMap {
         destination.add(asset);
     }
 
-    public int getLength() {
-    	return length;
+    public int calculateDistance(PlayerAsset asset1, PlayerAsset asset2) {
+        TileAssociation start = searchForTileAssociation(asset1);
+        ReverseAStar path = new ReverseAStar(start, asset2);
+        return path.getDistance(); //NOTE THIS IS NOT THE MINIMUM DISTANCE
     }
-    
-    public int getWidth() {
-    	return width;
-    }
+
 
     public void debugPrint(){
         System.out.print(" ");
@@ -95,11 +89,5 @@ public class GameMap {
         for (int i = 0 ; i < 16*length; i++){
             System.out.print("\b");
         }
-    }
-
-    public int calculateDistance(PlayerAsset asset1, PlayerAsset asset2) {
-        TileAssociation start = searchForTileAssociation(asset1);
-        ReverseAStar path = new ReverseAStar(start, asset2);
-        return path.getDistance(); //NOTE THIS IS NOT THE MINIMUM DISTANCE
     }
 }

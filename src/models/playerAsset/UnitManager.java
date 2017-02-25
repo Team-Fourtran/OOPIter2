@@ -36,6 +36,10 @@ public class UnitManager {
         unitIterators.add(makeIterator(rangedList));
     }
 
+    public void removeUnit(Unit unit){
+        unitList.remove(unit);
+    }
+
     public Unit addNewUnit(String type){
         Unit newUnit = factory.makeUnit(type);
         newUnit.setID(unitIDs.get(0));

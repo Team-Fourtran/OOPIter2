@@ -21,12 +21,10 @@ public class AssetOwner {
         return assetList.contains(asset);
     }
 
-    public boolean removeAsset(PlayerAsset p){
+    public void removeAsset(PlayerAsset p){
         if(assetList.remove(p)){
             numAssetsOwned--;
-            return true;
         }
-        return false;
     }
 
     public void addAsset(PlayerAsset p){

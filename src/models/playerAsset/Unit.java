@@ -15,6 +15,7 @@ public abstract class Unit extends PlayerAsset{
 	}
 
 	public double getMovesPerTurn(){return movesPerTurn;}
+
 	public void setMovesPerTurn(double m){this.movesPerTurn = m;}
 
     @Override
