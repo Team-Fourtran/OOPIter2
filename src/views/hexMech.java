@@ -31,7 +31,7 @@ public class hexMech implements Observer{
     private static int r=0;	// radius of inscribed circle (centre to middle of each side). r= h/2
     private static int h=0;	// height. Distance between centres of two adjacent hexes. Distance between two opposite sides in a hex.
     private Observable observable = null;
-    private HashMap<TileAssociation, HexProperties> gps = new HashMap<>();
+    private static HashMap<TileAssociation, HexProperties> gps = new HashMap<>();
     public void update(TileAssociation tA){
 
     }
@@ -98,31 +98,17 @@ public class hexMech implements Observer{
         int y = j * h + (i%2) * h/2;
         Polygon poly = hex(x,y);
 
+        HexProperties h = new HexProperties(x, y, g2);
+        
+        gps.put(tileAssoc, h);
+        
         //g2.drawImage(MainScreen.WATER, 0, 0, null);
         g2.setColor(MainScreen.COLOURCELL);
         g2.drawPolygon(poly);
     	g2.fillPolygon(poly);
 
-
-		// TEST STUFF FOR VISITOR
-        // TODO: REMOVE THE IMPORTS FOR THESE HARDCODED ASSETS
-        // TODO: WE'LL FIND A BETTER WAY TO GENERATE THE MAP AND READ FROM IT
-    	/*Terrain terrain = new Normal();
-		Tile tile = new Tile(terrain);
-
-		TileAssociation tA = new TileAssociation(tile);*/
-
         TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2);
         tileAssoc.accept(v);
-        /*if (i == 20) {
-            PlayerAsset p = new Structure();
-            tileAssoc.add(p);
-
-            TileDrawingVisitor v2 = new TileDrawingVisitor(x, y, g2);
-            tileAssoc.accept(v2);
-        }*/
-
-
     }
 
     /***************************************************************************
@@ -155,5 +141,11 @@ public class hexMech implements Observer{
             g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4);
         }
     }
+    
+	public static void updateTile(TileAssociation t2) {
+		HexProperties p = gps.get(t2);
+		TileVisitor v = new TileDrawingVisitor(p.getX(), p.getY(), p.getGraphic());
+		t2.accept(v);
+	}
 
 }

@@ -2,16 +2,18 @@ package views;
 
 import javax.swing.*;
 
+import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Observable;
 
 import javax.imageio.*;
 
-public class MainScreen {
+public class MainScreen implements Observer {
     private JFrame mainScreen;
     
     final static int EMPTY = 0;
@@ -32,6 +34,9 @@ public class MainScreen {
     public TileAssociation[] tiles;
     public MainScreen(TileAssociation[] tiles){
         this.tiles = tiles;
+        for (int i = 0; i < tiles.length; i++) {
+        	tiles[i].addObserver(this);
+        }
     }
     public void showMainScreen(){
         mainScreen.setVisible(true);
@@ -87,6 +92,16 @@ public class MainScreen {
             }
         }
     }
+    
+    public void updateMainScreen() {
+    	mainScreen.repaint();
+    }
+
+	@Override
+	public void update(TileAssociation t) {
+		hexMech.updateTile(t);
+		mainScreen.repaint();
+	}
 
 }
 

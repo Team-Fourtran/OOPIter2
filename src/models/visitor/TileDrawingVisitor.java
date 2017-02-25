@@ -60,7 +60,13 @@ public class TileDrawingVisitor implements TileVisitor {
 
 	@Override
 	public void visitArmy(Army army) {
-		// TODO Auto-generated method stub
+		BufferedImage texture = null;
+		try {
+			texture = ImageIO.read(new File("src/views/Building.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			g2.drawImage(texture, x+19, y+19, null);
 		
 	}
 
@@ -77,7 +83,13 @@ public class TileDrawingVisitor implements TileVisitor {
 
 	@Override
 	public void visitRallyPoint(RallyPoint rallyPoint) {
-		// TODO Auto-generated method stub
+		BufferedImage texture = null;
+		try {
+			texture = ImageIO.read(new File("src/views/Building.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			g2.drawImage(texture, x+19, y+19, null);
 		
 	}
 

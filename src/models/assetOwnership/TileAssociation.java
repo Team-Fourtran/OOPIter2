@@ -58,12 +58,16 @@ public class TileAssociation extends Observable{
     	tile.accept(v);
     	assetOwner.accept(v);
     }
-
+    
     @Override
     public void notifyObservers(){
         for(Observer ob : observers){
             ob.update(this);
         }
     }
-
+    
+    public void addObserver(Observer o) {
+    	observers.add(o);
+    }
+    
 }

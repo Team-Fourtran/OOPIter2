@@ -7,7 +7,7 @@ import application.Game;
  * Contains the main method for creating and starting the game
  */
 public class RunGame {
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException{
     	Game game = new Game();
     	
     }

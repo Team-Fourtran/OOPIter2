@@ -1,6 +1,8 @@
 package models.utility;
 
 import models.assetOwnership.TileAssociation;
+import models.playerAssetNew.PlayerAsset;
+import models.playerAssetNew.Structure;
 import models.tileInfo.Normal;
 import models.tileInfo.Terrain;
 import models.tileInfo.Tile;
