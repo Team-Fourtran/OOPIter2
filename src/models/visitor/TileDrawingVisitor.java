@@ -17,6 +17,7 @@ import models.tileInfo.Normal;
 import models.tileInfo.Terrain;
 import models.tileInfo.Tile;
 import views.MainScreen;
+import views.hexMech;
 
 public class TileDrawingVisitor implements TileVisitor {
 	private Graphics2D g2;
@@ -29,6 +30,9 @@ public class TileDrawingVisitor implements TileVisitor {
 		this.x = x;
 		this.y = y;
 		this.tile = tile;
+		
+		// Reset image in graphic
+		g2.drawImage(null, x, y, null);
 	}
 
 	public Graphics2D getGraphic() {
@@ -39,9 +43,8 @@ public class TileDrawingVisitor implements TileVisitor {
 	public void visitNormal(Normal normal) {
 	    BufferedImage texture = null;
 		try {
-				texture = ImageIO.read(new File("src/views/Grass.png"));
+			texture = ImageIO.read(new File("src/views/Grass.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		g2.drawImage(texture, x, y, null);
@@ -61,12 +64,10 @@ public class TileDrawingVisitor implements TileVisitor {
 
 	@Override
 	public void visitStructure(PlayerAsset structure) {
-		System.out.println("Struct");
 		BufferedImage texture = null;
 		try {
 			texture = ImageIO.read(new File("src/views/Building.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 			g2.drawImage(texture, x, y, null);
