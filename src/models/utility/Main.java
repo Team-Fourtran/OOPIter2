@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         new testArmyCreationAndMovement().run();
-        //new testIterator().run();
-        //new testCapitalCreation().run();
+//        new testIterator().run();
+//        new testCapitalCreation().run();
     }
 }
 
@@ -102,7 +102,7 @@ class testCapitalCreation {
         Thread.sleep(1000);
 
 
-        new CTRLCreateStructureCommand(map, player, u0, "capital").execute();
+        new CTRLCreateStructureCommand(map, player, u0, "base").execute();
 
         System.out.println("CREATED CAPITAL");
         map.debugPrint();
