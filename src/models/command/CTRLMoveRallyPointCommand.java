@@ -6,7 +6,7 @@ package models.command;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.PlayerAsset;
 import models.visitor.MovementVisitor;
 
 public class CTRLMoveRallyPointCommand implements Command{

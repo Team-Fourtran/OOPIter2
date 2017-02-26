@@ -3,7 +3,8 @@ package models.visitor;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.JoinBattleGroupCommand;
-import models.playerAsset.*;
+import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Units.Unit;
 
 public class ArmyCreationVisitor implements PlayerVisitor{
 

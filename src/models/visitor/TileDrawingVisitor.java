@@ -5,13 +5,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-import models.playerAsset.PlayerAsset;
-import models.playerAsset.RallyPoint;
-import models.playerAsset.Unit;
-import models.playerAsset.Army;
+import models.playerAsset.Assets.PlayerAsset;
+import models.playerAsset.Assets.RallyPoint;
+import models.playerAsset.Assets.Units.Unit;
+import models.playerAsset.Assets.Army;
 import models.tileInfo.Normal;
 
 public class TileDrawingVisitor implements TileVisitor {

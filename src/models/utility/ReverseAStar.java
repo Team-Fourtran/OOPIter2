@@ -1,7 +1,7 @@
 package models.utility;
 
 import models.assetOwnership.TileAssociation;
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.PlayerAsset;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
