@@ -9,7 +9,9 @@ import java.util.Arrays;
   Battle group units have met at the Rally Point and are able to move together and fight
   Reinforcements are units on the way to a Rally Point
  */
-public class Army extends PlayerAsset {
+//TODO: Add Army Iterators
+
+public class Army extends CombatAsset {
     private ArrayList<Unit> battleGroup = new ArrayList<>();
     private ArrayList<Unit> reinforcements = new ArrayList<>();
 
@@ -49,7 +51,6 @@ public class Army extends PlayerAsset {
         return reinforcements;
     }
 
-    @Override
     public void accept(AssetVisitor v) {
         v.visitArmy(this);
 //        for (Unit u : reinforcements){

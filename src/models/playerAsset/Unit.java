@@ -5,7 +5,7 @@ import models.visitor.AssetVisitor;
 /* High level unit class used to define the Unit type
 	and define some basic functionality
  */
-public abstract class Unit extends PlayerAsset{
+public abstract class Unit extends CombatAsset{
 	
     private double movesPerTurn; 	//REVISIT AND MODIFY
 
@@ -18,7 +18,6 @@ public abstract class Unit extends PlayerAsset{
 
 	public void setMovesPerTurn(double m){this.movesPerTurn = m;}
 
-    @Override
     public void accept(AssetVisitor v) {
         v.visitUnit(this);
     }

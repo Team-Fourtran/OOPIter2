@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /* Management class for a Player's armies. Keeps references to
    all armies and passes commands to specific ones.
  */
-public class ArmyManager {
+public class ArmyManager{
     private ArrayList<RallyPoint> rallyPointList = new ArrayList<>();
     private ArrayList<Army> armyList = new ArrayList<>();
     private final int maxArmies = 10;

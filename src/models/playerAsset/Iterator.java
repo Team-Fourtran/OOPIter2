@@ -1,6 +1,6 @@
 package models.playerAsset;
 
-public interface Iterator<T> {
+public interface Iterator<T>{
 
     public T first();
     public void next();
