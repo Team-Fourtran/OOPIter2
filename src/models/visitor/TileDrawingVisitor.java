@@ -55,6 +55,9 @@ public class TileDrawingVisitor implements TileVisitor {
 	@Override
 	public void visitArmy(Army army) {
 		BufferedImage texture = null;
+		if (!army.hasBattleGroup()){
+		    return;
+        }
 		try {
 			texture = ImageIO.read(new File("src/application/images/terrain/Water.png"));
 		} catch (IOException e) {
