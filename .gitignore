@@ -4,6 +4,7 @@
 .classpath
 .project
 bin
+out/
 .mtj.tmp/
 *.iml
 # Package Files #
