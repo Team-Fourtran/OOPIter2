@@ -12,10 +12,6 @@ import models.playerAsset.RallyPoint;
 import models.playerAsset.Unit;
 import models.playerAsset.Army;
 import models.tileInfo.Normal;
-import models.tileInfo.Terrain;
-import models.tileInfo.Tile;
-import views.MainScreen;
-import views.hexMech;
 
 public class TileDrawingVisitor implements TileVisitor {
 	private Graphics2D g2;
@@ -26,7 +22,7 @@ public class TileDrawingVisitor implements TileVisitor {
 		this.g2 = g2;
 		this.x = x;
 		this.y = y;
-		// Reset image in graphic
+		// TODO Why? Reset image in graphic
 		g2.drawImage(null, x, y, null);
 	}
 
@@ -38,7 +34,7 @@ public class TileDrawingVisitor implements TileVisitor {
 	public void visitNormal(Normal normal) {
 	    BufferedImage texture = null;
 		try {
-			texture = ImageIO.read(new File("src/views/Grass.png"));
+			texture = ImageIO.read(new File("src/application/images/terrain/Dirt.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,18 +45,18 @@ public class TileDrawingVisitor implements TileVisitor {
 	public void visitUnit(Unit unit) {
 		BufferedImage texture = null;
 		try {
-			texture = ImageIO.read(new File("src/views/Building.png"));
+			texture = ImageIO.read(new File("src/application/images/terrain/Snow.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x, y, null);
+			g2.drawImage(texture, x+19, y+19, null);
 	}
 
 	@Override
 	public void visitArmy(Army army) {
 		BufferedImage texture = null;
 		try {
-			texture = ImageIO.read(new File("src/views/Building.png"));
+			texture = ImageIO.read(new File("src/application/images/terrain/Water.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +68,7 @@ public class TileDrawingVisitor implements TileVisitor {
 	public void visitStructure(PlayerAsset structure) {
 		BufferedImage texture = null;
 		try {
-			texture = ImageIO.read(new File("src/views/Building.png"));
+			texture = ImageIO.read(new File("src/application/images/assets/Building.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -83,7 +79,7 @@ public class TileDrawingVisitor implements TileVisitor {
 	public void visitRallyPoint(RallyPoint rallyPoint) {
 		BufferedImage texture = null;
 		try {
-			texture = ImageIO.read(new File("src/views/Building.png"));
+			texture = ImageIO.read(new File("src/application/images/assets/Flag.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

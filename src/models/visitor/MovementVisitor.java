@@ -43,6 +43,9 @@ public class MovementVisitor implements AssetVisitor{
                 cur = next;
             }
         }
+        for (Unit _u : army.getReinforcements()){
+            this.visitUnit(_u);
+        }
     }
 
     @Override
@@ -53,5 +56,6 @@ public class MovementVisitor implements AssetVisitor{
     @Override
     public void visitRallyPoint(RallyPoint rallyPoint) {
         gameMap.generateImmediateMovement(rallyPoint, destination);
+        this.visitArmy(rallyPoint.getArmy());
     }
 }

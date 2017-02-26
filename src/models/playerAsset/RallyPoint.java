@@ -8,7 +8,7 @@ public class RallyPoint extends PlayerAsset{
 
     public void accept(AssetVisitor v){
         v.visitRallyPoint(this);
-        army.accept(v);
+        //army.accept(v);
     }
 
     public void setArmy(Army a){

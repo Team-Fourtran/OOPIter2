@@ -45,12 +45,16 @@ public class Army extends PlayerAsset {
         return battleGroup;
     }
 
+    public ArrayList<Unit> getReinforcements(){
+        return reinforcements;
+    }
+
     @Override
     public void accept(AssetVisitor v) {
         v.visitArmy(this);
-        for (Unit u : reinforcements){
-            u.accept(v);
-        }
+//        for (Unit u : reinforcements){
+//            u.accept(v);
+//        }
     }
 
     //    //method to check if an army has a colonist to make a structure

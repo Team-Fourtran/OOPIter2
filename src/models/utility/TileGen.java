@@ -50,7 +50,7 @@ public class TileGen {
                     tiles[i].setNeighbor(tiles[i-length]);
                 //Top Left
                 if((i+1)%length != 0 && i-length >= 0)
-                tiles[i].setNeighbor(tiles[i-length+1]);
+                    tiles[i].setNeighbor(tiles[i-length+1]);
                 //Bottom Right
                 if(i+length < total)
                     tiles[i].setNeighbor(tiles[i+length]);

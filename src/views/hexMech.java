@@ -1,17 +1,8 @@
 package views;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
-import models.playerAsset.PlayerAsset;
-import models.playerAsset.Structure;
-
 import java.util.HashMap;
 import java.util.Observable;
 import models.visitor.TileDrawingVisitor;
@@ -99,7 +90,7 @@ public class hexMech implements Observer{
         HexProperties h = new HexProperties(x, y, g2);
         
         gps.put(tileAssoc, h);
-        
+
         //g2.drawImage(MainScreen.WATER, 0, 0, null);
         g2.setColor(MainScreen.COLOURCELL);
         g2.drawPolygon(poly);

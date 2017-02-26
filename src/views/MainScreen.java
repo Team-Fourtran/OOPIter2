@@ -17,7 +17,7 @@ public class MainScreen implements Observer {
     private JFrame mainScreen;
     
     final static int EMPTY = 0;
-    final static int BSIZE = 30;
+    final static int BSIZE = 15;
     final static int HEXSIZE = 32;
     final static int BORDERS = 17;
     final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
