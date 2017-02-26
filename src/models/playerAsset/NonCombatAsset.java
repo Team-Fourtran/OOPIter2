@@ -1,4 +1,4 @@
 package models.playerAsset;
 
-public class NonCombatAsset {
+public abstract class NonCombatAsset extends PlayerAsset{
 }
