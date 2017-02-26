@@ -90,11 +90,10 @@ public class hexMech implements Observer{
         HexProperties h = new HexProperties(x, y, g2);
         
         gps.put(tileAssoc, h);
-
-        //g2.drawImage(MainScreen.WATER, 0, 0, null);
+;
         g2.setColor(MainScreen.COLOURCELL);
         g2.drawPolygon(poly);
-    	g2.fillPolygon(poly);
+    	//g2.fillPolygon(poly);
 
         TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2);
         tileAssoc.accept(v);

@@ -18,8 +18,8 @@ public class MainScreen implements Observer {
     
     final static int EMPTY = 0;
     final static int BSIZE = 15;
-    final static int HEXSIZE = 32;
-    final static int BORDERS = 17;
+    final static int HEXSIZE = 64;
+    final static int BORDERS = 10;
     final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
     final static Color COLOURBACK =  Color.WHITE;

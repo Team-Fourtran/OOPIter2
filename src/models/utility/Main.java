@@ -21,13 +21,13 @@ public class Main {
 
 class testCapitalCreation{
     public void run() throws InterruptedException {
-        int length = 5;
+        int length = 15;
         Player player = new Player();
         ArmyManager am = player.getArmies();
         UnitManager um = player.getUnits();
         StructureManager sm = player.getStructures();
 
-        TileGen tileGen = new TileGen(30, 30);
+        TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
         new Game(_tiles);
 
@@ -85,7 +85,7 @@ class testArmyCreationAndMovement{
         map.debugPrint();
         Thread.sleep(1000);
 
-        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(map, player, _tiles.get(112),u0, u1, u2);
+        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(map, player, _tiles.get(50),u0, u1, u2);
         CTRLCreateArmyCommand.execute();
 
         RallyPoint rallyPoint = am.debugGetRallyPoint();
@@ -117,7 +117,7 @@ class testArmyCreationAndMovement{
         Thread.sleep(1000);
 
         System.out.println("MOVED RALLY POINT:");
-        MoveRallyPointCommand mrp = new MoveRallyPointCommand(rallyPoint, _tiles.get(24), map);
+        MoveRallyPointCommand mrp = new MoveRallyPointCommand(rallyPoint, _tiles.get(45), map);
         mrp.execute();
         map.debugPrint();
         Thread.sleep(1000);

@@ -4,9 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import java.awt.geom.AffineTransform;
 import javax.imageio.ImageIO;
-
 import models.playerAsset.PlayerAsset;
 import models.playerAsset.RallyPoint;
 import models.playerAsset.Unit;
@@ -38,18 +37,38 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x+19, y+19, null);
+			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
+			BufferedImage resizedImage = new BufferedImage(64, 64, type);
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(texture, 0, 0, 64, 64, null);
+			g.dispose();
+			g.setComposite(AlphaComposite.Src);
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.drawImage(resizedImage, x+14, y+10, null);
+			//g2.translate(x+19, y+19);
 	}
 
 	@Override
 	public void visitUnit(Unit unit) {
 		BufferedImage texture = null;
-		try {
+		try{
 			texture = ImageIO.read(new File("src/application/images/terrain/Snow.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x+19, y+19, null);
+			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
+			BufferedImage resizedImage = new BufferedImage(64, 64, type);
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(texture, 0, 0, 64, 64, null);
+			g.dispose();
+			g.setComposite(AlphaComposite.Src);
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.drawImage(resizedImage, x+14, y+10, null);
+			//g2.drawImage(texture, x+19, y+19, null);
 	}
 
 	@Override
@@ -63,8 +82,17 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x+19, y+19, null);
-		
+			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
+			BufferedImage resizedImage = new BufferedImage(64, 64, type);
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(texture, 0, 0, 64, 64, null);
+			g.dispose();
+			g.setComposite(AlphaComposite.Src);
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.drawImage(resizedImage, x+14, y+10, null);
+			//g2.drawImage(texture, x, y+19, null);
 	}
 
 	@Override
@@ -75,7 +103,17 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x+19, y+19, null);
+			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
+			BufferedImage resizedImage = new BufferedImage(64, 64, type);
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(texture, 0, 0, 64, 64, null);
+			g.dispose();
+			g.setComposite(AlphaComposite.Src);
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.drawImage(resizedImage, x+14, y+10, null);
+			//g2.drawImage(texture, x+19, y+19, null);
 	}
 
 	@Override
@@ -86,8 +124,17 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x+19, y+19, null);
-		
+			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
+			BufferedImage resizedImage = new BufferedImage(64, 64, type);
+			Graphics2D g = resizedImage.createGraphics();
+			g.drawImage(texture, 0, 0, 64, 64, null);
+			g.dispose();
+			g.setComposite(AlphaComposite.Src);
+			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+			g2.drawImage(resizedImage, x+14, y+10, null);
+			//g2.drawImage(texture, x+19, y+19, null);
 	}
 
 }
