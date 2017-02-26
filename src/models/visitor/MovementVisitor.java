@@ -49,7 +49,7 @@ public class MovementVisitor implements AssetVisitor{
     }
 
     @Override
-    public void visitStructure(PlayerAsset structure) {
+    public void visitStructure(Structure structure) {
         System.out.println("Cannot move structures!");
     }
 
@@ -57,5 +57,10 @@ public class MovementVisitor implements AssetVisitor{
     public void visitRallyPoint(RallyPoint rallyPoint) {
         gameMap.generateImmediateMovement(rallyPoint, destination);
         this.visitArmy(rallyPoint.getArmy());
+    }
+
+    @Override
+    public void visitWorker(Worker worker) {
+
     }
 }

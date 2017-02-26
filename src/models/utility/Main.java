@@ -4,6 +4,7 @@ package models.utility;
 import application.Game;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
+import models.command.CTRLAttackCommand;
 import models.command.CTRLCreateArmyCommand;
 import models.command.CTRLCreateStructureCommand;
 import models.command.CTRLMoveRallyPointCommand;
@@ -13,79 +14,27 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        new testArmyCreationAndMovement().run();
+        //new testArmyCreationAndMovement().run();
         //new testIterator().run();
         //new testCapitalCreation().run();
+        new testAttack().run();
     }
 }
 
-class testIterator {
-
-    int length = 15;
-    Player player = new Player();
-    ArmyManager am = player.getArmies();
-    UnitManager um = player.getUnits();
-    StructureManager sm = player.getStructures();
-
-    public void run() {
-
-        um.addNewUnit("explorer");
-        um.addNewUnit("explorer");
-        um.addNewUnit("explorer");
-        um.addNewUnit("colonist");
-        um.addNewUnit("colonist");
-        um.addNewUnit("colonist");
-        um.addNewUnit("colonist");
-        um.addNewUnit("melee");
-        um.addNewUnit("melee");
-        um.addNewUnit("melee");
-        um.addNewUnit("ranged");
-        um.addNewUnit("ranged");
-
-        sm.createStructure("base");
-        sm.createStructure("base");
-        sm.createStructure("base");
-        sm.createStructure("base");
-        sm.createStructure("base");
-
-        AssetIterator iter = player.getAssetIterator();
-
-        iter.first();
-        iter.getElement();
-        iter.next();
-        iter.getElement();
-        iter.prevType();
-        iter.getElement();
-        iter.next();
-        iter.getElement();
-        iter.nextType();
-        iter.getElement();
-        iter.prev();
-        iter.getElement();
-        iter.prev();
-        iter.getElement();
-        iter.nextMode();
-        iter.getElement();
-        iter.next();
-        iter.getElement();
-        iter.nextMode();
-        iter.getElement();
-        iter.prevMode();
-        iter.getElement();
-    }
-}
 class testCapitalCreation {
     public void run() throws InterruptedException {
+        //COPY+PASTE
+        //----------------------------
         int length = 15;
         Player player = new Player();
         ArmyManager am = player.getArmies();
         UnitManager um = player.getUnits();
         StructureManager sm = player.getStructures();
-
         TileGen tileGen = new TileGen(length, length);
-
         ArrayList<TileAssociation> _tiles = tileGen.execute();
         new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        //----------------------------
 
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
@@ -94,15 +43,9 @@ class testCapitalCreation {
         _tiles.get(3).add(u1);
         _tiles.get(24).add(u2);
 
-        GameMap map = new GameMap(_tiles, 5, 5);
-        System.out.println("INITIAL:");
-        map.debugPrint();
-        Thread.sleep(1000);
+        new CTRLCreateStructureCommand(map, player, u0, "base").execute();
 
-
-        new CTRLCreateStructureCommand(map, player, u0, "capital").execute();
-
-        System.out.println("CREATED CAPITAL");
+        System.out.println("CREATED BASE");
         map.debugPrint();
         Thread.sleep(1000);
 
@@ -187,5 +130,98 @@ class testArmyCreationAndMovement {
             map.debugPrint();
             Thread.sleep(1000);
         }
+    }
+}
+
+class testAttack{
+    public void run() throws InterruptedException {
+        //COPY+PASTE
+        //----------------------------
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        //----------------------------
+        Unit u0 = um.addNewUnit("melee");
+        Unit u1 = um.addNewUnit("colonist");
+        Structure s0 = sm.createStructure("base");
+        _tiles.get(4).add(u0);
+        _tiles.get(3).add(u1);
+        _tiles.get(3).add(s0);
+
+
+        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
+        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
+        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
+        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
+        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
+        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
+
+        for(int i = 0; i < 6; i++){
+            Thread.sleep(500);
+            player.endTurn();
+            player.beginTurn();
+        }
+    }
+}
+
+class testIterator {
+
+    int length = 15;
+    Player player = new Player();
+    ArmyManager am = player.getArmies();
+    UnitManager um = player.getUnits();
+    StructureManager sm = player.getStructures();
+
+    public void run() {
+
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("ranged");
+        um.addNewUnit("ranged");
+
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+
+        AssetIterator iter = player.getAssetIterator();
+
+        iter.first();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.prevType();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.nextType();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.nextMode();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.nextMode();
+        iter.getElement();
+        iter.prevMode();
+        iter.getElement();
     }
 }

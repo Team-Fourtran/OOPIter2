@@ -1,7 +1,6 @@
 package models.playerAsset;
 
 import models.visitor.AssetVisitor;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -57,22 +56,4 @@ public class Army extends CombatAsset {
 //            u.accept(v);
 //        }
     }
-
-    //    //method to check if an army has a colonist to make a structure
-//    public String hasColonist() {
-//        for (Unit i: battleGroup)
-//            if (i instanceof Colonist)
-//                return i.getID();
-//        return "";
-//    }
-//
-//    //after a structure is made, remove the colonist from the army
-//    public void removeColonist() {
-//        Unit removed = null;
-//        for (Unit i: battleGroup) {
-//            if (i instanceof Colonist)
-//                removed = i;
-//        }
-//        battleGroup.remove(removed);
-//    }
 }

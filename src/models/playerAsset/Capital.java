@@ -9,6 +9,7 @@ public class Capital extends Structure{
         productionRate = 2;
         maxHealth = currentHealth = 200;
         upkeep = 1;
+        setRange(2);
     }
 
 }

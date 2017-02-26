@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import models.playerAsset.PlayerAsset;
-import models.playerAsset.RallyPoint;
-import models.playerAsset.Unit;
-import models.playerAsset.Army;
+
+import models.playerAsset.*;
 import models.tileInfo.Normal;
 
 public class TileDrawingVisitor implements TileVisitor {
@@ -82,7 +80,7 @@ public class TileDrawingVisitor implements TileVisitor {
 	}
 
 	@Override
-	public void visitStructure(PlayerAsset structure) {
+	public void visitStructure(Structure structure) {
 		BufferedImage texture = null;
 		try {
 			texture = ImageIO.read(new File("src/application/images/assets/Building.png"));
@@ -105,7 +103,12 @@ public class TileDrawingVisitor implements TileVisitor {
 		addToPriorityQueue(RALLYPOINT, texture);
 	}
 
-	private BufferedImage resizeImage(BufferedImage texture){
+    @Override
+    public void visitWorker(Worker worker) {
+
+    }
+
+    private BufferedImage resizeImage(BufferedImage texture){
         int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
         BufferedImage resizedImage = new BufferedImage(64, 64, type);
         Graphics2D g = resizedImage.createGraphics();

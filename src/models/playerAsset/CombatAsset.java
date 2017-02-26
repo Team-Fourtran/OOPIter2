@@ -1,13 +1,8 @@
 package models.playerAsset;
 
-import models.command.Command;
-import models.visitor.AssetVisitor;
-
-import java.util.LinkedList;
-import java.util.Queue;
-
 public abstract class CombatAsset extends PlayerAsset{
 
+    private int range;
     protected int offDamage;
     protected int defDamage;
     protected int armor;
@@ -17,11 +12,20 @@ public abstract class CombatAsset extends PlayerAsset{
     protected boolean poweredUp;
     protected String assetID;
 
-
-
     //Various getter and setters for attributes
+    void setRange(int range){
+        this.range = range;
+    }
     public void setID(String id){
         assetID = id;
+    }
+    public void depleteHealth(int n){
+        if (armor >= n){
+            armor -= n;
+        }
+        else{
+            currentHealth -= (n - armor);
+        }
     }
     public String getID(){
         return assetID;

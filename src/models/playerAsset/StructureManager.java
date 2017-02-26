@@ -80,11 +80,12 @@ public class StructureManager implements Manager{
     }
 
     //destroy a structure
-    public void decommission(String structureID) {
+    public void removeStructure(Structure structure) {
         for (Structure s : structureList) {
-            if (s.getID().equals(structureID)) {
-                structureIDs.add(s.getID());
+            if (s == structure) {
+                freeID(s.getID());
                 structureList.remove(s);
+                return;
             }
         }
     }

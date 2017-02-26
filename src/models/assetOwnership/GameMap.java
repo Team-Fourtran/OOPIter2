@@ -24,6 +24,7 @@ public class GameMap {
         ReverseAStar path = new ReverseAStar(end, asset);
         return path.getPath();
     }
+
     private TileAssociation searchForTileAssociation(PlayerAsset asset){
         for (TileAssociation t : tiles){
             if (t.isAssetOwner(asset)){
@@ -59,7 +60,6 @@ public class GameMap {
         ReverseAStar path = new ReverseAStar(start, asset2);
         return path.getDistance(); //NOTE THIS IS NOT THE MINIMUM DISTANCE
     }
-
 
     public void debugPrint(){
         System.out.print(" ");
