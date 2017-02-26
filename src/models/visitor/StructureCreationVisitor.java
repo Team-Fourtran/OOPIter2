@@ -1,7 +1,11 @@
 package models.visitor;
 
 
-import models.playerAsset.*;
+import models.playerAsset.Assets.ArmyManager;
+import models.playerAsset.Assets.Player;
+import models.playerAsset.Assets.StructureManager;
+import models.playerAsset.Assets.UnitManager;
+import models.playerAsset.Assets.Units.Unit;
 
 public class StructureCreationVisitor implements PlayerVisitor{
     private String structureType;

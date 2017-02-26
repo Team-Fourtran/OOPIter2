@@ -7,9 +7,11 @@ import models.assetOwnership.TileAssociation;
 import models.command.CTRLCreateArmyCommand;
 import models.command.CTRLCreateStructureCommand;
 import models.command.CTRLMoveRallyPointCommand;
-import models.playerAsset.*;
+import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Units.Unit;
+import models.playerAsset.Iterators.AssetIterator;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
