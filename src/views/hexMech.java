@@ -109,6 +109,7 @@ public class hexMech implements Observer{
 
         TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2);
         tileAssoc.accept(v);
+        v.drawTile();
     }
 
     /***************************************************************************
@@ -144,8 +145,10 @@ public class hexMech implements Observer{
     
 	public static void updateTile(TileAssociation t2) {
 		HexProperties p = gps.get(t2);
-		TileVisitor v = new TileDrawingVisitor(p.getX(), p.getY(), p.getGraphic());
+		System.out.println("p: " + p);
+		TileDrawingVisitor v = new TileDrawingVisitor(p.getX(), p.getY(), p.getGraphic());
 		t2.accept(v);
+		v.drawTile();
 	}
 
 }

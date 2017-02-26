@@ -73,7 +73,7 @@ public class MainScreen implements Observer {
             Graphics2D g2 = (Graphics2D)g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-            g2.translate(-100, -100);
+            g2.translate(0, 0);
             super.paintComponent(g2);
             //draw grid
             int ind = 0;
