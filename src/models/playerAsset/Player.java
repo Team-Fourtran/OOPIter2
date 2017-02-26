@@ -33,6 +33,7 @@ public class Player {
     public void accept(PlayerVisitor v){
         v.visitPlayer(this);
     }
+
     public AssetIterator<TypeIterator<Iterator<PlayerAsset>>> makeAssetIterator(ArrayList<TypeIterator<Iterator<PlayerAsset>>> list) {
         return new AssetIterator<TypeIterator<Iterator<PlayerAsset>>>(){
 
@@ -77,6 +78,7 @@ public class Player {
             }
         };
     }
+
 
     public UnitManager getUnits() {
         return units;
