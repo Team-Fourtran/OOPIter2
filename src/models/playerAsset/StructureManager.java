@@ -44,10 +44,10 @@ public class StructureManager implements Manager {
     public void addStructureToList(Structure s, String type) {
 
         switch (type) {
-            case "base":
-                structureList.add(s);
-                baseList.add((Base) s);
-                break;
+//            case "base":
+//                structureList.add(s);
+//                baseList.add((Base) s);
+//                break;
                 /*
             case "farm":
                 structureList.add(s);

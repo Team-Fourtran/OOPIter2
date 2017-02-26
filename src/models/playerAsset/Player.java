@@ -93,4 +93,16 @@ public class Player {
         //list.add(armies.getTypeIterator());
         return makeAssetIterator(list);
     }
+
+    public UnitManager getUnits() {
+        return units;
+    }
+
+    public ArmyManager getArmies() {
+        return armies;
+    }
+
+    public StructureManager getStructures() {
+        return structures;
+    }
 }
