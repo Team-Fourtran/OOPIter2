@@ -9,12 +9,12 @@ import models.assetOwnership.TileAssociation;
 import models.playerAsset.PlayerAsset;
 import models.visitor.MovementVisitor;
 
-public class MoveRallyPointCommand implements Command{
+public class CTRLMoveRallyPointCommand implements Command{
     private TileAssociation destination;
     private PlayerAsset rallyPoint; //RallyPoint
     private GameMap gameMap;
 
-    public MoveRallyPointCommand(PlayerAsset rallyPoint, TileAssociation destination, GameMap gameMap)
+    public CTRLMoveRallyPointCommand(PlayerAsset rallyPoint, TileAssociation destination, GameMap gameMap)
     {
         this.destination = destination;
         this.rallyPoint = rallyPoint;
