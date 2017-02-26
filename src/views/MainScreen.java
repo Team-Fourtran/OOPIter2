@@ -6,12 +6,7 @@ import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Observable;
-
-import javax.imageio.*;
+import java.awt.event.*;
 
 public class MainScreen implements Observer {
     private JFrame mainScreen;
@@ -67,6 +62,30 @@ public class MainScreen implements Observer {
         public DrawingPanel()
         {
             setBackground(COLOURBACK);
+            MyMouseListener ml = new MyMouseListener();
+            addMouseListener(ml);
+        }
+        class MyMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                //mPt.x = x;
+                //mPt.y = y;
+                Point p = new Point( hexMech.pxtoHex(e.getX(),e.getY()) );
+                if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return;
+
+                //DEBUG: colour in the hex which is supposedly the one clicked on
+                //clear the whole screen first.
+				/* for (int i=0;i<BSIZE;i++) {
+					for (int j=0;j<BSIZE;j++) {
+						board[i][j]=EMPTY;
+					}
+				} */
+
+                //What do you want to do when a hexagon is clicked?
+                board[p.x][p.y] = (int)'X';
+                repaint();
+            }
         }
         public void paintComponent(Graphics g)
         {
