@@ -26,7 +26,56 @@ class testCapitalCreation{
         UnitManager um = player.getUnits();
         StructureManager sm = player.getStructures();
 
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("ranged");
+        um.addNewUnit("ranged");
+
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+
+        AssetIterator iter = player.getAssetIterator();
+
+        iter.first();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.prevType();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.nextType();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.nextMode();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.nextMode();
+        iter.getElement();
+        iter.prevMode();
+        iter.getElement();
+
+
+        TileGen tileGen = new TileGen(5, 5);
+        TileGen tileGen = new TileGen(30, 30);
         TileGen tileGen = new TileGen(length, length);
+
         ArrayList<TileAssociation> _tiles = tileGen.execute();
         new Game(_tiles);
 
@@ -131,4 +180,10 @@ class testArmyCreationAndMovement{
             Thread.sleep(1000);
         }
     }
+
+        return new ArrayList<>(Arrays.asList(tiles));
+}
+
+    }
+
 }

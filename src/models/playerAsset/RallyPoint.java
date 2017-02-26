@@ -3,7 +3,7 @@ package models.playerAsset;
 import models.visitor.AssetVisitor;
 import models.visitor.TileVisitor;
 
-public class RallyPoint extends PlayerAsset{
+public class RallyPoint extends NonCombatAsset{
     private Army army;
 
     public void accept(AssetVisitor v){

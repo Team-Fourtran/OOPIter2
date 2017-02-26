@@ -8,7 +8,7 @@ import java.util.ArrayList;
    Passes commands to specific structures
  */
 
-public class StructureManager implements Manager {
+public class StructureManager implements Manager{
     public ArrayList<Structure> structureList;
     ArrayList<PlayerAsset> baseList;
     final int maxStructures = 10;
@@ -42,13 +42,13 @@ public class StructureManager implements Manager {
     }
 
     public void addStructureToList(Structure s, String type) {
-
+/*
         switch (type) {
-//            case "base":
-//                structureList.add(s);
-//                baseList.add((Base) s);
-//                break;
-                /*
+            case "base":
+                structureList.add(s);
+                baseList.add((Base)s);
+                break;
+
             case "farm":
                 structureList.add(s);
                 baseList.add((Farm)s);
@@ -73,8 +73,10 @@ public class StructureManager implements Manager {
                 structureList.add(s);
                 baseList.add((University)s);
                 break;
-             */
+
+
         }
+        */
     }
 
     //destroy a structure
