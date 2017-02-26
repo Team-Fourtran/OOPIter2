@@ -6,12 +6,11 @@ import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.CTRLCreateArmyCommand;
 import models.command.CTRLCreateStructureCommand;
-import models.command.MoveRallyPointCommand;
+import models.command.CTRLMoveRallyPointCommand;
 import models.playerAsset.*;
 import java.util.ArrayList;
 
 public class Main {
-
     public static void main(String[] args) throws InterruptedException {
 
         new testArmyCreationAndMovement().run();
@@ -117,7 +116,9 @@ class testArmyCreationAndMovement{
         Thread.sleep(1000);
 
         System.out.println("MOVED RALLY POINT:");
-        MoveRallyPointCommand mrp = new MoveRallyPointCommand(rallyPoint, _tiles.get(45), map);
+
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand(rallyPoint, _tiles.get(24), map);
+
         mrp.execute();
         map.debugPrint();
         Thread.sleep(1000);

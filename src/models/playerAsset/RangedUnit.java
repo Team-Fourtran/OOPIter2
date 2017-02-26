@@ -15,9 +15,7 @@ public class RangedUnit extends Unit{
         upkeep = 20;
         range = 2;
     }
-
     public String getType(){
         return "Ranged";
     }
-
 }
