@@ -1,8 +1,9 @@
 package models.assetOwnership;
 
-import models.playerAssetNew.PlayerAsset;
+import models.playerAsset.PlayerAsset;
 import models.utility.ReverseAStar;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /*
  * Class for containing TileStates and optimal path between tiles
@@ -18,17 +19,12 @@ public class GameMap {
         this.tiles = new ArrayList<>(tiles);
     }
 
-//    public void printOut(){
-//        tiles.forEach(TileAssociation::print);
-//    }
-
     // Gerneate degrees representing the optimal path to get from start to end
     public ArrayList<TileAssociation> generatePath(PlayerAsset asset, TileAssociation end)  {
-        TileAssociation start = getAssociation(asset);
         ReverseAStar path = new ReverseAStar(end, asset);
-        return path.execute();
+        return path.getPath();
     }
-    private TileAssociation getAssociation(PlayerAsset asset){
+    private TileAssociation searchForTileAssociation(PlayerAsset asset){
         for (TileAssociation t : tiles){
             if (t.isAssetOwner(asset)){
                 return t;
@@ -37,17 +33,19 @@ public class GameMap {
         return null;
     }
 
-//    public void removeAsset(PlayerAsset asset){
-//        for (TileAssociation t : tiles){
-//            if (t.isAssetOwner(asset)){
-//                t.remove(asset);
-//            }
-//        }
-//    }
+    public void removeAssetFromMap(PlayerAsset asset){
+        searchForTileAssociation(asset).remove(asset);
+    }
+
+    public void replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){
+        TileAssociation tileAssociation = searchForTileAssociation(oldAsset);
+        tileAssociation.remove(oldAsset);
+        tileAssociation.add(newAsset);
+    }
 
     public void generateImmediateMovement(PlayerAsset asset, TileAssociation destination){
         //Precondition -> asset exists on a tile
-        TileAssociation start = getAssociation(asset);
+        TileAssociation start = searchForTileAssociation(asset);
         if (start == null){
             System.out.println("Asset has no location?!?!");
             return;
@@ -56,13 +54,12 @@ public class GameMap {
         destination.add(asset);
     }
 
-    public int getLength() {
-    	return length;
+    public int calculateDistance(PlayerAsset asset1, PlayerAsset asset2) {
+        TileAssociation start = searchForTileAssociation(asset1);
+        ReverseAStar path = new ReverseAStar(start, asset2);
+        return path.getDistance(); //NOTE THIS IS NOT THE MINIMUM DISTANCE
     }
-    
-    public int getWidth() {
-    	return width;
-    }
+
 
     public void debugPrint(){
         System.out.print(" ");

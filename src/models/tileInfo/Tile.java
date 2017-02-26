@@ -1,6 +1,6 @@
 package models.tileInfo;
 
-import models.assetOwnership.TileAssociation;
+import models.visitor.TileVisitor;
 
 import java.util.ArrayList;
 
@@ -37,5 +37,9 @@ public class Tile {
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+    
+    public void accept(TileVisitor v) {
+    	terrainType.accept(v);
     }
 }

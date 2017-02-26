@@ -1,7 +1,7 @@
 package models.utility;
 
 import models.assetOwnership.TileAssociation;
-import models.playerAssetNew.PlayerAsset;
+import models.playerAsset.PlayerAsset;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -12,6 +12,7 @@ import java.util.Queue;
  */
 public class ReverseAStar {
     private TileAssociation start;
+    private node end;
     private PlayerAsset goalAsset;
     private node startNode;
 
@@ -24,11 +25,12 @@ public class ReverseAStar {
         openList = new LinkedList<>();
         closedList = new LinkedList<>();
         openList.add(new node(this.start, null, 0));
+        execute();
     }
 
     //COSTS: current.getTileInfo().getMovementCost();
 
-    public ArrayList<TileAssociation> execute() {
+    private void execute() {
         startNode = openList.peek();
         node current = openList.peek();
         while (!openList.isEmpty()) {
@@ -55,17 +57,28 @@ public class ReverseAStar {
                 }
             }
         }
-        return buildPath(current);
+        this.end = current;
     }
 
-    private ArrayList<TileAssociation> buildPath(node n){
+    public ArrayList<TileAssociation> getPath(){
         ArrayList<TileAssociation> path = new ArrayList<>();
+        node n = this.end;
         while(n != startNode){
             path.add(n.innerState);
             n = n.parent;
         }
         path.add(startNode.innerState);  //Postcondition that startNode is included
         return path;
+    }
+
+    public int getDistance(){   //NOTE THIS IS NOT THE MINIMUM DISTANCE
+        node n = this.end;
+        int distance = 0;
+        while (n != startNode){
+            distance++;
+            n = n.parent;
+        }
+        return distance;
     }
 
     private boolean inOpenList(node n){
@@ -76,6 +89,7 @@ public class ReverseAStar {
         }
         return false;
     }
+
     private boolean inClosedList(node n){
         for (node _n : closedList) {
             if (_n.innerState == n.innerState) {
