@@ -6,12 +6,6 @@ import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Observable;
-
-import javax.imageio.*;
 
 public class MainScreen implements Observer {
     private JFrame mainScreen;
@@ -23,7 +17,6 @@ public class MainScreen implements Observer {
     final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
     final static Color COLOURBACK =  Color.WHITE;
-    //final static BufferedImage WATER = ImageIO.read(applicatiotilesn/views/waterHex.gif);
     final static Color COLOURCELL =  Color.ORANGE;
     final static Color COLOURGRID =  Color.BLACK;
     final static Color COLOURONE = new Color(255,223,255,200);
