@@ -1,6 +1,7 @@
 package controllers;
 
-import tests.AssetIterator;
+
+import models.playerAsset.AssetIterator;
 
 import java.util.HashMap;
 import java.util.Iterator;

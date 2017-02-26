@@ -1,7 +1,6 @@
 package controllers;
 
-import sun.plugin2.message.Message;
-import tests.AssetIterator;
+import models.playerAsset.AssetIterator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
