@@ -10,7 +10,6 @@ public class StructureFactory {
         switch (type){
             case "base":
                 return new Base();
-            /*
             case "farm":
                 return new Farm();
             case "mine":
@@ -23,7 +22,6 @@ public class StructureFactory {
                 return new ObservationTower();
             case "university":
                 return new University();
-            */
         }
 
         return null;

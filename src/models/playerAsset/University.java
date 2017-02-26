@@ -2,11 +2,9 @@ package models.playerAsset;
 
 import java.util.ArrayList;
 
-public class Fort extends Structure{
+public class University extends Structure{
 
-    private ArrayList<Unit> trainers;
-
-    public Fort() {
+    public University() {
 
         offDamage = 75;
         defDamage = 75;
@@ -15,7 +13,5 @@ public class Fort extends Structure{
         upkeep = 1;
         productionRate = 0;
         staff = new ArrayList<>();
-        trainers = new ArrayList<>();
-
     }
 }
