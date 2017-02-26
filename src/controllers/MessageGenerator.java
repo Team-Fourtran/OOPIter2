@@ -1,5 +1,8 @@
 package controllers;
 
+import sun.plugin2.message.Message;
+import tests.AssetIterator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,20 +12,20 @@ class MessageGenerator implements KeyPressListener{
     private Mode currentMode;
     private int modeIndex;	//Originally used ListIterator, but the Java List interface iterators are garbage
 
-    protected HashMap<String, Iterator> assetIterators;
+    protected AssetIterator assetIterator;
 
     private KeyboardController receiver;
 
-    MessageGenerator(KeyboardController receiver, KeyPressInformer keyInformer, HashMap<String, Iterator> assetIterators){
+    MessageGenerator(KeyboardController receiver, KeyPressInformer keyInformer, AssetIterator assIter){
         initializeModes();
-        this.assetIterators = assetIterators;
+        this.assetIterator = assIter;
         this.receiver = receiver;
         //System.out.println(this.modes);
         keyInformer.registerClient(this);
     }
-    //Gets called when player turn switches. Changes the iterators on hand.
-    protected void updateIterators(HashMap<String, Iterator> assetIterators){
-        this.assetIterators = assetIterators;
+    //Gets called when player turn switches. Changes the iterator on hand.
+    protected void updateIterator(AssetIterator assetIterator){
+        this.assetIterator = assetIterator;
     }
 
     @Override //Listen to notifications from a KeyPressInformer
@@ -118,42 +121,23 @@ interface Mode{
 }
 
 class UnitMode implements Mode{
-    private ArrayList<String> unitTypes = new ArrayList<String>();
-    private String currentType;
-    private int currentTypeIndex;
-    MessageGenerator owner;
+    MessageGenerator parent;
 
-    UnitMode(MessageGenerator owner){
-        this.owner = owner;
-        this.unitTypes.add("Explorer");
-        this.unitTypes.add("Colonist");
-        this.unitTypes.add("Melee Unit");
-        this.unitTypes.add("Ranged Unit");
-
-        this.currentTypeIndex = 0;
-        this.currentType = unitTypes.get(currentTypeIndex);
+    UnitMode(MessageGenerator msgGen){
+        parent = msgGen;
     }
 
-    public String toString(){
-        return "Mode: Unit\tType:" + this.currentType;
+    @Override
+    public String generateMessage() {
+        return null;
     }
 
-    public String generateMessage(){
-        return "Generated message: " + this.toString();
-    }
-
-    @Override //Cycle to previous type
     public void controlLeft() {
-        this.currentTypeIndex = Utils.mod(currentTypeIndex - 1, this.unitTypes.size());
-        this.currentType = this.unitTypes.get(this.currentTypeIndex);
-        System.out.println("Mode: Unit\tSubmode:" + currentType);
+
     }
 
-    @Override //Cycle to next type
     public void controlRight() {
-        this.currentTypeIndex = Utils.mod(currentTypeIndex + 1, this.unitTypes.size());
-        this.currentType = this.unitTypes.get(this.currentTypeIndex);
-        System.out.println("Mode: Unit\tSubmode:" + currentType);
+
     }
 
     @Override
@@ -168,8 +152,7 @@ class UnitMode implements Mode{
 
     @Override
     public void leftKey() {
-        String tempUnit = this.owner.assetIterators.get("army").next().toString();
-        System.out.println(tempUnit);
+
     }
 
     @Override
@@ -179,32 +162,25 @@ class UnitMode implements Mode{
 }
 
 class StructureMode implements Mode{
-    private ArrayList<String> baseTypes = new ArrayList<String>();
-    private String currentType;
-    private int currentTypeIndex;
-    MessageGenerator owner;
+    MessageGenerator parent;
 
-    StructureMode(MessageGenerator owner){
-        this.owner = owner;
+    StructureMode(MessageGenerator msgGen){
+        parent = msgGen;
     }
 
-    public String toString(){
-        return "I am in Structure Mode";
-    }
-
-    public String generateMessage(){
-        return "Generated message: " + this.toString();
+    @Override
+    public String generateMessage() {
+        return null;
     }
 
     @Override
     public void controlLeft() {
-        // TODO Implement different structure types
+
 
     }
 
     @Override
     public void controlRight() {
-        // TODO Implement different strucure types
 
     }
 
@@ -230,24 +206,21 @@ class StructureMode implements Mode{
 }
 
 class RallyPointMode implements Mode{
-    MessageGenerator owner;
+    MessageGenerator parent;
 
-    RallyPointMode(MessageGenerator owner){
-        this.owner = owner;
+    RallyPointMode(MessageGenerator msgGen){
+        parent = msgGen;
     }
 
-    public String toString(){
-        return "I am in RallyPoint Mode";
+    @Override
+    public String generateMessage() {
+        return null;
     }
 
-    public String generateMessage(){
-        return "Generated message: " + this.toString();
-    }
-
-    @Override // Nothing happens
+    @Override
     public void controlLeft() { }
 
-    @Override // Nothing happens
+    @Override
     public void controlRight() { }
 
     @Override
@@ -272,41 +245,24 @@ class RallyPointMode implements Mode{
 }
 
 class ArmyMode implements Mode{
-    private ArrayList<Mode> subModes = new ArrayList<Mode>();
-    private Mode currentSubMode = new EntireArmyMode();
-    private int subModeIndex;
-    MessageGenerator owner;
+    MessageGenerator parent;
 
-    ArmyMode(MessageGenerator owner) {
-        this.owner = owner;
-        subModes.add(new EntireArmyMode());
-        subModes.add(new BattleGroupMode());
-        subModes.add(new ReinforcementMode());
-
-        subModeIndex = 0;
-        currentSubMode = subModes.get(subModeIndex);
+    ArmyMode(MessageGenerator msgGen){
+        parent = msgGen;
     }
 
-    public String toString(){
-        return "Mode: Army\tSubmode:" + this.currentSubMode;
+    @Override
+    public String generateMessage() {
+        return null;
     }
 
-    public String generateMessage(){
-        return "Generated message: " + this.toString();
-    }
-
-    @Override //Cycle to previous submode
+    @Override
     public void controlLeft() {
-        this.subModeIndex = Utils.mod(subModeIndex - 1, this.subModes.size());
-        this.currentSubMode = this.subModes.get(this.subModeIndex);
-        System.out.println("Mode: Army\tSubmode:" + currentSubMode);
+
     }
 
-    @Override //Cycle to next submode
+    @Override
     public void controlRight() {
-        this.subModeIndex = Utils.mod(subModeIndex + 1, this.subModes.size());
-        this.currentSubMode = this.subModes.get(this.subModeIndex);
-        System.out.println("Mode: Army\tSubmode:" + currentSubMode);
 
     }
 
@@ -327,126 +283,6 @@ class ArmyMode implements Mode{
 
     @Override
     public void rightKey() {
-
-    }
-}
-
-class EntireArmyMode implements Mode{
-    public String toString(){
-        return "EntireArmy Mode";
-    }
-
-    public String generateMessage(){
-        return this.toString();
-    }
-
-    @Override //Unused - Taken care of by parent ArmyMode
-    public void controlLeft() {}
-
-    @Override //Unused - Taken care of by parent ArmyMode
-    public void controlRight() {}
-
-    @Override
-    public void upKey() {
-
-    }
-
-    @Override
-    public void downKey() {
-
-    }
-
-    @Override
-    public void leftKey() {
-
-    }
-
-    @Override
-    public void rightKey() {
-
-    }
-
-    EntireArmyMode(){
-
-    }
-}
-
-class BattleGroupMode implements Mode{
-    public String toString(){
-        return "BattleGroup Mode";
-    }
-
-    public String generateMessage(){
-        return this.toString();
-    }
-
-    @Override //Unused - Taken care of by parent ArmyMode
-    public void controlLeft() {}
-
-    @Override //Unused - Taken care of by parent ArmyMode
-    public void controlRight() {}
-
-    @Override
-    public void upKey() {
-
-    }
-
-    @Override
-    public void downKey() {
-
-    }
-
-    @Override
-    public void leftKey() {
-
-    }
-
-    @Override
-    public void rightKey() {
-
-    }
-
-    BattleGroupMode(){
-
-    }
-}
-
-class ReinforcementMode implements Mode{
-    public String toString(){
-        return "Reinforcement Mode";
-    }
-
-    public String generateMessage(){
-        return this.toString();
-    }
-
-    @Override //Unused - Taken care of by parent ArmyMode
-    public void controlLeft() {}
-
-    @Override //Unused - Taken care of by parent ArmyMode
-    public void controlRight() {}
-
-    @Override
-    public void upKey() {
-
-    }
-
-    @Override
-    public void downKey() {
-
-    }
-
-    @Override
-    public void leftKey() {
-
-    }
-
-    @Override
-    public void rightKey() {
-
-    }
-
-    ReinforcementMode(){
 
     }
 }
