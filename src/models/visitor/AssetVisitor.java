@@ -5,7 +5,7 @@ import models.playerAsset.*;
 public interface AssetVisitor {
     void visitUnit(Unit unit);
     void visitArmy(Army army);
-    void visitStructure(CombatAsset structure);
+    void visitStructure(PlayerAsset structure);
     void visitRallyPoint(RallyPoint rallyPoint);
 }
 
