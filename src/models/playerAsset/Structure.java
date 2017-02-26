@@ -2,11 +2,13 @@ package models.playerAsset;
 
 import models.visitor.AssetVisitor;
 
-public class Structure extends PlayerAsset{
+import java.util.ArrayList;
+
+public class Structure extends CombatAsset{
 
     int productionRate;     //turns it takes to create a unit
+    ArrayList<Worker> staff;
 
-    @Override
     public void accept(AssetVisitor v) {
         v.visitStructure(this);
     }
