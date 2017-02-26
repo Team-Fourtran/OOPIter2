@@ -7,26 +7,85 @@ import models.assetOwnership.TileAssociation;
 import models.command.CTRLCreateArmyCommand;
 import models.command.CTRLCreateStructureCommand;
 import models.command.CTRLMoveRallyPointCommand;
-import models.playerAsset.*;
+import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Units.Unit;
+import models.playerAsset.Iterators.AssetIterator;
+
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-
         new testArmyCreationAndMovement().run();
+        //new testIterator().run();
         //new testCapitalCreation().run();
     }
 }
 
-class testCapitalCreation{
+class testIterator {
+
+    int length = 15;
+    Player player = new Player();
+    ArmyManager am = player.getArmies();
+    UnitManager um = player.getUnits();
+    StructureManager sm = player.getStructures();
+
+    public void run() {
+
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("ranged");
+        um.addNewUnit("ranged");
+
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+        sm.createStructure("base");
+
+        AssetIterator iter = player.getAssetIterator();
+
+        iter.first();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.prevType();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.nextType();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.prev();
+        iter.getElement();
+        iter.nextMode();
+        iter.getElement();
+        iter.next();
+        iter.getElement();
+        iter.nextMode();
+        iter.getElement();
+        iter.prevMode();
+        iter.getElement();
+    }
+}
+class testCapitalCreation {
     public void run() throws InterruptedException {
-        int length = 5;
+        int length = 15;
         Player player = new Player();
         ArmyManager am = player.getArmies();
         UnitManager um = player.getUnits();
         StructureManager sm = player.getStructures();
 
-        TileGen tileGen = new TileGen(30, 30);
+        TileGen tileGen = new TileGen(length, length);
+
         ArrayList<TileAssociation> _tiles = tileGen.execute();
         new Game(_tiles);
 
@@ -49,7 +108,7 @@ class testCapitalCreation{
         map.debugPrint();
         Thread.sleep(1000);
 
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             player.endTurn();
             player.beginTurn();
             System.out.println("NEW TURN");
@@ -59,7 +118,7 @@ class testCapitalCreation{
     }
 }
 
-class testArmyCreationAndMovement{
+class testArmyCreationAndMovement {
     public void run() throws InterruptedException {
         int length = 15;
         Player player = new Player();
@@ -84,7 +143,7 @@ class testArmyCreationAndMovement{
         map.debugPrint();
         Thread.sleep(1000);
 
-        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(map, player, _tiles.get(112),u0, u1, u2);
+        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(map, player, _tiles.get(50), u0, u1, u2);
         CTRLCreateArmyCommand.execute();
 
         RallyPoint rallyPoint = am.debugGetRallyPoint();
@@ -116,12 +175,14 @@ class testArmyCreationAndMovement{
         Thread.sleep(1000);
 
         System.out.println("MOVED RALLY POINT:");
+
         CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand(rallyPoint, _tiles.get(24), map);
+
         mrp.execute();
         map.debugPrint();
         Thread.sleep(1000);
 
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             player.endTurn();
             player.beginTurn();
             System.out.println("NEW TURN");

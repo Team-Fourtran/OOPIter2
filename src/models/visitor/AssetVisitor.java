@@ -1,6 +1,9 @@
 package models.visitor;
 
-import models.playerAsset.*;
+import models.playerAsset.Assets.Army;
+import models.playerAsset.Assets.PlayerAsset;
+import models.playerAsset.Assets.RallyPoint;
+import models.playerAsset.Assets.Units.Unit;
 
 public interface AssetVisitor {
     void visitUnit(Unit unit);

@@ -3,7 +3,10 @@ package models.visitor;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.MoveCommand;
-import models.playerAsset.*;
+import models.playerAsset.Assets.Army;
+import models.playerAsset.Assets.PlayerAsset;
+import models.playerAsset.Assets.RallyPoint;
+import models.playerAsset.Assets.Units.Unit;
 
 import java.util.ArrayList;
 

@@ -1,10 +1,10 @@
 package models.visitor;
 
 //Manager should be abstract
-import models.playerAsset.ArmyManager;
-import models.playerAsset.Player;
-import models.playerAsset.StructureManager;
-import models.playerAsset.UnitManager;
+import models.playerAsset.Assets.ArmyManager;
+import models.playerAsset.Assets.Player;
+import models.playerAsset.Assets.StructureManager;
+import models.playerAsset.Assets.UnitManager;
 
 public interface PlayerVisitor {
     void visitPlayer(Player player);

@@ -1,7 +1,7 @@
 package models.assetOwnership;
 
 
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.PlayerAsset;
 import models.tileInfo.Tile;
 import models.utility.Direction;
 import models.visitor.TileVisitor;
