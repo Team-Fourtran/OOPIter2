@@ -36,15 +36,6 @@ public class Player {
         structures.accept(v);
     }
 
-    public ArmyManager getArmies(){
-        return this.armies;
-    }
-    public UnitManager getUnits(){
-        return this.units;
-    }
-    public StructureManager getStructures(){
-        return this.structures;
-    }
     public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> makeAssetIterator(ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list) {
         return new AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>>(){
 
