@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7cb01f2f-2509-46ba-886e-755e69419cc1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/models/utility/testArmyCreationAndMovement.class" afterPath="$PROJECT_DIR$/out/models/utility/testArmyCreationAndMovement.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/models/utility/testCapitalCreation.class" afterPath="$PROJECT_DIR$/out/models/utility/testCapitalCreation.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/models/visitor/TileDrawingVisitor.class" afterPath="$PROJECT_DIR$/out/models/visitor/TileDrawingVisitor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/views/MainScreen.class" afterPath="$PROJECT_DIR$/out/views/MainScreen.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/views/hexMech.class" afterPath="$PROJECT_DIR$/out/views/hexMech.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/models/utility/Main.java" afterPath="$PROJECT_DIR$/src/models/utility/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/models/visitor/TileDrawingVisitor.java" afterPath="$PROJECT_DIR$/src/models/visitor/TileDrawingVisitor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/MainScreen.java" afterPath="$PROJECT_DIR$/src/views/MainScreen.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/hexMech.java" afterPath="$PROJECT_DIR$/src/views/hexMech.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
