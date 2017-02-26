@@ -14,7 +14,6 @@ public class TileAssociation extends Observable{
     private Tile tile;
     private AssetOwner assetOwner;
     private HashMap<Direction, TileAssociation> neighbors = new HashMap<Direction, TileAssociation>();
-    private ArrayList<TileAssociation> neighbors2 = new ArrayList<>(0);
     private ArrayList<Observer> observers = new ArrayList<>(0);
 
     public TileAssociation(Tile t){
