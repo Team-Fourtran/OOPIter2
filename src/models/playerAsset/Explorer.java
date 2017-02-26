@@ -8,7 +8,7 @@ public class Explorer extends Unit{
         offDamage = 20;
         defDamage = 10;
         armor = 25;
-        movesPerTurn = 2;
+        setMovesPerTurn(.33);
         maxHealth = currentHealth = 100;
         upkeep = 12;
     }

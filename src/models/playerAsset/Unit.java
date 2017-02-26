@@ -1,23 +1,26 @@
 package models.playerAsset;
 
+import models.visitor.AssetVisitor;
 
 /* High level unit class used to define the Unit type
 	and define some basic functionality
  */
 public abstract class Unit extends PlayerAsset{
+	
+    private double movesPerTurn; 	//REVISIT AND MODIFY
 
-    protected int movesPerTurn; 	//how many tiles a unit can move in a turn
+	//gets unit type, overridden in subclasses
+	public String getType(){
+    	return "this is a unit";
+	}
 
-    //Heal a unit by 50 health
-    public void heal(){
-        if (currentHealth + 50 > maxHealth)
-            currentHealth = maxHealth;
-        else
-            currentHealth += 50;
-    }
+	public double getMovesPerTurn(){return movesPerTurn;}
 
-    //gets unit type, overridden in subclasses
-    public String getType(){
-        return "this is a unit";
+	public void setMovesPerTurn(double m){this.movesPerTurn = m;}
+
+    @Override
+    public void accept(AssetVisitor v) {
+        v.visitUnit(this);
     }
 }
+

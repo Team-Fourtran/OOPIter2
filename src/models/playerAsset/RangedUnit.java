@@ -10,14 +10,12 @@ public class RangedUnit extends Unit{
         offDamage = 75;
         defDamage = 25;
         armor = 25;
-        movesPerTurn = 2;
+        setMovesPerTurn(.33);
         maxHealth = currentHealth = 150;
         upkeep = 20;
         range = 2;
     }
-
     public String getType(){
         return "Ranged";
     }
-
 }
