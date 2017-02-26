@@ -1,6 +1,9 @@
 *.class
 .gitignore
 # Mobile Tools for Java (J2ME)
+.classpath
+.project
+bin
 .mtj.tmp/
 *.iml
 # Package Files #
