@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
@@ -14,9 +16,16 @@ import models.playerAsset.Army;
 import models.tileInfo.Normal;
 
 public class TileDrawingVisitor implements TileVisitor {
+	private final int TERRAIN = 0;
+	private final int STRUCTURE = 1;
+	private final int UNIT = 2;
+	private final int ARMY = 3;
+	private final int RALLYPOINT = 4;
+	
 	private Graphics2D g2;
 	private int x;
 	private int y;
+	private ArrayList<ArrayList<BufferedImage>> priority = new ArrayList<ArrayList<BufferedImage>>();
 	
 	public TileDrawingVisitor(int x, int y, Graphics2D g2) {
 		this.g2 = g2;
@@ -24,6 +33,11 @@ public class TileDrawingVisitor implements TileVisitor {
 		this.y = y;
 		// TODO Why? Reset image in graphic
 		g2.drawImage(null, x, y, null);
+		
+		for (int i = 0; i < 5; i++) {
+			ArrayList<BufferedImage> a = new ArrayList<BufferedImage>();
+			priority.add(a);
+		}
 	}
 
 	public Graphics2D getGraphic() {
@@ -39,7 +53,7 @@ public class TileDrawingVisitor implements TileVisitor {
 			e.printStackTrace();
 		}
 
-			g2.drawImage(texture, x+19, y+19, null);
+		addToPriorityQueue(TERRAIN, texture);
 	}
 
 	@Override
@@ -50,7 +64,7 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x+19, y+19, null);
+		addToPriorityQueue(UNIT, texture);
 	}
 
 	@Override
@@ -64,8 +78,8 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x+19, y+19, null);
 
+		addToPriorityQueue(ARMY, texture);
 	}
 
 	@Override
@@ -76,7 +90,7 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x+19, y+19, null);
+		addToPriorityQueue(STRUCTURE, texture);
 	}
 
 	@Override
@@ -87,8 +101,24 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			g2.drawImage(texture, x+19, y+19, null);
 
+		addToPriorityQueue(RALLYPOINT, texture);
+	}
+	
+	// takes in the index (priority) and also the texture
+	public void addToPriorityQueue(int PRIORITY, BufferedImage bt) {
+		priority.get(PRIORITY).add(bt);
+	}
+	
+	public void drawTile() {
+		for (int i = 0; i < priority.size(); i++) {
+			ArrayList<BufferedImage> a = priority.get(i);
+			if (i == 0) {
+			}
+			for (int j = 0; j < a.size(); j++) {
+				g2.drawImage(a.get(j), x+19, y+19, null);
+			}
+		}
 	}
 
 }
