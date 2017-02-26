@@ -36,13 +36,10 @@ public class UnitManager {
         unitIterators.add(makeIterator(rangedList));
     }
 
-<<<<<<< HEAD
-=======
     public void removeUnit(Unit unit){
         unitList.remove(unit);
     }
 
->>>>>>> master
     /*test method to grab iterator*/
     public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> getTypeIterator(){
         return makeTypeIterator(unitIterators);

@@ -9,24 +9,26 @@ import models.command.CTRLCreateStructureCommand;
 import models.command.CTRLMoveRallyPointCommand;
 import models.playerAsset.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-
         new testArmyCreationAndMovement().run();
+        //new testIterator().run();
         //new testCapitalCreation().run();
     }
 }
 
-class testCapitalCreation{
-    public void run() throws InterruptedException {
-        int length = 15;
-        Player player = new Player();
-        ArmyManager am = player.getArmies();
-        UnitManager um = player.getUnits();
-        StructureManager sm = player.getStructures();
+class testIterator {
 
-        um.addNewUnit("explorer");
+    int length = 15;
+    Player player = new Player();
+    ArmyManager am = player.getArmies();
+    UnitManager um = player.getUnits();
+    StructureManager sm = player.getStructures();
+
+    public void run() {
+
         um.addNewUnit("explorer");
         um.addNewUnit("explorer");
         um.addNewUnit("explorer");
@@ -70,10 +72,16 @@ class testCapitalCreation{
         iter.getElement();
         iter.prevMode();
         iter.getElement();
+    }
+}
+class testCapitalCreation {
+    public void run() throws InterruptedException {
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
 
-
-        TileGen tileGen = new TileGen(5, 5);
-        TileGen tileGen = new TileGen(30, 30);
         TileGen tileGen = new TileGen(length, length);
 
         ArrayList<TileAssociation> _tiles = tileGen.execute();
@@ -98,7 +106,7 @@ class testCapitalCreation{
         map.debugPrint();
         Thread.sleep(1000);
 
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             player.endTurn();
             player.beginTurn();
             System.out.println("NEW TURN");
@@ -108,7 +116,7 @@ class testCapitalCreation{
     }
 }
 
-class testArmyCreationAndMovement{
+class testArmyCreationAndMovement {
     public void run() throws InterruptedException {
         int length = 15;
         Player player = new Player();
@@ -133,7 +141,7 @@ class testArmyCreationAndMovement{
         map.debugPrint();
         Thread.sleep(1000);
 
-        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(map, player, _tiles.get(50),u0, u1, u2);
+        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(map, player, _tiles.get(50), u0, u1, u2);
         CTRLCreateArmyCommand.execute();
 
         RallyPoint rallyPoint = am.debugGetRallyPoint();
@@ -172,7 +180,7 @@ class testArmyCreationAndMovement{
         map.debugPrint();
         Thread.sleep(1000);
 
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 10; i++) {
             player.endTurn();
             player.beginTurn();
             System.out.println("NEW TURN");
@@ -180,10 +188,4 @@ class testArmyCreationAndMovement{
             Thread.sleep(1000);
         }
     }
-
-        return new ArrayList<>(Arrays.asList(tiles));
-}
-
-    }
-
 }
