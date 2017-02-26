@@ -31,16 +31,18 @@ public class Player {
     }
 
     public void accept(PlayerVisitor v){
-        v.visitPlayer(this);
+        armies.accept(v);
+        units.accept(v);
+        structures.accept(v);
     }
 
-    public AssetIterator<TypeIterator<Iterator<PlayerAsset>>> makeAssetIterator(ArrayList<TypeIterator<Iterator<PlayerAsset>>> list) {
-        return new AssetIterator<TypeIterator<Iterator<PlayerAsset>>>(){
+    public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> makeAssetIterator(ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list) {
+        return new AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>>(){
 
             private int index = 0;
-            private TypeIterator<Iterator<PlayerAsset>> current = current();
+            private TypeIterator<PlayerAsset, Iterator<PlayerAsset>> current = current();
 
-            public TypeIterator<Iterator<PlayerAsset>> first() {
+            public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> first() {
                 return list.get(0);
             }
 
@@ -73,22 +75,22 @@ public class Player {
                 current.prev();
             }
 
-            public TypeIterator<Iterator<PlayerAsset>> current() {
+            public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> current() {
                 return list.get(index);
+            }
+
+
+            public PlayerAsset getElement(){
+                return current().getElement();
             }
         };
     }
 
-
-    public UnitManager getUnits() {
-        return units;
-    }
-
-    public ArmyManager getArmies() {
-        return armies;
-    }
-
-    public StructureManager getStructures() {
-        return structures;
+    public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> getAssetIterator(){
+        ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list = new ArrayList<>();
+        list.add(units.getTypeIterator());
+        list.add(structures.getTypeIterator());
+        //list.add(armies.getTypeIterator());
+        return makeAssetIterator(list);
     }
 }
