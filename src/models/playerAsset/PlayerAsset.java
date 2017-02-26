@@ -2,6 +2,7 @@ package models.playerAsset;
 
 import models.command.Command;
 import models.visitor.AssetVisitor;
+import models.visitor.TileVisitor;
 
 import java.util.LinkedList;
 import java.util.Queue;

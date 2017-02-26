@@ -1,6 +1,7 @@
 package models.assetOwnership;
 
 import models.playerAsset.PlayerAsset;
+import models.visitor.AssetVisitor;
 import java.util.ArrayList;
 
 /*
@@ -34,5 +35,11 @@ public class AssetOwner {
 
     public int getNumAssetsOwned(){
         return numAssetsOwned;
+    }
+    
+    public void accept(AssetVisitor v) {
+    	for (int i = 0; i < assetList.size(); i++) {
+    		assetList.get(i).accept(v);
+    	}
     }
 }
