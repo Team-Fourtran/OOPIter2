@@ -50,18 +50,8 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
-			BufferedImage resizedImage = new BufferedImage(64, 64, type);
-			Graphics2D g = resizedImage.createGraphics();
-			g.drawImage(texture, 0, 0, 64, 64, null);
-			g.dispose();
-			g.setComposite(AlphaComposite.Src);
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.drawImage(resizedImage, x+14, y+10, null);
-			//g2.translate(x+19, y+19);
-
+        texture = resizeImage(texture);
+		addToPriorityQueue(TERRAIN, texture);
 	}
 
 	@Override
@@ -72,18 +62,8 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
-			BufferedImage resizedImage = new BufferedImage(64, 64, type);
-			Graphics2D g = resizedImage.createGraphics();
-			g.drawImage(texture, 0, 0, 64, 64, null);
-			g.dispose();
-			g.setComposite(AlphaComposite.Src);
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.drawImage(resizedImage, x+14, y+10, null);
-			//g2.drawImage(texture, x+19, y+19, null);
-
+        texture = resizeImage(texture);
+		addToPriorityQueue(UNIT, texture);
 	}
 
 	@Override
@@ -97,18 +77,8 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
-			BufferedImage resizedImage = new BufferedImage(64, 64, type);
-			Graphics2D g = resizedImage.createGraphics();
-			g.drawImage(texture, 0, 0, 64, 64, null);
-			g.dispose();
-			g.setComposite(AlphaComposite.Src);
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.drawImage(resizedImage, x+14, y+10, null);
-			//g2.drawImage(texture, x, y+19, null);
-
+        texture = resizeImage(texture);
+		addToPriorityQueue(ARMY, texture);
 	}
 
 	@Override
@@ -119,18 +89,8 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
-			BufferedImage resizedImage = new BufferedImage(64, 64, type);
-			Graphics2D g = resizedImage.createGraphics();
-			g.drawImage(texture, 0, 0, 64, 64, null);
-			g.dispose();
-			g.setComposite(AlphaComposite.Src);
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.drawImage(resizedImage, x+14, y+10, null);
-			//g2.drawImage(texture, x+19, y+19, null);
-
+        texture = resizeImage(texture);
+		addToPriorityQueue(STRUCTURE, texture);
 	}
 
 	@Override
@@ -141,20 +101,23 @@ public class TileDrawingVisitor implements TileVisitor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-			int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
-			BufferedImage resizedImage = new BufferedImage(64, 64, type);
-			Graphics2D g = resizedImage.createGraphics();
-			g.drawImage(texture, 0, 0, 64, 64, null);
-			g.dispose();
-			g.setComposite(AlphaComposite.Src);
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-			g2.drawImage(resizedImage, x+14, y+10, null);
-			//g2.drawImage(texture, x+19, y+19, null);
-
+        texture = resizeImage(texture);
 		addToPriorityQueue(RALLYPOINT, texture);
 	}
+
+	private BufferedImage resizeImage(BufferedImage texture){
+        int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
+        BufferedImage resizedImage = new BufferedImage(64, 64, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(texture, 0, 0, 64, 64, null);
+        g.dispose();
+        g.setComposite(AlphaComposite.Src);
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING,RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        return resizedImage;
+        //g2.drawImage(resizedImage, x+14, y+10, null);
+    }
 	
 	// takes in the index (priority) and also the texture
 	public void addToPriorityQueue(int PRIORITY, BufferedImage bt) {
@@ -167,7 +130,7 @@ public class TileDrawingVisitor implements TileVisitor {
 			if (i == 0) {
 			}
 			for (int j = 0; j < a.size(); j++) {
-				g2.drawImage(a.get(j), x+19, y+19, null);
+				g2.drawImage(a.get(j), x+14, y+10, null);
 			}
 		}
 	}
