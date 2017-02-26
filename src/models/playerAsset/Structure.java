@@ -16,4 +16,18 @@ public class Structure extends CombatAsset{
     public String getType(){
         return "Basic structure";
     }
+
+    public void assignWorkers(Worker... workers){
+        for (Worker w: workers) {
+            staff.add(w);
+            productionRate += w.getProduction();
+        }
+    }
+
+    public void removeWorkers(Worker... workers){
+        for (Worker w: workers) {
+            staff.remove(w);
+            productionRate -= w.getProduction();
+        }
+    }
 }
