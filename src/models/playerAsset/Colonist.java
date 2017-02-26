@@ -1,4 +1,5 @@
 package models.playerAsset;
+
 //Unit type
 //Responsibilities: Weak attacker, can be consumed to make structure
 public class Colonist extends Unit{

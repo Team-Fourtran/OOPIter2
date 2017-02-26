@@ -1,6 +1,7 @@
 package models.playerAsset;
 
 import models.visitor.AssetVisitor;
+import models.visitor.TileVisitor;
 
 public abstract class PlayerAsset {
 

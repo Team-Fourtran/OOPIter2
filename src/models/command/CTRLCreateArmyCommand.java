@@ -9,13 +9,13 @@ import models.playerAsset.Player;
 import models.playerAsset.Unit;
 import models.visitor.ArmyCreationVisitor;
 
-public class CreateArmyCommand implements Command{
+public class CTRLCreateArmyCommand implements Command{
     private TileAssociation RPLocation;
     private Unit[] units;
     private Player player;
     private GameMap map;
 
-    public CreateArmyCommand(GameMap map, Player p, TileAssociation startTile, Unit ... units){
+    public CTRLCreateArmyCommand(GameMap map, Player p, TileAssociation startTile, Unit ... units){
         this.map = map;
         this.player = p;
         this.RPLocation = startTile;
@@ -27,7 +27,6 @@ public class CreateArmyCommand implements Command{
         player.accept(
                 new ArmyCreationVisitor(map, RPLocation, units)
         );
-
     }
 
     @Override

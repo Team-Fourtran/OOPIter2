@@ -15,6 +15,7 @@ public abstract class Unit extends CombatAsset{
 	}
 
 	public double getMovesPerTurn(){return movesPerTurn;}
+
 	public void setMovesPerTurn(double m){this.movesPerTurn = m;}
 
     public void accept(AssetVisitor v) {

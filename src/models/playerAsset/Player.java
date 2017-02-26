@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 public class Player {
     //public for debugging
-    public final ArmyManager armies;
-    public final UnitManager units;
-    public final StructureManager structures;
+    private final ArmyManager armies;
+    private final UnitManager units;
+    private final StructureManager structures;
 
     public Player(){
         armies = new ArmyManager();
@@ -92,5 +92,17 @@ public class Player {
         list.add(structures.getTypeIterator());
         //list.add(armies.getTypeIterator());
         return makeAssetIterator(list);
+    }
+
+    public UnitManager getUnits() {
+        return units;
+    }
+
+    public ArmyManager getArmies() {
+        return armies;
+    }
+
+    public StructureManager getStructures() {
+        return structures;
     }
 }
