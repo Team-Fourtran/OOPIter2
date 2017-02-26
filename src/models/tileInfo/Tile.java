@@ -1,6 +1,5 @@
 package models.tileInfo;
 
-import models.assetOwnership.TileAssociation;
 import models.visitor.TileVisitor;
 
 import java.util.ArrayList;

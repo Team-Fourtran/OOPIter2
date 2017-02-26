@@ -1,9 +1,7 @@
 package models.assetOwnership;
 
-import models.playerAssetNew.PlayerAsset;
+import models.playerAsset.PlayerAsset;
 import models.visitor.AssetVisitor;
-import models.visitor.TileVisitor;
-
 import java.util.ArrayList;
 
 /*
@@ -24,12 +22,10 @@ public class AssetOwner {
         return assetList.contains(asset);
     }
 
-    public boolean removeAsset(PlayerAsset p){
+    public void removeAsset(PlayerAsset p){
         if(assetList.remove(p)){
             numAssetsOwned--;
-            return true;
         }
-        return false;
     }
 
     public void addAsset(PlayerAsset p){

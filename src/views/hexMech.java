@@ -1,24 +1,13 @@
 package views;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
-import models.playerAssetNew.PlayerAsset;
-import models.playerAssetNew.Structure;
-
 import java.util.HashMap;
 import java.util.Observable;
 import models.visitor.TileDrawingVisitor;
 import models.visitor.TileVisitor;
-/**
- * Created by TK on 2/21/17.
- */
+
 public class hexMech implements Observer{
 
     public static boolean XYVertex=true;	//true: x,y are the co-ords of the first vertex.
@@ -101,7 +90,7 @@ public class hexMech implements Observer{
         HexProperties h = new HexProperties(x, y, g2);
         
         gps.put(tileAssoc, h);
-        
+
         //g2.drawImage(MainScreen.WATER, 0, 0, null);
         g2.setColor(MainScreen.COLOURCELL);
         g2.drawPolygon(poly);

@@ -6,24 +6,17 @@ import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Observable;
-
-import javax.imageio.*;
 
 public class MainScreen implements Observer {
     private JFrame mainScreen;
     
     final static int EMPTY = 0;
-    final static int BSIZE = 30;
+    final static int BSIZE = 15;
     final static int HEXSIZE = 32;
     final static int BORDERS = 17;
     final static int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
     final static Color COLOURBACK =  Color.WHITE;
-    //final static BufferedImage WATER = ImageIO.read(application/views/waterHex.gif);
     final static Color COLOURCELL =  Color.ORANGE;
     final static Color COLOURGRID =  Color.BLACK;
     final static Color COLOURONE = new Color(255,223,255,200);
@@ -73,7 +66,7 @@ public class MainScreen implements Observer {
             Graphics2D g2 = (Graphics2D)g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-            g2.translate(0, 0);
+            g2.translate(-10, -10);
             super.paintComponent(g2);
             //draw grid
             int ind = 0;

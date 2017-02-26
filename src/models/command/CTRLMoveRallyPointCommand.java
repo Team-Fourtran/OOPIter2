@@ -1,31 +1,33 @@
+/*
+IMMEDIATE COMMAND FROM CONTROLLER
+ */
+
 package models.command;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
-import models.playerAssetNew.PlayerAsset;
+import models.playerAsset.PlayerAsset;
 import models.visitor.MovementVisitor;
 
-public class MoveRallyPointCommand implements Command{
+public class CTRLMoveRallyPointCommand implements Command{
     private TileAssociation destination;
     private PlayerAsset rallyPoint; //RallyPoint
     private GameMap gameMap;
 
-    public MoveRallyPointCommand(PlayerAsset asset, TileAssociation destination, GameMap gameMap)
+    public CTRLMoveRallyPointCommand(PlayerAsset rallyPoint, TileAssociation destination, GameMap gameMap)
     {
         this.destination = destination;
-        this.rallyPoint = asset;
+        this.rallyPoint = rallyPoint;
         this.gameMap = gameMap;
     }
     @Override
-    public boolean execute() {
-        //TDA
-        //GameMap.generateImmediateMovement(rallyPoint, destination);
-//        start.remove(rallyPoint);
-//        destination.add(rallyPoint);
+    public void execute() {
+
+        //TODO: CHECK IF ARMY HAS A SOLDIER
+
         rallyPoint.accept(
                 new MovementVisitor(gameMap, destination)
         );
-        return true;
     }
 
     @Override

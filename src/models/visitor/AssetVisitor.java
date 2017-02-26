@@ -1,6 +1,6 @@
 package models.visitor;
 
-import models.playerAssetNew.*;
+import models.playerAsset.*;
 
 public interface AssetVisitor {
     void visitUnit(Unit unit);

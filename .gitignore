@@ -1,8 +1,11 @@
 *.class
-
+.gitignore
 # Mobile Tools for Java (J2ME)
+.classpath
+.project
+bin
 .mtj.tmp/
-
+*.iml
 # Package Files #
 *.jar
 *.war
@@ -12,6 +15,10 @@
 hs_err_pid*
 .idea/
 
-/bin/
-
-out/
+out/production/OOPIter2/application/
+out/production/OOPIter2/models/assetOwnership/
+out/production/OOPIter2/models/command/
+out/production/OOPIter2/models/playerAsset/
+out/production/OOPIter2/models/tileInfo/
+out/production/OOPIter2/models/utility/
+out/production/OOPIter2/models/visitor/

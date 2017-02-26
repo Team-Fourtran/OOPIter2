@@ -1,7 +1,7 @@
 package models.assetOwnership;
 
 
-import models.playerAssetNew.PlayerAsset;
+import models.playerAsset.PlayerAsset;
 import models.tileInfo.Tile;
 import models.visitor.TileVisitor;
 import java.util.Observable;
@@ -26,9 +26,12 @@ public class TileAssociation extends Observable{
         return (assetOwner.hasAsset(asset));
     }
 
-    public boolean remove(PlayerAsset p){
+
+    public void remove(PlayerAsset ... p){
+        for (PlayerAsset _p : p){
+            assetOwner.removeAsset(_p);
+        }
         notifyObservers();
-        return assetOwner.removeAsset(p);
     }
 
     public void add(PlayerAsset p){
