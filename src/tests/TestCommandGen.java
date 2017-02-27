@@ -5,14 +5,19 @@ import controllers.*;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.CTRLCreateArmyCommand;
-import models.command.MoveRallyPointCommand;
+import models.command.CTRLMoveRallyPointCommand;
+import models.command.Command;
 import models.playerAsset.*;
 import models.utility.TileGen;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TestCommandGen{
+    private static HashMap<String, Boolean> keySimMap;
+    private static KeyPressInformer keySim;
+
     public static void main(String[] args) throws InterruptedException{
         int length = 15;
         Player player = new Player();
@@ -20,28 +25,28 @@ public class TestCommandGen{
         UnitManager um = player.getUnits();
         StructureManager sm = player.getStructures();
 
-        TileGen tileGen = new TileGen(length, length);
-        ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles);
-
-        Unit u0 = um.addNewUnit("colonist");
-        Unit u1 = um.addNewUnit("colonist");
-        Unit u2 = um.addNewUnit("colonist");
-        _tiles.get(0).add(u0);
-        _tiles.get(1).add(u1);
-        _tiles.get(2).add(u2);
-
-        GameMap map = new GameMap(_tiles, length, length);
-
-        map.debugPrint();
-        Thread.sleep(1000);
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("colonist");
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("explorer");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("melee");
+        um.addNewUnit("ranged");
+        um.addNewUnit("ranged");
+        um.addNewUnit("ranged");
 
 
-
-
+        sm.createStructure("fort");
+        sm.createStructure("university");
+        sm.createStructure("mine");
+        sm.createStructure("farm");
+        sm.createStructure("university");
 
         //Make a hashmap for simulating keypresses
-        HashMap<String, Boolean> keySimMap = new HashMap<String, Boolean>();
+        keySimMap = new HashMap<String, Boolean>();
         keySimMap.put("ENTER",false);
         keySimMap.put("CONTROL",false);
         keySimMap.put("UP",false);
@@ -50,146 +55,147 @@ public class TestCommandGen{
         keySimMap.put("RIGHT",false);
 
         //Make a KeyPressInformer, which alerts registered listeners of changes in the hashmap
-        KeyPressInformer keySim = new KeyPressInformer(keySimMap);
+        keySim = new KeyPressInformer(keySimMap);
+
+        AssetIterator assIter = player.getAssetIterator();
+        CommandIterator cmdIter = player.makeCommandIterator();
+
+        KeyboardController kbc = new KeyboardController(keySim, assIter, cmdIter);
+
+        /*  Tests  */
+        testModeIteration();
+        //testTypeIteration();
+        //testInstanceIteration();
 
 
-        ArrayList<ArrayList<PlayerAsset>> lists = new ArrayList<>();
-        ArrayList<PlayerAsset> unitList = new ArrayList<>();
-        unitList.add(new PlayerAsset("Unit","Explorer",1));
-        unitList.add(new PlayerAsset("Unit","Explorer",2));
-        unitList.add(new PlayerAsset("Unit","Melee",3));
-        unitList.add(new PlayerAsset("Unit","Melee",4));
-        unitList.add(new PlayerAsset("Unit","Range",5));
-        unitList.add(new PlayerAsset("Unit","Range",6));
-        lists.add(unitList);
-
-        ArrayList<PlayerAsset> armyList = new ArrayList<>();
-        PlayerAsset army1 = new PlayerAsset("Army","None",1);
-        armyList.add(army1);
-        PlayerAsset army2 = new PlayerAsset("Army","None",2);
-        armyList.add(army2);
-        PlayerAsset army3 = new PlayerAsset("Army","None",3);
-        armyList.add(army3);
-        PlayerAsset army4 = new PlayerAsset("Army","None",4);
-        armyList.add(army4);
-        lists.add(armyList);
-
-        ArrayList<PlayerAsset> structureList = new ArrayList<>();
-        structureList.add(new PlayerAsset("Structure","Farm",1));
-        structureList.add(new PlayerAsset("Structure","Mine",2));
-        structureList.add(new PlayerAsset("Structure","Capital",3));
-        structureList.add(new PlayerAsset("Structure","Fort",4));
-        structureList.add(new PlayerAsset("Structure","University",5));
-        lists.add(structureList);
-
-
-        AssetIterator assIter = player.makeAssetIterator();
-
-        KeyboardController kbc = new KeyboardController(keySim, assIter);
-
-
-
-
-
-
-
-        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(map, player, _tiles.get(112),u0, u1, u2);
-        CTRLCreateArmyCommand.execute();
-
-        RallyPoint rallyPoint = am.debugGetRallyPoint();
-        Army army = am.debugGetArmy();
-
-        player.endTurn();
-        player.beginTurn();
-        System.out.println("NEW TURN");
-        map.debugPrint();
-        Thread.sleep(1000);
-        player.endTurn();
-        player.beginTurn();
-        System.out.println("NEW TURN");
-        map.debugPrint();
-        Thread.sleep(1000);
-        player.endTurn();
-        player.beginTurn();
-        System.out.println("NEW TURN");
-        map.debugPrint();
-        Thread.sleep(1000);
-        player.endTurn();
-        player.beginTurn();
-        System.out.println("NEW TURN");
-        map.debugPrint();
-        Thread.sleep(1000);
-
-        System.out.println("MOVING TOWARDS RALLYPOINT:");
-        map.debugPrint();
-        Thread.sleep(1000);
-
-        System.out.println("MOVED RALLY POINT:");
-        MoveRallyPointCommand mrp = new MoveRallyPointCommand(rallyPoint, _tiles.get(24), map);
-        mrp.execute();
-        map.debugPrint();
-        Thread.sleep(1000);
-
-        for (int i = 0; i < 10; i++){
-            player.endTurn();
-            player.beginTurn();
-            System.out.println("NEW TURN");
-            map.debugPrint();
-            Thread.sleep(1000);
-        }
-
-        /* Iterator testing
-         *
-        for(int x = 0; x < 5; x++){
-            System.out.println("==========\tTesting .next()\t==========");
-            for(int i = 0; i < 10; i++){
-                System.out.printf("%40s\t\t->\t\t", "["+assIter.getCurrent()+"]");
-                assIter.next();
-                System.out.printf("%s","[" + assIter.getCurrent() + "]\n");
-            }
-
-            assIter.previous(); //Set it back for consistency between tests
-
-            System.out.println("\n==========\tTesting .previous()\t==========");
-            for(int i = 0; i < 10; i++){
-                System.out.printf("%40s\t\t->\t\t", "["+assIter.getCurrent()+"]");
-                assIter.previous();
-                System.out.printf("%s","[" + assIter.getCurrent() + "]\n");
-            }
-
-            System.out.printf("\n\n|||||||||||||||||||||Next mode...|||||||||||||||||||||\n\n");
-
-            assIter.nextMode();
-        }
-
-        System.out.printf("\n\n|||||||||||||||||||||Previous mode...|||||||||||||||||||||\n\n");
-
-        assIter.prevMode();
-
-        for(int x = 0; x < 5; x++){
-            System.out.println("==========\tTesting .next()\t==========");
-            for(int i = 0; i < 10; i++){
-                System.out.printf("%40s\t\t->\t\t", "["+assIter.getCurrent()+"]");
-                assIter.next();
-                System.out.printf("%s","[" + assIter.getCurrent() + "]\n");
-            }
-
-            assIter.previous(); //Set it back for consistency between tests
-
-            System.out.println("\n==========\tTesting .previous()\t==========");
-            for(int i = 0; i < 10; i++){
-                System.out.printf("%40s\t\t->\t\t", "["+assIter.getCurrent()+"]");
-                assIter.previous();
-                System.out.printf("%s","[" + assIter.getCurrent() + "]\n");
-            }
-
-            System.out.printf("\n\n|||||||||||||||||||||Previous mode...|||||||||||||||||||||\n\n");
-
-            assIter.prevMode();
-        }
-
-        */
 
     }
+    private static void testModeIteration(){
+        System.out.println("\n\tTESTING CONTROL-UP\n");
+        pressKeys("CONTROL UP");
+        pressKeys("ENTER");
+        pressKeys("CONTROL UP");
+        pressKeys("ENTER");
+        pressKeys("CONTROL UP");
+        pressKeys("ENTER");
+        pressKeys("CONTROL UP");
+        pressKeys("ENTER");
+        System.out.println("\n\tTESTING CONTROL-DOWN\n");
+        pressKeys("CONTROL DOWN");
+        pressKeys("ENTER");
+        pressKeys("CONTROL DOWN");
+        pressKeys("ENTER");
+        pressKeys("CONTROL DOWN");
+        pressKeys("ENTER");
+        pressKeys("CONTROL DOWN");
+        pressKeys("ENTER");
+    }
+    private static void testTypeIteration(){
+        System.out.println("\n\tTESTING CONTROL-LEFT\n");
+        pressKeys("ENTER");
+        pressKeys("CONTROL LEFT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL LEFT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL LEFT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL LEFT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL LEFT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL LEFT");
+        pressKeys("ENTER");
+        System.out.println("\n\tTESTING CONTROL-RIGHT\n");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+        System.out.println("\n\tTESTING CONTROL-RIGHT/CONTROL-LEFT TOGGLE\n");
+        pressKeys("CONTROL LEFT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL LEFT");
+        pressKeys("ENTER");
+        pressKeys("CONTROL RIGHT");
+        pressKeys("ENTER");
+    }
+    private static void testInstanceIteration(){
+        for(int i = 0; i < 5; i++){
+            System.out.print("Press ENTER:\t");
+            keySim.update("ENTER",true);
+            keySim.update("ENTER",false);
+            System.out.print("\n");
 
+            System.out.print("Press LEFT:\t");
+            keySim.update("LEFT",true);
+            keySim.update("LEFT",false);
+            System.out.print("\n");
+
+            System.out.print("Press ENTER:\t");
+            keySim.update("ENTER",true);
+            keySim.update("ENTER",false);
+            System.out.print("\n");
+        }
+        System.out.print("\n");
+        System.out.print("\n");
+        for(int i = 0; i < 5; i++){
+            System.out.print("Press ENTER:\t");
+            keySim.update("ENTER",true);
+            keySim.update("ENTER",false);
+            System.out.print("\n");
+
+            System.out.print("Press RIGHT:\t");
+            keySim.update("RIGHT",true);
+            keySim.update("RIGHT",false);
+            System.out.print("\n");
+
+            System.out.print("Press ENTER:\t");
+            keySim.update("ENTER",true);
+            keySim.update("ENTER",false);
+            System.out.print("\n");
+        }
+        System.out.print("\n");
+        System.out.print("\n");
+        for(int i = 0; i < 5; i++){
+            System.out.print("Press ENTER:\t");
+            keySim.update("ENTER",true);
+            keySim.update("ENTER",false);
+            System.out.print("\n");
+
+            System.out.print("Press LEFT:\t");
+            keySim.update("LEFT",true);
+            keySim.update("LEFT",false);
+            System.out.print("\n");
+
+            System.out.print("Press ENTER:\t");
+            keySim.update("ENTER",true);
+            keySim.update("ENTER",false);
+            System.out.print("\n");
+        }
+    }
+
+    private static void pressKeys(String keyList){
+        System.out.print("Pressing [" + keyList + "]\t\t\t");
+        String[] keys = keyList.split(" ");
+        for(int k = 0; k<keys.length; k++){
+            keySim.update(keys[k],true);
+        }
+        for(int f = 0; f<keys.length; f++){
+            keySim.update(keys[f],false);
+        }
+        System.out.println();
+    }
 }

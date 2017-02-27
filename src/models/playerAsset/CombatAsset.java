@@ -15,17 +15,11 @@ public abstract class CombatAsset extends PlayerAsset{
     protected int currentHealth;
     protected int upkeep;
     protected boolean poweredUp;
-    protected String assetID;
 
 
 
     //Various getter and setters for attributes
-    public void setID(String id){
-        assetID = id;
-    }
-    public String getID(){
-        return assetID;
-    }
+
     public int getOffDamage(){
         return offDamage;
     }

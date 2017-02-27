@@ -1,5 +1,6 @@
 package models.playerAsset;
 
+import models.command.*;
 import models.visitor.PlayerVisitor;
 
 import java.util.ArrayList;
@@ -92,6 +93,21 @@ public class Player {
         list.add(structures.getTypeIterator());
         //list.add(armies.getTypeIterator());
         return makeAssetIterator(list);
+    }
+
+    public CommandIterator makeCommandIterator(){
+        ArrayList<Command> cmdList = new ArrayList<>();
+        cmdList.add(new MoveCommand(null,null,null){});
+        cmdList.add(new AttackCommand(null,null){});
+        cmdList.add(new CreateCapitalCommand(null,null,null){});
+        cmdList.add(new CTRLAttackCommand(null,null){});
+        cmdList.add(new CTRLCreateArmyCommand(null,null,null,null){});
+        cmdList.add(new CTRLCreateStructureCommand(null,null,null,null){});
+        cmdList.add(new CTRLMoveRallyPointCommand(null,null,null){});
+        cmdList.add(new JoinBattleGroupCommand(null,null,null){});
+
+        CommandIterator cmdIter = new CommandIterator(cmdList);
+        return cmdIter;
     }
 
     public UnitManager getUnits() {

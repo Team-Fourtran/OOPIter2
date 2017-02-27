@@ -25,6 +25,8 @@ public class StructureManager implements Manager{
         for (int i = 1; i <= 20; i++)
             structureIDs.add("s" + i);
 
+
+
     }
 
     //return amount of structures a Player has
@@ -42,7 +44,7 @@ public class StructureManager implements Manager{
     }
 
     public void addStructureToList(Structure s, String type) {
-/*
+
         switch (type) {
             case "base":
                 structureList.add(s);
@@ -76,7 +78,7 @@ public class StructureManager implements Manager{
 
 
         }
-        */
+
     }
 
     //destroy a structure
@@ -152,7 +154,7 @@ public class StructureManager implements Manager{
             }
 
             public PlayerAsset current() {
-                System.out.println(list.get(index).getType());
+                //System.out.println(list.get(index).getType());
                 return list.get(index);
             }
 

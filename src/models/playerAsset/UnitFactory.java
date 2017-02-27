@@ -1,8 +1,5 @@
 package models.playerAsset;
 
-import models.playerAsset.MeleeUnit;
-import models.playerAsset.MeleeUnit;
-
 public class UnitFactory {
 
     //factory method to make any of the four units
