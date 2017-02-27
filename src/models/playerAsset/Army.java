@@ -18,6 +18,14 @@ public class Army extends CombatAsset {
         reinforcements.addAll(Arrays.asList(units));
     }
 
+    public int getOffDamage(int distance){
+        int totalDamage = 0;
+        for (Unit _u : battleGroup){
+            totalDamage += _u.getOffDamage(distance);
+        }
+        return totalDamage;
+    }
+
     public void addToBattleGroup(Unit u){
         battleGroup.add(u);
         reinforcements.remove(u);

@@ -10,19 +10,21 @@ public class AttackVisitor implements TileVisitor{
     private GameMap map;
     private CombatAsset giver;
     private TileAssociation receiver;
+    private int distance;
 
-    public AttackVisitor(Player p, GameMap map, CombatAsset giver, TileAssociation receiver){
+    public AttackVisitor(Player p, GameMap map, CombatAsset giver, TileAssociation receiver, int distance){
         this.player = p;
         this.map = map;
         this.giver = giver;
         this.receiver = receiver;
+        this.distance = distance;
     }
 
     @Override
     public void visitUnit(Unit unit) {
         //unit is not part of an army
 
-        unit.depleteHealth(giver.getOffDamage());
+        unit.depleteHealth(giver.getOffDamage(distance));
 
         if ( unit.getCurrentHealth() <= 0 ){
             //Dead!
@@ -30,6 +32,7 @@ public class AttackVisitor implements TileVisitor{
             new DecommissionVisitor(unit).visitUnitManager(
                     player.getUnits()
             );
+            giver.clearQueue();
             //TODO: EXPLOSION
         }
         else{
@@ -39,7 +42,7 @@ public class AttackVisitor implements TileVisitor{
     }
     @Override
     public void visitStructure(Structure structure) {
-        structure.depleteHealth(giver.getOffDamage());
+        structure.depleteHealth(giver.getOffDamage(distance));
 
         if ( structure.getCurrentHealth() <= 0 ){
             //Dead!
@@ -47,14 +50,21 @@ public class AttackVisitor implements TileVisitor{
             new DecommissionVisitor(structure).visitStructureManager(
                     player.getStructures()
             );
+            giver.clearQueue();
             //TODO: EXPLOSION
         }
         else{
             //Still alive!
             //For defDamage allocation:
-//        if (unit.getDefDamage() > 0){
-//            new AttackVisitor(map, receiver, unit);
-//        }
+            if (structure.getDefDamage() > 0){
+                giver.depleteHealth(structure.getOffDamage(distance));
+                if (giver.getCurrentHealth() <= 0 ){
+                    //Dead!
+                    //TODO: WORK ON DECOMMISSIONING ARMIES AND AVOID TYPE-CHECKING BELOW
+                    map.removeAssetFromMap(giver);
+
+                }
+            }
         }
     }
 

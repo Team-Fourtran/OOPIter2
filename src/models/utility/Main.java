@@ -147,20 +147,30 @@ class testAttack{
         new Game(_tiles);
         GameMap map = new GameMap(_tiles, 5, 5);
         //----------------------------
-        Unit u0 = um.addNewUnit("melee");
+        Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("colonist");
+
         Structure s0 = sm.createStructure("base");
-        _tiles.get(4).add(u0);
-        _tiles.get(3).add(u1);
-        _tiles.get(3).add(s0);
 
+        _tiles.get(2).add(s0);
+        _tiles.get(13).add(u0);
+        _tiles.get(14).add(u1);
 
-        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
-        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
-        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
-        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
-        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
-        new CTRLAttackCommand(player, map, u0, _tiles.get(3)).execute();
+        new CTRLCreateArmyCommand(map, player, _tiles.get(4), u0, u1).execute();
+        for(int i = 0; i < 5; i++){
+            Thread.sleep(500);
+            player.endTurn();
+            player.beginTurn();
+        }
+
+        RallyPoint s1 = am.debugGetRallyPoint();
+
+        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
+        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
+        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
+        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
+        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
+        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
 
         for(int i = 0; i < 6; i++){
             Thread.sleep(500);

@@ -16,6 +16,7 @@ public abstract class CombatAsset extends PlayerAsset{
     void setRange(int range){
         this.range = range;
     }
+
     public void setID(String id){
         assetID = id;
     }
@@ -30,8 +31,13 @@ public abstract class CombatAsset extends PlayerAsset{
     public String getID(){
         return assetID;
     }
-    public int getOffDamage(){
-        return offDamage;
+    public int getOffDamage(int distance){
+        if (distance <= range){
+            return offDamage;
+        }
+        else{
+            return 0;
+        }
     }
     public int getDefDamage(){
         return defDamage;

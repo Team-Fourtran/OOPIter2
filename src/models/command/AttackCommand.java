@@ -23,12 +23,14 @@ public class AttackCommand implements Command{
 
     @Override
     public void execute() {
+        int distance = map.calculateDistance(receiver, giver);
         receiver.accept(
             new AttackVisitor(
                     player,
                     map,
                     giver,
-                    receiver
+                    receiver,
+                    distance
             )
         );
     }

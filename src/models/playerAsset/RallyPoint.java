@@ -1,5 +1,6 @@
 package models.playerAsset;
 
+import models.command.Command;
 import models.visitor.AssetVisitor;
 import models.visitor.TileVisitor;
 
@@ -17,5 +18,10 @@ public class RallyPoint extends NonCombatAsset{
 
     public Army getArmy(){
         return this.army;
+    }
+
+    //Overrides to redirect to battle group
+    public void addCommand(Command c) {
+        army.addCommand(c);
     }
 }
