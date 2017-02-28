@@ -4,13 +4,13 @@ package models.utility;
 import application.Game;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
-import models.command.CTRLAttackCommand;
-import models.command.CTRLCreateArmyCommand;
-import models.command.CTRLCreateStructureCommand;
-import models.command.CTRLMoveRallyPointCommand;
+import models.ctrlCommand.CTRLAttackCommand;
+import models.ctrlCommand.CTRLCreateCapitalCommand;
+import models.ctrlCommand.CTRLCreateArmyCommand;
+import models.ctrlCommand.CTRLDecommissionCommand;
+import models.ctrlCommand.CTRLMoveRallyPointCommand;
 import models.playerAsset.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -18,6 +18,7 @@ public class Main {
         //new testIterator().run();
         //new testCapitalCreation().run();
         new testAttack().run();
+        //new testDecommission().run();
     }
 }
 
@@ -42,20 +43,11 @@ class testCapitalCreation {
         _tiles.get(4).add(u0);
         _tiles.get(3).add(u1);
         _tiles.get(24).add(u2);
-
-        new CTRLCreateStructureCommand(map, player, u0, "base").execute();
-
-        System.out.println("CREATED BASE");
-        map.debugPrint();
         Thread.sleep(1000);
+        new CTRLCreateCapitalCommand(u0).execute(map, player);
 
-        for (int i = 0; i < 10; i++) {
-            player.endTurn();
-            player.beginTurn();
-            System.out.println("NEW TURN");
-            map.debugPrint();
-            Thread.sleep(1000);
-        }
+        System.out.println("CREATED CAPITAL");
+        Thread.sleep(1000);
     }
 }
 
@@ -81,11 +73,10 @@ class testArmyCreationAndMovement {
 
         GameMap map = new GameMap(_tiles, length, length);
 
-        map.debugPrint();
         Thread.sleep(1000);
 
-        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(map, player, _tiles.get(50), u0, u1, u2);
-        CTRLCreateArmyCommand.execute();
+        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(_tiles.get(50), u0, u1, u2);
+        CTRLCreateArmyCommand.execute(map, player);
 
         RallyPoint rallyPoint = am.debugGetRallyPoint();
         Army army = am.debugGetArmy();
@@ -93,41 +84,34 @@ class testArmyCreationAndMovement {
         player.endTurn();
         player.beginTurn();
         System.out.println("NEW TURN");
-        map.debugPrint();
         Thread.sleep(1000);
         player.endTurn();
         player.beginTurn();
         System.out.println("NEW TURN");
-        map.debugPrint();
         Thread.sleep(1000);
         player.endTurn();
         player.beginTurn();
         System.out.println("NEW TURN");
-        map.debugPrint();
         Thread.sleep(1000);
         player.endTurn();
         player.beginTurn();
         System.out.println("NEW TURN");
-        map.debugPrint();
         Thread.sleep(1000);
 
         System.out.println("MOVING TOWARDS RALLYPOINT:");
-        map.debugPrint();
         Thread.sleep(1000);
 
         System.out.println("MOVED RALLY POINT:");
 
-        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand(rallyPoint, _tiles.get(24), map);
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand(rallyPoint, _tiles.get(24));
 
-        mrp.execute();
-        map.debugPrint();
+        mrp.execute(map, player);
         Thread.sleep(1000);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 4; i++) {
             player.endTurn();
             player.beginTurn();
             System.out.println("NEW TURN");
-            map.debugPrint();
             Thread.sleep(1000);
         }
     }
@@ -150,33 +134,70 @@ class testAttack{
         Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("colonist");
 
-        Structure s0 = sm.createStructure("base");
+        Structure s0 = sm.createStructure("capital");
 
         _tiles.get(2).add(s0);
-        _tiles.get(13).add(u0);
-        _tiles.get(14).add(u1);
+        _tiles.get(8).add(u0);
+        _tiles.get(9).add(u1);
 
-        new CTRLCreateArmyCommand(map, player, _tiles.get(4), u0, u1).execute();
-        for(int i = 0; i < 5; i++){
+        new CTRLCreateArmyCommand(_tiles.get(8), u0, u1).execute(map, player);
+        for(int i = 0; i < 3; i++){
             Thread.sleep(500);
             player.endTurn();
             player.beginTurn();
         }
 
-        RallyPoint s1 = am.debugGetRallyPoint();
+        Army s1 = am.debugGetArmy();
+        RallyPoint rp = am.debugGetRallyPoint();
 
-        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
-        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
-        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
-        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
-        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
-        new CTRLAttackCommand(player, map, s1, _tiles.get(2)).execute();
+        new CTRLMoveRallyPointCommand(rp, _tiles.get(4)).execute(map, player);
+        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+
 
         for(int i = 0; i < 6; i++){
             Thread.sleep(500);
             player.endTurn();
             player.beginTurn();
         }
+    }
+}
+
+class testDecommission{
+    public void run() throws InterruptedException {
+        //COPY+PASTE
+        //----------------------------
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        //----------------------------
+
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("colonist");
+        _tiles.get(0).add(u0);
+        _tiles.get(1).add(u1);
+        _tiles.get(11).add(u2);
+        new CTRLCreateArmyCommand(_tiles.get(0), u0, u1, u2).execute(map, player);
+        Thread.sleep(1000);
+        player.endTurn();
+        player.beginTurn();
+        Thread.sleep(1000);
+        new CTRLDecommissionCommand(u2).execute(map, player);
+        Thread.sleep(1000);
+//        new CTRLDecommissionCommand(u1).execute(map, player);
+//        Thread.sleep(1000);
+//        new CTRLDecommissionCommand(u2).execute(map, player);
+//        Thread.sleep(1000);
     }
 }
 

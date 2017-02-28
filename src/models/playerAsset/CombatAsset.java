@@ -39,8 +39,13 @@ public abstract class CombatAsset extends PlayerAsset{
             return 0;
         }
     }
-    public int getDefDamage(){
-        return defDamage;
+    public int getDefDamage(int distance){
+        if (distance <= range){
+            return defDamage;
+        }
+        else{
+            return 0;
+        }
     }
     public int getArmor(){
         return armor;

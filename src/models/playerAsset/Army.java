@@ -16,8 +16,10 @@ public class Army extends CombatAsset {
 
     public Army(Unit ... units) {
         reinforcements.addAll(Arrays.asList(units));
+        currentHealth = 0;
     }
 
+    @Override
     public int getOffDamage(int distance){
         int totalDamage = 0;
         for (Unit _u : battleGroup){
@@ -26,10 +28,26 @@ public class Army extends CombatAsset {
         return totalDamage;
     }
 
+    @Override
+    public int getDefDamage(int distance){
+        int totalDamage = 0;
+        for (Unit _u : battleGroup){
+            totalDamage += _u.getDefDamage(distance);
+        }
+        return totalDamage;
+    }
+
+    @Override
+    public void depleteHealth(int value){
+
+    }
+
     public void addToBattleGroup(Unit u){
         battleGroup.add(u);
         reinforcements.remove(u);
         u.clearQueue();
+        maxHealth += u.getMaxHealth();
+        currentHealth += u.getCurrentHealth();
     }
 
     public boolean hasBattleGroup(){

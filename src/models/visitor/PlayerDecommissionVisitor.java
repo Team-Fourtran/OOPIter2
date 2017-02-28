@@ -1,11 +1,14 @@
 package models.visitor;
 
+import models.assetOwnership.GameMap;
 import models.playerAsset.*;
 
-public class DecommissionVisitor implements PlayerVisitor {
+public class PlayerDecommissionVisitor implements PlayerVisitor {
     private PlayerAsset byebye;
+    private GameMap map;
 
-    public DecommissionVisitor(PlayerAsset asset){
+    public PlayerDecommissionVisitor(GameMap map, PlayerAsset asset){
+        this.map = map;
         this.byebye = asset;
     }
 
@@ -16,16 +19,23 @@ public class DecommissionVisitor implements PlayerVisitor {
 
     @Override
     public void visitArmyManager(ArmyManager armyManager) {
-
+        byebye.clearQueue();
+        map.removeAssetFromMap(
+                armyManager.getRallyPoint((Army) byebye)
+        );
+        armyManager.removeArmy((Army) byebye);
     }
 
     @Override
     public void visitStructureManager(StructureManager structureManager) {
+        byebye.clearQueue();
         structureManager.removeStructure((Structure) byebye);
     }
 
     @Override
     public void visitUnitManager(UnitManager unitManager) {
+        byebye.clearQueue();
         unitManager.removeUnit((Unit) byebye);
+        //TODO remove from army if a reinforcement
     }
 }

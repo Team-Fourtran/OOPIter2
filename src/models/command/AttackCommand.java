@@ -4,18 +4,19 @@ import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.playerAsset.CombatAsset;
 import models.playerAsset.Player;
-import models.playerAsset.PlayerAsset;
 import models.visitor.AttackVisitor;
 
 public class AttackCommand implements Command{
-    private Player player;
+    private Player givingPlayer;
+    private Player receivingPlayer;
     private CombatAsset giver;
     private TileAssociation receiver;
     private GameMap map;
 
 
-    public AttackCommand(Player player, GameMap map, CombatAsset giver, TileAssociation receiver){
-        this.player = player;
+    public AttackCommand(Player givingPlayer, Player receivingPlayer, GameMap map, CombatAsset giver, TileAssociation receiver){
+        this.givingPlayer = givingPlayer;
+        this.receivingPlayer = receivingPlayer;
         this.map = map;
         this.giver = giver;
         this.receiver = receiver;
@@ -26,7 +27,8 @@ public class AttackCommand implements Command{
         int distance = map.calculateDistance(receiver, giver);
         receiver.accept(
             new AttackVisitor(
-                    player,
+                    givingPlayer,
+                    receivingPlayer,
                     map,
                     giver,
                     receiver,

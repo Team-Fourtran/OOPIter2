@@ -33,6 +33,25 @@ public class ArmyManager{
         return rallyPoint;
     }
 
+    public void removeArmy(Army army){
+        RallyPoint toRemove = null;
+        for (RallyPoint rp : rallyPointList){
+            if (rp.getArmy() == army){
+                toRemove = rp;
+            }
+        }
+        rallyPointList.remove(toRemove);
+        armyList.remove(army);
+    }
+
+    public RallyPoint getRallyPoint(Army army){
+        for (RallyPoint rp : rallyPointList){
+            if (rp.getArmy() == army){
+                return rp;
+            }
+        }
+        return null;
+    }
 
     //free an army's ID when they are done using it for recycling
     public void freeID(String assetID) {

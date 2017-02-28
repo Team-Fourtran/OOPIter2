@@ -8,8 +8,8 @@ public class StructureFactory {
     //factory method to make any of the four units
     public Structure makeStructure(String type){
         switch (type){
-            case "base":
-                return new Base();
+            case "capital":
+                return new Capital();
             case "farm":
                 return new Farm();
             case "mine":

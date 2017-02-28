@@ -6,14 +6,16 @@ import models.playerAsset.*;
 import models.tileInfo.Normal;
 
 public class AttackVisitor implements TileVisitor{
-    private Player player;
+    private Player givingPlayer;
+    private Player receivingPlayer;
     private GameMap map;
     private CombatAsset giver;
     private TileAssociation receiver;
     private int distance;
 
-    public AttackVisitor(Player p, GameMap map, CombatAsset giver, TileAssociation receiver, int distance){
-        this.player = p;
+    public AttackVisitor(Player givingPlayer, Player receivingPlayer, GameMap map, CombatAsset giver, TileAssociation receiver, int distance){
+        this.givingPlayer = givingPlayer;
+        this.receivingPlayer = receivingPlayer;
         this.map = map;
         this.giver = giver;
         this.receiver = receiver;
@@ -28,9 +30,8 @@ public class AttackVisitor implements TileVisitor{
 
         if ( unit.getCurrentHealth() <= 0 ){
             //Dead!
-            map.removeAssetFromMap(unit);
-            new DecommissionVisitor(unit).visitUnitManager(
-                    player.getUnits()
+            unit.accept(
+                    new DeathVisitor(map, receivingPlayer)
             );
             giver.clearQueue();
             //TODO: EXPLOSION
@@ -45,10 +46,9 @@ public class AttackVisitor implements TileVisitor{
         structure.depleteHealth(giver.getOffDamage(distance));
 
         if ( structure.getCurrentHealth() <= 0 ){
-            //Dead!
-            map.removeAssetFromMap(structure);
-            new DecommissionVisitor(structure).visitStructureManager(
-                    player.getStructures()
+            //Structure is Dead!
+            structure.accept(
+                    new DeathVisitor(map, receivingPlayer)
             );
             giver.clearQueue();
             //TODO: EXPLOSION
@@ -56,13 +56,13 @@ public class AttackVisitor implements TileVisitor{
         else{
             //Still alive!
             //For defDamage allocation:
-            if (structure.getDefDamage() > 0){
-                giver.depleteHealth(structure.getOffDamage(distance));
+            if (structure.getDefDamage(distance) > 0){
+                giver.depleteHealth(structure.getDefDamage(distance));
                 if (giver.getCurrentHealth() <= 0 ){
                     //Dead!
-                    //TODO: WORK ON DECOMMISSIONING ARMIES AND AVOID TYPE-CHECKING BELOW
-                    map.removeAssetFromMap(giver);
-
+                    giver.accept(
+                            new DeathVisitor(map, givingPlayer)
+                    );
                 }
             }
         }

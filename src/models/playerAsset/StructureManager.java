@@ -1,6 +1,5 @@
 package models.playerAsset;
 
-import models.command.Command;
 import models.visitor.PlayerVisitor;
 import java.util.ArrayList;
 
@@ -48,7 +47,7 @@ public class StructureManager implements Manager{
         switch (type) {
             case "base":
                 structureList.add(s);
-                baseList.add((Base) s);
+                baseList.add((Capital) s);
                 break;
 
             case "farm":
