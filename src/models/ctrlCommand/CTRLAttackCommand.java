@@ -4,8 +4,8 @@ package models.ctrlCommand;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.AttackCommand;
-import models.ctrlCommand.CTRLCommand;
-import models.playerAsset.*;
+import models.playerAsset.Assets.CombatAsset;
+import models.playerAsset.Assets.Player;
 
 public class CTRLAttackCommand implements CTRLCommand{
     private Player receivingPlayer;

@@ -2,7 +2,12 @@ package models.visitor;
 
 
 import models.assetOwnership.GameMap;
-import models.playerAsset.*;
+import models.playerAsset.Assets.Army;
+import models.playerAsset.Assets.Player;
+import models.playerAsset.Assets.RallyPoint;
+import models.playerAsset.Assets.Structures.Structure;
+import models.playerAsset.Assets.Units.Unit;
+import models.playerAsset.Assets.Worker;
 
 public class DeathVisitor implements AssetVisitor{
     private GameMap map;

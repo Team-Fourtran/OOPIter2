@@ -3,6 +3,9 @@ package models.visitor;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.playerAsset.*;
+import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Structures.Structure;
+import models.playerAsset.Assets.Units.Unit;
 import models.tileInfo.Normal;
 
 public class AttackVisitor implements TileVisitor{

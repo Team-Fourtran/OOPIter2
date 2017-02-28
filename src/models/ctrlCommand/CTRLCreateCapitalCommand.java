@@ -1,9 +1,9 @@
 package models.ctrlCommand;
 
 import models.assetOwnership.GameMap;
-import models.playerAsset.Colonist;
-import models.playerAsset.Player;
-import models.playerAsset.Unit;
+import models.playerAsset.Assets.Player;
+import models.playerAsset.Assets.Units.Colonist;
+import models.playerAsset.Assets.Units.Unit;
 import models.visitor.CapitalCreationVisitor;
 
 public class CTRLCreateCapitalCommand implements CTRLCommand{

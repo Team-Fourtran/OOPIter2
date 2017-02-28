@@ -5,8 +5,8 @@ package models.ctrlCommand;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
-import models.playerAsset.Player;
-import models.playerAsset.Unit;
+import models.playerAsset.Assets.Player;
+import models.playerAsset.Assets.Units.Unit;
 import models.visitor.ArmyCreationVisitor;
 
 public class CTRLCreateArmyCommand implements CTRLCommand{

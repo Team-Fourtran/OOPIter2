@@ -9,7 +9,11 @@ import models.ctrlCommand.CTRLCreateCapitalCommand;
 import models.ctrlCommand.CTRLCreateArmyCommand;
 import models.ctrlCommand.CTRLDecommissionCommand;
 import models.ctrlCommand.CTRLMoveRallyPointCommand;
-import models.playerAsset.*;
+import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Structures.Structure;
+import models.playerAsset.Assets.Units.Unit;
+import models.playerAsset.Iterators.AssetIterator;
+
 import java.util.ArrayList;
 
 public class Main {
@@ -17,8 +21,8 @@ public class Main {
         //new testArmyCreationAndMovement().run();
         //new testIterator().run();
         //new testCapitalCreation().run();
-        new testAttack().run();
-        //new testDecommission().run();
+        //new testAttack().run();
+        new testDecommission().run();
     }
 }
 
@@ -44,8 +48,8 @@ class testCapitalCreation {
         _tiles.get(3).add(u1);
         _tiles.get(24).add(u2);
         Thread.sleep(1000);
-        new CTRLCreateCapitalCommand(u0).execute(map, player);
 
+        new CTRLCreateCapitalCommand(u0).execute(map, player);
         System.out.println("CREATED CAPITAL");
         Thread.sleep(1000);
     }

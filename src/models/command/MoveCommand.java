@@ -1,7 +1,7 @@
 package models.command;
 
 import models.assetOwnership.TileAssociation;
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.PlayerAsset;
 
 public class MoveCommand implements Command{
     private TileAssociation start, end;

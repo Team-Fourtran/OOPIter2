@@ -1,8 +1,8 @@
 package models.ctrlCommand;
 
 import models.assetOwnership.GameMap;
-import models.playerAsset.CombatAsset;
-import models.playerAsset.Player;
+import models.playerAsset.Assets.CombatAsset;
+import models.playerAsset.Assets.Player;
 import models.visitor.MapDecommissionVisitor;
 
 public class CTRLDecommissionCommand implements CTRLCommand{

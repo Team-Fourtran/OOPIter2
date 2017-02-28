@@ -6,8 +6,8 @@ package models.ctrlCommand;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
-import models.playerAsset.Player;
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.Player;
+import models.playerAsset.Assets.PlayerAsset;
 import models.visitor.MovementVisitor;
 
 public class CTRLMoveRallyPointCommand implements CTRLCommand{

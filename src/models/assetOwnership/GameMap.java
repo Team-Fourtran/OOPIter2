@@ -1,9 +1,8 @@
 package models.assetOwnership;
 
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.PlayerAsset;
 import models.utility.ReverseAStar;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /*
  * Class for containing TileStates and optimal path between tiles

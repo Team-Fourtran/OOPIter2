@@ -7,8 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-
-import models.playerAsset.*;
+import models.playerAsset.Assets.PlayerAsset;
+import models.playerAsset.Assets.RallyPoint;
+import models.playerAsset.Assets.Structures.Structure;
+import models.playerAsset.Assets.Units.Unit;
+import models.playerAsset.Assets.Army;
+import models.playerAsset.Assets.Worker;
 import models.tileInfo.Normal;
 
 public class TileDrawingVisitor implements TileVisitor {

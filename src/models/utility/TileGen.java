@@ -32,38 +32,38 @@ public class TileGen {
             if((i/length)%2 == 0){
                 //Top Left
                 if(i-length >= 0)
-                    tiles[i].setNeighbor(tiles[i-length]);
+                    tiles[i].setNeighbor(Direction.TopLeft, tiles[i-length]); // tiles[i].setNeighbor(tiles[i-length], Direction object?? Yeah
                 //Top Right
                 if(i%length != 0 && i-length >= 0)
-                    tiles[i].setNeighbor(tiles[i-length-1]);
+                    tiles[i].setNeighbor(Direction.TopRight, tiles[i-length-1]);
                 //Bottom Left
                 if(i+length < total)
-                    tiles[i].setNeighbor(tiles[i+length]);
+                    tiles[i].setNeighbor(Direction.BottomLeft, tiles[i+length]);
                 //Bottom Right
                 if(i%length != 0 && i+length < total)
-                    tiles[i].setNeighbor(tiles[i+length-1]);
+                    tiles[i].setNeighbor(Direction.BottomRight, tiles[i+length-1]);
             }
             //ODD
             else{
                 //Top Right
                 if(i-length >= 0)
-                    tiles[i].setNeighbor(tiles[i-length]);
+                    tiles[i].setNeighbor(Direction.TopRight, tiles[i-length]);
                 //Top Left
                 if((i+1)%length != 0 && i-length >= 0)
-                    tiles[i].setNeighbor(tiles[i-length+1]);
+                    tiles[i].setNeighbor(Direction.TopLeft, tiles[i-length+1]);
                 //Bottom Right
                 if(i+length < total)
-                    tiles[i].setNeighbor(tiles[i+length]);
+                    tiles[i].setNeighbor(Direction.BottomRight, tiles[i+length]);
                 //Bottom Left
                 if((i+1)%length != 0 && i+length < total)
-                    tiles[i].setNeighbor(tiles[i+length+1]);
+                    tiles[i].setNeighbor(Direction.BottomLeft, tiles[i+length+1]);
             }
             //Left
             if((i+1)%length != 0)
-                tiles[i].setNeighbor(tiles[i+1]);
+                tiles[i].setNeighbor(Direction.Left, tiles[i+1]);
             //Right
             if(i%length != 0){
-                tiles[i].setNeighbor(tiles[i-1]);
+                tiles[i].setNeighbor(Direction.Right, tiles[i-1]);
             }
         }
 //      SQUARE:

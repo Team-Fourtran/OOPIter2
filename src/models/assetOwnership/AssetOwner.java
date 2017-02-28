@@ -1,6 +1,6 @@
 package models.assetOwnership;
 
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.PlayerAsset;
 import models.visitor.AssetVisitor;
 import java.util.ArrayList;
 

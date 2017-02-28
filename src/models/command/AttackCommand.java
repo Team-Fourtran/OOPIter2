@@ -2,9 +2,11 @@ package models.command;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
-import models.playerAsset.CombatAsset;
-import models.playerAsset.Player;
+import models.playerAsset.Assets.CombatAsset;
+import models.playerAsset.Assets.Player;
 import models.visitor.AttackVisitor;
+import models.playerAsset.Assets.PlayerAsset;
+
 
 public class AttackCommand implements Command{
     private Player givingPlayer;

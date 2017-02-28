@@ -2,6 +2,9 @@ package models.visitor;
 
 import models.assetOwnership.GameMap;
 import models.playerAsset.*;
+import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Structures.Structure;
+import models.playerAsset.Assets.Units.Unit;
 
 public class PlayerDecommissionVisitor implements PlayerVisitor {
     private PlayerAsset byebye;
