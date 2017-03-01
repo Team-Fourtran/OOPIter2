@@ -46,8 +46,8 @@ class MessageGenerator implements KeyPressListener{
             String mode = assetType.substring(assetType.lastIndexOf(".")+1);
 
             MSG += "{Mode: " + mode + ", ";
-            MSG += "AssetID: " + ((PlayerAsset)assetIterator.getElement()).getID() + "}";
-
+            MSG += "AssetID: " + ((PlayerAsset)assetIterator.getElement()).getID() + ", ";
+            MSG += "Command: "
             System.out.println(MSG);
         }
 
