@@ -1,26 +1,46 @@
 package models.command;
 
-
+import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
+import models.playerAsset.Assets.CombatAsset;
+import models.playerAsset.Assets.Player;
+import models.visitor.AttackVisitor;
 import models.playerAsset.Assets.PlayerAsset;
 
+
 public class AttackCommand implements Command{
-    private PlayerAsset giver;
+    private Player givingPlayer;
+    private Player receivingPlayer;
+    private CombatAsset giver;
     private TileAssociation receiver;
+    private GameMap map;
 
 
-    public AttackCommand(PlayerAsset giver, TileAssociation receiver){
+    public AttackCommand(Player givingPlayer, Player receivingPlayer, GameMap map, CombatAsset giver, TileAssociation receiver){
+        this.givingPlayer = givingPlayer;
+        this.receivingPlayer = receivingPlayer;
+        this.map = map;
         this.giver = giver;
         this.receiver = receiver;
     }
 
     @Override
     public void execute() {
-
+        int distance = map.calculateDistance(receiver, giver);
+        receiver.accept(
+            new AttackVisitor(
+                    givingPlayer,
+                    receivingPlayer,
+                    map,
+                    giver,
+                    receiver,
+                    distance
+            )
+        );
     }
 
     @Override
     public double getTurns() {
-        return 0;
+        return 1;
     }
 }

@@ -2,7 +2,6 @@ package models.playerAsset.Assets;
 
 import models.playerAsset.Assets.Units.Unit;
 import models.visitor.AssetVisitor;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,12 +17,38 @@ public class Army extends CombatAsset {
 
     public Army(Unit ... units) {
         reinforcements.addAll(Arrays.asList(units));
+        currentHealth = 0;
+    }
+
+    @Override
+    public int getOffDamage(int distance){
+        int totalDamage = 0;
+        for (Unit _u : battleGroup){
+            totalDamage += _u.getOffDamage(distance);
+        }
+        return totalDamage;
+    }
+
+    @Override
+    public int getDefDamage(int distance){
+        int totalDamage = 0;
+        for (Unit _u : battleGroup){
+            totalDamage += _u.getDefDamage(distance);
+        }
+        return totalDamage;
+    }
+
+    @Override
+    public void depleteHealth(int value){
+
     }
 
     public void addToBattleGroup(Unit u){
         battleGroup.add(u);
         reinforcements.remove(u);
         u.clearQueue();
+        maxHealth += u.getMaxHealth();
+        currentHealth += u.getCurrentHealth();
     }
 
     public boolean hasBattleGroup(){
@@ -58,22 +83,4 @@ public class Army extends CombatAsset {
 //            u.accept(v);
 //        }
     }
-
-    //    //method to check if an army has a colonist to make a structure
-//    public String hasColonist() {
-//        for (Unit i: battleGroup)
-//            if (i instanceof Colonist)
-//                return i.getID();
-//        return "";
-//    }
-//
-//    //after a structure is made, remove the colonist from the army
-//    public void removeColonist() {
-//        Unit removed = null;
-//        for (Unit i: battleGroup) {
-//            if (i instanceof Colonist)
-//                removed = i;
-//        }
-//        battleGroup.remove(removed);
-//    }
 }

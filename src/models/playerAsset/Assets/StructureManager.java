@@ -1,8 +1,9 @@
 package models.playerAsset.Assets;
 
+
+import models.playerAsset.Assets.Structures.*;
 import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.TypeIterator;
-import models.playerAsset.Assets.Structures.Structure;
 import models.visitor.PlayerVisitor;
 import java.util.ArrayList;
 
@@ -39,54 +40,54 @@ public class StructureManager implements Manager {
         Structure s = factory.makeStructure(type);
         s.setID(structureIDs.get(0));
         structureIDs.remove(0);
+        //TODO: fix addStructureToList
+        structureList.add(s);
         addStructureToList(s, type);
+        //TODO END
         return s;
     }
 
     public void addStructureToList(Structure s, String type) {
-/*
         switch (type) {
             case "base":
                 structureList.add(s);
-                baseList.add((Base)s);
+                baseList.add((Capital) s);
                 break;
 
             case "farm":
                 structureList.add(s);
-                baseList.add((Farm)s);
+                baseList.add((Farm) s);
                 break;
             case "mine":
                 structureList.add(s);
-                baseList.add((Mine)s);
+                baseList.add((Mine) s);
                 break;
             case "power plant":
                 structureList.add(s);
-                baseList.add((PowerPlant)s);
+                baseList.add((PowerPlant) s);
                 break;
             case "fort":
                 structureList.add(s);
-                baseList.add((Fort)s);
+                baseList.add((Fort) s);
                 break;
             case "observation tower":
                 structureList.add(s);
-                baseList.add((ObservationTower)s);
+                baseList.add((ObservationTower) s);
                 break;
             case "university":
                 structureList.add(s);
-                baseList.add((University)s);
+                baseList.add((University) s);
                 break;
-
-
         }
-        */
     }
 
     //destroy a structure
-    public void decommission(String structureID) {
+    public void removeStructure(Structure structure) {
         for (Structure s : structureList) {
-            if (s.getID().equals(structureID)) {
-                structureIDs.add(s.getID());
+            if (s == structure) {
+                freeID(s.getID());
                 structureList.remove(s);
+                return;
             }
         }
     }
@@ -98,10 +99,10 @@ public class StructureManager implements Manager {
 
     //recycle a structure's ID after it is done using it
     public void freeID(String assetID) {
-        int escapee = Integer.parseInt(assetID.substring(assetID.lastIndexOf("u") + 1).trim());
+        int escapee = Integer.parseInt(assetID.substring(assetID.lastIndexOf("s") + 1).trim());
         for (int i = 0; i < structureIDs.size(); i++) {
             String currentID = structureIDs.get(i);
-            int id = Integer.parseInt(currentID.substring(currentID.lastIndexOf("u") + 1).trim());
+            int id = Integer.parseInt(currentID.substring(currentID.lastIndexOf("s") + 1).trim());
             if (escapee < id) {
                 structureIDs.add(i, assetID);
                 break;

@@ -2,36 +2,30 @@
 IMMEDIATE COMMAND FROM CONTROLLER
  */
 
-package models.command;
+package models.ctrlCommand;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
+import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 import models.visitor.MovementVisitor;
 
-public class CTRLMoveRallyPointCommand implements Command{
+public class CTRLMoveRallyPointCommand implements CTRLCommand{
     private TileAssociation destination;
     private PlayerAsset rallyPoint; //RallyPoint
-    private GameMap gameMap;
 
-    public CTRLMoveRallyPointCommand(PlayerAsset rallyPoint, TileAssociation destination, GameMap gameMap)
+    public CTRLMoveRallyPointCommand(PlayerAsset rallyPoint, TileAssociation destination)
     {
         this.destination = destination;
         this.rallyPoint = rallyPoint;
-        this.gameMap = gameMap;
     }
     @Override
-    public void execute() {
+    public void execute(GameMap map, Player player) {
 
         //TODO: CHECK IF ARMY HAS A SOLDIER
 
         rallyPoint.accept(
-                new MovementVisitor(gameMap, destination)
+                new MovementVisitor(map, destination)
         );
-    }
-
-    @Override
-    public double getTurns() {
-        return 0;
     }
 }

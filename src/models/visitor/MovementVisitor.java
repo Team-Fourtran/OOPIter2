@@ -6,7 +6,9 @@ import models.command.MoveCommand;
 import models.playerAsset.Assets.Army;
 import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.RallyPoint;
+import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
+import models.playerAsset.Assets.Worker;
 
 import java.util.ArrayList;
 
@@ -52,7 +54,7 @@ public class MovementVisitor implements AssetVisitor{
     }
 
     @Override
-    public void visitStructure(PlayerAsset structure) {
+    public void visitStructure(Structure structure) {
         System.out.println("Cannot move structures!");
     }
 
@@ -60,5 +62,10 @@ public class MovementVisitor implements AssetVisitor{
     public void visitRallyPoint(RallyPoint rallyPoint) {
         gameMap.generateImmediateMovement(rallyPoint, destination);
         this.visitArmy(rallyPoint.getArmy());
+    }
+
+    @Override
+    public void visitWorker(Worker worker) {
+
     }
 }

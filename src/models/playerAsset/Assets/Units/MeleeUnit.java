@@ -11,6 +11,7 @@ public class MeleeUnit extends Unit{
         setMovesPerTurn(.33);
         maxHealth = currentHealth = 150;
         upkeep = 20;
+        setRange(1);
     }
 
     public String getType(){
