@@ -38,11 +38,6 @@ public class Army extends CombatAsset {
         return totalDamage;
     }
 
-    @Override
-    public void depleteHealth(int value){
-
-    }
-
     public void addToBattleGroup(Unit u){
         battleGroup.add(u);
         reinforcements.remove(u);
@@ -79,8 +74,5 @@ public class Army extends CombatAsset {
 
     public void accept(AssetVisitor v) {
         v.visitArmy(this);
-//        for (Unit u : reinforcements){
-//            u.accept(v);
-//        }
     }
 }
