@@ -4,11 +4,7 @@ package models.utility;
 import application.Game;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
-import models.ctrlCommand.CTRLAttackCommand;
-import models.ctrlCommand.CTRLCreateCapitalCommand;
-import models.ctrlCommand.CTRLCreateArmyCommand;
-import models.ctrlCommand.CTRLDecommissionCommand;
-import models.ctrlCommand.CTRLMoveRallyPointCommand;
+import models.ctrlCommand.*;
 import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
@@ -22,7 +18,8 @@ public class Main {
         //new testIterator().run();
         //new testCapitalCreation().run();
         //new testAttack().run();
-        new testDecommission().run();
+        //new testDecommission().run();
+        new testPowerUpDown().run();
     }
 }
 
@@ -66,7 +63,7 @@ class testArmyCreationAndMovement {
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
         new Game(_tiles);
-
+        GameMap map = new GameMap(_tiles, length, length);
 
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
@@ -74,8 +71,6 @@ class testArmyCreationAndMovement {
         _tiles.get(0).add(u0);
         _tiles.get(1).add(u1);
         _tiles.get(2).add(u2);
-
-        GameMap map = new GameMap(_tiles, length, length);
 
         Thread.sleep(1000);
 
@@ -202,6 +197,42 @@ class testDecommission{
 //        Thread.sleep(1000);
 //        new CTRLDecommissionCommand(u2).execute(map, player);
 //        Thread.sleep(1000);
+    }
+}
+
+class testPowerUpDown{
+    public void run() throws InterruptedException {
+        //COPY+PASTE
+        //----------------------------
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        //----------------------------
+
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("colonist");
+        _tiles.get(4).add(u0);
+        _tiles.get(9).add(u1);
+        _tiles.get(10).add(u2);
+
+        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(_tiles.get(14), u0, u1, u2);
+        CTRLCreateArmyCommand.execute(map, player);
+
+        new CTRLPowerUpCommand(u0).execute(map, player);
+     //   new CTRLPowerDownCommand(u0).execute(map, player);
+        for (int i = 0; i < 4; i++) {
+            player.endTurn();
+            player.beginTurn();
+            System.out.println("NEW TURN");
+            Thread.sleep(1000);
+        }
     }
 }
 

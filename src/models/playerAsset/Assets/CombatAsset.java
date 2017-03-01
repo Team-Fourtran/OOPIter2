@@ -20,6 +20,7 @@ public abstract class CombatAsset extends PlayerAsset {
     public void setID(String id){
         assetID = id;
     }
+
     public void depleteHealth(int n){
         if (armor >= n){
             armor -= n;
@@ -28,9 +29,11 @@ public abstract class CombatAsset extends PlayerAsset {
             currentHealth -= (n - armor);
         }
     }
+
     public String getID(){
         return assetID;
     }
+
     public int getOffDamage(int distance){
         if (distance <= range){
             return offDamage;
@@ -39,6 +42,7 @@ public abstract class CombatAsset extends PlayerAsset {
             return 0;
         }
     }
+
     public int getDefDamage(int distance){
         if (distance <= range){
             return defDamage;
@@ -47,32 +51,40 @@ public abstract class CombatAsset extends PlayerAsset {
             return 0;
         }
     }
+
     public int getArmor(){
         return armor;
     }
+
     public int getMaxHealth(){
         return maxHealth;
     }
+
     public int getCurrentHealth(){
         return currentHealth;
     }
+
     public boolean getPoweredUp(){
         return poweredUp;
     }
+
     public int getUpkeep(){
         return upkeep;
     }
 
-
     //Power up a unit, increase the resource consumption back to %100
     public void powerUp(){
-        if (!poweredUp)
+        if (!poweredUp){
+            poweredUp = true;
             upkeep *= 4;
+        }
     }
 
     //Power down a powered up unit and change its resource consumption to %25
     public void powerDown(){
-        if (poweredUp)
+        if (poweredUp){
+            poweredUp = false;
             upkeep /= 4;
+        }
     }
 }
