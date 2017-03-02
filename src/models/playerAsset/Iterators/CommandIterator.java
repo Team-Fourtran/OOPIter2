@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class CommandIterator implements Iterator{
     //An ArrayList of ArrayLists. Each one contains a list of commands of a category.
-    private ArrayList<ArrayList<CTRLCommand>> listList;
+    private ArrayList<CTRLCommand> list;
 
     //The current ArrayList of CTRLCommand objects that we iterate through when we call .next() or .previous()
     private ArrayList<CTRLCommand> currentList;
@@ -17,28 +17,10 @@ public class CommandIterator implements Iterator{
     private int curCmdIndex;
 
     //Initialized with an ArrayList of ArrayList<CtrlCommand> objects.
-    public CommandIterator(ArrayList<ArrayList<CTRLCommand>> c){
-        this.listList = c;
+    public CommandIterator(ArrayList<CTRLCommand> c){
+        this.list = c;
         this.currentListIndex = 0;
-        this.currentList = listList.get(currentListIndex);
         this.first();
-    }
-
-    //Switch to the next ArrayList of commands.
-    public void nextType(){
-        currentListIndex = (currentListIndex+1)%listList.size();    //Increment listIndex modularly
-        currentList = listList.get(currentListIndex);               //Set the current list to the list in that index
-        first();                                                    //Reset the command index
-    }
-
-    //Switch to the previous ArrayList of commands.
-    public void prevType(){
-        //Decrement listIndex modularly
-        currentListIndex = (currentListIndex == 0)? listList.size()-1: (currentListIndex-1);
-        //Set the current list to the list in that index
-        currentList = listList.get(currentListIndex);
-        //Reset the current command and index to the first in the current list
-        first();
     }
 
     @Override
