@@ -89,72 +89,6 @@ public class Player {
         };
     }
 
-    public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> getAssetIterator(){
-        ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list = new ArrayList<>();
-        list.add(units.getTypeIterator());
-        list.add(structures.getTypeIterator());
-        //list.add(armies.getTypeIterator());
-        return makeAssetIterator(list);
-    }
-
-    public CommandIterator makeCommandIterator(){
-        /* Create 4 ArrayLists of CTRLCommand objects, one list per type of command (unit, army, &c) */
-        ArrayList<CTRLCommand> unitCmds = new ArrayList<>();
-        ArrayList<CTRLCommand> armyCmds = new ArrayList<>();
-        ArrayList<CTRLCommand> rallyPointCmds = new ArrayList<>();
-        ArrayList<CTRLCommand> structureCmds = new ArrayList<>();
-
-        /* Populate each list with blank versions of each of the CTRLCommands that fall under it */
-
-                //CTRLAttackCommand: This can be either an Army command or a Structure command.
-                armyCmds.add(new CTRLAttackCommand());
-                structureCmds.add(new CTRLAttackCommand());
-
-                //CTRLCancelQueuedOrders: This can be an Army command or a Structure command
-                armyCmds.add(new CTRLCancelQueuedOrders());
-                structureCmds.add(new CTRLCancelQueuedOrders());
-
-                //CTRLCreateArmyCommand: This doesn't actually belong here?
-                //TODO: Figure out how to handle CreateArmyCommand
-
-                //CTRLCreateCapitalCommand: I guess this is a Unit command, since only Colonists can do it?
-                unitCmds.add(new CTRLCreateCapitalCommand());
-
-                //CTRLDecommissionCommand: This can be a Unit, Army, or Stucture command
-                unitCmds.add(new CTRLDecommissionCommand());
-                armyCmds.add(new CTRLDecommissionCommand());
-                structureCmds.add(new CTRLDecommissionCommand());
-
-                //CTRLHealCommand: This is a Structure command
-                structureCmds.add(new CTRLHealCommand());
-
-                //CTRLMoveRallyPointCommand: This is an Army command. Unintuitively, it is NOT a RP Command.
-                armyCmds.add(new CTRLMoveRallyPointCommand());
-
-                //CTRLPowerDownCommand: This can be a Unit, Army, or Structure command
-                unitCmds.add(new CTRLPowerDownCommand());
-                armyCmds.add(new CTRLPowerDownCommand());
-                structureCmds.add(new CTRLPowerDownCommand());
-
-                //CTRLPowerUpCommand: This can be a Unit, Army, or Structure command
-                unitCmds.add(new CTRLPowerUpCommand());
-                armyCmds.add(new CTRLPowerUpCommand());
-                structureCmds.add(new CTRLPowerUpCommand());
-
-                //CTRLReinforceArmyCommand: This is a Unit command
-                unitCmds.add(new CTRLReinforceArmyCommand());
-
-        /* Create an ArrayList to hold all of the ArrayLists */
-        ArrayList<ArrayList<CTRLCommand>> listList = new ArrayList<>();
-        listList.add(unitCmds);
-        listList.add(armyCmds);
-        listList.add(rallyPointCmds);
-        listList.add(structureCmds);
-
-        /* Create a CommandIterator using the meta-List we just created */
-        return new CommandIterator(listList);
-    }
-
     public UnitManager getUnits() {
         return units;
     }
@@ -166,4 +100,71 @@ public class Player {
     public StructureManager getStructures() {
         return structures;
     }
+
+    public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> getAssetIterator(){
+        ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list = new ArrayList<>();
+        list.add(units.getTypeIterator());
+        list.add(structures.getTypeIterator());
+        //list.add(armies.getTypeIterator());
+        return makeAssetIterator(list);
+    }
+
+//    public CommandIterator makeCommandIterator(){
+//        /* Create 4 ArrayLists of CTRLCommand objects, one list per type of command (unit, army, &c) */
+//        ArrayList<CTRLCommand> unitCmds = new ArrayList<>();
+//        ArrayList<CTRLCommand> armyCmds = new ArrayList<>();
+//        ArrayList<CTRLCommand> rallyPointCmds = new ArrayList<>();
+//        ArrayList<CTRLCommand> structureCmds = new ArrayList<>();
+//
+//        /* Populate each list with blank versions of each of the CTRLCommands that fall under it */
+//
+//                //CTRLAttackCommand: This can be either an Army command or a Structure command.
+//                armyCmds.add(new CTRLAttackCommand());
+//                structureCmds.add(new CTRLAttackCommand());
+//
+//                //CTRLCancelQueuedOrders: This can be an Army command or a Structure command
+//                armyCmds.add(new CTRLCancelQueuedOrders());
+//                structureCmds.add(new CTRLCancelQueuedOrders());
+//
+//                //CTRLCreateArmyCommand: This doesn't actually belong here?
+//                //TODO: Figure out how to handle CreateArmyCommand
+//
+//                //CTRLCreateCapitalCommand: I guess this is a Unit command, since only Colonists can do it?
+//                unitCmds.add(new CTRLCreateCapitalCommand());
+//
+//                //CTRLDecommissionCommand: This can be a Unit, Army, or Stucture command
+//                unitCmds.add(new CTRLDecommissionCommand());
+//                armyCmds.add(new CTRLDecommissionCommand());
+//                structureCmds.add(new CTRLDecommissionCommand());
+//
+//                //CTRLHealCommand: This is a Structure command
+//                structureCmds.add(new CTRLHealCommand());
+//
+//                //CTRLMoveRallyPointCommand: This is an Army command. Unintuitively, it is NOT a RP Command.
+//                armyCmds.add(new CTRLMoveRallyPointCommand());
+//
+//                //CTRLPowerDownCommand: This can be a Unit, Army, or Structure command
+//                unitCmds.add(new CTRLPowerDownCommand());
+//                armyCmds.add(new CTRLPowerDownCommand());
+//                structureCmds.add(new CTRLPowerDownCommand());
+//
+//                //CTRLPowerUpCommand: This can be a Unit, Army, or Structure command
+//                unitCmds.add(new CTRLPowerUpCommand());
+//                armyCmds.add(new CTRLPowerUpCommand());
+//                structureCmds.add(new CTRLPowerUpCommand());
+//
+//                //CTRLReinforceArmyCommand: This is a Unit command
+//                unitCmds.add(new CTRLReinforceArmyCommand());
+//
+//        /* Create an ArrayList to hold all of the ArrayLists */
+//        ArrayList<ArrayList<CTRLCommand>> listList = new ArrayList<>();
+//        listList.add(unitCmds);
+//        listList.add(armyCmds);
+//        listList.add(rallyPointCmds);
+//        listList.add(structureCmds);
+//
+//        /* Create a CommandIterator using the meta-List we just created */
+//        return new CommandIterator(listList);
+//    }
+
 }

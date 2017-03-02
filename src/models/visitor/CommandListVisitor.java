@@ -9,11 +9,11 @@ import models.playerAsset.Iterators.CommandIterator;
 
 import java.util.ArrayList;
 
-public class GetCommandsVisitor implements AssetVisitor{
+public class CommandListVisitor implements AssetVisitor{
 
     private ArrayList<CTRLCommand> cmdList;
 
-    public GetCommandsVisitor(){
+    public CommandListVisitor(){
     }
 
     @Override
