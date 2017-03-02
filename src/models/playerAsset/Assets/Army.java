@@ -49,7 +49,7 @@ public class Army extends CombatAsset {
 
     public void getArmyStats(){
         int current, max, arm;
-        current = max = armor = 0;
+        current = max = arm = 0;
         for (Unit _u : battleGroup){
             current += _u.getCurrentHealth();
             max = _u.getMaxHealth();

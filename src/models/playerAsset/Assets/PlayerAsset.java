@@ -9,10 +9,10 @@ import java.util.Queue;
 public abstract class PlayerAsset {
     private double movementTurns = 0.33; //Should be overridden by subtypes
     private CommandArray universalQueue = new CommandArray();
-    protected boolean hasExecutedCommand = false;
-    protected Queue<Command> commandQueue = new LinkedList<>();
-    protected int commandCount = 0;
-    protected int moveCounter = 0;
+    private boolean hasExecutedCommand = false;
+    private Queue<Command> commandQueue = new LinkedList<>();
+    private int commandCount = 0;
+    private int moveCounter = 0;
 
     public double getMovementTurns(){
         return movementTurns;
