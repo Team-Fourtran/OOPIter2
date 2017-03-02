@@ -4,6 +4,7 @@ package models.assetOwnership;
 import models.playerAsset.Assets.PlayerAsset;
 import models.tileInfo.Tile;
 import models.utility.Direction;
+import models.visitor.AssetVisitor;
 import models.visitor.TileVisitor;
 import java.util.Observable;
 import java.util.ArrayList;
@@ -61,8 +62,10 @@ public class TileAssociation extends Observable{
         return assetOwner.getNumAssetsOwned();
     }
     
-    public void accept(TileVisitor v) {
-    	tile.accept(v);
+    public void accept(AssetVisitor v) {
+        if (v instanceof TileVisitor){
+            tile.accept((TileVisitor) v);
+        }
     	assetOwner.accept(v);
     }
     

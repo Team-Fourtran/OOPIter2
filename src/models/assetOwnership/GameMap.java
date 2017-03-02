@@ -23,6 +23,10 @@ public class GameMap {
         ReverseAStar path = new ReverseAStar(end, asset);
         return path.getPath();
     }
+    public ArrayList<TileAssociation> generatePath(PlayerAsset asset, PlayerAsset endAsset)  {
+        TileAssociation end = searchForTileAssociation(endAsset);
+        return generatePath(asset, end);
+    }
 
     public int calculateDistance(TileAssociation start, PlayerAsset asset){
         ReverseAStar path = new ReverseAStar(start, asset);
