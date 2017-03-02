@@ -11,12 +11,3 @@ public interface AssetVisitor {
     void visitStructure(Structure structure);
     void visitRallyPoint(RallyPoint rallyPoint);
 }
-
-
-//class AttackVisitor implements AssetVisitor{
-//
-//}
-//
-//class HealingVisitor implements AssetVisitor{
-//
-//}
