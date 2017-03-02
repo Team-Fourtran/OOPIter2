@@ -18,6 +18,7 @@ public class CTRLAttackCommand implements CTRLCommand{
         this.receiver = receiver;
     }
 
+
     @Override
     public void execute(GameMap map, Player player) {
         giver.addCommand(

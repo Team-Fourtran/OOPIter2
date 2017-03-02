@@ -20,6 +20,10 @@ public class Structure extends CombatAsset {
 
     public void setProductionRate(int productionRate){this.productionRate = productionRate;}
 
+    public int getProductionRate(){
+        return productionRate;
+    }
+
     public void assignWorkers(Worker... workers){
         for (Worker w: workers) {
             staff.add(w);

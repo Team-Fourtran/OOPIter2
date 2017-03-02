@@ -19,7 +19,60 @@ public class Main {
         //new testCapitalCreation().run();
         //new testAttack().run();
         //new testDecommission().run();
-        new testPowerUpDown().run();
+        //new testPowerUpDown().run();
+        //new testHeal().run();
+        new testReinforceArmy().run();
+    }
+}
+
+class testReinforceArmy{
+    public void run() throws InterruptedException {
+        //COPY+PASTE
+        //----------------------------
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        //----------------------------
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("colonist");
+        _tiles.get(0).add(u0);
+        _tiles.get(1).add(u1);
+        _tiles.get(2).add(u2);
+
+        Thread.sleep(1000);
+
+        new CTRLCreateArmyCommand(_tiles.get(73), u0, u1).execute(map, player);
+        for (int i = 0; i < 4; i++) {
+            player.endTurn();
+            player.beginTurn();
+            System.out.println("NEW TURN");
+            Thread.sleep(1000);
+        }
+
+        new CTRLReinforceArmyCommand(u2, am.debugGetRallyPoint()).execute(map, player);
+
+        for (int i = 0; i < 3; i++) {
+            Thread.sleep(1000);
+            player.endTurn();
+            player.beginTurn();
+            System.out.println("NEW TURN");
+        }
+
+        new CTRLMoveRallyPointCommand(am.debugGetRallyPoint(), _tiles.get(16)).execute(map, player);
+
+        for (int i = 0; i < 6; i++) {
+            Thread.sleep(1000);
+            player.endTurn();
+            player.beginTurn();
+            System.out.println("NEW TURN");
+        }
     }
 }
 
@@ -164,6 +217,64 @@ class testAttack{
         }
     }
 }
+
+class testHeal{
+    public void run() throws InterruptedException {
+        //COPY+PASTE
+        //----------------------------
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        //----------------------------
+        Unit u0 = um.addNewUnit("ranged");
+        Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("ranged");
+
+        Structure s0 = sm.createStructure("capital");
+
+        _tiles.get(2).add(s0);
+        _tiles.get(2).add(u2);
+        _tiles.get(8).add(u0);
+        _tiles.get(9).add(u1);
+
+        new CTRLCreateArmyCommand(_tiles.get(8), u0, u1).execute(map, player);
+        for(int i = 0; i < 3; i++){
+            Thread.sleep(500);
+            player.endTurn();
+            player.beginTurn();
+        }
+
+        Army s1 = am.debugGetArmy();
+        RallyPoint rp = am.debugGetRallyPoint();
+
+        new CTRLMoveRallyPointCommand(rp, _tiles.get(4)).execute(map, player);
+        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        Thread.sleep(500);
+        player.endTurn();
+        player.beginTurn();
+        Thread.sleep(500);
+        player.endTurn();
+        player.beginTurn();
+        new CTRLHealCommand(s0, _tiles.get(2)).execute(map, player);
+        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        new CTRLHealCommand(s0, _tiles.get(2)).execute(map, player);
+        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        new CTRLHealCommand(s0, _tiles.get(2)).execute(map, player);
+
+
+        for(int i = 0; i < 6; i++){
+            Thread.sleep(500);
+            player.endTurn();
+            player.beginTurn();
+        }
+    }
+    }
 
 class testDecommission{
     public void run() throws InterruptedException {

@@ -68,6 +68,10 @@ public class Army extends CombatAsset {
         setCurrentHealth((this.getCurrentHealth() + u.getCurrentHealth()));
     }
 
+    public void addReinforcement(Unit u){
+        reinforcements.add(u);
+    }
+
     public boolean hasBattleGroup(){
         return !battleGroup.isEmpty();
     }

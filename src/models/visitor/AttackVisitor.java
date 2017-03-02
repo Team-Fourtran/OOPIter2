@@ -8,7 +8,7 @@ import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.tileInfo.Normal;
 
-public class AttackVisitor implements TileVisitor{
+public class AttackVisitor implements AssetVisitor{
     private Player givingPlayer;
     private Player receivingPlayer;
     private GameMap map;
@@ -79,15 +79,5 @@ public class AttackVisitor implements TileVisitor{
     @Override
     public void visitRallyPoint(RallyPoint rallyPoint) {
         //Undefined
-    }
-
-    @Override
-    public void visitWorker(Worker worker) {
-
-    }
-
-    @Override
-    public void visitNormal(Normal normal) {
-
     }
 }
