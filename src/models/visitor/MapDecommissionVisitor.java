@@ -75,9 +75,4 @@ public class MapDecommissionVisitor implements AssetVisitor{
     public void visitRallyPoint(RallyPoint rallyPoint) {
         //Nothing
     }
-
-    @Override
-    public void visitWorker(Worker worker) {
-        //Nothing, for now
-    }
 }

@@ -107,11 +107,6 @@ public class TileDrawingVisitor implements TileVisitor {
 		addToPriorityQueue(RALLYPOINT, texture);
 	}
 
-    @Override
-    public void visitWorker(Worker worker) {
-
-    }
-
     private BufferedImage resizeImage(BufferedImage texture){
         int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
         BufferedImage resizedImage = new BufferedImage(64, 64, type);

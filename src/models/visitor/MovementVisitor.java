@@ -63,9 +63,4 @@ public class MovementVisitor implements AssetVisitor{
         gameMap.generateImmediateMovement(rallyPoint, destination);
         this.visitArmy(rallyPoint.getArmy());
     }
-
-    @Override
-    public void visitWorker(Worker worker) {
-
-    }
 }

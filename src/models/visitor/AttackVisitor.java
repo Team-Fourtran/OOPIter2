@@ -80,9 +80,4 @@ public class AttackVisitor implements AssetVisitor{
     public void visitRallyPoint(RallyPoint rallyPoint) {
         //Undefined
     }
-
-    @Override
-    public void visitWorker(Worker worker) {
-
-    }
 }
