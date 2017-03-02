@@ -98,6 +98,14 @@ public class Player {
     }
 
     public CommandIterator makeCommandIterator(){
+        ArrayList<CTRLCommand> unitCmds = new ArrayList<>();
+        ArrayList<CTRLCommand> armyCmds = new ArrayList<>();
+        ArrayList<CTRLCommand> rpCmds = new ArrayList<>();
+        ArrayList<CTRLCommand> structCmds = new ArrayList<>();
+
+        ArrayList<CommandIterator> current;
+
+
         ArrayList<CTRLCommand> cmdList = new ArrayList<>();
         cmdList.add(new CTRLAttackCommand());
         cmdList.add(new CTRLCreateArmyCommand());
