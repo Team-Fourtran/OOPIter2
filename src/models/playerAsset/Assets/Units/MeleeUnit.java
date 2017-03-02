@@ -5,13 +5,13 @@ package models.playerAsset.Assets.Units;
 public class MeleeUnit extends Unit{
 
     public MeleeUnit(){
-        offDamage = 75;
-        defDamage = 50;
-        armor = 50;
+        setOffDamage(75);
+        setDefDamage(75);
+        setArmor(150);
+        setMaxHealth(200);
+        setCurrentHealth(200);
+        setUpkeep(1);
         setMovesPerTurn(.33);
-        maxHealth = currentHealth = 150;
-        upkeep = 20;
-        setRange(1);
     }
 
     public String getType(){
