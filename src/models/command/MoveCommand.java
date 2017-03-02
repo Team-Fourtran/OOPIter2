@@ -1,7 +1,7 @@
 package models.command;
 
 import models.assetOwnership.TileAssociation;
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.PlayerAsset;
 
 public class MoveCommand implements Command{
     private TileAssociation start, end;
@@ -18,7 +18,7 @@ public class MoveCommand implements Command{
         start.remove(asset);
         end.add(asset);
         try {
-            Thread.sleep(500);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

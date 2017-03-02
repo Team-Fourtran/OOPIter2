@@ -1,12 +1,10 @@
 package controllers;
 
-import models.playerAsset.AssetIterator;
-import models.playerAsset.CommandIterator;
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Iterators.AssetIterator;
+import models.playerAsset.Iterators.CommandIterator;
+import models.playerAsset.Assets.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 class MessageGenerator implements KeyPressListener{
 
@@ -47,7 +45,7 @@ class MessageGenerator implements KeyPressListener{
 
             MSG += "{Mode: " + mode + ", ";
             MSG += "AssetID: " + ((PlayerAsset)assetIterator.getElement()).getID() + ", ";
-            MSG += "Command: "
+            MSG += "Command: ";
             System.out.println(MSG);
         }
 

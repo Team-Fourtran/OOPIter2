@@ -1,17 +1,11 @@
 package tests;
 
-import application.Game;
 import controllers.*;
-import models.assetOwnership.GameMap;
-import models.assetOwnership.TileAssociation;
-import models.command.CTRLCreateArmyCommand;
-import models.command.CTRLMoveRallyPointCommand;
-import models.command.Command;
-import models.playerAsset.*;
-import models.utility.TileGen;
+import models.playerAsset.Assets.*;
+import models.playerAsset.Iterators.CommandIterator;
+import models.playerAsset.Iterators.AssetIterator;
 
-import java.security.Key;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 
 public class TestCommandGen{

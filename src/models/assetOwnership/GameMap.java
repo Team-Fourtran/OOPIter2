@@ -1,9 +1,8 @@
 package models.assetOwnership;
 
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.PlayerAsset;
 import models.utility.ReverseAStar;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /*
  * Class for containing TileStates and optimal path between tiles
@@ -24,6 +23,17 @@ public class GameMap {
         ReverseAStar path = new ReverseAStar(end, asset);
         return path.getPath();
     }
+
+    public int calculateDistance(TileAssociation start, PlayerAsset asset){
+        ReverseAStar path = new ReverseAStar(start, asset);
+        return path.getDistance(); //NOTE THIS IS NOT THE MINIMUM DISTANCE
+    }
+
+    public int calculateDistance(PlayerAsset asset1, PlayerAsset asset2) {
+        TileAssociation start = searchForTileAssociation(asset1);
+        return calculateDistance(start, asset2);
+    }
+
     private TileAssociation searchForTileAssociation(PlayerAsset asset){
         for (TileAssociation t : tiles){
             if (t.isAssetOwner(asset)){
@@ -53,13 +63,6 @@ public class GameMap {
         start.remove(asset);
         destination.add(asset);
     }
-
-    public int calculateDistance(PlayerAsset asset1, PlayerAsset asset2) {
-        TileAssociation start = searchForTileAssociation(asset1);
-        ReverseAStar path = new ReverseAStar(start, asset2);
-        return path.getDistance(); //NOTE THIS IS NOT THE MINIMUM DISTANCE
-    }
-
 
     public void debugPrint(){
         System.out.print(" ");

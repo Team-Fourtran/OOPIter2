@@ -1,16 +1,19 @@
 package models.assetOwnership;
 
 
-import models.playerAsset.PlayerAsset;
+import models.playerAsset.Assets.PlayerAsset;
 import models.tileInfo.Tile;
+import models.utility.Direction;
 import models.visitor.TileVisitor;
 import java.util.Observable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class TileAssociation extends Observable{
     private Tile tile;
     private AssetOwner assetOwner;
-    private ArrayList<TileAssociation> neighbors = new ArrayList<>(0);
+    private HashMap<Direction, TileAssociation> neighbors = new HashMap<Direction, TileAssociation>();
     private ArrayList<Observer> observers = new ArrayList<>(0);
 
     public TileAssociation(Tile t){
@@ -41,12 +44,13 @@ public class TileAssociation extends Observable{
 
     // Eventually have a method for removing Resources
     
-    public ArrayList<TileAssociation> getNeighbors(){
-        return neighbors;
+    public Collection<TileAssociation> getNeighbors(){
+    	neighbors.values();
+        return neighbors.values();
     }
 
-    public void setNeighbor(TileAssociation t){
-        neighbors.add(t);
+    public void setNeighbor(Direction d, TileAssociation t){
+        neighbors.put(d, t);
     }
 
     public double getMovementCost() {

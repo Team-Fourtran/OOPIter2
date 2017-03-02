@@ -1,8 +1,8 @@
 package models.command;
 
 import models.assetOwnership.GameMap;
-import models.playerAsset.Army;
-import models.playerAsset.Unit;
+import models.playerAsset.Assets.Army;
+import models.playerAsset.Assets.Units.Unit;
 
 public class JoinBattleGroupCommand implements Command{
     private Army army;
