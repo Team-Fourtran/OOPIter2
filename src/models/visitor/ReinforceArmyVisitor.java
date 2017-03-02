@@ -54,9 +54,4 @@ public class ReinforceArmyVisitor implements AssetVisitor{
         this.rallyPoint = rallyPoint;
         this.visitArmy(rallyPoint.getArmy());
     }
-
-    @Override
-    public void visitWorker(Worker worker) {
-
-    }
 }
