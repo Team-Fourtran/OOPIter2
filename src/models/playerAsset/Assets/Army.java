@@ -38,6 +38,28 @@ public class Army extends CombatAsset {
         return totalDamage;
     }
 
+    public double getMovementSpeed(){
+        double minMoves = 100;
+        for (Unit _u : battleGroup){
+            if (_u.getMovementTurns() < minMoves)
+                minMoves = _u.getMovementTurns();
+        }
+        return minMoves;
+    }
+
+    public void getArmyStats(){
+        int current, max, arm;
+        current = max = armor = 0;
+        for (Unit _u : battleGroup){
+            current += _u.getCurrentHealth();
+            max = _u.getMaxHealth();
+            arm += _u.getArmor();
+        }
+        currentHealth = current;
+        armor = arm;
+        maxHealth = max;
+    }
+
     public void addToBattleGroup(Unit u){
         battleGroup.add(u);
         reinforcements.remove(u);
