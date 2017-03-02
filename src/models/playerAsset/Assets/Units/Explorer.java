@@ -5,12 +5,13 @@ package models.playerAsset.Assets.Units;
 public class Explorer extends Unit{
 
     public Explorer(){
-        offDamage = 20;
-        defDamage = 10;
-        armor = 25;
+        setOffDamage(75);
+        setDefDamage(75);
+        setArmor(150);
+        setMaxHealth(200);
+        setCurrentHealth(200);
+        setUpkeep(1);
         setMovesPerTurn(.33);
-        maxHealth = currentHealth = 100;
-        upkeep = 12;
     }
 
     public String getType(){

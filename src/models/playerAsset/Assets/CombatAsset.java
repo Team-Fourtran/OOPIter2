@@ -17,6 +17,18 @@ public abstract class CombatAsset extends PlayerAsset {
         this.range = range;
     }
 
+    public void setMaxHealth(int maxHealth){this.maxHealth = maxHealth;}
+
+    public void setCurrentHealth(int currentHealth){this.currentHealth = currentHealth;}
+
+    public void setArmor(int armor){this.armor = armor;}
+
+    public void setOffDamage(int OffDamage){this.offDamage = offDamage;}
+
+    public void setDefDamage(int defDamage){this.defDamage = defDamage;}
+
+    public void setUpkeep(int upkeep){this.upkeep = upkeep;}
+
     public void setID(String id){
         assetID = id;
     }

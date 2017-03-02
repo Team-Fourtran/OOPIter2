@@ -5,12 +5,14 @@ package models.playerAsset.Assets.Units;
 public class Colonist extends Unit{
 
     public Colonist(){
-        offDamage = 0;
-        defDamage = 0;
-        armor = 0;
+        setOffDamage(75);
+        setDefDamage(75);
+        setArmor(150);
+        setMaxHealth(200);
+        setCurrentHealth(200);
+        setUpkeep(1);
         setMovesPerTurn(.33);
-        maxHealth = currentHealth = 100;
-        upkeep = 8;
+
     }
 
     public String getType(){

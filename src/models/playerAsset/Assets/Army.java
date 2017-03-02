@@ -17,7 +17,7 @@ public class Army extends CombatAsset {
 
     public Army(Unit ... units) {
         reinforcements.addAll(Arrays.asList(units));
-        currentHealth = 0;
+        setCurrentHealth(0);
     }
 
     @Override
@@ -55,17 +55,17 @@ public class Army extends CombatAsset {
             max = _u.getMaxHealth();
             arm += _u.getArmor();
         }
-        currentHealth = current;
-        armor = arm;
-        maxHealth = max;
+        setCurrentHealth(current);
+        setMaxHealth(max);
+        setArmor(arm);
     }
 
     public void addToBattleGroup(Unit u){
         battleGroup.add(u);
         reinforcements.remove(u);
         u.clearQueue();
-        maxHealth += u.getMaxHealth();
-        currentHealth += u.getCurrentHealth();
+        setMaxHealth((this.getMaxHealth() + u.getMaxHealth()));
+        setCurrentHealth((this.getCurrentHealth() + u.getCurrentHealth()));
     }
 
     public boolean hasBattleGroup(){

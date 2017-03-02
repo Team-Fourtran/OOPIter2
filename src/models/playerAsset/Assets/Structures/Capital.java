@@ -8,12 +8,13 @@ public class Capital extends Structure {
 
     public Capital()
     {
-        offDamage = 75;
-        defDamage = 20;
-        armor = 150;
-        maxHealth = currentHealth = 200;
-        upkeep = 1;
-        productionRate = 0;
+        setOffDamage(75);
+        setDefDamage(75);
+        setArmor(150);
+        setMaxHealth(200);
+        setCurrentHealth(200);
+        setUpkeep(1);
+        setProductionRate(1);
         setRange(3);
         staff = new ArrayList<>();
         //TODO: this needs to go through worker manager

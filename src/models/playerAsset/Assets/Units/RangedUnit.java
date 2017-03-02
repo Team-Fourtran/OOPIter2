@@ -5,12 +5,13 @@ package models.playerAsset.Assets.Units;
 public class RangedUnit extends Unit{
 
     public RangedUnit(){
-        offDamage = 75;
-        defDamage = 25;
-        armor = 25;
+        setOffDamage(75);
+        setDefDamage(75);
+        setArmor(150);
+        setMaxHealth(200);
+        setCurrentHealth(200);
+        setUpkeep(1);
         setMovesPerTurn(.33);
-        maxHealth = currentHealth = 150;
-        upkeep = 20;
         setRange(3);
     }
     public String getType(){
