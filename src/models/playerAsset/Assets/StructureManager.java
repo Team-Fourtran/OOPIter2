@@ -50,10 +50,6 @@ public class StructureManager implements Manager {
     }
 
     public void addStructureToList(Structure s, String type) {
-<<<<<<< HEAD:src/models/playerAsset/StructureManager.java
-
-=======
->>>>>>> master:src/models/playerAsset/Assets/StructureManager.java
         switch (type) {
             case "base":
                 structureList.add(s);
@@ -85,10 +81,7 @@ public class StructureManager implements Manager {
                 baseList.add((University) s);
                 break;
         }
-<<<<<<< HEAD:src/models/playerAsset/StructureManager.java
 
-=======
->>>>>>> master:src/models/playerAsset/Assets/StructureManager.java
     }
 
     //destroy a structure

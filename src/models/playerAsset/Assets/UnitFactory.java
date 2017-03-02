@@ -1,10 +1,8 @@
 package models.playerAsset.Assets;
 
-<<<<<<< HEAD:src/models/playerAsset/UnitFactory.java
-=======
+
 import models.playerAsset.Assets.Units.*;
 
->>>>>>> master:src/models/playerAsset/Assets/UnitFactory.java
 public class UnitFactory {
 
     //factory method to make any of the four units

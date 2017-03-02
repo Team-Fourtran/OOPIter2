@@ -36,9 +36,9 @@ class MessageGenerator implements KeyPressListener{
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes){
         //System.out.println(keystrokes);
         if(keystrokes.get("ENTER")){
-            //generateMessage();
+            generateMessage();
 
-            //DEV:
+            /*DEV:
             String MSG = "";
             String assetType = assetIterator.getElement().getClass().getGenericSuperclass().toString();
             String mode = assetType.substring(assetType.lastIndexOf(".")+1);
@@ -47,6 +47,7 @@ class MessageGenerator implements KeyPressListener{
             MSG += "AssetID: " + ((PlayerAsset)assetIterator.getElement()).getID() + ", ";
             MSG += "Command: ";
             System.out.println(MSG);
+            */
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
@@ -80,9 +81,9 @@ class MessageGenerator implements KeyPressListener{
 
             /* UP/DOWN: Cycle Commands */
             else if(keystrokes.get("UP")){               /* Previous command */
-                //TODO: Implement Commands iterator
+                cmdIterator.prev();
             } else if(keystrokes.get("DOWN")){      /* Next command */
-                //TODO: Implement Commands iterator
+                cmdIterator.next();
             }
         }
     }

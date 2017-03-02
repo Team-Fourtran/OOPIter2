@@ -57,7 +57,7 @@ public class TestCommandGen{
         KeyboardController kbc = new KeyboardController(keySim, assIter, cmdIter);
 
         /*  Tests  */
-        testModeIteration();
+        //testModeIteration();
         //testTypeIteration();
         //testInstanceIteration();
 
