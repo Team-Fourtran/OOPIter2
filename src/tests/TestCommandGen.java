@@ -1,11 +1,18 @@
 package tests;
 
+import application.Game;
 import controllers.*;
+import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.*;
 import models.playerAsset.Iterators.CommandIterator;
 import models.playerAsset.Iterators.AssetIterator;
 
+import models.assetOwnership.TileAssociation;
+import models.utility.TileGen;
+import views.MainScreen;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TestCommandGen{
@@ -18,6 +25,8 @@ public class TestCommandGen{
         ArmyManager am = player.getArmies();
         UnitManager um = player.getUnits();
         StructureManager sm = player.getStructures();
+
+
 
         um.addNewUnit("colonist");
         um.addNewUnit("colonist");
@@ -55,6 +64,16 @@ public class TestCommandGen{
         CommandIterator cmdIter = player.makeCommandIterator();
 
         KeyboardController kbc = new KeyboardController(keySim, assIter, cmdIter);
+
+
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+
+        MainScreen ms = new MainScreen(_tiles.toArray());
+        ms.generateMainScreen();
+        ms.showMainScreen();
 
         /*  Tests  */
         //testModeIteration();
