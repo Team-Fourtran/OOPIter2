@@ -53,6 +53,6 @@ public class ArmyCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitUnitManager(UnitManager unitManager) {
-        //Ask Clay what happens to the units here that are added to an army
+        //TODO Ask Clay what happens to the units here that are added to an army
     }
 }

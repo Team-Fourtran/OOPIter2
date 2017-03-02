@@ -20,7 +20,59 @@ public class Main {
         //new testAttack().run();
         //new testDecommission().run();
         //new testPowerUpDown().run();
-        new testHeal().run();
+        //new testHeal().run();
+        new testReinforceArmy().run();
+    }
+}
+
+class testReinforceArmy{
+    public void run() throws InterruptedException {
+        //COPY+PASTE
+        //----------------------------
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        //----------------------------
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("colonist");
+        _tiles.get(0).add(u0);
+        _tiles.get(1).add(u1);
+        _tiles.get(2).add(u2);
+
+        Thread.sleep(1000);
+
+        new CTRLCreateArmyCommand(_tiles.get(73), u0, u1).execute(map, player);
+        for (int i = 0; i < 4; i++) {
+            player.endTurn();
+            player.beginTurn();
+            System.out.println("NEW TURN");
+            Thread.sleep(1000);
+        }
+
+        new CTRLReinforceArmyCommand(u2, am.debugGetRallyPoint()).execute(map, player);
+
+        for (int i = 0; i < 3; i++) {
+            Thread.sleep(1000);
+            player.endTurn();
+            player.beginTurn();
+            System.out.println("NEW TURN");
+        }
+
+        new CTRLMoveRallyPointCommand(am.debugGetRallyPoint(), _tiles.get(16)).execute(map, player);
+
+        for (int i = 0; i < 6; i++) {
+            Thread.sleep(1000);
+            player.endTurn();
+            player.beginTurn();
+            System.out.println("NEW TURN");
+        }
     }
 }
 
