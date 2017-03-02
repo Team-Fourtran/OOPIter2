@@ -7,17 +7,12 @@ import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Assets.Worker;
 import models.tileInfo.Normal;
 
-public class HealingVisitor implements TileVisitor{
+public class HealingVisitor implements AssetVisitor{
     private int productionRate;
     private double basePercentageHealing = .05; //5 percent
 
     public HealingVisitor(int productionRate){
         this.productionRate = productionRate;
-    }
-
-    @Override
-    public void visitNormal(Normal normal) {
-        //Do nothing
     }
 
     @Override

@@ -22,8 +22,14 @@ public abstract class CombatAsset extends PlayerAsset {
     }
 
     public void depleteHealth(int n){
-        if (armor >= n){
-            armor -= n;
+        if (armor >= 0){
+            if (armor >= n){
+                armor -= n;
+            }
+            else{
+                currentHealth -= (n-armor);
+                armor = 0;
+            }
         }
         else{
             currentHealth -= (n - armor);

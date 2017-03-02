@@ -19,7 +19,8 @@ public class Main {
         //new testCapitalCreation().run();
         //new testAttack().run();
         //new testDecommission().run();
-        new testPowerUpDown().run();
+        //new testPowerUpDown().run();
+        new testHeal().run();
     }
 }
 
@@ -181,10 +182,12 @@ class testHeal{
         //----------------------------
         Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("ranged");
 
         Structure s0 = sm.createStructure("capital");
 
         _tiles.get(2).add(s0);
+        _tiles.get(2).add(u2);
         _tiles.get(8).add(u0);
         _tiles.get(9).add(u1);
 
@@ -200,10 +203,17 @@ class testHeal{
 
         new CTRLMoveRallyPointCommand(rp, _tiles.get(4)).execute(map, player);
         new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        Thread.sleep(500);
+        player.endTurn();
+        player.beginTurn();
+        Thread.sleep(500);
+        player.endTurn();
+        player.beginTurn();
+        new CTRLHealCommand(s0, _tiles.get(2)).execute(map, player);
         new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        new CTRLHealCommand(s0, _tiles.get(2)).execute(map, player);
         new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        new CTRLHealCommand(s0, _tiles.get(2)).execute(map, player);
 
 
         for(int i = 0; i < 6; i++){
