@@ -36,9 +36,4 @@ public class HealingVisitor implements AssetVisitor{
     public void visitRallyPoint(RallyPoint rallyPoint) {
 
     }
-
-    @Override
-    public void visitWorker(Worker worker) {
-
-    }
 }
