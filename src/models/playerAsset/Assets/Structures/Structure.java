@@ -18,6 +18,10 @@ public class Structure extends CombatAsset {
         return "Basic structure";
     }
 
+    public int getProductionRate(){
+        return productionRate;
+    }
+
     public void assignWorkers(Worker... workers){
         for (Worker w: workers) {
             staff.add(w);
