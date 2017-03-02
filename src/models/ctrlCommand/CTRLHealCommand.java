@@ -2,6 +2,7 @@ package models.ctrlCommand;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
+import models.command.HealCommand;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.Structures.Structure;
 
@@ -16,6 +17,8 @@ public class CTRLHealCommand implements CTRLCommand{
 
     @Override
     public void execute(GameMap map, Player player) {
-
+        structure.addCommand(
+                new HealCommand(structure, tile)
+        );
     }
 }

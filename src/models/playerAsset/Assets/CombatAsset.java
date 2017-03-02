@@ -30,6 +30,13 @@ public abstract class CombatAsset extends PlayerAsset {
         }
     }
 
+    public void incrementHealth(int n){
+        currentHealth += n;
+        if (currentHealth > maxHealth){
+            currentHealth = maxHealth;
+        }
+    }
+
     public String getID(){
         return assetID;
     }
