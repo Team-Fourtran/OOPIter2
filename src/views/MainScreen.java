@@ -4,9 +4,10 @@ import javax.swing.*;
 
 import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
-
+import controllers.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 public class MainScreen implements Observer {
     private JFrame mainScreen;
@@ -25,12 +26,19 @@ public class MainScreen implements Observer {
 
     private int[][] board = new int[BSIZE][BSIZE];
 
+    private KeyPressInformer keyInformer;
+    private HashMap<String, Boolean> keyList;
+
     public TileAssociation[] tiles;
     public MainScreen(TileAssociation[] tiles){
         this.tiles = tiles;
         for (int i = 0; i < tiles.length; i++) {
         	tiles[i].addObserver(this);
         }
+    }
+
+    public KeyPressInformer getKeyInformer(){
+        return this.getKeyInformer();
     }
     public void showMainScreen(){
         mainScreen.setVisible(true);
@@ -61,30 +69,46 @@ public class MainScreen implements Observer {
         public DrawingPanel()
         {
             setBackground(COLOURBACK);
-            MyMouseListener ml = new MyMouseListener();
-            addMouseListener(ml);
+            setFocusable(true);
+            requestFocusInWindow();
+            KeyBoardListener kBL = new KeyBoardListener();
+            addKeyListener(kBL);
         }
-        class MyMouseListener extends MouseAdapter	{	//inner class inside DrawingPanel
-            public void mouseClicked(MouseEvent e) {
-                int x = e.getX();
-                int y = e.getY();
-                //mPt.x = x;
-                //mPt.y = y;
-                Point p = new Point( hexMech.pxtoHex(e.getX(),e.getY()) );
-                if (p.x < 0 || p.y < 0 || p.x >= BSIZE || p.y >= BSIZE) return;
+        class KeyBoardListener extends KeyAdapter {
 
-                //DEBUG: colour in the hex which is supposedly the one clicked on
-                //clear the whole screen first.
-				/* for (int i=0;i<BSIZE;i++) {
-					for (int j=0;j<BSIZE;j++) {
-						board[i][j]=EMPTY;
-					}
-				} */
-
-                //What do you want to do when a hexagon is clicked?
-                board[p.x][p.y] = (int)'X';
-                repaint();
+            @Override
+            public void keyReleased(KeyEvent e){
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    keyInformer.update("RIGHT", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    keyInformer.update("LEFT", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_UP){
+                    keyInformer.update("UP", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    keyInformer.update("DOWN", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
+                    keyInformer.update("CONTROL", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    keyInformer.update("ENTER", false);
+                }
             }
+            @Override
+            public void keyPressed(KeyEvent e){
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    keyInformer.update("RIGHT", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    keyInformer.update("LEFT", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_UP){
+                    keyInformer.update("UP", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    keyInformer.update("DOWN", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
+                    keyInformer.update("CONTROL", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    keyInformer.update("ENTER", true);
+                }
+            }
+
         }
         public void paintComponent(Graphics g)
         {
