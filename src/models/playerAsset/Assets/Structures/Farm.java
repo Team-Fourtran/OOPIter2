@@ -19,4 +19,8 @@ public class Farm extends Structure{
         staff = new ArrayList<>();
 
     }
+
+    public String getType(){
+        return "Farm";
+    }
 }

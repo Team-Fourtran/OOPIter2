@@ -19,4 +19,8 @@ public class PowerPlant extends Structure {
         staff = new ArrayList<>();
 
     }
+
+    public String getType(){
+        return "Power Plant";
+    }
 }

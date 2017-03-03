@@ -15,4 +15,8 @@ public class University extends Structure{
         setProductionRate(1);
         staff = new ArrayList<>();
     }
+
+    public String getType(){
+        return "University";
+    }
 }

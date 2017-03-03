@@ -21,4 +21,8 @@ public class Fort extends Structure{
         trainers = new ArrayList<>();
 
     }
+
+    public String getType(){
+        return "Fort";
+    }
 }

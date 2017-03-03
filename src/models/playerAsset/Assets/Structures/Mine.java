@@ -16,4 +16,8 @@ public class Mine extends Structure{
         staff = new ArrayList<>();
 
     }
+
+    public String getType(){
+        return "Mine";
+    }
 }
