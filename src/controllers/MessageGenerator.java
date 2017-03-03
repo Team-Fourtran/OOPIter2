@@ -9,13 +9,11 @@ import java.util.HashMap;
 class MessageGenerator implements KeyPressListener{
 
     protected AssetIterator assetIterator;
-    protected CommandIterator cmdIterator;
 
     private KeyboardController receiver;
 
-    MessageGenerator(KeyboardController receiver, KeyPressInformer keyInformer, AssetIterator assIter, CommandIterator cmdIter){
+    MessageGenerator(KeyboardController receiver, KeyPressInformer keyInformer, AssetIterator assIter){
         this.assetIterator = assIter;               //Set up the asset iterator
-        this.cmdIterator = cmdIter;                 //Set up the command iterator
         this.receiver = receiver;                   //Set up who will receive Commands once they're generated
         keyInformer.registerClient(this);    //Register self to get keypress notifications from the keyInformer
         assetIterator.first();
@@ -81,9 +79,9 @@ class MessageGenerator implements KeyPressListener{
 
             /* UP/DOWN: Cycle Commands */
             else if(keystrokes.get("UP")){               /* Previous command */
-                cmdIterator.prev();
+                //TODO: this
             } else if(keystrokes.get("DOWN")){      /* Next command */
-                cmdIterator.next();
+                //TODO: this
             }
         }
     }

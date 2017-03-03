@@ -5,7 +5,7 @@ import models.ctrlCommand.CTRLCommand;
 import java.util.ArrayList;
 
 public class CommandIterator implements Iterator{
-    //The current ArrayList of CTRLCommand objects that we iterate through when we call .next() or .previous()
+//The current ArrayList of CTRLCommand objects that we iterate through when we call .next() or .previous()
     private ArrayList<CTRLCommand> cmdList;
 
     //The current CTRLCommand as selected by calls to .next() or .previous()
