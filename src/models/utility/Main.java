@@ -49,7 +49,9 @@ class testReinforceArmy{
 
         Thread.sleep(1000);
 
-        new CTRLCreateArmyCommand(_tiles.get(73), u0, u1).execute(map, player);
+        CTRLCreateArmyCommand c = new CTRLCreateArmyCommand();
+        c.configure(_tiles.get(73), u0, u1);
+        try {c.execute(map, player);} catch(Exception e){System.out.println(e);}
         for (int i = 0; i < 4; i++) {
             player.endTurn();
             player.beginTurn();
@@ -57,7 +59,9 @@ class testReinforceArmy{
             Thread.sleep(1000);
         }
 
-        new CTRLReinforceArmyCommand(u2, am.debugGetRallyPoint()).execute(map, player);
+        CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
+        rac.configure(u2, am.debugGetRallyPoint());
+        try{rac.execute(map, player);} catch(Exception e){System.out.println(e);}
 
         for (int i = 0; i < 3; i++) {
             Thread.sleep(1000);
@@ -66,7 +70,9 @@ class testReinforceArmy{
             System.out.println("NEW TURN");
         }
 
-        new CTRLMoveRallyPointCommand(am.debugGetRallyPoint(), _tiles.get(16)).execute(map, player);
+        CTRLMoveRallyPointCommand mrpc = new CTRLMoveRallyPointCommand();
+        mrpc.configure(am.debugGetRallyPoint(), _tiles.get(16));
+        try{mrpc.execute(map, player);} catch (Exception e){System.out.println(e);}
 
         for (int i = 0; i < 6; i++) {
             Thread.sleep(1000);
@@ -120,7 +126,9 @@ class testCapitalCreation {
         _tiles.get(24).add(u2);
         Thread.sleep(1000);
 
-        new CTRLCreateCapitalCommand(u0).execute(map, player);
+        CTRLCreateCapitalCommand ccc = new CTRLCreateCapitalCommand();
+        ccc.configure(u0);
+        try{ccc.execute(map, player);} catch(Exception e){System.out.println(e);}
         System.out.println("CREATED CAPITAL");
         Thread.sleep(1000);
     }
@@ -148,8 +156,9 @@ class testArmyCreationAndMovement {
 
         Thread.sleep(1000);
 
-        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(_tiles.get(50), u0, u1, u2);
-        CTRLCreateArmyCommand.execute(map, player);
+        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand();
+        CTRLCreateArmyCommand.configure(_tiles.get(50), u0, u1, u2);
+        try{CTRLCreateArmyCommand.execute(map, player);} catch(Exception e){System.out.println(e);}
 
         RallyPoint rallyPoint = am.debugGetRallyPoint();
         Army army = am.debugGetArmy();
@@ -176,9 +185,9 @@ class testArmyCreationAndMovement {
 
         System.out.println("MOVED RALLY POINT:");
 
-        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand(rallyPoint, _tiles.get(24));
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
 
-        mrp.execute(map, player);
+        try{mrp.execute(map, player);} catch(Exception e){System.out.println(e);}
         Thread.sleep(1000);
 
         for (int i = 0; i < 4; i++) {
@@ -213,7 +222,9 @@ class testAttack{
         _tiles.get(8).add(u0);
         _tiles.get(9).add(u1);
 
-        new CTRLCreateArmyCommand(_tiles.get(8), u0, u1).execute(map, player);
+        CTRLCreateArmyCommand ccac = new CTRLCreateArmyCommand();
+        ccac.configure(_tiles.get(8), u0, u1);
+        try{ccac.execute(map, player);} catch (Exception e){System.out.println(e);}
         for(int i = 0; i < 3; i++){
             Thread.sleep(500);
             player.endTurn();
@@ -223,12 +234,17 @@ class testAttack{
         Army s1 = am.debugGetArmy();
         RallyPoint rp = am.debugGetRallyPoint();
 
-        new CTRLMoveRallyPointCommand(rp, _tiles.get(4)).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        CTRLMoveRallyPointCommand cmrpc = new CTRLMoveRallyPointCommand();
+        cmrpc.configure(rp, _tiles.get(4));
+        try{cmrpc.execute(map, player);} catch (Exception e){System.out.println(e);}
+
+        CTRLAttackCommand cacmd = new CTRLAttackCommand();
+        cacmd.configure(s1, _tiles.get(2), player);
+        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
+        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
+        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
+        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
+        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
 
 
         for(int i = 0; i < 6; i++){
@@ -264,7 +280,10 @@ class testHeal{
         _tiles.get(8).add(u0);
         _tiles.get(9).add(u1);
 
-        new CTRLCreateArmyCommand(_tiles.get(8), u0, u1).execute(map, player);
+        CTRLCreateArmyCommand ccacmd = new CTRLCreateArmyCommand();
+        ccacmd.configure(_tiles.get(8), u0, u1);
+        try{ccacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
+
         for(int i = 0; i < 3; i++){
             Thread.sleep(500);
             player.endTurn();
@@ -274,19 +293,38 @@ class testHeal{
         Army s1 = am.debugGetArmy();
         RallyPoint rp = am.debugGetRallyPoint();
 
-        new CTRLMoveRallyPointCommand(rp, _tiles.get(4)).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
+        CTRLMoveRallyPointCommand cmrpc = new CTRLMoveRallyPointCommand();
+        cmrpc.configure(rp, _tiles.get(4));
+        try{cmrpc.execute(map, player);} catch(Exception e){System.out.println(e);}
+        CTRLAttackCommand catkcmd = new CTRLAttackCommand();
+        catkcmd.configure(s1, _tiles.get(2), player);
+        try{catkcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+
         Thread.sleep(500);
         player.endTurn();
         player.beginTurn();
         Thread.sleep(500);
         player.endTurn();
         player.beginTurn();
-        new CTRLHealCommand(s0, _tiles.get(2)).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
-        new CTRLHealCommand(s0, _tiles.get(2)).execute(map, player);
-        new CTRLAttackCommand(s1, _tiles.get(2), player).execute(map, player);
-        new CTRLHealCommand(s0, _tiles.get(2)).execute(map, player);
+        CTRLHealCommand chcmd = new CTRLHealCommand();
+        chcmd.configure(s0, _tiles.get(2));
+        try{chcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+
+        catkcmd = new CTRLAttackCommand();
+        catkcmd.configure(s1, _tiles.get(2), player);
+        try{catkcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+
+        chcmd = new CTRLHealCommand();
+        chcmd.configure(s0, _tiles.get(2));
+        try{chcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+
+        catkcmd = new CTRLAttackCommand();
+        catkcmd.configure(s1, _tiles.get(2), player);
+        try{catkcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+
+        chcmd = new CTRLHealCommand();
+        chcmd.configure(s0, _tiles.get(2));
+        try{chcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
 
 
         for(int i = 0; i < 6; i++){
@@ -318,12 +356,16 @@ class testDecommission{
         _tiles.get(0).add(u0);
         _tiles.get(1).add(u1);
         _tiles.get(11).add(u2);
-        new CTRLCreateArmyCommand(_tiles.get(0), u0, u1, u2).execute(map, player);
+        CTRLCreateArmyCommand cacmd = new CTRLCreateArmyCommand();
+        cacmd.configure(_tiles.get(0), u0, u1, u2);
+        try{cacmd.execute(map, player);} catch(Exception e) {System.out.println(e);}
         Thread.sleep(1000);
         player.endTurn();
         player.beginTurn();
         Thread.sleep(1000);
-        new CTRLDecommissionCommand(u2).execute(map, player);
+        CTRLDecommissionCommand cdcmd = new CTRLDecommissionCommand();
+        cdcmd.configure(u2);
+        try{cdcmd.execute(map, player);} catch (Exception e){System.out.println(e);}
         Thread.sleep(1000);
 //        new CTRLDecommissionCommand(u1).execute(map, player);
 //        Thread.sleep(1000);
@@ -354,10 +396,13 @@ class testPowerUpDown{
         _tiles.get(9).add(u1);
         _tiles.get(10).add(u2);
 
-        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand(_tiles.get(14), u0, u1, u2);
-        CTRLCreateArmyCommand.execute(map, player);
+        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand();
+        CTRLCreateArmyCommand.configure(_tiles.get(14), u0, u1, u2);
+        try{CTRLCreateArmyCommand.execute(map, player);} catch(Exception e){System.out.println(e);}
 
-        new CTRLPowerUpCommand(u0).execute(map, player);
+        CTRLPowerUpCommand cpupcmd = new CTRLPowerUpCommand();
+        cpupcmd.configure(u0);
+        try{cpupcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
      //   new CTRLPowerDownCommand(u0).execute(map, player);
         for (int i = 0; i < 4; i++) {
             player.endTurn();

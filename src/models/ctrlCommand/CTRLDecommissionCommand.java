@@ -8,14 +8,31 @@ import models.visitor.MapDecommissionVisitor;
 public class CTRLDecommissionCommand implements CTRLCommand{
     private CombatAsset asset;
 
-    public CTRLDecommissionCommand(CombatAsset asset){
+    private boolean isConfigured;
+
+    public CTRLDecommissionCommand(){
+        isConfigured = false;
+    }
+
+    public void configure(CombatAsset asset){
+        isConfigured = true;
         this.asset = asset;
     }
 
     @Override
-    public void execute(GameMap map, Player player) {
-        asset.accept(
-                new MapDecommissionVisitor(map, player)
-        );
+    public CTRLDecommissionCommand clone() {
+        return new CTRLDecommissionCommand();
+    }
+
+    @Override
+    public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
+        if(isConfigured){
+            asset.accept(
+                    new MapDecommissionVisitor(map, player)
+            );
+        } else {
+            throw new CommandNotConfiguredException("[" + this + "] is not configured.");
+        }
+
     }
 }

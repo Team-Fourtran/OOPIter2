@@ -47,3 +47,4 @@ public class CommandIterator implements Iterator{
         return this.curCmd;
     }
 }
+

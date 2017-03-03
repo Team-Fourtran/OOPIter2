@@ -3,6 +3,7 @@ package models.playerAsset.Assets;
 public abstract class CombatAsset extends PlayerAsset {
 
     private int range;
+<<<<<<< HEAD
     private int offDamage;
     private int defDamage;
     private int armor;
@@ -11,8 +12,18 @@ public abstract class CombatAsset extends PlayerAsset {
     private int upkeep;
     private boolean poweredUp;
     private String assetID;
+=======
+    protected int offDamage;
+    protected int defDamage;
+    protected int armor;
+    protected int maxHealth;
+    protected int currentHealth;
+    protected int upkeep;
+    protected boolean poweredUp;
+>>>>>>> CommandGeneration
 
     //Various getter and setters for attributes
+
     public void setRange(int range){
         this.range = range;
     }
