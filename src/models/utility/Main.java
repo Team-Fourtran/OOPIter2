@@ -17,11 +17,11 @@ public class Main {
         //new testArmyCreationAndMovement().run();
         //new testIterator().run();
         //new testCapitalCreation().run();
-        //new testAttack().run();
+        new testAttack().run();
         //new testDecommission().run();
         //new testPowerUpDown().run();
         //new testHeal().run();
-        new testReinforceArmy().run();
+        //new testReinforceArmy().run();
     }
 }
 

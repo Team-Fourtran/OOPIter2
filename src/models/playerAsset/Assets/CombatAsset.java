@@ -23,7 +23,9 @@ public abstract class CombatAsset extends PlayerAsset {
 
     public void setArmor(int armor){this.armor = armor;}
 
-    public void setOffDamage(int OffDamage){this.offDamage = offDamage;}
+    public void setOffDamage(int offDamage){
+        this.offDamage = offDamage;
+    }
 
     public void setDefDamage(int defDamage){this.defDamage = defDamage;}
 
