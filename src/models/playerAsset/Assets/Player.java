@@ -39,7 +39,7 @@ public class Player {
         structures.accept(v);
     }
 
-    public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> makeAssetIterator(ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list) {
+    private AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> makeAssetIterator(ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list) {
         return new AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>>(){
 
             private int index = 0;

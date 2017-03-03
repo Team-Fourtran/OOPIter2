@@ -36,7 +36,7 @@ class testReinforceArmy{
         StructureManager sm = player.getStructures();
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles);
+        new Game(_tiles, player, new Player());
         GameMap map = new GameMap(_tiles, 5, 5);
         //----------------------------
         Unit u0 = um.addNewUnit("colonist");
@@ -93,7 +93,7 @@ class testCapitalCreation {
         StructureManager sm = player.getStructures();
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles);
+        new Game(_tiles, player, new Player());
         GameMap map = new GameMap(_tiles, 5, 5);
         //----------------------------
 
@@ -123,7 +123,7 @@ class testArmyCreationAndMovement {
 
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles);
+        new Game(_tiles, player, new Player());
         GameMap map = new GameMap(_tiles, length, length);
 
         Unit u0 = um.addNewUnit("colonist");
@@ -189,7 +189,7 @@ class testAttack{
         StructureManager sm = player.getStructures();
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles);
+        new Game(_tiles, player, new Player());
         GameMap map = new GameMap(_tiles, 5, 5);
         //----------------------------
         Unit u0 = um.addNewUnit("ranged");
@@ -245,7 +245,7 @@ class testHeal{
         StructureManager sm = player.getStructures();
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles);
+        new Game(_tiles, player, new Player());
         GameMap map = new GameMap(_tiles, 5, 5);
         //----------------------------
         Unit u0 = um.addNewUnit("ranged");
@@ -325,7 +325,7 @@ class testDecommission{
         StructureManager sm = player.getStructures();
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles);
+        new Game(_tiles, player, new Player());
         GameMap map = new GameMap(_tiles, 5, 5);
         //----------------------------
 
@@ -364,7 +364,7 @@ class testPowerUpDown{
         StructureManager sm = player.getStructures();
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles);
+        new Game(_tiles, player, new Player());
         GameMap map = new GameMap(_tiles, 5, 5);
         //----------------------------
 

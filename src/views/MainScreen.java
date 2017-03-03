@@ -27,7 +27,6 @@ public class MainScreen implements Observer {
     private int[][] board = new int[BSIZE][BSIZE];
 
     private KeyPressInformer keyInformer;
-    private HashMap<String, Boolean> keyList;
 
     public TileAssociation[] tiles;
     public MainScreen(TileAssociation[] tiles){
@@ -38,7 +37,7 @@ public class MainScreen implements Observer {
     }
 
     public KeyPressInformer getKeyInformer(){
-        return this.getKeyInformer();
+        return this.keyInformer;
     }
     public void showMainScreen(){
         mainScreen.setVisible(true);
@@ -52,6 +51,15 @@ public class MainScreen implements Observer {
                 board[i][j] = EMPTY;
             }
         }
+
+        HashMap<String, Boolean> keyMap = new HashMap<>();
+        keyMap.put("ENTER",false);
+        keyMap.put("CONTROL",false);
+        keyMap.put("UP",false);
+        keyMap.put("DOWN",false);
+        keyMap.put("LEFT",false);
+        keyMap.put("RIGHT",false);
+        keyInformer = new KeyPressInformer(keyMap);
     }
     public void generateMainScreen(){
         DrawingPanel panel = new DrawingPanel();
