@@ -22,6 +22,7 @@ public class Main {
         //new testPowerUpDown().run();
         //new testHeal().run();
         //new testReinforceArmy().run();
+        new testCommandIterator().run();
     }
 }
 
@@ -73,6 +74,26 @@ class testReinforceArmy{
             player.beginTurn();
             System.out.println("NEW TURN");
         }
+    }
+}
+
+class testCommandIterator{
+    public void run() throws InterruptedException {
+        //COPY+PASTE
+        //----------------------------
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        //----------------------------
+
+        Unit u0 = um.addNewUnit("colonist");
+
     }
 }
 
