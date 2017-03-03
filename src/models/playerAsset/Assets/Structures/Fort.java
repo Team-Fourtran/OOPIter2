@@ -10,12 +10,13 @@ public class Fort extends Structure{
 
     public Fort() {
 
-        offDamage = 75;
-        defDamage = 75;
-        armor = 150;
-        maxHealth = currentHealth = 200;
-        upkeep = 1;
-        productionRate = 0;
+        setOffDamage(75);
+        setDefDamage(75);
+        setArmor(150);
+        setMaxHealth(200);
+        setCurrentHealth(200);
+        setUpkeep(1);
+        setProductionRate(1);
         staff = new ArrayList<>();
         trainers = new ArrayList<>();
 

@@ -3,19 +3,32 @@ package models.playerAsset.Assets;
 public abstract class CombatAsset extends PlayerAsset {
 
     private int range;
-    protected int offDamage;
-    protected int defDamage;
-    protected int armor;
-    protected int maxHealth;
-    protected int currentHealth;
-    protected int upkeep;
-    protected boolean poweredUp;
+    private int offDamage;
+    private int defDamage;
+    private int armor;
+    private int maxHealth;
+    private int currentHealth;
+    private int upkeep;
+    private boolean poweredUp;
+    private String assetID;
 
     //Various getter and setters for attributes
 
     public void setRange(int range){
         this.range = range;
     }
+
+    public void setMaxHealth(int maxHealth){this.maxHealth = maxHealth;}
+
+    public void setCurrentHealth(int currentHealth){this.currentHealth = currentHealth;}
+
+    public void setArmor(int armor){this.armor = armor;}
+
+    public void setOffDamage(int OffDamage){this.offDamage = offDamage;}
+
+    public void setDefDamage(int defDamage){this.defDamage = defDamage;}
+
+    public void setUpkeep(int upkeep){this.upkeep = upkeep;}
 
     public void setID(String id){
         assetID = id;

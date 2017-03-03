@@ -1,8 +1,13 @@
 package models.playerAsset.Assets;
 
 
-import models.playerAsset.Iterators.*;
 import models.ctrlCommand.*;
+import models.playerAsset.Assets.Structures.Structure;
+import models.playerAsset.Assets.Units.Unit;
+import models.playerAsset.Iterators.AssetIterator;
+import models.playerAsset.Iterators.Iterator;
+import models.playerAsset.Iterators.TypeIterator;
+
 import models.visitor.PlayerVisitor;
 
 import java.util.ArrayList;
@@ -86,6 +91,21 @@ public class Player {
             public PlayerAsset getElement(){
                 return current().getElement();
             }
+
+            @Override
+            public String getCurrentMode() {
+                if (getElement() instanceof Unit)
+                    return "Unit Mode";
+                else if (getElement() instanceof Structure)
+                    return "Structure Mode";
+                else
+                    return "Army Mode";
+            }
+
+            public String getCurrentType(){
+                return current.getCurrentType();
+            }
+
         };
     }
 
