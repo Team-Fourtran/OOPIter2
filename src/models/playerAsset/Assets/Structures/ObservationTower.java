@@ -15,4 +15,8 @@ public class ObservationTower extends Structure {
         setProductionRate(1);
     }
 
+    public String getType(){
+        return "Observation Tower";
+    }
+
 }
