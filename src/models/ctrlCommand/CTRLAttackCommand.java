@@ -25,10 +25,6 @@ public class CTRLAttackCommand implements CTRLCommand{
         this.receiver = receiver;
     }
 
-    public CTRLAttackCommand clone(){
-        return new CTRLAttackCommand();
-    }
-
     @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){

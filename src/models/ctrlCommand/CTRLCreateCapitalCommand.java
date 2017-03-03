@@ -21,11 +21,6 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
     }
 
     @Override
-    public CTRLCreateCapitalCommand clone() {
-        return new CTRLCreateCapitalCommand();
-    }
-
-    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             if(unit instanceof Colonist){ //TODO Get rid of type checking if handled by iterators

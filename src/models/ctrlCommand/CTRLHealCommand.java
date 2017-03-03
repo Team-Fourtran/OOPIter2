@@ -23,11 +23,6 @@ public class CTRLHealCommand implements CTRLCommand{
     }
 
     @Override
-    public CTRLCommand clone() {
-        return new CTRLHealCommand();
-    }
-
-    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             structure.addCommand(

@@ -30,7 +30,6 @@ public class TileAssociation extends Observable{
         return (assetOwner.hasAsset(asset));
     }
 
-
     public void remove(PlayerAsset ... p){
         for (PlayerAsset _p : p){
             assetOwner.removeAsset(_p);

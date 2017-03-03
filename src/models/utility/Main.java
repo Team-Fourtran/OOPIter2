@@ -9,6 +9,8 @@ import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
+import models.playerAsset.Iterators.CommandIterator;
+import models.visitor.CommandListVisitor;
 
 import java.util.ArrayList;
 
@@ -22,7 +24,7 @@ public class Main {
         //new testPowerUpDown().run();
         //new testHeal().run();
         //new testReinforceArmy().run();
-        new testCommandIterator().run();
+        //new testCommandIterator().run();
     }
 }
 
@@ -100,6 +102,16 @@ class testCommandIterator{
 
         Unit u0 = um.addNewUnit("colonist");
 
+        CTRLPowerUpCommand cmd = new CTRLPowerUpCommand();
+        cmd.configure(u0);
+        try {
+            cmd.execute(map, player);
+        } catch (CommandNotConfiguredException e) {
+            e.printStackTrace();
+        }
+        CommandListVisitor v = new CommandListVisitor();
+        u0.accept(v);
+        CommandIterator iter = v.getIterator();
     }
 }
 

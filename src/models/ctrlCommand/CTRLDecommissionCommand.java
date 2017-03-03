@@ -20,11 +20,6 @@ public class CTRLDecommissionCommand implements CTRLCommand{
     }
 
     @Override
-    public CTRLDecommissionCommand clone() {
-        return new CTRLDecommissionCommand();
-    }
-
-    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             asset.accept(

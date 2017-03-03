@@ -14,6 +14,7 @@ public class CommandListVisitor implements AssetVisitor{
     private ArrayList<CTRLCommand> cmdList;
 
     public CommandListVisitor(){
+        cmdList = new ArrayList<>();
     }
 
     @Override

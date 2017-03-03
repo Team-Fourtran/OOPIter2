@@ -20,11 +20,6 @@ public class CTRLPowerUpCommand implements CTRLCommand{
     }
 
     @Override
-    public CTRLCommand clone() {
-        return new CTRLPowerUpCommand();
-    }
-
-    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             asset.clearQueue();
