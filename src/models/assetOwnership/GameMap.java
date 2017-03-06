@@ -23,6 +23,7 @@ public class GameMap {
         ReverseAStar path = new ReverseAStar(end, asset);
         return path.getPath();
     }
+
     public ArrayList<TileAssociation> generatePath(PlayerAsset asset, PlayerAsset endAsset)  {
         TileAssociation end = searchForTileAssociation(endAsset);
         return generatePath(asset, end);
@@ -30,7 +31,7 @@ public class GameMap {
 
     public int calculateDistance(TileAssociation start, PlayerAsset asset){
         ReverseAStar path = new ReverseAStar(start, asset);
-        return path.getDistance(); //NOTE THIS IS NOT THE MINIMUM DISTANCE
+        return path.getDistance(); //TODO: THIS IS NOT THE MINIMUM DISTANCE
     }
 
     public int calculateDistance(PlayerAsset asset1, PlayerAsset asset2) {
@@ -48,7 +49,17 @@ public class GameMap {
     }
 
     public void removeAssetFromMap(PlayerAsset asset){
-        searchForTileAssociation(asset).remove(asset);
+        TileAssociation loc = searchForTileAssociation(asset);
+        if (loc != null){
+            loc.remove(asset);
+        }
+    }
+
+    public void addAssetToMap(PlayerAsset asset, PlayerAsset location){
+        TileAssociation loc = searchForTileAssociation(location);
+        if (loc != null){
+            loc.add(asset);
+        }
     }
 
     public void replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){

@@ -19,12 +19,63 @@ public class Main {
         //new testArmyCreationAndMovement().run();
         //new testIterator().run();
         //new testCapitalCreation().run();
-        new testAttack().run();
+        //new testAttack().run();
         //new testDecommission().run();
         //new testPowerUpDown().run();
         //new testHeal().run();
         //new testReinforceArmy().run();
         //new testCommandIterator().run();
+        new testCreateUnit().run();
+    }
+}
+
+class testCreateUnit{
+    public void run() throws InterruptedException {
+        //COPY+PASTE
+        //----------------------------
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        //----------------------------
+        Structure s0 = sm.createStructure("capital");
+        Unit u0 = um.addNewUnit("melee");
+        Unit u1 = um.addNewUnit("colonist");
+        _tiles.get(22).add(s0);
+        _tiles.get(67).add(u0);
+        _tiles.get(67).add(u1);
+
+        CTRLCreateArmyCommand c = new CTRLCreateArmyCommand();
+        c.configure(_tiles.get(73), u0, u1);
+        try {c.execute(map, player);} catch(Exception e){System.out.println(e);}
+        for (int i = 0; i < 4; i++) {
+            player.endTurn();
+            player.beginTurn();
+            System.out.println("NEW TURN");
+            Thread.sleep(1000);
+        }
+
+        CTRLCreateUnitCommand cmd = new CTRLCreateUnitCommand();
+        cmd.configure(s0, "melee");
+        try {
+            cmd.execute(map, player);
+        } catch (CommandNotConfiguredException e) {
+            e.printStackTrace();
+        }
+
+
+        for (int i = 0; i < 4; i++) {
+            player.endTurn();
+            player.beginTurn();
+            System.out.println("NEW TURN");
+            Thread.sleep(1000);
+        }
+
     }
 }
 
