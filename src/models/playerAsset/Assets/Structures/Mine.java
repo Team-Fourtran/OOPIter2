@@ -12,6 +12,7 @@ public class Mine extends Structure{
         setMaxHealth(200);
         setCurrentHealth(200);
         setUpkeep(1);
+        setRadiusOfInfluence(1);
         setProductionRate(1);
         staff = new ArrayList<>();
 

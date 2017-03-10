@@ -3,6 +3,7 @@ package models.assetOwnership;
 import models.playerAsset.Assets.PlayerAsset;
 import models.utility.ReverseAStar;
 import java.util.ArrayList;
+import java.util.Vector;
 
 /*
  * Class for containing TileStates and optimal path between tiles
@@ -37,6 +38,24 @@ public class GameMap {
         TileAssociation start = searchForTileAssociation(asset1);
         return calculateDistance(start, asset2);
     }
+    
+	public Vector<TileAssociation> getTileAssociationsWithinRadius(PlayerAsset asset, int radius) {
+		Vector<TileAssociation> vec = new Vector<TileAssociation>();
+		TileAssociation start = searchForTileAssociation(asset);
+		getTileAssociationsWithinRadius(start, radius, vec);
+		return vec;
+	}
+	
+	public void getTileAssociationsWithinRadius(TileAssociation s, int radius, Vector<TileAssociation> vec) {
+		if (!vec.contains(s)) {
+			vec.add(s);
+		}
+		if (radius != 0) {
+			for (TileAssociation t : s.getNeighbors()) {
+				getTileAssociationsWithinRadius(t, radius-1, vec);
+			}
+		}
+	}
 
     private TileAssociation searchForTileAssociation(PlayerAsset asset){
         for (TileAssociation t : tiles){

@@ -38,6 +38,21 @@ public class Army extends CombatAsset {
         return totalDamage;
     }
 
+    /*
+     * Returns the maximum radius of influence for the army's units
+     * 
+     */
+    @Override
+    public int getRadiusOfInfluence() {
+    	int maxRadius = 0;
+    	for (Unit _u : battleGroup) {
+    		if (_u.getRadiusOfInfluence() > maxRadius) {
+    			maxRadius = _u.getRadiusOfInfluence();
+    		}
+    	}
+    	return maxRadius;
+    }
+    
     public double getMovementSpeed(){
         double minMoves = 100;
         for (Unit _u : battleGroup){

@@ -11,6 +11,7 @@ public class Explorer extends Unit{
         setMaxHealth(200);
         setCurrentHealth(200);
         setUpkeep(1);
+        setRadiusOfInfluence(2);
         setMovesPerTurn(.33);
     }
 

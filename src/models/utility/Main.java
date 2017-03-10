@@ -11,13 +11,15 @@ import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         //new testArmyCreationAndMovement().run();
         //new testIterator().run();
         //new testCapitalCreation().run();
-        new testAttack().run();
+    	new testRadius().run();
+//        new testAttack().run();
         //new testDecommission().run();
         //new testPowerUpDown().run();
         //new testHeal().run();
@@ -167,6 +169,33 @@ class testArmyCreationAndMovement {
             Thread.sleep(1000);
         }
     }
+}
+
+class testRadius {
+	public void run() throws InterruptedException {
+        int length = 15;
+        Player player = new Player();
+        ArmyManager am = player.getArmies();
+        UnitManager um = player.getUnits();
+        StructureManager sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        new Game(_tiles);
+        GameMap map = new GameMap(_tiles, 5, 5);
+        
+        Unit u1 = um.addNewUnit("colonist");
+
+        Structure s0 = sm.createStructure("mine");
+
+        _tiles.get(32).add(s0);
+        // Am I breaking TDA by getting the tile associations and then updating them on the view??
+        Vector<TileAssociation> vec = map.getTileAssociationsWithinRadius(s0, s0.getRadiusOfInfluence());
+//        Vector<TileAssociation> vec = getNeighborsWithinRadius(st, s0.getRadiusOfInfluence());
+        for (int i = 0; i < vec.size(); i++) {
+        	vec.get(i).add(u1); // Using unit adding to basically draw the radius
+        }
+        
+	}
 }
 
 class testAttack{
