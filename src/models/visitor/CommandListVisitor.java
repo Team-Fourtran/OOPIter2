@@ -54,6 +54,7 @@ public class CommandListVisitor implements AssetVisitor{
             cmdList.add(new CTRLAttackCommand());
             cmdList.add(new CTRLHealCommand());
             cmdList.add(new CTRLDecommissionCommand());
+            cmdList.add(new CTRLCreateUnitCommand());
         }
         cmdList.add(new CTRLCancelQueuedOrders());
     }
