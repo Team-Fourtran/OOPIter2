@@ -13,6 +13,7 @@ public abstract class CombatAsset extends PlayerAsset {
     private String assetID;
 
     //Various getter and setters for attributes
+
     public void setRange(int range){
         this.range = range;
     }
