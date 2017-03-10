@@ -31,7 +31,7 @@ class modelTest{
 
     modelTest() throws InterruptedException {
         configure();
-        testAttack();
+        //testAttack();
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();

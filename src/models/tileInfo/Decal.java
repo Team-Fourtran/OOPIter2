@@ -1,6 +1,8 @@
 package models.tileInfo;
 
 
+import models.visitor.TileVisitor;
+
 public class Decal implements Item {
 	String decalType;
 
@@ -20,7 +22,12 @@ public class Decal implements Item {
 	public double getItemEffect() {
 		return 0;
 	}
-	
+
+	@Override
+	public void accept(TileVisitor v) {
+		//TODO
+	}
+
 	// Returns String representing decal type, i.e., crossBones, redCross
 	public String getDecalType() {
 		return decalType;

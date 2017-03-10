@@ -1,4 +1,7 @@
 package models.tileInfo;
+
+import models.visitor.TileVisitor;
+
 /*
  * See Item interface. This item provides a negative health effect.
  */
@@ -10,5 +13,10 @@ public class ObstacleItem implements Item {
 	public double getItemEffect() {
 		return itemEffect;
 	}
-	
+
+	@Override
+	public void accept(TileVisitor v) {
+		v.visitObstacleItem(this);
+	}
+
 }

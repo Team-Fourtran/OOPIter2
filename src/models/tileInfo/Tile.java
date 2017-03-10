@@ -3,6 +3,7 @@ package models.tileInfo;
 import models.visitor.TileVisitor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Tile {
 
@@ -11,10 +12,11 @@ public class Tile {
     private ArrayList<AoE> aoE;
     private ArrayList<Item> items;
 
-    public Tile(Terrain terrain){
+    public Tile(Terrain terrain, ArrayList<Item> itemList){
         this.terrainType = terrain;
-        this.aoE = new ArrayList<AoE>();
-        this.items = new ArrayList<Item>();
+        this.aoE = new ArrayList<>();
+        this.items = new ArrayList<>();
+        this.items = itemList;
     }
     public Tile(Terrain t, ResourcePackage p, ArrayList<AoE> a, ArrayList<Item> i) {
         this.terrainType = t;
@@ -41,5 +43,11 @@ public class Tile {
     
     public void accept(TileVisitor v) {
     	terrainType.accept(v);
+    	for (Item i : items){
+    	    i.accept(v);
+        }
+        for (AoE aoe : aoE){
+    	    aoe.accept(v);
+        }
     }
 }

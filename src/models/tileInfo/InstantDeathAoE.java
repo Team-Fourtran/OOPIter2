@@ -1,4 +1,7 @@
 package models.tileInfo;
+
+import models.visitor.TileVisitor;
+
 /*
  * See AoE. This provides a negative infinity amount of health to apply to assets (depletes their health completely)
  */
@@ -10,6 +13,11 @@ public class InstantDeathAoE implements AoE {
 	public double getAreaEffect() {
 		return deathEffect;
 	}
-	
-	
+
+	@Override
+	public void accept(TileVisitor v) {
+		//TODO
+	}
+
+
 }

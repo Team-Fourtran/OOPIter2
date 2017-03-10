@@ -11,16 +11,15 @@ import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Assets.Army;
-import models.tileInfo.Impassable;
-import models.tileInfo.Normal;
-import models.tileInfo.Slowing;
+import models.tileInfo.*;
 
 public class TileDrawingVisitor implements TileVisitor {
 	private final int TERRAIN = 0;
 	private final int STRUCTURE = 1;
 	private final int UNIT = 2;
 	private final int ARMY = 3;
-	private final int RALLYPOINT = 4;
+	private final int ITEM = 4;
+	private final int RALLYPOINT = 5;
 	
 	private Graphics2D g2;
 	private int x;
@@ -42,6 +41,30 @@ public class TileDrawingVisitor implements TileVisitor {
 
 	public Graphics2D getGraphic() {
 		return g2;
+	}
+
+	@Override
+	public void visitOneShotItem(OneShotItem item){
+		BufferedImage texture = null;
+		try {
+			texture = ImageIO.read(new File("src/application/images/misc/Money.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		texture = resizeImage(texture);
+		addToPriorityQueue(ITEM, texture);
+	}
+
+	@Override
+	public void visitObstacleItem(ObstacleItem item){
+		BufferedImage texture = null;
+		try {
+			texture = ImageIO.read(new File("src/application/images/misc/Cursor.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		texture = resizeImage(texture);
+		addToPriorityQueue(ITEM, texture);
 	}
 	
 	@Override

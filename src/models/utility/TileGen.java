@@ -17,6 +17,7 @@ public class TileGen {
         this.total = length*width;
     }
     public ArrayList<TileAssociation> execute(){
+        ArrayList<Item> itemList;
         tiles = new TileAssociation[total];
         Terrain t;
         ArrayList<Integer> normalList = new ArrayList<>();
@@ -26,6 +27,7 @@ public class TileGen {
         normalList.add(8*length + 3);
         normalList.add(7*length + 2);
         for (int i = 0; i < total; i++){
+            itemList = new ArrayList<>();
             if (normalList.contains(i)){
                 t = new Normal();
             }
@@ -48,7 +50,12 @@ public class TileGen {
                 t = new Normal();
             }
             //Terrain t = new Impassable();
-            Tile tile = new Tile(t);
+
+            if(i % 15 == 8){
+                itemList.add(new OneShotItem());
+            }
+
+            Tile tile = new Tile(t, itemList);
             tiles[i] = new TileAssociation(tile);
         }
         //HEX:
