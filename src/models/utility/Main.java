@@ -41,6 +41,7 @@ class modelTest{
         //testPowerUpDown();
         //testIterator();
         //testCommandIterator();
+        testPathfinding();
     }
 
     private void configure() throws InterruptedException {
@@ -342,6 +343,31 @@ class modelTest{
         CommandListVisitor v = new CommandListVisitor();
         u0.accept(v);
         CommandIterator iter = v.getIterator();
+    }
+
+    private void testPathfinding() throws InterruptedException{
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("colonist");
+        _tiles.get(202).add(u0);
+        _tiles.get(201).add(u1);
+        _tiles.get(203).add(u2);
+
+        changeTurn(1);
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(203), u0, u1, u2);
+        game.notifyOfCommand(cac);
+
+        RallyPoint rallyPoint = am.debugGetRallyPoint();
+
+        changeTurn(4);
+
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
+        mrp.configure(rallyPoint, _tiles.get(0));
+        game.notifyOfCommand(mrp);
+
+        changeTurn(10);
     }
 }
 

@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Assets.Army;
-import models.playerAsset.Assets.Worker;
+import models.tileInfo.Impassable;
 import models.tileInfo.Normal;
+import models.tileInfo.Slowing;
 
 public class TileDrawingVisitor implements TileVisitor {
 	private final int TERRAIN = 0;
@@ -25,7 +25,7 @@ public class TileDrawingVisitor implements TileVisitor {
 	private Graphics2D g2;
 	private int x;
 	private int y;
-	private ArrayList<ArrayList<BufferedImage>> priority = new ArrayList<ArrayList<BufferedImage>>();
+	private ArrayList<ArrayList<BufferedImage>> priority = new ArrayList<>();
 	
 	public TileDrawingVisitor(int x, int y, Graphics2D g2) {
 		this.g2 = g2;
@@ -35,7 +35,7 @@ public class TileDrawingVisitor implements TileVisitor {
 		g2.drawImage(null, x, y, null);
 		
 		for (int i = 0; i < 5; i++) {
-			ArrayList<BufferedImage> a = new ArrayList<BufferedImage>();
+			ArrayList<BufferedImage> a = new ArrayList<>();
 			priority.add(a);
 		}
 	}
@@ -48,11 +48,35 @@ public class TileDrawingVisitor implements TileVisitor {
 	public void visitNormal(Normal normal) {
 	    BufferedImage texture = null;
 		try {
-			texture = ImageIO.read(new File("src/application/images/terrain/Dirt.png"));
+			texture = ImageIO.read(new File("src/application/images/terrain/Grass.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
         texture = resizeImage(texture);
+		addToPriorityQueue(TERRAIN, texture);
+	}
+
+	@Override
+	public void visitSlowing(Slowing slowing) {
+		BufferedImage texture = null;
+		try {
+			texture = ImageIO.read(new File("src/application/images/terrain/Dirt.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		texture = resizeImage(texture);
+		addToPriorityQueue(TERRAIN, texture);
+	}
+
+	@Override
+	public void visitImpassable(Impassable tile) {
+		BufferedImage texture = null;
+		try {
+			texture = ImageIO.read(new File("src/application/images/terrain/Water.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		texture = resizeImage(texture);
 		addToPriorityQueue(TERRAIN, texture);
 	}
 
