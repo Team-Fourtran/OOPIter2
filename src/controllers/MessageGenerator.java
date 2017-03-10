@@ -19,8 +19,8 @@ class MessageGenerator implements KeyPressListener{
         keyInformer.registerClient(this);    //Register self to get keypress notifications from the keyInformer
         this.assetIterator = assIter;               //Set up the asset iterator
         assetIterator.first();
-
-        currentState = new State();
+        /* Initialize the State object */
+        currentState = new State(assetIterator.getCurrentMode(), assetIterator.getCurrentType(), (PlayerAsset) assetIterator.getElement());
     }
 
     private void generateMessage(){
@@ -38,12 +38,10 @@ class MessageGenerator implements KeyPressListener{
         interpretKeystrokes(kp);
     }
 
+    /* Updates the State object based on the keystrokes detected */
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes){
-        //System.out.println(keystrokes);
         if(keystrokes.get("ENTER")){
             generateMessage();
-            System.out.println(assetIterator.getCurrentMode());
-            System.out.println(assetIterator.getCurrentType());
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
@@ -52,21 +50,15 @@ class MessageGenerator implements KeyPressListener{
             /* CONTROL+{UP/DOWN}: Cycle MODE */
             if(keystrokes.get("UP")){
                 assetIterator.prevMode();           //CONTROL+UP: Previous Mode
-                System.out.println(assetIterator.getElement());
             } else if(keystrokes.get("DOWN")){
                 assetIterator.nextMode();           //CONTROL+DOWN: Next Mode
-                System.out.println(assetIterator.getElement());
             }
 
             /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
             else if(keystrokes.get("LEFT")){        //CONTROL+LEFT: Previous Type
                 assetIterator.prevType();
-                System.out.println(assetIterator.getElement());
-
             } else if(keystrokes.get("RIGHT")){     //CONTROL+RIGHT: Next Type
                 assetIterator.nextType();
-                System.out.println(assetIterator.getElement());
-
             }
 
         }
@@ -77,12 +69,9 @@ class MessageGenerator implements KeyPressListener{
             //LEFT/RIGHT: Cycle Type Instances
             if(keystrokes.get("LEFT")){
                 assetIterator.prev();
-                System.out.println(assetIterator.getElement());
 
             } else if(keystrokes.get("RIGHT")){
                 assetIterator.next();
-                System.out.println(assetIterator.getElement());
-
             }
 
             /* UP/DOWN: Cycle Commands */
@@ -96,6 +85,11 @@ class MessageGenerator implements KeyPressListener{
 
             }
         }
+
+        /* Update the State based on the new Iterator info */
+        currentState.setMode(assetIterator.getCurrentMode());
+        currentState.setType(assetIterator.getCurrentType());
+        currentState.setInstance((PlayerAsset)assetIterator.getElement());
     }
 
     //Gets called when player turn switches. Changes the iterator on hand.
@@ -108,12 +102,12 @@ class MessageGenerator implements KeyPressListener{
 class State{
     String currentMode;
     String currentType;
-    String currentInstance;
+    PlayerAsset currentInstance;
 
-    State(){
-        this.currentMode = "None";
-        this.currentType = "None";
-        this.currentInstance = "None";
+    State(String m, String t, PlayerAsset i){
+        this.currentMode = m;
+        this.currentType = t;
+        this.currentInstance = i;
     }
 
     protected String getMode(){
@@ -122,7 +116,7 @@ class State{
     protected String getType(){
         return this.currentType;
     }
-    protected String getInstance(){
+    protected PlayerAsset getInstance(){
         return this.currentInstance;
     }
 
@@ -132,7 +126,7 @@ class State{
     protected void setType(String type){
         this.currentType = type;
     }
-    protected void setInstance(String instance){
+    protected void setInstance(PlayerAsset instance){
         this.currentInstance = instance;
     }
 }
