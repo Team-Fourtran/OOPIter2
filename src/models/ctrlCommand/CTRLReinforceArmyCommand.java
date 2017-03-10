@@ -23,11 +23,6 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
     }
 
     @Override
-    public CTRLCommand clone() {
-        return new CTRLReinforceArmyCommand();
-    }
-
-    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             rallyPoint.accept(

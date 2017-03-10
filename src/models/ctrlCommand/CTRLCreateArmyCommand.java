@@ -26,11 +26,6 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
     }
 
     @Override
-    public CTRLCreateArmyCommand clone() {
-        return new CTRLCreateArmyCommand();
-    }
-
-    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             player.accept(

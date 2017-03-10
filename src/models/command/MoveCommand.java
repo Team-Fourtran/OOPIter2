@@ -31,6 +31,6 @@ public class MoveCommand implements Command{
             --Will return representation of how far the asset can move
             --If army, it will take the largest of the BG's getTurns();
          */
-        return asset.getMovementTurns();
+        return asset.getMovementTurns() * end.getMovementCost();
     }
 }

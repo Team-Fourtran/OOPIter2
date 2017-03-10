@@ -17,8 +17,7 @@ public class Impassable implements Terrain {
 
 	@Override
 	public void accept(TileVisitor v) {
-		// TODO Auto-generated method stub
-		
+		v.visitImpassable(this);
 	}
 
 }

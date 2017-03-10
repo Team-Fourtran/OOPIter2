@@ -1,33 +1,44 @@
 package application;
 
 import controllers.KeyboardController;
+import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
+import models.ctrlCommand.CTRLCommand;
+import models.ctrlCommand.CommandNotConfiguredException;
 import models.playerAsset.Assets.Player;
 import views.*;
 
 import java.util.ArrayList;
 
 public class Game {
-    private MainScreen mainScreen;
-    private Player player1;
-    private Player player2;
 
-    public Game(ArrayList<TileAssociation> list, Player player1, Player player2) throws InterruptedException{
+  private MainScreen mainScreen;
+  private Player currentPlayer;
+  private GameMap map;
 
-        TileAssociation[] _tiles = new TileAssociation[list.size()];
-        _tiles = list.toArray(_tiles);
+  public Game(Player player, ArrayList<TileAssociation> list) throws InterruptedException{
+      this.currentPlayer = player;
+      this.map = new GameMap(list, 5, 5);
 
-        this.player1 = player1;
-        this.player2 = player2;
+      TileAssociation[] _tiles = new TileAssociation[list.size()];
+      _tiles = list.toArray(_tiles);
 
-        mainScreen = new MainScreen(_tiles);
-        mainScreen.initialize();
-        mainScreen.generateMainScreen();
-        mainScreen.showMainScreen();
+      mainScreen = new MainScreen(_tiles);
+      mainScreen.initialize();
+      mainScreen.generateMainScreen();
+      mainScreen.showMainScreen();
 
-        KeyboardController kbc = new KeyboardController(mainScreen.getKeyInformer(), player1.getAssetIterator());
+      KeyboardController kbc = new KeyboardController(mainScreen.getKeyInformer(), currentPlayer.getAssetIterator());
 
-        Thread.sleep(1000);
-    }
+      Thread.sleep(1000);
+  }
+
+  public void notifyOfCommand(CTRLCommand cmd){
+      try {
+          cmd.execute(map, currentPlayer);
+      } catch (CommandNotConfiguredException e) {
+          e.printStackTrace();
+      }
+  }
 
 }

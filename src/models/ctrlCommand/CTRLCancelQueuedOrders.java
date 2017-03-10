@@ -18,11 +18,6 @@ public class CTRLCancelQueuedOrders implements CTRLCommand{
     }
 
     @Override
-    public CTRLCommand clone() {
-        return new CTRLCancelQueuedOrders();
-    }
-
-    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured)
             asset.clearQueue();

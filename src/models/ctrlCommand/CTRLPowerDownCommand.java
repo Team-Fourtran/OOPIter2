@@ -19,11 +19,6 @@ public class CTRLPowerDownCommand implements CTRLCommand{
     }
 
     @Override
-    public CTRLPowerDownCommand clone() {
-        return new CTRLPowerDownCommand();
-    }
-
-    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             asset.clearQueue();

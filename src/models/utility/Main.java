@@ -9,36 +9,121 @@ import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
+import models.playerAsset.Iterators.CommandIterator;
+import models.visitor.CommandListVisitor;
 
 import java.util.ArrayList;
 
 public class Main {
+
     public static void main(String[] args) throws InterruptedException {
-        //new testArmyCreationAndMovement().run();
-        new testIterator().run();
-        //new testCapitalCreation().run();
-        new testAttack().run();
-        //new testDecommission().run();
-        //new testPowerUpDown().run();
-        //new testHeal().run();
-        //new testReinforceArmy().run();
+
+        new modelTest();
     }
 }
 
-class testReinforceArmy{
-    public void run() throws InterruptedException {
-        //COPY+PASTE
-        //----------------------------
+class modelTest{
+    private Player player;
+    private Game game;
+    private ArrayList<TileAssociation> _tiles;
+    private ArmyManager am;
+    private UnitManager um;
+    private StructureManager sm;
+
+    modelTest() throws InterruptedException {
+        configure();
+        testAttack();
+        //testCreateUnit();
+        //testReinforceArmy();
+        //testCapitalCreation();
+        //testArmyCreationAndMovement();
+        //testHeal();
+        //testDecommission();
+        //testPowerUpDown();
+        //testIterator();
+        //testCommandIterator();
+        //testPathfinding();
+    }
+
+    private void configure() throws InterruptedException {
         int length = 15;
-        Player player = new Player();
-        ArmyManager am = player.getArmies();
-        UnitManager um = player.getUnits();
-        StructureManager sm = player.getStructures();
+        this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
-        ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles, player, new Player());
-        GameMap map = new GameMap(_tiles, 5, 5);
-        //----------------------------
+
+        this._tiles = tileGen.execute();
+        this.game = new Game(player, _tiles);
+        this.am = player.getArmies();
+        this.um = player.getUnits();
+        this.sm = player.getStructures();
+    }
+
+    private void changeTurn(int n) throws InterruptedException {
+        for(int i = 0; i < n; i++){
+            System.out.println("NewTurn:");
+            Thread.sleep(250);
+            player.endTurn();
+            player.beginTurn();
+            Thread.sleep(250);
+        }
+    }
+
+    private void testAttack() throws InterruptedException {
+        Unit u0 = um.addNewUnit("ranged");
+        Unit u1 = um.addNewUnit("colonist");
+        Structure s0 = sm.createStructure("capital");
+
+        _tiles.get(6).add(s0);
+        _tiles.get(11).add(u0);
+        _tiles.get(12).add(u1);
+
+        CTRLCreateArmyCommand ccac = new CTRLCreateArmyCommand();
+        ccac.configure(_tiles.get(10), u0, u1);
+        game.notifyOfCommand(ccac);
+
+        changeTurn(3);
+
+        Army army = am.debugGetArmy();
+        RallyPoint rp = am.debugGetRallyPoint();
+
+        CTRLMoveRallyPointCommand cmrpc = new CTRLMoveRallyPointCommand();
+        cmrpc.configure(rp, _tiles.get(8));
+        game.notifyOfCommand(cmrpc);
+
+        CTRLAttackCommand cacmd = new CTRLAttackCommand();
+        cacmd.configure(army, _tiles.get(6), player);
+        game.notifyOfCommand(cacmd);
+        game.notifyOfCommand(cacmd);
+        game.notifyOfCommand(cacmd);
+        game.notifyOfCommand(cacmd);
+        game.notifyOfCommand(cacmd);
+
+        changeTurn(6);
+    }
+
+    private void testCreateUnit() throws InterruptedException{
+        Structure s0 = sm.createStructure("capital");
+        Unit u0 = um.addNewUnit("melee");
+        Unit u1 = um.addNewUnit("colonist");
+        _tiles.get(22).add(s0);
+        _tiles.get(67).add(u0);
+        _tiles.get(67).add(u1);
+
+        CTRLCreateArmyCommand c = new CTRLCreateArmyCommand();
+        c.configure(_tiles.get(73), u0, u1);
+
+        game.notifyOfCommand(c);
+
+        changeTurn(4);
+
+        CTRLCreateUnitCommand cmd = new CTRLCreateUnitCommand();
+        cmd.configure(s0, "melee");
+
+        game.notifyOfCommand(cmd);
+
+        changeTurn(4);
+    }
+
+    private void testReinforceArmy() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
@@ -50,53 +135,27 @@ class testReinforceArmy{
 
         CTRLCreateArmyCommand c = new CTRLCreateArmyCommand();
         c.configure(_tiles.get(73), u0, u1);
-        try {c.execute(map, player);} catch(Exception e){System.out.println(e);}
-        for (int i = 0; i < 4; i++) {
-            player.endTurn();
-            player.beginTurn();
-            System.out.println("NEW TURN");
-            Thread.sleep(1000);
-        }
+
+        game.notifyOfCommand(c);
+
+        changeTurn(4);
 
         CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
         rac.configure(u2, am.debugGetRallyPoint());
-        try{rac.execute(map, player);} catch(Exception e){System.out.println(e);}
 
-        for (int i = 0; i < 3; i++) {
-            Thread.sleep(1000);
-            player.endTurn();
-            player.beginTurn();
-            System.out.println("NEW TURN");
-        }
+        game.notifyOfCommand(rac);
+
+        changeTurn(3);
 
         CTRLMoveRallyPointCommand mrpc = new CTRLMoveRallyPointCommand();
         mrpc.configure(am.debugGetRallyPoint(), _tiles.get(16));
-        try{mrpc.execute(map, player);} catch (Exception e){System.out.println(e);}
 
-        for (int i = 0; i < 6; i++) {
-            Thread.sleep(1000);
-            player.endTurn();
-            player.beginTurn();
-            System.out.println("NEW TURN");
-        }
+        game.notifyOfCommand(mrpc);
+
+        changeTurn(6);
     }
-}
 
-class testCapitalCreation {
-    public void run() throws InterruptedException {
-        //COPY+PASTE
-        //----------------------------
-        int length = 15;
-        Player player = new Player();
-        ArmyManager am = player.getArmies();
-        UnitManager um = player.getUnits();
-        StructureManager sm = player.getStructures();
-        TileGen tileGen = new TileGen(length, length);
-        ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles, player, new Player());
-        GameMap map = new GameMap(_tiles, 5, 5);
-        //----------------------------
-
+    private void testCapitalCreation() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
@@ -107,151 +166,43 @@ class testCapitalCreation {
 
         CTRLCreateCapitalCommand ccc = new CTRLCreateCapitalCommand();
         ccc.configure(u0);
-        try{ccc.execute(map, player);} catch(Exception e){System.out.println(e);}
+        game.notifyOfCommand(ccc);
         System.out.println("CREATED CAPITAL");
-        Thread.sleep(1000);
+        changeTurn(1);
     }
-}
 
-class testArmyCreationAndMovement {
-    public void run() throws InterruptedException {
-        int length = 15;
-        Player player = new Player();
-        ArmyManager am = player.getArmies();
-        UnitManager um = player.getUnits();
-        StructureManager sm = player.getStructures();
 
-        TileGen tileGen = new TileGen(length, length);
-        ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles, player, new Player());
-        GameMap map = new GameMap(_tiles, length, length);
-
+    private void testArmyCreationAndMovement() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
-        _tiles.get(0).add(u0);
-        _tiles.get(1).add(u1);
-        _tiles.get(2).add(u2);
 
-        Thread.sleep(1000);
-
-        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand();
-        CTRLCreateArmyCommand.configure(_tiles.get(50), u0, u1, u2);
-        try{CTRLCreateArmyCommand.execute(map, player);} catch(Exception e){System.out.println(e);}
-
-        RallyPoint rallyPoint = am.debugGetRallyPoint();
-        Army army = am.debugGetArmy();
-
-        player.endTurn();
-        player.beginTurn();
-        System.out.println("NEW TURN");
-        Thread.sleep(1000);
-        player.endTurn();
-        player.beginTurn();
-        System.out.println("NEW TURN");
-        Thread.sleep(1000);
-        player.endTurn();
-        player.beginTurn();
-        System.out.println("NEW TURN");
-        Thread.sleep(1000);
-        player.endTurn();
-        player.beginTurn();
-        System.out.println("NEW TURN");
-        Thread.sleep(1000);
-
-        System.out.println("MOVING TOWARDS RALLYPOINT:");
-        Thread.sleep(1000);
-
-        System.out.println("MOVED RALLY POINT:");
-
-        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
-
-        try{mrp.execute(map, player);} catch(Exception e){System.out.println(e);}
-        Thread.sleep(1000);
-
-        for (int i = 0; i < 4; i++) {
-            player.endTurn();
-            player.beginTurn();
-            System.out.println("NEW TURN");
-            Thread.sleep(1000);
-        }
-    }
-}
-
-class testAttack{
-    public void run() throws InterruptedException {
-        //COPY+PASTE
-        //----------------------------
-        int length = 15;
-        Player player = new Player();
-        ArmyManager am = player.getArmies();
-        UnitManager um = player.getUnits();
-        StructureManager sm = player.getStructures();
-        TileGen tileGen = new TileGen(length, length);
-        ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles, player, new Player());
-        GameMap map = new GameMap(_tiles, 5, 5);
-        //----------------------------
-        Unit u0 = um.addNewUnit("ranged");
-        Unit u1 = um.addNewUnit("colonist");
-
-        Structure s0 = sm.createStructure("capital");
-
-        _tiles.get(2).add(s0);
         _tiles.get(8).add(u0);
         _tiles.get(9).add(u1);
+        _tiles.get(10).add(u2);
 
-        CTRLCreateArmyCommand ccac = new CTRLCreateArmyCommand();
-        ccac.configure(_tiles.get(8), u0, u1);
-        try{ccac.execute(map, player);} catch (Exception e){System.out.println(e);}
-        for(int i = 0; i < 3; i++){
-            Thread.sleep(500);
-            player.endTurn();
-            player.beginTurn();
-        }
+        changeTurn(1);
 
-        Army s1 = am.debugGetArmy();
-        RallyPoint rp = am.debugGetRallyPoint();
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(57), u0, u1, u2);
+        game.notifyOfCommand(cac);
 
-        CTRLMoveRallyPointCommand cmrpc = new CTRLMoveRallyPointCommand();
-        cmrpc.configure(rp, _tiles.get(4));
-        try{cmrpc.execute(map, player);} catch (Exception e){System.out.println(e);}
+        RallyPoint rallyPoint = am.debugGetRallyPoint();
 
-        CTRLAttackCommand cacmd = new CTRLAttackCommand();
-        cacmd.configure(s1, _tiles.get(2), player);
-        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
-        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
-        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
-        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
-        try{cacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
+        changeTurn(4);
 
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
+        mrp.configure(rallyPoint, _tiles.get(12));
+        game.notifyOfCommand(mrp);
 
-        for(int i = 0; i < 6; i++){
-            Thread.sleep(500);
-            player.endTurn();
-            player.beginTurn();
-        }
+        changeTurn(4);
     }
-}
 
-class testHeal{
-    public void run() throws InterruptedException {
-        //COPY+PASTE
-        //----------------------------
-        int length = 15;
-        Player player = new Player();
-        ArmyManager am = player.getArmies();
-        UnitManager um = player.getUnits();
-        StructureManager sm = player.getStructures();
-        TileGen tileGen = new TileGen(length, length);
-        ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles, player, new Player());
-        GameMap map = new GameMap(_tiles, 5, 5);
-        //----------------------------
+
+    private void testHeal() throws InterruptedException{
         Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("ranged");
-
         Structure s0 = sm.createStructure("capital");
 
         _tiles.get(2).add(s0);
@@ -261,113 +212,70 @@ class testHeal{
 
         CTRLCreateArmyCommand ccacmd = new CTRLCreateArmyCommand();
         ccacmd.configure(_tiles.get(8), u0, u1);
-        try{ccacmd.execute(map, player);} catch (Exception e){System.out.println(e);}
+        game.notifyOfCommand(ccacmd);
 
-        for(int i = 0; i < 3; i++){
-            Thread.sleep(500);
-            player.endTurn();
-            player.beginTurn();
-        }
+        changeTurn(3);
 
         Army s1 = am.debugGetArmy();
         RallyPoint rp = am.debugGetRallyPoint();
 
         CTRLMoveRallyPointCommand cmrpc = new CTRLMoveRallyPointCommand();
         cmrpc.configure(rp, _tiles.get(4));
-        try{cmrpc.execute(map, player);} catch(Exception e){System.out.println(e);}
+        game.notifyOfCommand(cmrpc);
+
         CTRLAttackCommand catkcmd = new CTRLAttackCommand();
         catkcmd.configure(s1, _tiles.get(2), player);
-        try{catkcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+        game.notifyOfCommand(catkcmd);
 
-        Thread.sleep(500);
-        player.endTurn();
-        player.beginTurn();
-        Thread.sleep(500);
-        player.endTurn();
-        player.beginTurn();
+        changeTurn(2);
+
         CTRLHealCommand chcmd = new CTRLHealCommand();
         chcmd.configure(s0, _tiles.get(2));
-        try{chcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+        game.notifyOfCommand(chcmd);
 
         catkcmd = new CTRLAttackCommand();
         catkcmd.configure(s1, _tiles.get(2), player);
-        try{catkcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+        game.notifyOfCommand(catkcmd);
 
         chcmd = new CTRLHealCommand();
         chcmd.configure(s0, _tiles.get(2));
-        try{chcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+        game.notifyOfCommand(chcmd);
 
         catkcmd = new CTRLAttackCommand();
         catkcmd.configure(s1, _tiles.get(2), player);
-        try{catkcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+        game.notifyOfCommand(catkcmd);
 
         chcmd = new CTRLHealCommand();
         chcmd.configure(s0, _tiles.get(2));
-        try{chcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
+        game.notifyOfCommand(chcmd);
 
-
-        for(int i = 0; i < 6; i++){
-            Thread.sleep(500);
-            player.endTurn();
-            player.beginTurn();
-        }
-    }
+        changeTurn(6);
     }
 
-class testDecommission{
-    public void run() throws InterruptedException {
-        //COPY+PASTE
-        //----------------------------
-        int length = 15;
-        Player player = new Player();
-        ArmyManager am = player.getArmies();
-        UnitManager um = player.getUnits();
-        StructureManager sm = player.getStructures();
-        TileGen tileGen = new TileGen(length, length);
-        ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles, player, new Player());
-        GameMap map = new GameMap(_tiles, 5, 5);
-        //----------------------------
-
+    private void testDecommission() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
         _tiles.get(0).add(u0);
         _tiles.get(1).add(u1);
         _tiles.get(11).add(u2);
+
         CTRLCreateArmyCommand cacmd = new CTRLCreateArmyCommand();
         cacmd.configure(_tiles.get(0), u0, u1, u2);
-        try{cacmd.execute(map, player);} catch(Exception e) {System.out.println(e);}
-        Thread.sleep(1000);
-        player.endTurn();
-        player.beginTurn();
-        Thread.sleep(1000);
+        game.notifyOfCommand(cacmd);
+        Army army = am.debugGetArmy();
+
+        changeTurn(1);
+
         CTRLDecommissionCommand cdcmd = new CTRLDecommissionCommand();
-        cdcmd.configure(u2);
-        try{cdcmd.execute(map, player);} catch (Exception e){System.out.println(e);}
-        Thread.sleep(1000);
-//        new CTRLDecommissionCommand(u1).execute(map, player);
-//        Thread.sleep(1000);
-//        new CTRLDecommissionCommand(u2).execute(map, player);
-//        Thread.sleep(1000);
+        cdcmd.configure(army);
+        game.notifyOfCommand(cdcmd);
+
+
+        changeTurn(1);
     }
-}
 
-class testPowerUpDown{
-    public void run() throws InterruptedException {
-        //COPY+PASTE
-        //----------------------------
-        int length = 15;
-        Player player = new Player();
-        ArmyManager am = player.getArmies();
-        UnitManager um = player.getUnits();
-        StructureManager sm = player.getStructures();
-        TileGen tileGen = new TileGen(length, length);
-        ArrayList<TileAssociation> _tiles = tileGen.execute();
-        new Game(_tiles, player, new Player());
-        GameMap map = new GameMap(_tiles, 5, 5);
-        //----------------------------
-
+    private void testPowerUpDown() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
@@ -375,33 +283,18 @@ class testPowerUpDown{
         _tiles.get(9).add(u1);
         _tiles.get(10).add(u2);
 
-        CTRLCreateArmyCommand CTRLCreateArmyCommand = new CTRLCreateArmyCommand();
-        CTRLCreateArmyCommand.configure(_tiles.get(14), u0, u1, u2);
-        try{CTRLCreateArmyCommand.execute(map, player);} catch(Exception e){System.out.println(e);}
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(14), u0, u1, u2);
+        game.notifyOfCommand(cac);
 
         CTRLPowerUpCommand cpupcmd = new CTRLPowerUpCommand();
         cpupcmd.configure(u0);
-        try{cpupcmd.execute(map, player);} catch(Exception e){System.out.println(e);}
-     //   new CTRLPowerDownCommand(u0).execute(map, player);
-        for (int i = 0; i < 4; i++) {
-            player.endTurn();
-            player.beginTurn();
-            System.out.println("NEW TURN");
-            Thread.sleep(1000);
-        }
+        game.notifyOfCommand(cpupcmd);
+
+        changeTurn(4);
     }
-}
 
-class testIterator {
-
-    int length = 15;
-    Player player = new Player();
-    ArmyManager am = player.getArmies();
-    UnitManager um = player.getUnits();
-    StructureManager sm = player.getStructures();
-
-    public void run() {
-
+    private void testIterator() throws InterruptedException{
         um.addNewUnit("explorer");
         um.addNewUnit("explorer");
         um.addNewUnit("explorer");
@@ -448,4 +341,38 @@ class testIterator {
         iter.prevMode();
         iter.getElement();
     }
+
+    private void testCommandIterator() throws InterruptedException{
+        Unit u0 = um.addNewUnit("colonist");
+
+        CTRLPowerUpCommand cmd = new CTRLPowerUpCommand();
+        cmd.configure(u0);
+        game.notifyOfCommand(cmd);
+
+        CommandListVisitor v = new CommandListVisitor();
+        u0.accept(v);
+        CommandIterator iter = v.getIterator();
+    }
+
+    private void testPathfinding() throws InterruptedException{
+        Unit u0 = um.addNewUnit("colonist");
+        _tiles.get(203).add(u0);
+
+        changeTurn(1);
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(203), u0);
+        game.notifyOfCommand(cac);
+
+        RallyPoint rallyPoint = am.debugGetRallyPoint();
+
+        changeTurn(4);
+
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
+        mrp.configure(rallyPoint, _tiles.get(0));
+        game.notifyOfCommand(mrp);
+
+        changeTurn(10);
+    }
 }
+
