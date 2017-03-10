@@ -19,11 +19,17 @@ public class TileGen {
     public ArrayList<TileAssociation> execute(){
         tiles = new TileAssociation[total];
         Terrain t;
+        ArrayList<Integer> normalList = new ArrayList<>();
+        normalList.add(11*length + 4);
+        normalList.add(10*length + 4);
+        normalList.add(9*length + 3);
+        normalList.add(8*length + 3);
+        normalList.add(7*length + 2);
         for (int i = 0; i < total; i++){
-//            if (5 < i%length && i%length < 10 && i < 4*length){
-//                t = new Slowing();
-//            }
-            if(i%length == 5 && i < (length-1)*length){
+            if (normalList.contains(i)){
+                t = new Normal();
+            }
+            else if(i%length == 5 && i < (length-1)*length){
                 t = new Impassable();
             }
             else if(i%length == 4 && i < (length-1)*length){
@@ -31,6 +37,12 @@ public class TileGen {
             }
             else if(i%length == 3 && i < (length-1)*length){
                 t = new Slowing();
+            }
+            else if(i%length == 2 && i < (length-1)*length){
+                t = new Slowing();
+            }
+            else if(i%length == 13){
+                t = new Impassable();
             }
             else {
                 t = new Normal();

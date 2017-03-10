@@ -31,7 +31,7 @@ class modelTest{
 
     modelTest() throws InterruptedException {
         configure();
-        //testAttack();
+        testAttack();
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();
@@ -41,7 +41,7 @@ class modelTest{
         //testPowerUpDown();
         //testIterator();
         //testCommandIterator();
-        testPathfinding();
+        //testPathfinding();
     }
 
     private void configure() throws InterruptedException {
@@ -58,9 +58,10 @@ class modelTest{
     private void changeTurn(int n) throws InterruptedException {
         for(int i = 0; i < n; i++){
             System.out.println("NewTurn:");
-            Thread.sleep(500);
+            Thread.sleep(250);
             player.endTurn();
             player.beginTurn();
+            Thread.sleep(250);
         }
     }
 
@@ -69,25 +70,25 @@ class modelTest{
         Unit u1 = um.addNewUnit("colonist");
         Structure s0 = sm.createStructure("capital");
 
-        _tiles.get(2).add(s0);
-        _tiles.get(8).add(u0);
-        _tiles.get(9).add(u1);
+        _tiles.get(6).add(s0);
+        _tiles.get(11).add(u0);
+        _tiles.get(12).add(u1);
 
         CTRLCreateArmyCommand ccac = new CTRLCreateArmyCommand();
-        ccac.configure(_tiles.get(8), u0, u1);
+        ccac.configure(_tiles.get(10), u0, u1);
         game.notifyOfCommand(ccac);
 
         changeTurn(3);
 
-        Army s1 = am.debugGetArmy();
+        Army army = am.debugGetArmy();
         RallyPoint rp = am.debugGetRallyPoint();
 
         CTRLMoveRallyPointCommand cmrpc = new CTRLMoveRallyPointCommand();
-        cmrpc.configure(rp, _tiles.get(4));
+        cmrpc.configure(rp, _tiles.get(8));
         game.notifyOfCommand(cmrpc);
 
         CTRLAttackCommand cacmd = new CTRLAttackCommand();
-        cacmd.configure(s1, _tiles.get(2), player);
+        cacmd.configure(army, _tiles.get(6), player);
         game.notifyOfCommand(cacmd);
         game.notifyOfCommand(cacmd);
         game.notifyOfCommand(cacmd);
@@ -172,14 +173,14 @@ class modelTest{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
-        _tiles.get(0).add(u0);
-        _tiles.get(1).add(u1);
-        _tiles.get(2).add(u2);
+        _tiles.get(8).add(u0);
+        _tiles.get(9).add(u1);
+        _tiles.get(10).add(u2);
 
         changeTurn(1);
 
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
-        cac.configure(_tiles.get(50), u0, u1, u2);
+        cac.configure(_tiles.get(57), u0, u1, u2);
         game.notifyOfCommand(cac);
 
         RallyPoint rallyPoint = am.debugGetRallyPoint();
@@ -187,7 +188,7 @@ class modelTest{
         changeTurn(4);
 
         CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
-        mrp.configure(rallyPoint, _tiles.get(0));
+        mrp.configure(rallyPoint, _tiles.get(12));
         game.notifyOfCommand(mrp);
 
         changeTurn(4);
@@ -347,16 +348,12 @@ class modelTest{
 
     private void testPathfinding() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
-        Unit u1 = um.addNewUnit("colonist");
-        Unit u2 = um.addNewUnit("colonist");
-        _tiles.get(202).add(u0);
-        _tiles.get(201).add(u1);
-        _tiles.get(203).add(u2);
+        _tiles.get(203).add(u0);
 
         changeTurn(1);
 
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
-        cac.configure(_tiles.get(203), u0, u1, u2);
+        cac.configure(_tiles.get(203), u0);
         game.notifyOfCommand(cac);
 
         RallyPoint rallyPoint = am.debugGetRallyPoint();
