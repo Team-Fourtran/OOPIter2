@@ -14,18 +14,29 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
     private TileAssociation destination;
     private PlayerAsset rallyPoint; //RallyPoint
 
-    public CTRLMoveRallyPointCommand(PlayerAsset rallyPoint, TileAssociation destination)
-    {
+    private boolean isConfigured;
+
+    public CTRLMoveRallyPointCommand(){
+        isConfigured = false;
+    }
+
+    public void configure(PlayerAsset rallyPoint, TileAssociation destination) {
+        isConfigured = true;
         this.destination = destination;
         this.rallyPoint = rallyPoint;
     }
+
     @Override
-    public void execute(GameMap map, Player player) {
+    public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
+        if(isConfigured){
+            //TODO: CHECK IF ARMY HAS A SOLDIER
 
-        //TODO: CHECK IF ARMY HAS A SOLDIER
+            rallyPoint.accept(
+                    new MovementVisitor(map, destination)
+            );
+        } else {
+            throw new CommandNotConfiguredException("[" + this + "] is not configured.");
+        }
 
-        rallyPoint.accept(
-                new MovementVisitor(map, destination)
-        );
     }
 }

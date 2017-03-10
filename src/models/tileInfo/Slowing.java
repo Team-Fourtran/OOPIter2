@@ -17,7 +17,7 @@ public class Slowing implements Terrain {
 
 	@Override
 	public void accept(TileVisitor v) {
-		// TODO Auto-generated method stub
+		v.visitSlowing(this);
 		
 	}
 

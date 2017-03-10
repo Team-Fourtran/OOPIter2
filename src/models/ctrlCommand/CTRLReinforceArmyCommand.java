@@ -10,15 +10,24 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
     private Unit unit;
     private RallyPoint rallyPoint;
 
-    public CTRLReinforceArmyCommand(Unit unit, RallyPoint rallyPoint){
+    private boolean isConfigured;
+
+    public CTRLReinforceArmyCommand(){
+        isConfigured = false;
+    }
+
+    public void configure(Unit unit, RallyPoint rallyPoint){
+        this.isConfigured = true;
         this.unit = unit;
         this.rallyPoint = rallyPoint;
     }
 
     @Override
-    public void execute(GameMap map, Player player) {
-        rallyPoint.accept(
-                new ReinforceArmyVisitor(map, unit)
-        );
+    public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
+        if(isConfigured){
+            rallyPoint.accept(
+                    new ReinforceArmyVisitor(map, unit)
+            );
+        } else throw new CommandNotConfiguredException("[" + this + "] is not configured.");
     }
 }

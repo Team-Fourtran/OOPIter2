@@ -145,7 +145,7 @@ public class UnitManager {
             }
 
             public PlayerAsset current(){
-                System.out.println(list.get(index).getType());
+                //System.out.println(list.get(index).getType());
                 return list.get(index);
             }
 

@@ -13,15 +13,27 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
     private TileAssociation RPLocation;
     private Unit[] units;
 
-    public CTRLCreateArmyCommand(TileAssociation startTile, Unit ... units){
+    private boolean isConfigured;
+
+    public CTRLCreateArmyCommand(){
+        isConfigured = false;
+    }
+
+    public void configure(TileAssociation startTile, Unit ... units){
+        isConfigured = true;
         this.RPLocation = startTile;
         this.units = units;
     }
 
     @Override
-    public void execute(GameMap map, Player player) {
-        player.accept(
-                new ArmyCreationVisitor(map, RPLocation, units)
-        );
+    public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
+        if(isConfigured){
+            player.accept(
+                    new ArmyCreationVisitor(map, RPLocation, units)
+            );
+        } else {
+            throw new CommandNotConfiguredException("[" + this + "] is not configured.");
+        }
+
     }
 }

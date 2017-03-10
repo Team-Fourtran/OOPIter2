@@ -7,12 +7,20 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public abstract class PlayerAsset {
+    protected String assetID;
     private double movementTurns = 0.33; //Should be overridden by subtypes
     private CommandArray universalQueue = new CommandArray();
     private boolean hasExecutedCommand = false;
     private Queue<Command> commandQueue = new LinkedList<>();
     private int commandCount = 0;
     private int moveCounter = 0;
+
+    public void setID(String id){
+        assetID = id;
+    }
+    public String getID(){
+        return assetID;
+    }
 
     public double getMovementTurns(){
         return movementTurns;
