@@ -2,9 +2,7 @@ package models.utility;
 
 import models.assetOwnership.TileAssociation;
 
-import models.tileInfo.Normal;
-import models.tileInfo.Terrain;
-import models.tileInfo.Tile;
+import models.tileInfo.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,9 +18,36 @@ public class TileGen {
     }
     public ArrayList<TileAssociation> execute(){
         tiles = new TileAssociation[total];
-        Random rand = new Random();
+        Terrain t;
+        ArrayList<Integer> normalList = new ArrayList<>();
+        normalList.add(11*length + 4);
+        normalList.add(10*length + 4);
+        normalList.add(9*length + 3);
+        normalList.add(8*length + 3);
+        normalList.add(7*length + 2);
         for (int i = 0; i < total; i++){
-            Terrain t = new Normal();
+            if (normalList.contains(i)){
+                t = new Normal();
+            }
+            else if(i%length == 5 && i < (length-1)*length){
+                t = new Impassable();
+            }
+            else if(i%length == 4 && i < (length-1)*length){
+                t = new Slowing();
+            }
+            else if(i%length == 3 && i < (length-1)*length){
+                t = new Slowing();
+            }
+            else if(i%length == 2 && i < (length-1)*length){
+                t = new Slowing();
+            }
+            else if(i%length == 13){
+                t = new Impassable();
+            }
+            else {
+                t = new Normal();
+            }
+            //Terrain t = new Impassable();
             Tile tile = new Tile(t);
             tiles[i] = new TileAssociation(tile);
         }
