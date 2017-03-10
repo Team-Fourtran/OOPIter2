@@ -42,6 +42,8 @@ class MessageGenerator implements KeyPressListener{
         //System.out.println(keystrokes);
         if(keystrokes.get("ENTER")){
             generateMessage();
+            System.out.println(assetIterator.getCurrentMode());
+            System.out.println(assetIterator.getCurrentType());
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
