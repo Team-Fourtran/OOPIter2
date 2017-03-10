@@ -17,21 +17,8 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-
         new modelTest();
-        //new testArmyCreationAndMovement().run();
-        //new testIterator().run();
-        //new testCapitalCreation().run();
-        //new testAttack().run();
-        //new testDecommission().run();
-        //new testPowerUpDown().run();
-        //new testHeal().run();
-        //new testReinforceArmy().run();
-        //new testCommandIterator().run();
-        //new testCreateUnit().run();
     }
-
-
 }
 
 class modelTest{
@@ -42,7 +29,7 @@ class modelTest{
     private UnitManager um;
     private StructureManager sm;
 
-    public modelTest() throws InterruptedException {
+    modelTest() throws InterruptedException {
         configure();
         //testAttack();
         //testCreateUnit();
@@ -59,7 +46,6 @@ class modelTest{
     private void configure() throws InterruptedException {
         int length = 15;
         this.player = new Player();
-
         TileGen tileGen = new TileGen(length, length);
         this._tiles = tileGen.execute();
         this.game = new Game(player, _tiles);
