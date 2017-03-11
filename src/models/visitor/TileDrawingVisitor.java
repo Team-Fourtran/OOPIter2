@@ -110,7 +110,7 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 		    return;
         }
 		try {
-			texture = ImageIO.read(new File("src/application/images/terrain/Water.png"));
+			texture = ImageIO.read(new File("src/application/images/units/BlueArmy.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -208,7 +208,7 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
     public void visitMeleeUnit(MeleeUnit meleeUnit) {
         BufferedImage texture = null;
         try{
-            texture = ImageIO.read(new File("src/application/images/terrain/Snow.png"));
+            texture = ImageIO.read(new File("src/application/images/units/BlueSword.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

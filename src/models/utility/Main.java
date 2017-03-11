@@ -30,7 +30,7 @@ class modelTest{
 
     modelTest() throws InterruptedException {
         configure();
-        //testAttack();
+        testAttack();
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();
@@ -43,7 +43,7 @@ class modelTest{
         //testPathfinding();
         //testLandMine();
         //testLandMine2();
-        testBuild();
+        //testBuild();
     }
 
     private void configure() throws InterruptedException {
@@ -423,7 +423,7 @@ class modelTest{
     private void testBuild() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
-        Unit u2 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("melee");
         _tiles.get(4).add(u0);
         _tiles.get(3).add(u1);
         _tiles.get(5).add(u2);
