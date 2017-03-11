@@ -41,7 +41,8 @@ class modelTest{
         //testIterator();
         //testCommandIterator();
         //testPathfinding();
-        testLandMine();
+        //testLandMine();
+        testLandMine2();
     }
 
     private void configure() throws InterruptedException {
@@ -133,14 +134,12 @@ class modelTest{
 
         CTRLCreateArmyCommand c = new CTRLCreateArmyCommand();
         c.configure(_tiles.get(74), u0, u1);
-
         game.notifyOfCommand(c);
 
         changeTurn(4);
 
         CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
         rac.configure(u2, am.debugGetRallyPoint());
-
         game.notifyOfCommand(rac);
 
         changeTurn(3);
@@ -388,6 +387,36 @@ class modelTest{
         game.notifyOfCommand(mrp);
 
         changeTurn(8);
+    }
+
+    private void testLandMine2() throws InterruptedException{
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        _tiles.get(10).add(u0);
+        _tiles.get(11).add(u1);
+
+        changeTurn(1);
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(99), u0, u1);
+        game.notifyOfCommand(cac);
+
+        Unit u2 = um.addNewUnit("colonist");
+        _tiles.get(157).add(u2);
+
+        changeTurn(4);
+
+        CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
+        rac.configure(u2, am.debugGetRallyPoint());
+        game.notifyOfCommand(rac);
+
+        changeTurn(4);
+
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
+        mrp.configure(am.debugGetRallyPoint(), _tiles.get(97));
+        game.notifyOfCommand(mrp);
+
+        changeTurn(4);
     }
 }
 

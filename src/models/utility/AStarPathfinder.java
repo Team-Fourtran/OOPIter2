@@ -10,6 +10,8 @@ public class AStarPathfinder {
     private TileAssociation start;
     private TileAssociation goal;
     private node startNode;
+    private node endNode;
+    private node finalPath;
 
     private Queue<node> openList;
     private Queue<node> closedList;
@@ -20,18 +22,25 @@ public class AStarPathfinder {
         openList = new LinkedList<>();
         closedList = new LinkedList<>();
         openList.add(new node(this.start, null, 0));
+        execute();
+        finalPath = null;
     }
 
     //COSTS: current.getTileInfo().getMovementCost();
 
-    public ArrayList<TileAssociation> execute() {
+    public void execute() {
         startNode = openList.peek();
         node current = openList.peek();
         while (!openList.isEmpty()) {
             current = openList.remove();
             if (current.innerState == goal) {
                 //have reached the goal
-                break;
+                if (finalPath == null){
+                    finalPath = current;
+                }
+                else if (current.cost < finalPath.cost){
+                    finalPath = current;
+                }
             }
             closedList.add(current);
 
@@ -51,11 +60,17 @@ public class AStarPathfinder {
                 }
             }
         }
-        return buildPath(current);
+        this.endNode = finalPath;
     }
 
-    private ArrayList<TileAssociation> buildPath(node n){
+    public ArrayList<TileAssociation> getPath(){
         ArrayList<TileAssociation> path = new ArrayList<>();
+        node n = this.endNode;
+        if (n == null){
+            System.out.println("Invalid Destination!");
+            path.add(startNode.innerState);
+            return path;
+        }
         while(n != startNode){
             path.add(0, n.innerState);
             n = n.parent;
