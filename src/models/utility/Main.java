@@ -42,14 +42,15 @@ class modelTest{
         //testCommandIterator();
         //testPathfinding();
         //testLandMine();
-        testLandMine2();
+        //testLandMine2();
+        testBuild();
     }
 
     private void configure() throws InterruptedException {
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.executeFancy();
+        this._tiles = tileGen.execute();
         this.game = new Game(player, _tiles);
         this.am = player.getArmies();
         this.um = player.getUnits();
@@ -417,6 +418,30 @@ class modelTest{
         game.notifyOfCommand(mrp);
 
         changeTurn(4);
+    }
+
+    private void testBuild() throws InterruptedException{
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        _tiles.get(4).add(u0);
+        _tiles.get(3).add(u1);
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(7), u0, u1);
+        game.notifyOfCommand(cac);
+
+        changeTurn(3);
+
+        CTRLBuildCommand cbc = new CTRLBuildCommand();
+        cbc.configure(am.debugGetRallyPoint(), "fort", 0);
+        game.notifyOfCommand(cbc);
+        changeTurn(4);
+
+        CTRLMoveRallyPointCommand cmr = new CTRLMoveRallyPointCommand();
+        cmr.configure(am.debugGetRallyPoint(), _tiles.get(13));
+        game.notifyOfCommand(cmr);
+        changeTurn(4);
+        System.out.print("sd");
     }
 }
 
