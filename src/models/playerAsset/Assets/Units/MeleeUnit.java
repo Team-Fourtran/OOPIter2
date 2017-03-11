@@ -1,5 +1,8 @@
 package models.playerAsset.Assets.Units;
 
+import models.visitor.AssetVisitor;
+import models.visitor.SpecificAssetVisitor;
+
 //Unit type
 //Responsibilities: Weak attacker, uncovers resources on map
 public class MeleeUnit extends Unit{
@@ -16,5 +19,15 @@ public class MeleeUnit extends Unit{
 
     public String getType(){
         return "Melee";
+    }
+
+    @Override
+    public void accept(AssetVisitor v) {
+        if (v instanceof SpecificAssetVisitor){
+            ((SpecificAssetVisitor)v).visitMeleeUnit(this);
+        }
+        else{
+            super.accept(v);
+        }
     }
 }

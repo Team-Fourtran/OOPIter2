@@ -1,5 +1,8 @@
 package models.playerAsset.Assets.Units;
 
+import models.visitor.AssetVisitor;
+import models.visitor.SpecificAssetVisitor;
+
 //Unit type
 //Responsibilities: Attacker, can attack over multiple tiles
 public class RangedUnit extends Unit{
@@ -16,5 +19,15 @@ public class RangedUnit extends Unit{
     }
     public String getType(){
         return "Ranged";
+    }
+
+    @Override
+    public void accept(AssetVisitor v) {
+        if (v instanceof SpecificAssetVisitor){
+            ((SpecificAssetVisitor)v).visitRangedUnit(this);
+        }
+        else{
+            super.accept(v);
+        }
     }
 }

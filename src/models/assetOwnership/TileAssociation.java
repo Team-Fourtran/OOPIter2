@@ -6,9 +6,8 @@ import models.tileInfo.Item;
 import models.tileInfo.OneShotItem;
 import models.tileInfo.Tile;
 import models.utility.Direction;
-import models.visitor.AssetVisitor;
-import models.visitor.ObjectVisitor;
-import models.visitor.TileVisitor;
+import models.visitor.*;
+
 import java.util.Observable;
 import java.util.ArrayList;
 import java.util.Collection;
