@@ -33,11 +33,10 @@ public class TileAssociation extends Observable{
         return (assetOwner.hasAsset(asset));
     }
 
-    public void remove(PlayerAsset ... p){
-        for (PlayerAsset _p : p){
-            assetOwner.removeAsset(_p);
-        }
+    public boolean remove(PlayerAsset p){
+        boolean removal = assetOwner.removeAsset(p);
         notifyObservers();
+        return removal;
     }
 
     public void removeItem(){

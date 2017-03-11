@@ -41,6 +41,7 @@ public class MovementVisitor implements AssetVisitor{
             ArrayList<TileAssociation> path = gameMap.generatePath(army, destination);
             TileAssociation cur = path.remove(0);
             for (TileAssociation next : path){
+                //if(player.getArmies())
                 army.addCommand(
                         new MoveCommand(gameMap, player, army, cur, next)
                 );

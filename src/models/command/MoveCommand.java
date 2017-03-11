@@ -22,7 +22,11 @@ public class MoveCommand implements Command{
     }
     @Override
     public void execute() {
-        start.remove(asset);
+        //If the asset has been removed due to death, we can't move the asset,
+        //but this still has to execute due to the visitor.
+        if (!start.remove(asset)){
+            return;
+        }
         end.add(asset);
         try {
             Thread.sleep(200);
