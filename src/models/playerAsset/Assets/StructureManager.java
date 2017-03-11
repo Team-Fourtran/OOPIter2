@@ -84,7 +84,10 @@ public class StructureManager implements Manager {
 
     //destroy a structure
     public void removeStructure(Structure structure) {
-        structureList.remove(structure);
+        if (structureList.remove(structure)){
+            freeID(structure.getID());
+            //TODO check if this works
+        }
     }
 
     @Override
