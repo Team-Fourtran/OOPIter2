@@ -7,13 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Assets.Army;
 import models.tileInfo.*;
 
-public class TileDrawingVisitor implements TileVisitor {
+public class TileDrawingVisitor implements TileAssociationVisitor {
+	private final int DRAWABLE_OBJECTS = 6; //Number of objects listed below
 	private final int TERRAIN = 0;
 	private final int STRUCTURE = 1;
 	private final int UNIT = 2;
@@ -33,7 +36,7 @@ public class TileDrawingVisitor implements TileVisitor {
 		// TODO Why? Reset image in graphic
 		g2.drawImage(null, x, y, null);
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < DRAWABLE_OBJECTS; i++) {
 			ArrayList<BufferedImage> a = new ArrayList<>();
 			priority.add(a);
 		}

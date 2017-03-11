@@ -2,7 +2,6 @@ package models.utility;
 
 
 import application.Game;
-import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.*;
 import models.playerAsset.Assets.*;
@@ -132,7 +131,7 @@ class modelTest{
         Thread.sleep(1000);
 
         CTRLCreateArmyCommand c = new CTRLCreateArmyCommand();
-        c.configure(_tiles.get(73), u0, u1);
+        c.configure(_tiles.get(74), u0, u1);
 
         game.notifyOfCommand(c);
 
@@ -146,7 +145,7 @@ class modelTest{
         changeTurn(3);
 
         CTRLMoveRallyPointCommand mrpc = new CTRLMoveRallyPointCommand();
-        mrpc.configure(am.debugGetRallyPoint(), _tiles.get(16));
+        mrpc.configure(am.debugGetRallyPoint(), _tiles.get(223));
 
         game.notifyOfCommand(mrpc);
 

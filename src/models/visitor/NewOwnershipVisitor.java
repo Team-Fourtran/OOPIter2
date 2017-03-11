@@ -38,24 +38,4 @@ public class NewOwnershipVisitor implements TileVisitor{
     public void visitObstacleItem(ObstacleItem item) {
 
     }
-
-    @Override
-    public void visitUnit(Unit unit) {
-
-    }
-
-    @Override
-    public void visitArmy(Army army) {
-
-    }
-
-    @Override
-    public void visitStructure(Structure structure) {
-
-    }
-
-    @Override
-    public void visitRallyPoint(RallyPoint rallyPoint) {
-
-    }
 }

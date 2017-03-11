@@ -75,7 +75,9 @@ public class TileAssociation extends Observable{
         if (v instanceof TileVisitor){
             tile.accept((TileVisitor) v);
         }
-    	assetOwner.accept(v);
+        if (v instanceof AssetVisitor) {
+            assetOwner.accept(v);
+        }
     }
     
     @Override
