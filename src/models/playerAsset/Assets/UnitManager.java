@@ -5,14 +5,13 @@ import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.TypeIterator;
 import models.visitor.PlayerVisitor;
 import java.util.ArrayList;
-
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /* Manager for a Player's Units
    Helps create units and pass commands to them
  */
 public class UnitManager {
-
-    ArrayList<Unit> unitList;
+    private CopyOnWriteArrayList<Unit> unitList;
     final private UnitFactory factory;
     ArrayList<PlayerAsset> explorerList;
     ArrayList<PlayerAsset> colonistList;
@@ -24,7 +23,7 @@ public class UnitManager {
     ArrayList<Iterator<PlayerAsset>> unitIterators;
 
     public UnitManager() {
-        unitList = new ArrayList<>();
+        unitList = new CopyOnWriteArrayList<>();
         explorerList = new ArrayList<>();
         colonistList = new ArrayList<>();
         meleeList = new ArrayList<>();
@@ -58,16 +57,14 @@ public class UnitManager {
 
     //if possible, execute a (movement) command in units
     public void executeCommands(){
-        for (Unit u: unitList){
-            u.executeCommand();
-        }
+        java.util.Iterator<Unit> iter = unitList.iterator();
+        iter.forEachRemaining(Unit::executeCommand);
     }
 
     //reset the ability for a unit to move
     public void resetCommands(){
-        for (Unit u: unitList) {
-            u.resetCommands();
-        }
+        java.util.Iterator<Unit> iter = unitList.iterator();
+        iter.forEachRemaining(Unit::resetCommands);
     }
 
     //Should be in abstract class
@@ -115,7 +112,6 @@ public class UnitManager {
         for (Unit u: unitList){
             totalUpkeep += u.getUpkeep();
         }
-
         return totalUpkeep;
     }
 

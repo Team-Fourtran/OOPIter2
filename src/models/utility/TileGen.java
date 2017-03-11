@@ -17,14 +17,14 @@ public class TileGen {
         this.total = length*width;
     }
     public ArrayList<TileAssociation> execute(){
-        ArrayList<OneShotItem> itemList;
+        Item item;
         tiles = new TileAssociation[total];
         Terrain t;
         for (int i = 0; i < total; i++){
-            itemList = new ArrayList<>();
+            item = null;
             t = new Normal();
 
-            Tile tile = new Tile(t, itemList);
+            Tile tile = new Tile(t, item);
             tiles[i] = new TileAssociation(tile);
         }
         //HEX:
@@ -92,7 +92,7 @@ public class TileGen {
     }
 
     public ArrayList<TileAssociation> executeFancy(){
-        ArrayList<OneShotItem> itemList;
+        Item item;
         tiles = new TileAssociation[total];
         Terrain t;
         ArrayList<Integer> normalList = new ArrayList<>();
@@ -102,7 +102,7 @@ public class TileGen {
         normalList.add(8*length + 3);
         normalList.add(7*length + 2);
         for (int i = 0; i < total; i++){
-            itemList = new ArrayList<>();
+            item = null;
             if (normalList.contains(i)){
                 t = new Normal();
             }
@@ -127,10 +127,10 @@ public class TileGen {
             //Terrain t = new Impassable();
 
             if(i % 30 == 8){
-                itemList.add(new LandMine());
+                item = new LandMine();
             }
 
-            Tile tile = new Tile(t, itemList);
+            Tile tile = new Tile(t, item);
             tiles[i] = new TileAssociation(tile);
         }
         //HEX:

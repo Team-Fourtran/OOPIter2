@@ -71,8 +71,10 @@ public abstract class PlayerAsset {
                 }
 
                 for (int i = 0; i < numCommands; i++) {
-                    commandQueue.remove().execute();
-                    moveCounter++;
+                    if(!commandQueue.isEmpty()){
+                        commandQueue.remove().execute();
+                        moveCounter++;
+                    }
                 }
 
                 if (moveCounter == 3 || endMovement)

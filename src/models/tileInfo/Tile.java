@@ -2,38 +2,26 @@ package models.tileInfo;
 
 import models.visitor.TileVisitor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class Tile {
 
     private Terrain terrainType;
     private ResourcePackage myResources;
-    private ArrayList<AoE> aoE;
-    private ArrayList<OneShotItem> oneShotItems;
-    private ObstacleItem obstacleItem;
+    private AoE aoE;
+    private Item item;
 
-    public Tile(Terrain terrain, ArrayList<OneShotItem> itemList){
+    public Tile(Terrain terrain, Item item){
         this.terrainType = terrain;
-        this.aoE = new ArrayList<>();
-        this.oneShotItems = new ArrayList<>();
-        this.oneShotItems = itemList;
+        this.item = item;
     }
-    public Tile(Terrain t, ResourcePackage p, ArrayList<AoE> a, ArrayList<OneShotItem> i) {
+    public Tile(Terrain t, ResourcePackage p, AoE a, Item i) {
         this.terrainType = t;
         this.myResources = p;
         this.aoE = a;
-        this.oneShotItems = i;
+        this.item = i;
     }
 
-    public boolean hasItems(){
-        return !oneShotItems.isEmpty();
-    }
-
-    public ArrayList<OneShotItem> interactWithItems(){
-        ArrayList<OneShotItem> _items = new ArrayList<>(oneShotItems);
-        oneShotItems.clear();
-        return _items;
+    public void removeItem(){
+        this.item = null;
     }
 
     public double getMovementCost() {
@@ -44,17 +32,17 @@ public class Tile {
         return terrainType;
     }
 
-    public ArrayList<AoE> getAoEs() {
+    public AoE getAoE() {
         return aoE;
     }
 
     public void accept(TileVisitor v) {
     	terrainType.accept(v);
-    	for (Item i : oneShotItems){
-    	    i.accept(v);
+    	if(item != null){
+            item.accept(v);
         }
-        for (AoE aoe : aoE){
-    	    aoe.accept(v);
+        if(aoE != null){
+            aoE.accept(v);
         }
     }
 }

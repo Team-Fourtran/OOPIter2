@@ -7,6 +7,7 @@ import models.tileInfo.OneShotItem;
 import models.tileInfo.Tile;
 import models.utility.Direction;
 import models.visitor.AssetVisitor;
+import models.visitor.ObjectVisitor;
 import models.visitor.TileVisitor;
 import java.util.Observable;
 import java.util.ArrayList;
@@ -32,10 +33,6 @@ public class TileAssociation extends Observable{
         return (assetOwner.hasAsset(asset));
     }
 
-    public boolean isItemOwner(){
-        return tile.hasItems();
-    }
-
     public void remove(PlayerAsset ... p){
         for (PlayerAsset _p : p){
             assetOwner.removeAsset(_p);
@@ -43,8 +40,8 @@ public class TileAssociation extends Observable{
         notifyObservers();
     }
 
-    public ArrayList<OneShotItem> interactWithItems(){
-        return tile.interactWithItems();
+    public void removeItem(){
+        tile.removeItem();
     }
 
     public void add(PlayerAsset p){
@@ -71,12 +68,12 @@ public class TileAssociation extends Observable{
         return assetOwner.getNumAssetsOwned();
     }
     
-    public void accept(AssetVisitor v) {
+    public void accept(ObjectVisitor v) {
         if (v instanceof TileVisitor){
             tile.accept((TileVisitor) v);
         }
         if (v instanceof AssetVisitor) {
-            assetOwner.accept(v);
+            assetOwner.accept((AssetVisitor) v);
         }
     }
     

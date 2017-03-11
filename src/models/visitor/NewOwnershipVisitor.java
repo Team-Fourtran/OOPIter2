@@ -1,17 +1,22 @@
 package models.visitor;
 
-import models.playerAsset.Assets.Army;
+import models.assetOwnership.GameMap;
+import models.assetOwnership.TileAssociation;
+import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
-import models.playerAsset.Assets.RallyPoint;
-import models.playerAsset.Assets.Structures.Structure;
-import models.playerAsset.Assets.Units.Unit;
 import models.tileInfo.*;
 
 public class NewOwnershipVisitor implements TileVisitor{
+    private GameMap map;
+    private Player player;
     private PlayerAsset asset;
+    private TileAssociation tile;
 
-    public NewOwnershipVisitor(PlayerAsset asset){
+    public NewOwnershipVisitor(GameMap map, Player player, TileAssociation tile, PlayerAsset asset){
+        this.player = player;
+        this.map = map;
         this.asset = asset;
+        this.tile = tile;
     }
 
     @Override
@@ -30,8 +35,11 @@ public class NewOwnershipVisitor implements TileVisitor{
     }
 
     @Override
-    public void visitLandMine(LandMine item) {
-
+    public void visitLandMine(LandMine landMine) {
+        asset.accept(
+                new DeathVisitor(map, player)
+        );
+        tile.removeItem();
     }
 
     @Override
