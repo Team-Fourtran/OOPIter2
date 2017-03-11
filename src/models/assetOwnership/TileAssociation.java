@@ -2,6 +2,8 @@ package models.assetOwnership;
 
 
 import models.playerAsset.Assets.PlayerAsset;
+import models.tileInfo.Item;
+import models.tileInfo.OneShotItem;
 import models.tileInfo.Tile;
 import models.utility.Direction;
 import models.visitor.AssetVisitor;
@@ -30,11 +32,19 @@ public class TileAssociation extends Observable{
         return (assetOwner.hasAsset(asset));
     }
 
+    public boolean isItemOwner(){
+        return tile.hasItems();
+    }
+
     public void remove(PlayerAsset ... p){
         for (PlayerAsset _p : p){
             assetOwner.removeAsset(_p);
         }
         notifyObservers();
+    }
+
+    public ArrayList<OneShotItem> interactWithItems(){
+        return tile.interactWithItems();
     }
 
     public void add(PlayerAsset p){

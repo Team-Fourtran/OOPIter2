@@ -17,7 +17,7 @@ public class TileGen {
         this.total = length*width;
     }
     public ArrayList<TileAssociation> execute(){
-        ArrayList<Item> itemList;
+        ArrayList<OneShotItem> itemList;
         tiles = new TileAssociation[total];
         Terrain t;
         ArrayList<Integer> normalList = new ArrayList<>();
@@ -51,8 +51,8 @@ public class TileGen {
             }
             //Terrain t = new Impassable();
 
-            if(i % 15 == 8){
-                itemList.add(new OneShotItem());
+            if(i % 30 == 8){
+                itemList.add(new LandMine());
             }
 
             Tile tile = new Tile(t, itemList);

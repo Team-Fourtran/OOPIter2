@@ -7,6 +7,5 @@ import models.visitor.TileVisitor;
  */
 public interface Item {
 	// Returns a double representing how many health points to add to a PlayerAsset's health
-	public double getItemEffect();
-	public void accept(TileVisitor v);
+	void accept(TileVisitor v);
 }

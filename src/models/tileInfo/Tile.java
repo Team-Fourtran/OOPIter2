@@ -10,19 +10,30 @@ public class Tile {
     private Terrain terrainType;
     private ResourcePackage myResources;
     private ArrayList<AoE> aoE;
-    private ArrayList<Item> items;
+    private ArrayList<OneShotItem> oneShotItems;
+    private ObstacleItem obstacleItem;
 
-    public Tile(Terrain terrain, ArrayList<Item> itemList){
+    public Tile(Terrain terrain, ArrayList<OneShotItem> itemList){
         this.terrainType = terrain;
         this.aoE = new ArrayList<>();
-        this.items = new ArrayList<>();
-        this.items = itemList;
+        this.oneShotItems = new ArrayList<>();
+        this.oneShotItems = itemList;
     }
-    public Tile(Terrain t, ResourcePackage p, ArrayList<AoE> a, ArrayList<Item> i) {
+    public Tile(Terrain t, ResourcePackage p, ArrayList<AoE> a, ArrayList<OneShotItem> i) {
         this.terrainType = t;
         this.myResources = p;
         this.aoE = a;
-        this.items = i;
+        this.oneShotItems = i;
+    }
+
+    public boolean hasItems(){
+        return !oneShotItems.isEmpty();
+    }
+
+    public ArrayList<OneShotItem> interactWithItems(){
+        ArrayList<OneShotItem> _items = new ArrayList<>(oneShotItems);
+        oneShotItems.clear();
+        return _items;
     }
 
     public double getMovementCost() {
@@ -37,13 +48,9 @@ public class Tile {
         return aoE;
     }
 
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-    
     public void accept(TileVisitor v) {
     	terrainType.accept(v);
-    	for (Item i : items){
+    	for (Item i : oneShotItems){
     	    i.accept(v);
         }
         for (AoE aoe : aoE){

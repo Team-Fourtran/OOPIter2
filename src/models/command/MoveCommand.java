@@ -22,6 +22,7 @@ public class MoveCommand implements Command{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        //end.get
     }
 
     @Override

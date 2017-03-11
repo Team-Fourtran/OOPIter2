@@ -6,6 +6,6 @@ public interface TileVisitor extends AssetVisitor {
 	void visitNormal(Normal tile);
 	void visitSlowing(Slowing tile);
 	void visitImpassable(Impassable tile);
-	void visitOneShotItem(OneShotItem item);
+	void visitLandMine(LandMine item);
 	void visitObstacleItem(ObstacleItem item);
 }

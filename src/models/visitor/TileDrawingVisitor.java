@@ -44,10 +44,10 @@ public class TileDrawingVisitor implements TileVisitor {
 	}
 
 	@Override
-	public void visitOneShotItem(OneShotItem item){
+	public void visitLandMine(LandMine item){
 		BufferedImage texture = null;
 		try {
-			texture = ImageIO.read(new File("src/application/images/misc/Money.png"));
+			texture = ImageIO.read(new File("src/application/images/misc/Target.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
