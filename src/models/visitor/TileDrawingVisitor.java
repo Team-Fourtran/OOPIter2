@@ -5,10 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-
-import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
@@ -18,9 +15,9 @@ import models.tileInfo.*;
 public class TileDrawingVisitor implements TileAssociationVisitor {
 	private final int DRAWABLE_OBJECTS = 6; //Number of objects listed below
 	private final int TERRAIN = 0;
-	private final int STRUCTURE = 1;
-	private final int UNIT = 2;
-	private final int ARMY = 3;
+	private final int UNIT = 1;
+	private final int ARMY = 2;
+	private final int STRUCTURE = 3;
 	private final int ITEM = 4;
 	private final int RALLYPOINT = 5;
 	

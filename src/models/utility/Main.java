@@ -423,25 +423,31 @@ class modelTest{
     private void testBuild() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("colonist");
         _tiles.get(4).add(u0);
         _tiles.get(3).add(u1);
-
+        _tiles.get(5).add(u2);
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
         cac.configure(_tiles.get(7), u0, u1);
         game.notifyOfCommand(cac);
 
         changeTurn(3);
 
+        CTRLMoveRallyPointCommand cmr = new CTRLMoveRallyPointCommand();
+        cmr.configure(am.debugGetRallyPoint(), _tiles.get(222));
+        game.notifyOfCommand(cmr);
         CTRLBuildCommand cbc = new CTRLBuildCommand();
         cbc.configure(am.debugGetRallyPoint(), "fort", 0);
         game.notifyOfCommand(cbc);
-        changeTurn(4);
+        changeTurn(2);
+        CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
+        rac.configure(u2, am.debugGetRallyPoint());
+        game.notifyOfCommand(rac);
 
-        CTRLMoveRallyPointCommand cmr = new CTRLMoveRallyPointCommand();
-        cmr.configure(am.debugGetRallyPoint(), _tiles.get(13));
+        cmr = new CTRLMoveRallyPointCommand();
+        cmr.configure(am.debugGetRallyPoint(), _tiles.get(216));
         game.notifyOfCommand(cmr);
-        changeTurn(4);
-        System.out.print("sd");
+        changeTurn(12);
     }
 }
 
