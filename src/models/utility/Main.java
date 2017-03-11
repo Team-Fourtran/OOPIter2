@@ -30,11 +30,11 @@ class modelTest{
 
     modelTest() throws InterruptedException {
         configure();
-        testAttack();
+        //testAttack();
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();
-        //testArmyCreationAndMovement();
+        testArmyCreationAndMovement();
         //testHeal();
         //testDecommission();
         //testPowerUpDown();
@@ -170,9 +170,9 @@ class modelTest{
     }
 
     private void testArmyCreationAndMovement() throws InterruptedException{
-        Unit u0 = um.addNewUnit("colonist");
-        Unit u1 = um.addNewUnit("colonist");
-        Unit u2 = um.addNewUnit("colonist");
+        Unit u0 = um.addNewUnit("melee");
+        Unit u1 = um.addNewUnit("melee");
+        Unit u2 = um.addNewUnit("melee");
         _tiles.get(8).add(u0);
         _tiles.get(9).add(u1);
         _tiles.get(10).add(u2);
