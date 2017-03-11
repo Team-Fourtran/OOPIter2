@@ -2,7 +2,6 @@ package models.utility;
 
 
 import application.Game;
-import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.*;
 import models.playerAsset.Assets.*;
@@ -31,7 +30,7 @@ class modelTest{
 
     modelTest() throws InterruptedException {
         configure();
-        testAttack();
+        //testAttack();
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();
@@ -42,13 +41,14 @@ class modelTest{
         //testIterator();
         //testCommandIterator();
         //testPathfinding();
+        testLandMine();
     }
 
     private void configure() throws InterruptedException {
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+        this._tiles = tileGen.executeFancy();
         this.game = new Game(player, _tiles);
         this.am = player.getArmies();
         this.um = player.getUnits();
@@ -132,7 +132,7 @@ class modelTest{
         Thread.sleep(1000);
 
         CTRLCreateArmyCommand c = new CTRLCreateArmyCommand();
-        c.configure(_tiles.get(73), u0, u1);
+        c.configure(_tiles.get(74), u0, u1);
 
         game.notifyOfCommand(c);
 
@@ -146,7 +146,7 @@ class modelTest{
         changeTurn(3);
 
         CTRLMoveRallyPointCommand mrpc = new CTRLMoveRallyPointCommand();
-        mrpc.configure(am.debugGetRallyPoint(), _tiles.get(16));
+        mrpc.configure(am.debugGetRallyPoint(), _tiles.get(223));
 
         game.notifyOfCommand(mrpc);
 
@@ -365,6 +365,29 @@ class modelTest{
         game.notifyOfCommand(mrp);
 
         changeTurn(10);
+    }
+
+    private void testLandMine() throws InterruptedException{
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        _tiles.get(10).add(u0);
+        _tiles.get(11).add(u1);
+
+        changeTurn(1);
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(117), u0, u1);
+        game.notifyOfCommand(cac);
+
+        RallyPoint rallyPoint = am.debugGetRallyPoint();
+
+        changeTurn(4);
+
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
+        mrp.configure(rallyPoint, _tiles.get(124));
+        game.notifyOfCommand(mrp);
+
+        changeTurn(8);
     }
 }
 

@@ -30,9 +30,8 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             //TODO: CHECK IF ARMY HAS A SOLDIER
-
             rallyPoint.accept(
-                    new MovementVisitor(map, destination)
+                    new MovementVisitor(map, player, destination)
             );
         } else {
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");

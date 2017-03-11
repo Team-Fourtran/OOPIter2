@@ -2,9 +2,12 @@ package models.assetOwnership;
 
 
 import models.playerAsset.Assets.PlayerAsset;
+import models.tileInfo.Item;
+import models.tileInfo.OneShotItem;
 import models.tileInfo.Tile;
 import models.utility.Direction;
 import models.visitor.AssetVisitor;
+import models.visitor.ObjectVisitor;
 import models.visitor.TileVisitor;
 import java.util.Observable;
 import java.util.ArrayList;
@@ -37,6 +40,10 @@ public class TileAssociation extends Observable{
         notifyObservers();
     }
 
+    public void removeItem(){
+        tile.removeItem();
+    }
+
     public void add(PlayerAsset p){
         assetOwner.addAsset(p);
         notifyObservers();
@@ -61,11 +68,13 @@ public class TileAssociation extends Observable{
         return assetOwner.getNumAssetsOwned();
     }
     
-    public void accept(AssetVisitor v) {
+    public void accept(ObjectVisitor v) {
         if (v instanceof TileVisitor){
             tile.accept((TileVisitor) v);
         }
-    	assetOwner.accept(v);
+        if (v instanceof AssetVisitor) {
+            assetOwner.accept((AssetVisitor) v);
+        }
     }
     
     @Override
