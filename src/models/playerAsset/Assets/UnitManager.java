@@ -191,6 +191,10 @@ public class UnitManager {
                 return current.current();
             }
 
+            public String getCurrentType(){
+                return getElement().getType();
+            }
+
         };
     }
 }

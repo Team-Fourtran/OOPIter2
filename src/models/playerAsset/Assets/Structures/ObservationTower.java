@@ -12,8 +12,10 @@ public class ObservationTower extends Structure {
         setMaxHealth(200);
         setCurrentHealth(200);
         setUpkeep(1);
+        setRadiusOfInfluence(2);
         setProductionRate(1);
     }
+
 
     @Override
     public void accept(AssetVisitor v) {

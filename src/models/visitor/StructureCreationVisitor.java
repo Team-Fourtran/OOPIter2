@@ -27,12 +27,14 @@ public class StructureCreationVisitor implements PlayerVisitor{
     @Override
     public void visitArmyManager(ArmyManager armyManager) {
         //TODO: check if army is able to create?
+    	// yes, it needs workers to create a structure
     }
 
     @Override
     public void visitStructureManager(StructureManager structureManager) {
         Structure s = structureManager.createStructure(structureType);
         //TODO: see if we can pass in the TileAssociation so we dont have to call this map method...
+        System.out.println("add structure");
         map.addAssetToMap(s, rallyPoint.getArmy());
     }
 

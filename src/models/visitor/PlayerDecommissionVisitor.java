@@ -39,5 +39,6 @@ public class PlayerDecommissionVisitor implements PlayerVisitor {
         byebye.clearQueue();
         unitManager.removeUnit((Unit) byebye);
         //TODO remove from army if a reinforcement
+        // TODO also have the army update its influence radius if a unit is removed
     }
 }
