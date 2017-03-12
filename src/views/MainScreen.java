@@ -11,6 +11,7 @@ import java.awt.event.*;
 import java.awt.event.KeyAdapter;
 
 import models.command.Command;
+import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 import java.util.*;
 
@@ -46,6 +47,8 @@ public class MainScreen implements Observer{
 
     private int x = 0;
     private int y = 0;
+
+    private DrawingPanel map;
 
     public MainScreen(TileAssociation[] tiles){
         this.tiles = tiles;
@@ -103,7 +106,7 @@ public class MainScreen implements Observer{
         }
     }
     public void generateMainScreen(){
-        DrawingPanel map = new DrawingPanel();
+        map = new DrawingPanel();
         map.setBackground(Color.blue);
         JScrollPane mapPane = new JScrollPane(map);
         Dimension d1 = new Dimension(1200, 1200);
@@ -218,6 +221,9 @@ public class MainScreen implements Observer{
             toggleHT = false;
             removeKeyListener(tHL);
         }
+
+
+
         class CommandListener extends KeyAdapter{
             @Override
             public void keyReleased(KeyEvent e){
@@ -292,6 +298,11 @@ public class MainScreen implements Observer{
 
         }
 
+    }
+
+    public TileAssociation doTileTargetting(PlayerAsset startingHighlight){
+        map.enableHighlight();
+        return null;
     }
 
     public void updateMainScreen() {

@@ -66,15 +66,10 @@ public class TestCommandGen{
 
 
         TileGen tileGen = new TileGen(length, length);
-        ArrayList<TileAssociation> _tiles = tileGen.execute();
+        ArrayList<TileAssociation> _tiles = tileGen.executeFancy();
 
         Game thisGame = new Game(player, _tiles);
         GameMap map = new GameMap(_tiles, 5, 5);
-
-
-        MainScreen ms = new MainScreen((TileAssociation[]) _tiles.toArray());
-        ms.generateMainScreen();
-        ms.showMainScreen();
 
         /*  Tests  */
         //testModeIteration();
