@@ -34,12 +34,12 @@ class modelTest{
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();
-        testArmyCreationAndMovement();
+        //testArmyCreationAndMovement();
         //testHeal();
         //testDecommission();
         //testPowerUpDown();
         //testIterator();
-        //testCommandIterator();
+        testCommandIterator();
         //testPathfinding();
         //testLandMine();
         //testLandMine2();
@@ -336,13 +336,14 @@ class modelTest{
 
     private void testCommandIterator() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
+        Structure s0 = sm.createStructure("fort");
 
         CTRLPowerUpCommand cmd = new CTRLPowerUpCommand();
-        cmd.configure(u0);
+        cmd.configure(s0);
         game.notifyOfCommand(cmd);
 
         CommandListVisitor v = new CommandListVisitor();
-        u0.accept(v);
+        s0.accept(v);
         CommandIterator iter = v.getIterator();
     }
 
