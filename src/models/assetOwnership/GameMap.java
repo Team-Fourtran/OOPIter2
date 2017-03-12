@@ -65,19 +65,28 @@ public class GameMap {
         return null;
     }
 
-    // TODO: modify to include influenced tiles
-    public void removeAssetFromMap(PlayerAsset asset){
+    public boolean removeAssetFromMap(PlayerAsset asset){
         TileAssociation loc = searchForTileAssociation(asset);
+        boolean removal = false;
         if (loc != null){
-            loc.remove(asset);
+            removal = loc.remove(asset);
         }
+        // also remove player asset from the influencer lists
+        tileInfluence.remove(asset);
+        return removal;
+    }
+    
+    public boolean removeAssetFromMap(PlayerAsset asset, TileAssociation location) {
+    	boolean removal = location.remove(asset);
+    	tileInfluence.remove(asset);
+    	return removal;
     }
 
-    // TODO: modify to include influenced tiles
+    // TODO: test this!!
     public void addAssetToMap(PlayerAsset asset, PlayerAsset location){
         TileAssociation loc = searchForTileAssociation(location);
         if (loc != null){
-            loc.add(asset);
+        	addAssetToMap(asset, loc);
         }
     }
     
@@ -89,8 +98,8 @@ public class GameMap {
     // TODO: modify to include influenced tiles
     public void replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){
         TileAssociation tileAssociation = searchForTileAssociation(oldAsset);
-        tileAssociation.remove(oldAsset);
-        tileAssociation.add(newAsset);
+        removeAssetFromMap(oldAsset, tileAssociation);
+        addAssetToMap(newAsset, tileAssociation);
     }
     
     public void addInfluenceRadius(CombatAsset asset, TileAssociation baseTile){
@@ -99,6 +108,11 @@ public class GameMap {
     		RadiusOfInfluenceAssociation roi = new RadiusOfInfluenceAssociation(asset, baseTile);
     		tileInfluence.put(asset, roi);
     	}
+    }
+    
+    public void updateInfluenceRadius(CombatAsset asset){
+    	RadiusOfInfluenceAssociation roi = tileInfluence.get(asset);
+    	roi.updateInfluencedTiles();
     }
     
 	public Vector<TileAssociation> getRadiusOfInfluence(CombatAsset asset) {

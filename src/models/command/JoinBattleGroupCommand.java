@@ -23,6 +23,8 @@ public class JoinBattleGroupCommand implements Command{
         }
         if ( map.calculateDistance(army, unit) == 0 ){
             army.addToBattleGroup(unit);
+            // recalculate RoI through the map
+            map.updateInfluenceRadius(army);
             map.removeAssetFromMap(unit);
             army.removeUniversalCommand(this);
             return;

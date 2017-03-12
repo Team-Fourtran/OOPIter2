@@ -45,7 +45,7 @@ class modelTest{
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();
-        //testArmyCreationAndMovement();
+//        testArmyCreationAndMovement();
         //testHeal();
         //testDecommission();
         //testPowerUpDown();
@@ -183,7 +183,7 @@ class modelTest{
     }
 
     private void testArmyCreationAndMovement() throws InterruptedException{
-        Unit u0 = um.addNewUnit("melee");
+        Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("melee");
         Unit u2 = um.addNewUnit("melee");
         _tiles.get(8).add(u0);
@@ -205,6 +205,9 @@ class modelTest{
         game.notifyOfCommand(mrp);
 
         changeTurn(4);
+        
+        Army a = am.debugGetArmy();
+        System.out.println(a.getBattleGroup());
     }
 
     private void testHeal() throws InterruptedException{
@@ -382,27 +385,61 @@ class modelTest{
     }
     
     private void testInfluence() throws InterruptedException {
-    	Unit u0 = um.addNewUnit("colonist");
-    	map.addAssetToMap(u0, _tiles.get(200));
-    	Vector<TileAssociation> v = map.getRadiusOfInfluence(u0);
-    	// color in the radius of influence
-    	for (int i = 0; i < v.size(); i++) {
-    		v.get(i).add(u0);
-    	}
-    	
-//        Unit u0 = um.addNewUnit("colonist");
-//        Unit u1 = um.addNewUnit("colonist");
-//        Unit u2 = um.addNewUnit("colonist");
-//        map.addAssetToMap(u0, _tiles.get(4));
-//        map.addAssetToMap(u1, _tiles.get(3));
-//        map.addAssetToMap(u2, _tiles.get(24));
-//        Thread.sleep(1000);
-//
-//        CTRLCreateCapitalCommand ccc = new CTRLCreateCapitalCommand();
-//        ccc.configure(u0);
-//        game.notifyOfCommand(ccc);
-//        System.out.println("CREATED CAPITAL");
-//        changeTurn(1);
+        Unit u0 = um.addNewUnit("melee");
+        Unit u1 = um.addNewUnit("melee");
+        Unit u2 = um.addNewUnit("melee");
+        Unit u3 = um.addNewUnit("ranged");
+        map.addAssetToMap(u0, _tiles.get(8));
+        map.addAssetToMap(u1, _tiles.get(9));
+        map.addAssetToMap(u2, _tiles.get(10));
+        map.addAssetToMap(u3, _tiles.get(11));
+
+        changeTurn(1);
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(24), u0, u1, u2);
+        game.notifyOfCommand(cac);
+
+        RallyPoint rallyPoint = am.debugGetRallyPoint();
+
+        changeTurn(4);
+        Army a = am.debugGetArmy();
+        Vector<TileAssociation> v0 = map.getRadiusOfInfluence(a);
+        for (int i = 0; i < v0.size(); i++) {
+        	v0.get(i).add(u0);
+        }
+        
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
+        mrp.configure(rallyPoint, _tiles.get(100));
+        game.notifyOfCommand(mrp);
+
+        for (int i = 0; i < v0.size(); i++) {
+        	v0.get(i).remove(u0);
+        }       
+        
+        changeTurn(4);
+        
+        Vector<TileAssociation> v1 = map.getRadiusOfInfluence(a);
+        for (int i = 0; i < v1.size(); i++) {
+        	v1.get(i).add(u0);
+        }
+        
+        // add ranged unit as reinforcement
+        CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
+        rac.configure(u3, am.debugGetRallyPoint());
+        game.notifyOfCommand(rac);
+
+        for (int i = 0; i < v0.size(); i++) {
+        	v1.get(i).remove(u0);
+        }       
+        
+        changeTurn(4);
+        
+        Vector<TileAssociation> v2 = map.getRadiusOfInfluence(a);
+        for (int i = 0; i < v2.size(); i++) {
+        	v2.get(i).add(u0);
+        }
+        changeTurn(4);
 	}
 
     private void testLandMine() throws InterruptedException{

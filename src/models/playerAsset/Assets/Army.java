@@ -46,6 +46,7 @@ public class Army extends CombatAsset {
     public int getRadiusOfInfluence() {
     	int maxRadius = 0;
     	for (Unit _u : battleGroup) {
+    		System.out.println(_u.getType());
     		if (_u.getRadiusOfInfluence() > maxRadius) {
     			maxRadius = _u.getRadiusOfInfluence();
     		}

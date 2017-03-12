@@ -23,6 +23,11 @@ public class RadiusOfInfluenceAssociation {
 		return influencedTiles;
 	}
 	
+	public Vector<TileAssociation> updateInfluencedTiles() {
+		influencedTiles = assignTileAssociationsWithinRadius(asset);
+		return influencedTiles;
+	}
+	
 	private Vector<TileAssociation> assignTileAssociationsWithinRadius(CombatAsset asset) {
 		Vector<TileAssociation> vec = new Vector<TileAssociation>();
 		TileAssociation start = baseTile;
