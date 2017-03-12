@@ -55,7 +55,6 @@ class modelTest{
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
-
         this._tiles = tileGen.executeFancy();
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
@@ -480,8 +479,8 @@ class modelTest{
     private void testLandMine2() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
-        map.addAssetToMap(u0, _tiles.get(10));
-        map.addAssetToMap(u1, _tiles.get(11));
+        map.addAssetToMap(u0, _tiles.get(26));
+        map.addAssetToMap(u1, _tiles.get(27));
 
         changeTurn(1);
 
