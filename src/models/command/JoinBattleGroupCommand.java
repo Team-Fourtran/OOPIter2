@@ -17,7 +17,7 @@ public class JoinBattleGroupCommand implements Command{
 
     @Override
     public void execute() {
-        if (army == null || !army.includes(unit)){
+        if (army == null || !army.includes(unit) || !map.assetExists(unit)){
             army.removeUniversalCommand(this);
             return;
         }

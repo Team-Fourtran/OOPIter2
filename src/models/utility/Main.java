@@ -44,26 +44,26 @@ class modelTest{
         //testAttack();
         //testCreateUnit();
         //testReinforceArmy();
-        //testCapitalCreation();
+//        testCapitalCreation();
 //        testArmyCreationAndMovement();
         //testHeal();
-        //testDecommission();
+//        testDecommission();
         //testPowerUpDown();
         //testIterator();
 //        testCommandIterator();
-        //testPathfinding();
+//        testPathfinding();
 //        testInfluenceMovement();
 //        testInfluenceReaction();
-        //testLandMine();
-        //testLandMine2();
-        testBuild();
+//        testLandMine();
+        testLandMine2();
+        //testBuild();
     }
 
 	private void configure() throws InterruptedException {
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+        this._tiles = tileGen.executeFancy();
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
         this.am = player.getArmies();

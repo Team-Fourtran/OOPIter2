@@ -60,7 +60,7 @@ public class RadiusOfInfluenceAssociation implements Observer {
 
 	@Override
 	public void update(TileAssociation tA) {
-		System.out.println("appearance: " + tA);
+//		System.out.println("appearance: " + tA);
 		
 	}
 }

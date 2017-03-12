@@ -51,7 +51,6 @@ public class TileAssociation extends Observable{
     // Eventually have a method for removing Resources
     
     public Collection<TileAssociation> getNeighbors(){
-    	neighbors.values();
         return neighbors.values();
     }
 
@@ -86,13 +85,13 @@ public class TileAssociation extends Observable{
     public void addObserver(Observer o) {
     	// TODO remove this it is for testing purposes
     	if (o instanceof RadiusOfInfluenceAssociation) {
-    		System.out.println("register as roi");
+//    		System.out.println("register as roi");
     	}
     	observers.add(o);
     }
     
     public void removeObserver(Observer o) {
-    	System.out.println("deregister");
+//    	System.out.println("deregister");
     	observers.remove(o);
     }
     
