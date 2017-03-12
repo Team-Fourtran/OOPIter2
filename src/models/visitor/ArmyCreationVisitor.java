@@ -35,8 +35,8 @@ public class ArmyCreationVisitor implements PlayerVisitor{
         RallyPoint rp = armyManager.formRallyPoint(newArmy);
 
         rp.setArmy(newArmy);
-        location.add(rp);
-        location.add(newArmy); //Do we need to add the army?
+        map.addAssetToMap(rp, location);
+        map.addAssetToMap(newArmy, location);
         for (Unit u : units){
             newArmy.addUniversalCommand(
                     new JoinBattleGroupCommand(newArmy, u, map)

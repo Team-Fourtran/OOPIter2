@@ -24,10 +24,11 @@ public class MoveCommand implements Command{
     public void execute() {
         //If the asset has been removed due to death, we can't move the asset,
         //but this still has to execute due to the visitor.
-        if (!start.remove(asset)){
+        if (!map.removeAssetFromMap(asset, start)){
             return;
         }
-        end.add(asset);
+        //end.add(asset);
+        map.addAssetToMap(asset, end);
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
