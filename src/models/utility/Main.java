@@ -43,7 +43,7 @@ class modelTest{
         configure();
 //        testAttack();
 //        testCreateUnit();
-        testReinforceArmy();
+//        testReinforceArmy();
         //testCapitalCreation();
 //        testArmyCreationAndMovement();
         //testHeal();
@@ -55,7 +55,7 @@ class modelTest{
 //        testInfluenceMovement();
 //        testInfluenceReaction();
         //testLandMine();
-        //testLandMine2();
+        testLandMine2();
 //        testBuild();
     }
 
@@ -63,7 +63,7 @@ class modelTest{
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+        this._tiles = tileGen.executeFancy();
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
         this.am = player.getArmies();
