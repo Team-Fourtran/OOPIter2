@@ -65,6 +65,13 @@ public class GameMap {
         return null;
     }
 
+    public boolean assetExists(PlayerAsset asset){
+        if (searchForTileAssociation(asset) == null){
+            return false;
+        }
+        return true;
+    }
+
     public boolean removeAssetFromMap(PlayerAsset asset){
         TileAssociation loc = searchForTileAssociation(asset);
         boolean removal = false;
@@ -75,9 +82,12 @@ public class GameMap {
         tileInfluence.remove(asset);
         return removal;
     }
-    
+
     public boolean removeAssetFromMap(PlayerAsset asset, TileAssociation location) {
-    	boolean removal = location.remove(asset);
+        boolean removal = false;
+        if (location != null){
+            removal = location.remove(asset);
+        }
     	tileInfluence.remove(asset);
     	return removal;
     }

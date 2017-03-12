@@ -47,11 +47,11 @@ class modelTest{
         //testCapitalCreation();
 //        testArmyCreationAndMovement();
         //testHeal();
-        //testDecommission();
+//        testDecommission();
         //testPowerUpDown();
         //testIterator();
 //        testCommandIterator();
-        //testPathfinding();
+//        testPathfinding();
 //        testInfluenceMovement();
 //        testInfluenceReaction();
         //testLandMine();

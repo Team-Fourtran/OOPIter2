@@ -27,6 +27,7 @@ public class MoveCommand implements Command{
         if (!map.removeAssetFromMap(asset, start)){
             return;
         }
+        //end.add(asset);
         map.addAssetToMap(asset, end);
         try {
             Thread.sleep(200);

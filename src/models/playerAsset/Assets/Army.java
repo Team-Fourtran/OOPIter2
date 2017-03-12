@@ -88,6 +88,11 @@ public class Army extends CombatAsset {
         reinforcements.add(u);
     }
 
+    public void removeUnit(Unit u){
+        battleGroup.remove(u);
+        reinforcements.remove(u);
+    }
+
     public boolean hasBattleGroup(){
         return !battleGroup.isEmpty();
     }
