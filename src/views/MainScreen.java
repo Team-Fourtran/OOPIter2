@@ -222,8 +222,6 @@ public class MainScreen implements Observer{
             removeKeyListener(tHL);
         }
 
-
-
         class CommandListener extends KeyAdapter{
             @Override
             public void keyReleased(KeyEvent e){
