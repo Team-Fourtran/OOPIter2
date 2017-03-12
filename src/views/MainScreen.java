@@ -3,6 +3,7 @@ package views;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import javafx.scene.input.KeyCode;
 import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
 import controllers.*;
@@ -185,10 +186,10 @@ public class MainScreen implements Observer{
             setBackground(COLOURBACK);
             setFocusable(true);
             requestFocusInWindow();
-            toggleHT = true;
+            toggleHT = false;
             commandListener = new CommandListener();
             tHL = new TileHighlightListener();
-            addKeyListener(tHL);
+//            addKeyListener(tHL);
             addKeyListener(commandListener);
         }
         @Override
@@ -269,6 +270,16 @@ public class MainScreen implements Observer{
             }
         }
         class TileHighlightListener extends KeyAdapter {
+            boolean keepHighlighting = false;
+
+            protected TileAssociation doTileHighlighting(){
+                map.enableHighlight();
+                keepHighlighting = true;
+                while(keepHighlighting){
+
+                }
+                return tiles[tileAssociationIndex];
+            }
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
 
@@ -281,22 +292,22 @@ public class MainScreen implements Observer{
                     System.out.println(xPoint);
                     System.out.println(p.x + ", " + p.y);*/
                     board[x][y] = 0;
-                    x++;
+                    x = (x+1) % BSIZE;
                     board[x][y] = (int)' ';
                 }
                 if(id == KeyEvent.VK_LEFT){
                     board[x][y] = 0;
-                    x--;
+                    x = (x-1 < 0)? BSIZE-1 : x-1;
                     board[x][y] = (int)' ';
                 }
                 if(id == KeyEvent.VK_UP){
                     board[x][y] = 0;
-                    y--;
+                    y = (y-1 < 0)? BSIZE-1 : y-1;
                     board[x][y] = (int)' ';
                 }
                 if(id == KeyEvent.VK_DOWN){
                     board[x][y] = 0;
-                    y++;
+                    y = (y+1) % BSIZE;
                     board[x][y] = (int)' ';
                 }
                 if(id == KeyEvent.VK_ESCAPE){
@@ -307,6 +318,8 @@ public class MainScreen implements Observer{
                 if(id == KeyEvent.VK_ENTER){
                     board[x][y] = 0;
                     tileAssociationIndex = (x*BSIZE) + y;
+                    disableHighlight();
+                    keepHighlighting = false;
                 }
                 repaint();
             }
@@ -316,11 +329,10 @@ public class MainScreen implements Observer{
     }
 
     public TileAssociation doTileTargetting(PlayerAsset startingHighlight){
-        map.enableHighlight();
         map.disableCommand();
-
-        return tiles[tileAssociationIndex];
-
+        TileAssociation tempTile = map.tHL.doTileHighlighting();
+        map.enableCommand();
+        return tempTile;
     }
 
     public void updateMainScreen() {
