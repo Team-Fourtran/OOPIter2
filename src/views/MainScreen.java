@@ -49,8 +49,9 @@ public class MainScreen implements Observer{
     private int y = 0;
     private int tileAssociationIndex;
 
+    TileTargetting tileReceiver;
+
     private DrawingPanel map;
-    private TileAssociation highlightedTile;
 
     public MainScreen(TileAssociation[] tiles){
         this.tiles = tiles;
@@ -76,7 +77,7 @@ public class MainScreen implements Observer{
     }
 
     public TileTargetting getTileTargetter(){
-        return new TileTargetting(this);
+        return tileReceiver;
     }
     public void showMainScreen(){
         mainScreen.setVisible(true);
@@ -99,6 +100,7 @@ public class MainScreen implements Observer{
         keyMap.put("LEFT",false);
         keyMap.put("RIGHT",false);
         keyInformer = new KeyPressInformer(keyMap);
+        tileReceiver = new TileTargetting(this);
     }
 
     //For communication between CommandGenerator. Focusing on unit/army to highlight the tile.
@@ -270,16 +272,7 @@ public class MainScreen implements Observer{
             }
         }
         class TileHighlightListener extends KeyAdapter {
-            boolean keepHighlighting = false;
 
-            protected TileAssociation doTileHighlighting(){
-                map.enableHighlight();
-                keepHighlighting = true;
-                while(keepHighlighting){
-
-                }
-                return tiles[tileAssociationIndex];
-            }
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
 
@@ -313,26 +306,32 @@ public class MainScreen implements Observer{
                 if(id == KeyEvent.VK_ESCAPE){
                     board[x][y] = 0;
                     disableHighlight();
+                    enableCommand();
+                    tileReceiver.receiveTile(null);
                 }
 
                 if(id == KeyEvent.VK_ENTER){
                     board[x][y] = 0;
                     tileAssociationIndex = (x*BSIZE) + y;
                     disableHighlight();
-                    keepHighlighting = false;
+                    enableCommand();
+                    tileReceiver.receiveTile(tiles[tileAssociationIndex]);
                 }
                 repaint();
             }
-
         }
-
     }
 
-    public TileAssociation doTileTargetting(PlayerAsset startingHighlight){
+    public void doTileTargetting(TileTargetting ttr, PlayerAsset startingHighlight){
+        tileReceiver = ttr;
+
+        /* Disable command cycling until we press Enter */
         map.disableCommand();
-        TileAssociation tempTile = map.tHL.doTileHighlighting();
-        map.enableCommand();
-        return tempTile;
+
+        /* Enable highlighting */
+        map.enableHighlight();
+
+        //Key listeners will call receiveTile on tileReceiver
     }
 
     public void updateMainScreen() {
