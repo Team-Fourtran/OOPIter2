@@ -83,16 +83,6 @@ public class ReverseAStar {
         return path;
     }
 
-    public int getDistance(){   //NOTE THIS IS NOT THE MINIMUM DISTANCE
-        node n = this.end;
-        int distance = 0;
-        while (n != startNode && n != null){
-            distance++;
-            n = n.parent;
-        }
-        return distance;
-    }
-
     private boolean inOpenList(node n){
         for (node _n : openList) {
             if (_n.innerState == n.innerState) {

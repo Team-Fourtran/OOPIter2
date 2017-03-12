@@ -1,6 +1,8 @@
 package models.playerAsset.Assets.Structures;
 
 import models.playerAsset.Assets.Units.Unit;
+import models.visitor.AssetVisitor;
+import models.visitor.SpecificAssetVisitor;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,16 @@ public class Fort extends Structure{
         setProductionRate(1);
         staff = new ArrayList<>();
         trainers = new ArrayList<>();
+    }
 
+    @Override
+    public void accept(AssetVisitor v) {
+        if (v instanceof SpecificAssetVisitor){
+            ((SpecificAssetVisitor)v).visitFort(this);
+        }
+        else{
+            super.accept(v);
+        }
     }
 
     public String getType(){

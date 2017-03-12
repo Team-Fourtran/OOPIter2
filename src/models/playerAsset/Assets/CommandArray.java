@@ -29,7 +29,7 @@ public class CommandArray {
         }
     }
 
-    private void consolidate(int start){
+    private void consolidate(){
         Command[] newCommands = new Command[max];
         int newIndex = 0;
         int nullCount = 0;
@@ -59,6 +59,6 @@ public class CommandArray {
         for(int i = 0; i < numberOfElements; i++){
             commands[i].execute();
         }
-        consolidate(0);
+        consolidate();
     }
 }

@@ -1,5 +1,8 @@
 package models.playerAsset.Assets.Structures;
 
+import models.visitor.AssetVisitor;
+import models.visitor.SpecificAssetVisitor;
+
 import java.util.ArrayList;
 
 public class University extends Structure{
@@ -16,7 +19,14 @@ public class University extends Structure{
         staff = new ArrayList<>();
     }
 
-    public String getType(){
-        return "University";
+
+    @Override
+    public void accept(AssetVisitor v) {
+        if (v instanceof SpecificAssetVisitor){
+            ((SpecificAssetVisitor)v).visitUniversity(this);
+        }
+        else{
+            super.accept(v);
+        }
     }
 }

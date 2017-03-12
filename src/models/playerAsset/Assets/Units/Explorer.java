@@ -1,5 +1,8 @@
 package models.playerAsset.Assets.Units;
 
+import models.visitor.AssetVisitor;
+import models.visitor.SpecificAssetVisitor;
+
 //Unit type
 //Responsibilities: Weak attacker, uncovers resources on map
 public class Explorer extends Unit{
@@ -16,5 +19,15 @@ public class Explorer extends Unit{
 
     public String getType(){
         return "Explorer";
+    }
+
+    @Override
+    public void accept(AssetVisitor v) {
+        if (v instanceof SpecificAssetVisitor){
+            ((SpecificAssetVisitor)v).visitExplorer(this);
+        }
+        else{
+            super.accept(v);
+        }
     }
 }

@@ -2,7 +2,6 @@ package models.utility;
 
 
 import application.Game;
-import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.*;
 import models.playerAsset.Assets.*;
@@ -32,7 +31,7 @@ class modelTest{
 
     modelTest() throws InterruptedException {
         configure();
-        testAttack();
+        //testAttack();
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();
@@ -41,8 +40,11 @@ class modelTest{
         //testDecommission();
         //testPowerUpDown();
         //testIterator();
-        //testCommandIterator();
+        testCommandIterator();
         //testPathfinding();
+        //testLandMine();
+        //testLandMine2();
+        //testBuild();
     }
 
     private void configure() throws InterruptedException {
@@ -134,21 +136,19 @@ class modelTest{
         Thread.sleep(1000);
 
         CTRLCreateArmyCommand c = new CTRLCreateArmyCommand();
-        c.configure(_tiles.get(73), u0, u1);
-
+        c.configure(_tiles.get(74), u0, u1);
         game.notifyOfCommand(c);
 
         changeTurn(4);
 
         CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
         rac.configure(u2, am.debugGetRallyPoint());
-
         game.notifyOfCommand(rac);
 
         changeTurn(3);
 
         CTRLMoveRallyPointCommand mrpc = new CTRLMoveRallyPointCommand();
-        mrpc.configure(am.debugGetRallyPoint(), _tiles.get(16));
+        mrpc.configure(am.debugGetRallyPoint(), _tiles.get(223));
 
         game.notifyOfCommand(mrpc);
 
@@ -173,9 +173,10 @@ class modelTest{
 
 
     private void testArmyCreationAndMovement() throws InterruptedException{
-        Unit u0 = um.addNewUnit("colonist");
-        Unit u1 = um.addNewUnit("colonist");
-        Unit u2 = um.addNewUnit("colonist");
+
+        Unit u0 = um.addNewUnit("melee");
+        Unit u1 = um.addNewUnit("melee");
+        Unit u2 = um.addNewUnit("melee");
 
         _tiles.get(8).add(u0);
         _tiles.get(9).add(u1);
@@ -344,13 +345,14 @@ class modelTest{
 
     private void testCommandIterator() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
+        Structure s0 = sm.createStructure("fort");
 
         CTRLPowerUpCommand cmd = new CTRLPowerUpCommand();
-        cmd.configure(u0);
+        cmd.configure(s0);
         game.notifyOfCommand(cmd);
 
         CommandListVisitor v = new CommandListVisitor();
-        u0.accept(v);
+        s0.accept(v);
         CommandIterator iter = v.getIterator();
     }
 
@@ -373,6 +375,89 @@ class modelTest{
         game.notifyOfCommand(mrp);
 
         changeTurn(10);
+    }
+
+    private void testLandMine() throws InterruptedException{
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        _tiles.get(10).add(u0);
+        _tiles.get(11).add(u1);
+
+        changeTurn(1);
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(117), u0, u1);
+        game.notifyOfCommand(cac);
+
+        RallyPoint rallyPoint = am.debugGetRallyPoint();
+
+        changeTurn(4);
+
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
+        mrp.configure(rallyPoint, _tiles.get(124));
+        game.notifyOfCommand(mrp);
+
+        changeTurn(8);
+    }
+
+    private void testLandMine2() throws InterruptedException{
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        _tiles.get(10).add(u0);
+        _tiles.get(11).add(u1);
+
+        changeTurn(1);
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(99), u0, u1);
+        game.notifyOfCommand(cac);
+
+        Unit u2 = um.addNewUnit("colonist");
+        _tiles.get(157).add(u2);
+
+        changeTurn(4);
+
+        CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
+        rac.configure(u2, am.debugGetRallyPoint());
+        game.notifyOfCommand(rac);
+
+        changeTurn(4);
+
+        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
+        mrp.configure(am.debugGetRallyPoint(), _tiles.get(97));
+        game.notifyOfCommand(mrp);
+
+        changeTurn(4);
+    }
+
+    private void testBuild() throws InterruptedException{
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("melee");
+        _tiles.get(4).add(u0);
+        _tiles.get(3).add(u1);
+        _tiles.get(5).add(u2);
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(7), u0, u1);
+        game.notifyOfCommand(cac);
+
+        changeTurn(3);
+
+        CTRLMoveRallyPointCommand cmr = new CTRLMoveRallyPointCommand();
+        cmr.configure(am.debugGetRallyPoint(), _tiles.get(222));
+        game.notifyOfCommand(cmr);
+        CTRLBuildCommand cbc = new CTRLBuildCommand();
+        cbc.configure(am.debugGetRallyPoint(), "fort", 0);
+        game.notifyOfCommand(cbc);
+        changeTurn(2);
+        CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
+        rac.configure(u2, am.debugGetRallyPoint());
+        game.notifyOfCommand(rac);
+
+        cmr = new CTRLMoveRallyPointCommand();
+        cmr.configure(am.debugGetRallyPoint(), _tiles.get(216));
+        game.notifyOfCommand(cmr);
+        changeTurn(12);
     }
 }
 

@@ -11,6 +11,7 @@ public class ArmyCreationVisitor implements PlayerVisitor{
     private TileAssociation location;
     private Unit[] units;
     private GameMap map;
+    private Player player;
 
     public ArmyCreationVisitor(GameMap map, TileAssociation location, Unit ... units){
         this.location = location;
@@ -19,7 +20,8 @@ public class ArmyCreationVisitor implements PlayerVisitor{
     }
 
     @Override
-    public void visitPlayer(Player player) {
+    public void visitPlayer(Player p) {
+        this.player = p;
         this.visitArmyManager(player.getArmies());
         this.visitUnitManager(player.getUnits());
         this.visitStructureManager(player.getStructures());
@@ -41,7 +43,7 @@ public class ArmyCreationVisitor implements PlayerVisitor{
             );
         }
         rp.accept(
-                new MovementVisitor(map, location)
+                new MovementVisitor(map, player, location)
         );
 
     }

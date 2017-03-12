@@ -37,6 +37,5 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
         } else{
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
-
     }
 }
