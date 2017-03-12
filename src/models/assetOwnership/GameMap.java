@@ -47,10 +47,6 @@ public class GameMap {
         return calculateDistance(start, asset2);
     }
     
-	public Vector<TileAssociation> getRadiusOfInfluence(CombatAsset asset) {
-		return tileInfluence.get(asset).getInfluencedTiles();
-	}
-
     private TileAssociation searchForTileAssociation(PlayerAsset asset){
         for (TileAssociation t : tiles){
             if (t.isAssetOwner(asset)){
@@ -81,6 +77,7 @@ public class GameMap {
     	asset.accept(v);
     }
     
+    // TODO: modify to include influenced tiles
     public void replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){
         TileAssociation tileAssociation = searchForTileAssociation(oldAsset);
         tileAssociation.remove(oldAsset);
@@ -94,6 +91,10 @@ public class GameMap {
     		tileInfluence.put(asset, roi);
     	}
     }
+    
+	public Vector<TileAssociation> getRadiusOfInfluence(CombatAsset asset) {
+		return tileInfluence.get(asset).getInfluencedTiles();
+	}
 
     public void generateImmediateMovement(PlayerAsset asset, TileAssociation destination){
         //Precondition -> asset exists on a tile

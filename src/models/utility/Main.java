@@ -379,14 +379,27 @@ class modelTest{
         changeTurn(10);
     }
     
-    private void testInfluence() {
-    	Unit u0 = um.addNewUnit("colonist");
-    	map.addAssetToMap(u0, _tiles.get(200));
-    	Vector<TileAssociation> v = map.getRadiusOfInfluence(u0);
-    	// color in the radius of influence
-    	for (int i = 0; i < v.size(); i++) {
-    		v.get(i).add(u0);
-    	}
+    private void testInfluence() throws InterruptedException {
+//    	Unit u0 = um.addNewUnit("colonist");
+//    	map.addAssetToMap(u0, _tiles.get(200));
+//    	Vector<TileAssociation> v = map.getRadiusOfInfluence(u0);
+//    	// color in the radius of influence
+//    	for (int i = 0; i < v.size(); i++) {
+//    		v.get(i).add(u0);
+//    	}
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("colonist");
+        Unit u2 = um.addNewUnit("colonist");
+        map.addAssetToMap(u0, _tiles.get(4));
+        map.addAssetToMap(u1, _tiles.get(3));
+        map.addAssetToMap(u2, _tiles.get(24));
+        Thread.sleep(1000);
+
+        CTRLCreateCapitalCommand ccc = new CTRLCreateCapitalCommand();
+        ccc.configure(u0);
+        game.notifyOfCommand(ccc);
+        System.out.println("CREATED CAPITAL");
+        changeTurn(1);
 	}
 }
 
