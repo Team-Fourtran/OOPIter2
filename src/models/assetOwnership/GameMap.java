@@ -129,8 +129,8 @@ public class GameMap {
             System.out.println("Asset has no location?!?!");
             return;
         }
-        start.remove(asset);
-        destination.add(asset);
+        removeAssetFromMap(asset, start);
+        addAssetToMap(asset, destination);
     }
 
     public void debugPrint(){

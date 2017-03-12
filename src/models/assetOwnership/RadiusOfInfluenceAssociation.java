@@ -61,6 +61,7 @@ public class RadiusOfInfluenceAssociation implements Observer {
 	@Override
 	public void update(TileAssociation tA) {
 //		System.out.println("appearance: " + tA);
-		
+		// Use SpecificAssetVisitor
+		// Need to identify if it is enemy unit
 	}
 }
