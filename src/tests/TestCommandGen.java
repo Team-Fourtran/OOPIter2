@@ -62,9 +62,6 @@ public class TestCommandGen{
 
         AssetIterator assIter = player.getAssetIterator();
 
-        KeyboardController kbc = new KeyboardController(keySim, assIter);
-
-
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.executeFancy();
 

@@ -7,12 +7,11 @@ import views.MainScreen;
 public class TileTargetting {
     MainScreen screen;
 
-    TileTargetting(MainScreen s){
+    public TileTargetting(MainScreen s){
         screen = s;
     }
 
     protected TileAssociation targetTile(PlayerAsset startingHighlight){
         return screen.doTileTargetting(startingHighlight);
     }
-
 }

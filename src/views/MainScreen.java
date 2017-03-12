@@ -31,7 +31,6 @@ public class MainScreen implements Observer{
     static final Color COLOURTWO = new Color(0,0,0,124);
 
     private int[][] board = new int[BSIZE][BSIZE];
-
     private KeyPressInformer keyInformer;
 
     private TileAssociation[] tiles;
@@ -47,8 +46,10 @@ public class MainScreen implements Observer{
 
     private int x = 0;
     private int y = 0;
+    private int tileAssociationIndex;
 
     private DrawingPanel map;
+    private TileAssociation highlightedTile;
 
     public MainScreen(TileAssociation[] tiles){
         this.tiles = tiles;
@@ -71,6 +72,10 @@ public class MainScreen implements Observer{
 
     public KeyPressInformer getKeyInformer(){
         return this.keyInformer;
+    }
+
+    public TileTargetting getTileTargetter(){
+        return new TileTargetting(this);
     }
     public void showMainScreen(){
         mainScreen.setVisible(true);
@@ -298,6 +303,11 @@ public class MainScreen implements Observer{
                     board[x][y] = 0;
                     disableHighlight();
                 }
+
+                if(id == KeyEvent.VK_ENTER){
+                    board[x][y] = 0;
+                    tileAssociationIndex = (x*BSIZE) + y;
+                }
                 repaint();
             }
 
@@ -307,7 +317,10 @@ public class MainScreen implements Observer{
 
     public TileAssociation doTileTargetting(PlayerAsset startingHighlight){
         map.enableHighlight();
-        return null;
+        map.disableCommand();
+
+        return tiles[tileAssociationIndex];
+
     }
 
     public void updateMainScreen() {

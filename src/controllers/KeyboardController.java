@@ -6,9 +6,9 @@ import models.playerAsset.Iterators.AssetIterator;
 public class KeyboardController {
     MessageGenerator msgGen;
 
-    public KeyboardController(KeyPressInformer keyInformer, AssetIterator assIter){
+    public KeyboardController(KeyPressInformer keyInformer, AssetIterator assIter, TileTargetting tt){
         //Initializes the message generator, setting itself as the reciever, and forwarding the keysPressedList
-        this.msgGen = new MessageGenerator(this, keyInformer, assIter);
+        this.msgGen = new MessageGenerator(this, keyInformer, assIter, tt);
     }
 
     /* Happens when the player changes (aka turn switching) */
