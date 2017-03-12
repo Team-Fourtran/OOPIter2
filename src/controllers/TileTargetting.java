@@ -11,8 +11,8 @@ public class TileTargetting {
         screen = s;
     }
 
-    protected TileAssociation targetTile(PlayerAsset startHighlight){
-        return screen.doTileTargetting();
+    protected TileAssociation targetTile(PlayerAsset startingHighlight){
+        return screen.doTileTargetting(startingHighlight);
     }
 
 }
