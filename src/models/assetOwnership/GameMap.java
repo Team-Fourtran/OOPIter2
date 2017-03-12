@@ -82,7 +82,6 @@ public class GameMap {
     	return removal;
     }
 
-    // TODO: test this!!
     public void addAssetToMap(PlayerAsset asset, PlayerAsset location){
         TileAssociation loc = searchForTileAssociation(location);
         if (loc != null){
@@ -103,11 +102,8 @@ public class GameMap {
     }
     
     public void addInfluenceRadius(CombatAsset asset, TileAssociation baseTile){
-    	// if this asset does not have an influence radius, add it to the map
-    	if (!tileInfluence.containsKey(asset)) {
-    		RadiusOfInfluenceAssociation roi = new RadiusOfInfluenceAssociation(asset, baseTile);
-    		tileInfluence.put(asset, roi);
-    	}
+    	RadiusOfInfluenceAssociation roi = new RadiusOfInfluenceAssociation(asset, baseTile);
+    	tileInfluence.put(asset, roi);
     }
     
     public void updateInfluenceRadius(CombatAsset asset){

@@ -9,6 +9,7 @@ import models.utility.Direction;
 import models.visitor.*;
 
 import java.util.Observable;
+import java.util.Vector;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ public class TileAssociation extends Observable{
     private Tile tile;
     private AssetOwner assetOwner;
     private HashMap<Direction, TileAssociation> neighbors = new HashMap<Direction, TileAssociation>();
-    private ArrayList<Observer> observers = new ArrayList<>(0);
+    private Vector<Observer> observers = new Vector<>(0);
 
     public TileAssociation(Tile t){
         this.tile = t;
@@ -44,7 +45,6 @@ public class TileAssociation extends Observable{
 
     public void add(PlayerAsset p){
         assetOwner.addAsset(p);
-        // update influence radius
         notifyObservers();
     }
 
@@ -84,7 +84,16 @@ public class TileAssociation extends Observable{
     }
     
     public void addObserver(Observer o) {
+    	// TODO remove this it is for testing purposes
+    	if (o instanceof RadiusOfInfluenceAssociation) {
+    		System.out.println("register as roi");
+    	}
     	observers.add(o);
+    }
+    
+    public void removeObserver(Observer o) {
+    	System.out.println("deregister");
+    	observers.remove(o);
     }
     
 }

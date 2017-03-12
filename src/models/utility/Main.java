@@ -52,10 +52,11 @@ class modelTest{
         //testIterator();
 //        testCommandIterator();
         //testPathfinding();
-        testInfluence();
+//        testInfluenceMovement();
+//        testInfluenceReaction();
         //testLandMine();
         //testLandMine2();
-        //testBuild();
+        testBuild();
     }
 
 	private void configure() throws InterruptedException {
@@ -384,7 +385,7 @@ class modelTest{
         changeTurn(10);
     }
     
-    private void testInfluence() throws InterruptedException {
+    private void testInfluenceMovement() throws InterruptedException {
         Unit u0 = um.addNewUnit("melee");
         Unit u1 = um.addNewUnit("melee");
         Unit u2 = um.addNewUnit("melee");
@@ -439,7 +440,20 @@ class modelTest{
         for (int i = 0; i < v2.size(); i++) {
         	v2.get(i).add(u0);
         }
-        changeTurn(4);
+	}
+    
+	private void testInfluenceReaction() throws InterruptedException {
+		// Create a fort
+		// Have an army enter the RoI of the fort
+		// The fort will receive some notification to attack
+		
+		Unit u0 = um.addNewUnit("melee");
+		map.addAssetToMap(u0, _tiles.get(8));
+		
+		changeTurn(1);
+		
+		Unit u1 = um.addNewUnit("melee");
+		map.addAssetToMap(u1, _tiles.get(9));
 	}
 
     private void testLandMine() throws InterruptedException{
@@ -499,9 +513,9 @@ class modelTest{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("melee");
-        _tiles.get(4).add(u0);
-        _tiles.get(3).add(u1);
-        _tiles.get(5).add(u2);
+        map.addAssetToMap(u0, _tiles.get(4));
+        map.addAssetToMap(u1, _tiles.get(3));
+        map.addAssetToMap(u2, _tiles.get(5));
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
         cac.configure(_tiles.get(7), u0, u1);
         game.notifyOfCommand(cac);
