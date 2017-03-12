@@ -11,7 +11,7 @@ public class Colonist extends Unit{
         setMaxHealth(200);
         setCurrentHealth(200);
         setUpkeep(1);
-        setRadiusOfInfluence(0);
+        setRadiusOfInfluence(1);
         setMovesPerTurn(.33);
 
     }

@@ -1,8 +1,13 @@
 package models.assetOwnership;
 
+import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.PlayerAsset;
 import models.utility.ReverseAStar;
+import models.visitor.AssetAdditionVisitor;
+import models.visitor.AssetVisitor;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Vector;
 
 /*
@@ -10,6 +15,7 @@ import java.util.Vector;
  */
 public class GameMap {
     private ArrayList<TileAssociation> tiles;
+    private HashMap<CombatAsset, RadiusOfInfluenceAssociation> tileInfluence;
     private int length;
     private int width;
 
@@ -17,6 +23,7 @@ public class GameMap {
     	this.length = length;
     	this.width = width;
         this.tiles = new ArrayList<>(tiles);
+        this.tileInfluence = new HashMap<CombatAsset, RadiusOfInfluenceAssociation>();
     }
 
     // Gerneate degrees representing the optimal path to get from start to end
@@ -40,22 +47,8 @@ public class GameMap {
         return calculateDistance(start, asset2);
     }
     
-	public Vector<TileAssociation> getTileAssociationsWithinRadius(PlayerAsset asset, int radius) {
-		Vector<TileAssociation> vec = new Vector<TileAssociation>();
-		TileAssociation start = searchForTileAssociation(asset);
-		getTileAssociationsWithinRadius(start, radius, vec);
-		return vec;
-	}
-	
-	public void getTileAssociationsWithinRadius(TileAssociation s, int radius, Vector<TileAssociation> vec) {
-		if (!vec.contains(s)) {
-			vec.add(s);
-		}
-		if (radius != 0) {
-			for (TileAssociation t : s.getNeighbors()) {
-				getTileAssociationsWithinRadius(t, radius-1, vec);
-			}
-		}
+	public Vector<TileAssociation> getRadiusOfInfluence(CombatAsset asset) {
+		return tileInfluence.get(asset).getInfluencedTiles();
 	}
 
     private TileAssociation searchForTileAssociation(PlayerAsset asset){
@@ -67,6 +60,7 @@ public class GameMap {
         return null;
     }
 
+    // TODO: modify to include influenced tiles
     public void removeAssetFromMap(PlayerAsset asset){
         TileAssociation loc = searchForTileAssociation(asset);
         if (loc != null){
@@ -74,17 +68,31 @@ public class GameMap {
         }
     }
 
+    // TODO: modify to include influenced tiles
     public void addAssetToMap(PlayerAsset asset, PlayerAsset location){
         TileAssociation loc = searchForTileAssociation(location);
         if (loc != null){
             loc.add(asset);
         }
     }
-
+    
+    public void addAssetToMap(PlayerAsset asset, TileAssociation location){
+    	AssetVisitor v = new AssetAdditionVisitor(this, location);
+    	asset.accept(v);
+    }
+    
     public void replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){
         TileAssociation tileAssociation = searchForTileAssociation(oldAsset);
         tileAssociation.remove(oldAsset);
         tileAssociation.add(newAsset);
+    }
+    
+    public void addInfluenceRadius(CombatAsset asset, TileAssociation baseTile){
+    	// if this asset does not have an influence radius, add it to the map
+    	if (!tileInfluence.containsKey(asset)) {
+    		RadiusOfInfluenceAssociation roi = new RadiusOfInfluenceAssociation(asset, baseTile);
+    		tileInfluence.put(asset, roi);
+    	}
     }
 
     public void generateImmediateMovement(PlayerAsset asset, TileAssociation destination){

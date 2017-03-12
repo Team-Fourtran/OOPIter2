@@ -29,16 +29,20 @@ public class TileAssociation extends Observable{
     public boolean isAssetOwner(PlayerAsset asset){
         return (assetOwner.hasAsset(asset));
     }
-
+    
     public void remove(PlayerAsset ... p){
         for (PlayerAsset _p : p){
             assetOwner.removeAsset(_p);
+            // reset influence. Go through for loop of radius and delete p from each tile association
+            // this is really only for movement
+            // we will have a second method for extending the radius
         }
         notifyObservers();
     }
 
     public void add(PlayerAsset p){
         assetOwner.addAsset(p);
+        // update influence radius
         notifyObservers();
     }
 

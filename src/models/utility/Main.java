@@ -26,13 +26,14 @@ public class Main {
         //new testPowerUpDown().run();
         //new testHeal().run();
         //new testReinforceArmy().run();
-//        new modelTest();
+        new modelTest();
     }
 }
 
 class modelTest{
     private Player player;
     private Game game;
+    private GameMap map;
     private ArrayList<TileAssociation> _tiles;
     private ArmyManager am;
     private UnitManager um;
@@ -40,7 +41,7 @@ class modelTest{
 
     modelTest() throws InterruptedException {
         configure();
-        testAttack();
+        //testAttack();
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();
@@ -51,14 +52,16 @@ class modelTest{
         //testIterator();
         //testCommandIterator();
         //testPathfinding();
+        testInfluence();
     }
 
-    private void configure() throws InterruptedException {
+	private void configure() throws InterruptedException {
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
         this._tiles = tileGen.execute();
         this.game = new Game(player, _tiles);
+        this.map = game.getMap();
         this.am = player.getArmies();
         this.um = player.getUnits();
         this.sm = player.getStructures();
@@ -375,5 +378,15 @@ class modelTest{
 
         changeTurn(10);
     }
+    
+    private void testInfluence() {
+    	Unit u0 = um.addNewUnit("colonist");
+    	map.addAssetToMap(u0, _tiles.get(200));
+    	Vector<TileAssociation> v = map.getRadiusOfInfluence(u0);
+    	// color in the radius of influence
+    	for (int i = 0; i < v.size(); i++) {
+    		v.get(i).add(u0);
+    	}
+	}
 }
 

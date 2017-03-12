@@ -18,7 +18,7 @@ public class AssetOwner {
         this.numAssetsOwned = 0;
     }
 
-    protected boolean hasAsset(PlayerAsset asset){
+    public boolean hasAsset(PlayerAsset asset){
         return assetList.contains(asset);
     }
 
