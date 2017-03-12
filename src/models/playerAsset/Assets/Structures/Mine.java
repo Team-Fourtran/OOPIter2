@@ -29,4 +29,8 @@ public class Mine extends Structure{
             super.accept(v);
         }
     }
+
+    public String getType(){
+        return "Mine";
+    }
 }

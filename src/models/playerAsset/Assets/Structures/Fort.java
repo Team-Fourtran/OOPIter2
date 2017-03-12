@@ -33,4 +33,8 @@ public class Fort extends Structure{
             super.accept(v);
         }
     }
+
+    public String getType(){
+        return "Fort";
+    }
 }

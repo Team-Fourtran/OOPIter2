@@ -18,14 +18,6 @@ import java.util.Vector;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        //new testArmyCreationAndMovement().run();
-        //new testIterator().run();
-        //new testCapitalCreation().run();
-//        new testAttack().run();
-        //new testDecommission().run();
-        //new testPowerUpDown().run();
-        //new testHeal().run();
-        //new testReinforceArmy().run();
         new modelTest();
     }
 }
@@ -55,7 +47,7 @@ class modelTest{
 //        testInfluenceMovement();
 //        testInfluenceReaction();
 //        testLandMine();
-//        testLandMine2();
+        testLandMine2();
 //        testBuild();
     }
 
@@ -63,7 +55,8 @@ class modelTest{
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+
+        this._tiles = tileGen.executeFancy();
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
         this.am = player.getArmies();
@@ -183,6 +176,7 @@ class modelTest{
         changeTurn(1);
     }
 
+
     private void testArmyCreationAndMovement() throws InterruptedException{
         Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("melee");
@@ -210,6 +204,7 @@ class modelTest{
         Army a = am.debugGetArmy();
         System.out.println(a.getBattleGroup());
     }
+
 
     private void testHeal() throws InterruptedException{
         Unit u0 = um.addNewUnit("ranged");
@@ -283,6 +278,7 @@ class modelTest{
         cdcmd.configure(army);
         game.notifyOfCommand(cdcmd);
 
+
         changeTurn(1);
     }
 
@@ -328,6 +324,8 @@ class modelTest{
         AssetIterator iter = player.getAssetIterator();
 
         iter.first();
+        iter.getCurrentMode();
+        iter.getCurrentType();
         iter.getElement();
         iter.next();
         iter.getElement();

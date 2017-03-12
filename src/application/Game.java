@@ -1,5 +1,6 @@
 package application;
 
+import controllers.KeyboardController;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.CTRLCommand;
@@ -10,10 +11,11 @@ import views.*;
 import java.util.ArrayList;
 
 public class Game {
+
   private MainScreen mainScreen;
   private Player currentPlayer;
   private GameMap map;
-  
+
   public Game(Player player, ArrayList<TileAssociation> list) throws InterruptedException{
       this.currentPlayer = player;
       this.map = new GameMap(list, 5, 5);
@@ -25,6 +27,9 @@ public class Game {
       mainScreen.initialize();
       mainScreen.generateMainScreen();
       mainScreen.showMainScreen();
+
+//      KeyboardController kbc = new KeyboardController(mainScreen.getKeyInformer(), currentPlayer.getAssetIterator());
+
       Thread.sleep(1000);
   }
 

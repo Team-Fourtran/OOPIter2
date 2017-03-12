@@ -6,7 +6,6 @@ import models.tileInfo.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class TileGen {
     private int length, width, total;
@@ -67,27 +66,6 @@ public class TileGen {
                 tiles[i].setNeighbor(Direction.Right, tiles[i-1]);
             }
         }
-//      SQUARE:
-//        for (int i = 0; i < total; i++) {
-//            if(i-length >= 0)
-//                tiles[i].setNeighbor(tiles[i-length]);
-//            if((i+1)%length != 0 && i-length >= 0)
-//                tiles[i].setNeighbor(tiles[i-length+1]);
-//            if((i+1)%length != 0)
-//                tiles[i].setNeighbor(tiles[i+1]);
-//            if((i+1)%length != 0 && i+length < total)
-//                tiles[i].setNeighbor(tiles[i+length+1]);
-//            if(i+length < total)
-//                tiles[i].setNeighbor(tiles[i+length]);
-//            if(i%length != 0 && i+length < total)
-//                tiles[i].setNeighbor(tiles[i+length-1]);
-//            if(i%length != 0)
-//                tiles[i].setNeighbor(tiles[i-1]);
-//            if(i%length != 0 && i-length >= 0)
-//                tiles[i].setNeighbor(tiles[i-length-1]);
-//        }
-
-
         return new ArrayList<>(Arrays.asList(tiles));
     }
 
@@ -173,32 +151,9 @@ public class TileGen {
                 tiles[i].setNeighbor(Direction.Right, tiles[i-1]);
             }
         }
-//      SQUARE:
-//        for (int i = 0; i < total; i++) {
-//            if(i-length >= 0)
-//                tiles[i].setNeighbor(tiles[i-length]);
-//            if((i+1)%length != 0 && i-length >= 0)
-//                tiles[i].setNeighbor(tiles[i-length+1]);
-//            if((i+1)%length != 0)
-//                tiles[i].setNeighbor(tiles[i+1]);
-//            if((i+1)%length != 0 && i+length < total)
-//                tiles[i].setNeighbor(tiles[i+length+1]);
-//            if(i+length < total)
-//                tiles[i].setNeighbor(tiles[i+length]);
-//            if(i%length != 0 && i+length < total)
-//                tiles[i].setNeighbor(tiles[i+length-1]);
-//            if(i%length != 0)
-//                tiles[i].setNeighbor(tiles[i-1]);
-//            if(i%length != 0 && i-length >= 0)
-//                tiles[i].setNeighbor(tiles[i-length-1]);
-//        }
-
-
         return new ArrayList<>(Arrays.asList(tiles));
     }
-
     public TileAssociation[] returnTileAssoc(){
         return tiles;
     }
-
 }

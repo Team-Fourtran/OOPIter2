@@ -29,4 +29,8 @@ public class PowerPlant extends Structure {
             super.accept(v);
         }
     }
+
+    public String getType(){
+        return "Power Plant";
+    }
 }

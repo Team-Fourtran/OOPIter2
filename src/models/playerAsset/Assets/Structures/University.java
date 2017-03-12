@@ -20,6 +20,7 @@ public class University extends Structure{
         staff = new ArrayList<>();
     }
 
+
     @Override
     public void accept(AssetVisitor v) {
         if (v instanceof SpecificAssetVisitor){
