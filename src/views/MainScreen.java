@@ -9,6 +9,8 @@ import controllers.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
+
+import models.command.Command;
 import models.playerAsset.Assets.PlayerAsset;
 import java.util.*;
 
@@ -141,7 +143,7 @@ public class MainScreen implements Observer{
         tabbedPane.addTab("Map", mapPane);
         tabbedPane.addTab("Unit Overview", unitOVPanel);
         tabbedPane.addTab("Structure Overview", strOVPanel);
-        //tabbedPane.setBackground(Color.black);
+
         content.add(tabbedPane, BorderLayout.CENTER);
         tabbedPane.setFocusable(false);
         mapPane.setFocusable(false);
@@ -156,9 +158,6 @@ public class MainScreen implements Observer{
 
         });
 
-
-
-
         mainScreen.setSize( (int)(SCRSIZE/1.23), SCRSIZE);
         mainScreen.setResizable(true);
         mainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -170,7 +169,8 @@ public class MainScreen implements Observer{
 //        int yPoint = 100;
         //int x = 0;
         //int y = 0;
-        private KeyBoardListener kBL;
+        private TileHighlightListener tHL;
+        private CommandListener commandListener;
         private boolean toggleHT;
         public DrawingPanel()
         {
@@ -178,9 +178,10 @@ public class MainScreen implements Observer{
             setFocusable(true);
             requestFocusInWindow();
             toggleHT = true;
-            kBL = new KeyBoardListener();
-            addKeyListener(kBL);
-
+            commandListener = new CommandListener();
+            tHL = new TileHighlightListener();
+            addKeyListener(tHL);
+            addKeyListener(commandListener);
         }
         @Override
         public Dimension getPreferredSize() {
@@ -211,13 +212,47 @@ public class MainScreen implements Observer{
         }
         public void enableHighlight(){
             toggleHT = true;
-            addKeyListener(kBL);
+            addKeyListener(tHL);
         }
         public void disableHighlight(){
             toggleHT = false;
-            removeKeyListener(kBL);
+            removeKeyListener(tHL);
         }
-        class KeyBoardListener extends KeyAdapter {
+        class CommandListener extends KeyAdapter{
+            @Override
+            public void keyReleased(KeyEvent e){
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    keyInformer.update("RIGHT", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    keyInformer.update("LEFT", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_UP){
+                    keyInformer.update("UP", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    keyInformer.update("DOWN", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
+                    keyInformer.update("CONTROL", false);
+                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    keyInformer.update("ENTER", false);
+                }
+            }
+            @Override
+            public void keyPressed(KeyEvent e){
+                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                    keyInformer.update("RIGHT", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+                    keyInformer.update("LEFT", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_UP){
+                    keyInformer.update("UP", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+                    keyInformer.update("DOWN", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
+                    keyInformer.update("CONTROL", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    keyInformer.update("ENTER", true);
+                }
+            }
+        }
+        class TileHighlightListener extends KeyAdapter {
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
 
