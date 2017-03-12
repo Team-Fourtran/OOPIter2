@@ -22,8 +22,8 @@ public class AStarPathfinder {
         openList = new LinkedList<>();
         closedList = new LinkedList<>();
         openList.add(new node(this.start, null, 0));
-        execute();
         finalPath = null;
+        execute();
     }
 
     //COSTS: current.getTileInfo().getMovementCost();

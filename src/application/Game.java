@@ -34,9 +34,14 @@ public class Game {
               mainScreen.getTileTargetter()
       );
 
+
       Thread.sleep(1000);
   }
 
+  public GameMap getMap() {
+	  return map;
+  }
+  
   public void notifyOfCommand(CTRLCommand cmd){
       try {
           cmd.execute(map, currentPlayer);

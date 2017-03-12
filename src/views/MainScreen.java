@@ -52,7 +52,6 @@ public class MainScreen implements Observer{
     TileTargetting tileReceiver;
 
     private DrawingPanel map;
-
     public MainScreen(TileAssociation[] tiles){
         this.tiles = tiles;
         for (int i = 0; i < tiles.length; i++) {
@@ -132,15 +131,18 @@ public class MainScreen implements Observer{
         NonEditableTable table = new NonEditableTable(unitData, unitColumnStats);
         unitTable = new JTable(table);
         unitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        Dimension dimension = new Dimension(800, 500);
+        Dimension dimension = new Dimension(900, 700);
         unitTable.setPreferredSize(dimension);
         JPanel unitOVPanel = new JPanel(new BorderLayout());
         unitOVPanel.setPreferredSize(dimension);
         unitOVPanel.add(new JScrollPane(unitTable), BorderLayout.CENTER);
-        Dimension buttonDimension = new Dimension(30, 30);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        Dimension buttonDimension = new Dimension(100, 30);
         JButton createArmyButton = new JButton("Create Army");
+        buttonPanel.add(createArmyButton);
         createArmyButton.setPreferredSize(buttonDimension);
-        unitOVPanel.add(createArmyButton, BorderLayout.SOUTH);
+        unitOVPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         //Structure OV Table
         Object[][] strData = new Object[25][9];
@@ -148,7 +150,7 @@ public class MainScreen implements Observer{
         strTable = new JTable(table1);
         strTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         strTable.setPreferredSize(dimension);
-        JPanel strOVPanel = new JPanel();
+        JPanel strOVPanel = new JPanel(new BorderLayout());
         strOVPanel.setPreferredSize(dimension);
         strOVPanel.add(new JScrollPane(strTable), BorderLayout.CENTER);
         tabbedPane.addTab("Map", mapPane);
