@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
+
         new modelTest();
     }
 }
@@ -50,6 +51,7 @@ class modelTest{
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
+
         this._tiles = tileGen.execute();
         this.game = new Game(player, _tiles);
         this.am = player.getArmies();
@@ -169,10 +171,13 @@ class modelTest{
         changeTurn(1);
     }
 
+
     private void testArmyCreationAndMovement() throws InterruptedException{
+
         Unit u0 = um.addNewUnit("melee");
         Unit u1 = um.addNewUnit("melee");
         Unit u2 = um.addNewUnit("melee");
+
         _tiles.get(8).add(u0);
         _tiles.get(9).add(u1);
         _tiles.get(10).add(u2);
@@ -193,6 +198,7 @@ class modelTest{
 
         changeTurn(4);
     }
+
 
     private void testHeal() throws InterruptedException{
         Unit u0 = um.addNewUnit("ranged");
@@ -266,6 +272,7 @@ class modelTest{
         cdcmd.configure(army);
         game.notifyOfCommand(cdcmd);
 
+
         changeTurn(1);
     }
 
@@ -311,6 +318,8 @@ class modelTest{
         AssetIterator iter = player.getAssetIterator();
 
         iter.first();
+        iter.getCurrentMode();
+        iter.getCurrentType();
         iter.getElement();
         iter.next();
         iter.getElement();

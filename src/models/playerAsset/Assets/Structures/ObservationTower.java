@@ -15,6 +15,7 @@ public class ObservationTower extends Structure {
         setProductionRate(1);
     }
 
+
     @Override
     public void accept(AssetVisitor v) {
         if (v instanceof SpecificAssetVisitor){

@@ -28,4 +28,8 @@ public class Farm extends Structure{
             super.accept(v);
         }
     }
+
+    public String getType(){
+        return "Farm";
+    }
 }

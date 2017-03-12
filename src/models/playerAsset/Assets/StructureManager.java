@@ -201,6 +201,10 @@ public class StructureManager implements Manager {
                 return current.current();
             }
 
+            public String getCurrentType(){
+                return getElement().getType();
+            }
+
         };
     }
 

@@ -9,8 +9,8 @@ public class KeyPressInformer {
     private HashMap<String, Boolean> keyMap;
     private ArrayList<KeyPressListener> clients;
 
-    public KeyPressInformer(HashMap<String, Boolean> keyList){
-        this.keyMap = keyList;
+    public KeyPressInformer(HashMap<String, Boolean> keyMap){
+        this.keyMap = keyMap;
         this.clients = new ArrayList<>();
     }
 
