@@ -28,7 +28,7 @@ public class Game {
       mainScreen.generateMainScreen();
       mainScreen.showMainScreen();
 
-      KeyboardController kbc = new KeyboardController(mainScreen.getKeyInformer(), currentPlayer.getAssetIterator());
+//      KeyboardController kbc = new KeyboardController(mainScreen.getKeyInformer(), currentPlayer.getAssetIterator());
 
       Thread.sleep(1000);
   }
