@@ -34,12 +34,12 @@ class modelTest{
         //testCreateUnit();
         //testReinforceArmy();
         //testCapitalCreation();
-        //testArmyCreationAndMovement();
+        testArmyCreationAndMovement();
         //testHeal();
         //testDecommission();
         //testPowerUpDown();
         //testIterator();
-        testCommandIterator();
+       // testCommandIterator();
         //testPathfinding();
         //testLandMine();
         //testLandMine2();
@@ -50,7 +50,7 @@ class modelTest{
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+        this._tiles = tileGen.executeFancy();
         this.game = new Game(player, _tiles);
         this.am = player.getArmies();
         this.um = player.getUnits();
