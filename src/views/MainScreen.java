@@ -20,7 +20,7 @@ public class MainScreen implements Observer{
     private JFrame mainScreen;
 
     private final int EMPTY = 0;
-    private final int BSIZE = 15;
+    private final int BSIZE = 20;
     private final int HEXSIZE = 64;
     private final int BORDERS = 10;
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
@@ -278,7 +278,7 @@ public class MainScreen implements Observer{
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
 
-                if(id == KeyEvent.VK_RIGHT){
+                if(id == KeyEvent.VK_D){
                     //hexMech.highlight(560, 500);
                     /*xPoint += 45;
                     Point p = new Point( hexMech.pxtoHex(xPoint, 300 ));
@@ -290,17 +290,17 @@ public class MainScreen implements Observer{
                     x = (x+1) % BSIZE;
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_LEFT){
+                if(id == KeyEvent.VK_A){
                     board[x][y] = 0;
                     x = (x-1 < 0)? BSIZE-1 : x-1;
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_UP){
+                if(id == KeyEvent.VK_W){
                     board[x][y] = 0;
                     y = (y-1 < 0)? BSIZE-1 : y-1;
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_DOWN){
+                if(id == KeyEvent.VK_X){
                     board[x][y] = 0;
                     y = (y+1) % BSIZE;
                     board[x][y] = (int)' ';

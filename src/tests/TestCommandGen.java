@@ -20,7 +20,7 @@ public class TestCommandGen{
     private static KeyPressInformer keySim;
 
     public static void main(String[] args) throws InterruptedException{
-        int length = 15;
+        int length = 20;
         Player player = new Player();
         ArmyManager am = player.getArmies();
         UnitManager um = player.getUnits();
