@@ -74,13 +74,7 @@ public class GameMap {
 
     public boolean removeAssetFromMap(PlayerAsset asset){
         TileAssociation loc = searchForTileAssociation(asset);
-        boolean removal = false;
-        if (loc != null){
-            removal = loc.remove(asset);
-        }
-        // also remove player asset from the influencer lists
-        tileInfluence.remove(asset);
-        return removal;
+        return removeAssetFromMap(asset, loc);
     }
 
     public boolean removeAssetFromMap(PlayerAsset asset, TileAssociation location) {

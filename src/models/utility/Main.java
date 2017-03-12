@@ -54,8 +54,8 @@ class modelTest{
 //        testPathfinding();
 //        testInfluenceMovement();
 //        testInfluenceReaction();
-        //testLandMine();
-        testLandMine2();
+//        testLandMine();
+//        testLandMine2();
 //        testBuild();
     }
 
@@ -63,7 +63,7 @@ class modelTest{
         int length = 15;
         this.player = new Player();
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.executeFancy();
+        this._tiles = tileGen.execute();
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
         this.am = player.getArmies();
