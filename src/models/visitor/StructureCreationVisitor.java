@@ -1,17 +1,18 @@
 package models.visitor;
 
 
-import models.playerAsset.Assets.ArmyManager;
-import models.playerAsset.Assets.Player;
-import models.playerAsset.Assets.StructureManager;
-import models.playerAsset.Assets.UnitManager;
-import models.playerAsset.Assets.Units.Unit;
+import models.assetOwnership.GameMap;
+import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Structures.Structure;
 
 public class StructureCreationVisitor implements PlayerVisitor{
+    private GameMap map;
+    private RallyPoint rallyPoint;
     private String structureType;
-    private Unit toRemove;
 
-    public StructureCreationVisitor(String structureType){
+    public StructureCreationVisitor(GameMap map, RallyPoint rallyPoint, String structureType){
+        this.map = map;
+        this.rallyPoint = rallyPoint;
         this.structureType = structureType;
     }
 
@@ -30,7 +31,9 @@ public class StructureCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitStructureManager(StructureManager structureManager) {
-        structureManager.createStructure(structureType);
+        Structure s = structureManager.createStructure(structureType);
+        //TODO: see if we can pass in the TileAssociation so we dont have to call this map method...
+        map.addAssetToMap(s, rallyPoint.getArmy());
     }
 
     @Override

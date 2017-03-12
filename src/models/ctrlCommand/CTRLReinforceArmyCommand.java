@@ -26,7 +26,7 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             rallyPoint.accept(
-                    new ReinforceArmyVisitor(map, unit)
+                    new ReinforceArmyVisitor(map, player, unit)
             );
         } else throw new CommandNotConfiguredException("[" + this + "] is not configured.");
     }

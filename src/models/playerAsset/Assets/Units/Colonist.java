@@ -1,5 +1,8 @@
 package models.playerAsset.Assets.Units;
 
+import models.visitor.AssetVisitor;
+import models.visitor.SpecificAssetVisitor;
+
 //Unit type
 //Responsibilities: Weak attacker, can be consumed to make structure
 public class Colonist extends Unit{
@@ -18,5 +21,15 @@ public class Colonist extends Unit{
 
     public String getType(){
         return "Colonist";
+    }
+
+    @Override
+    public void accept(AssetVisitor v) {
+        if (v instanceof SpecificAssetVisitor){
+            ((SpecificAssetVisitor)v).visitColonist(this);
+        }
+        else{
+            super.accept(v);
+        }
     }
 }

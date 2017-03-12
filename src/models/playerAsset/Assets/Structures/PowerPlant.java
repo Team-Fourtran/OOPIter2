@@ -1,10 +1,10 @@
 package models.playerAsset.Assets.Structures;
 
+import models.visitor.AssetVisitor;
+import models.visitor.SpecificAssetVisitor;
+
 import java.util.ArrayList;
 
-/**
- * Created by Clay on 2/26/2017.
- */
 public class PowerPlant extends Structure {
 
     public PowerPlant() {
@@ -18,6 +18,15 @@ public class PowerPlant extends Structure {
         setRadiusOfInfluence(1);
         setProductionRate(1);
         staff = new ArrayList<>();
+    }
 
+    @Override
+    public void accept(AssetVisitor v) {
+        if (v instanceof SpecificAssetVisitor){
+            ((SpecificAssetVisitor)v).visitPowerPlant(this);
+        }
+        else{
+            super.accept(v);
+        }
     }
 }

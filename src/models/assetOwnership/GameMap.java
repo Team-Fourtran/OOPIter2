@@ -2,9 +2,11 @@ package models.assetOwnership;
 
 import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.PlayerAsset;
+import models.utility.AStarPathfinder;
 import models.utility.ReverseAStar;
 import models.visitor.AssetAdditionVisitor;
 import models.visitor.AssetVisitor;
+import models.utility.ShortestPath;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,9 +29,15 @@ public class GameMap {
     }
 
     // Gerneate degrees representing the optimal path to get from start to end
-    public ArrayList<TileAssociation> generatePath(PlayerAsset asset, TileAssociation end)  {
-        ReverseAStar path = new ReverseAStar(end, asset);
+    public ArrayList<TileAssociation> generatePath(TileAssociation start, TileAssociation end)  {
+        AStarPathfinder path = new AStarPathfinder(start, end);
         return path.getPath();
+    }
+
+    // Gerneate degrees representing the optimal path to get from start to end
+    public ArrayList<TileAssociation> generatePath(PlayerAsset asset, TileAssociation end)  {
+        TileAssociation start = searchForTileAssociation(asset);
+        return generatePath(start, end);
     }
 
     public ArrayList<TileAssociation> generatePath(PlayerAsset asset, PlayerAsset endAsset)  {
@@ -38,8 +46,9 @@ public class GameMap {
     }
 
     public int calculateDistance(TileAssociation start, PlayerAsset asset){
-        ReverseAStar path = new ReverseAStar(start, asset);
-        return path.getDistance(); //TODO: THIS IS NOT THE MINIMUM DISTANCE
+        TileAssociation end = searchForTileAssociation(asset);
+        ShortestPath path = new ShortestPath(start, end);
+        return path.getDistance();
     }
 
     public int calculateDistance(PlayerAsset asset1, PlayerAsset asset2) {

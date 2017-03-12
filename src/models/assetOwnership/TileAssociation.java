@@ -2,10 +2,12 @@ package models.assetOwnership;
 
 
 import models.playerAsset.Assets.PlayerAsset;
+import models.tileInfo.Item;
+import models.tileInfo.OneShotItem;
 import models.tileInfo.Tile;
 import models.utility.Direction;
-import models.visitor.AssetVisitor;
-import models.visitor.TileVisitor;
+import models.visitor.*;
+
 import java.util.Observable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,15 +31,15 @@ public class TileAssociation extends Observable{
     public boolean isAssetOwner(PlayerAsset asset){
         return (assetOwner.hasAsset(asset));
     }
-    
-    public void remove(PlayerAsset ... p){
-        for (PlayerAsset _p : p){
-            assetOwner.removeAsset(_p);
-            // reset influence. Go through for loop of radius and delete p from each tile association
-            // this is really only for movement
-            // we will have a second method for extending the radius
-        }
+
+    public boolean remove(PlayerAsset p){
+        boolean removal = assetOwner.removeAsset(p);
         notifyObservers();
+        return removal;
+    }
+
+    public void removeItem(){
+        tile.removeItem();
     }
 
     public void add(PlayerAsset p){
@@ -65,11 +67,13 @@ public class TileAssociation extends Observable{
         return assetOwner.getNumAssetsOwned();
     }
     
-    public void accept(AssetVisitor v) {
+    public void accept(ObjectVisitor v) {
         if (v instanceof TileVisitor){
             tile.accept((TileVisitor) v);
         }
-    	assetOwner.accept(v);
+        if (v instanceof AssetVisitor) {
+            assetOwner.accept((AssetVisitor) v);
+        }
     }
     
     @Override

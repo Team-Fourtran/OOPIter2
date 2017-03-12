@@ -22,22 +22,24 @@ public class AssetOwner {
         return assetList.contains(asset);
     }
 
-    public void removeAsset(PlayerAsset p){
+    protected boolean removeAsset(PlayerAsset p){
         if(assetList.remove(p)){
             numAssetsOwned--;
+            return true;
         }
+        return false;
     }
 
-    public void addAsset(PlayerAsset p){
+    protected void addAsset(PlayerAsset p){
         assetList.add(p);
         numAssetsOwned++;
     }
 
-    public int getNumAssetsOwned(){
+    protected int getNumAssetsOwned(){
         return numAssetsOwned;
     }
     
-    public void accept(AssetVisitor v) {
+    protected void accept(AssetVisitor v) {
     	for (int i = 0; i < assetList.size(); i++) {
     		assetList.get(i).accept(v);
     	}

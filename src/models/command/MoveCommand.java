@@ -1,27 +1,41 @@
 package models.command;
 
+import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
+import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
+import models.visitor.NewOwnershipVisitor;
 
 public class MoveCommand implements Command{
     private TileAssociation start, end;
     private PlayerAsset asset;
+    private Player player;
+    private GameMap map;
 
-    public MoveCommand(PlayerAsset asset, TileAssociation start, TileAssociation end)
+    public MoveCommand(GameMap map, Player player, PlayerAsset asset, TileAssociation start, TileAssociation end)
     {
+        this.map = map;
         this.start = start;
         this.end = end;
         this.asset = asset;
+        this.player = player;
     }
     @Override
     public void execute() {
-        start.remove(asset);
+        //If the asset has been removed due to death, we can't move the asset,
+        //but this still has to execute due to the visitor.
+        if (!start.remove(asset)){
+            return;
+        }
         end.add(asset);
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        end.accept(
+                new NewOwnershipVisitor(map, player, end, asset)
+        );
     }
 
     @Override

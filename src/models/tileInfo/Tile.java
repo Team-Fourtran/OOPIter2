@@ -2,25 +2,26 @@ package models.tileInfo;
 
 import models.visitor.TileVisitor;
 
-import java.util.ArrayList;
-
 public class Tile {
 
     private Terrain terrainType;
     private ResourcePackage myResources;
-    private ArrayList<AoE> aoE;
-    private ArrayList<Item> items;
+    private AoE aoE;
+    private Item item;
 
-    public Tile(Terrain terrain){
+    public Tile(Terrain terrain, Item item){
         this.terrainType = terrain;
-        this.aoE = new ArrayList<AoE>();
-        this.items = new ArrayList<Item>();
+        this.item = item;
     }
-    public Tile(Terrain t, ResourcePackage p, ArrayList<AoE> a, ArrayList<Item> i) {
+    public Tile(Terrain t, ResourcePackage p, AoE a, Item i) {
         this.terrainType = t;
         this.myResources = p;
         this.aoE = a;
-        this.items = i;
+        this.item = i;
+    }
+
+    public void removeItem(){
+        this.item = null;
     }
 
     public double getMovementCost() {
@@ -31,15 +32,17 @@ public class Tile {
         return terrainType;
     }
 
-    public ArrayList<AoE> getAoEs() {
+    public AoE getAoE() {
         return aoE;
     }
 
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-    
     public void accept(TileVisitor v) {
     	terrainType.accept(v);
+    	if(item != null){
+            item.accept(v);
+        }
+        if(aoE != null){
+            aoE.accept(v);
+        }
     }
 }

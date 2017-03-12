@@ -2,19 +2,21 @@ package models.playerAsset.Assets;
 
 import models.playerAsset.Assets.Units.Unit;
 import models.visitor.PlayerVisitor;
-
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /* Management class for a Player's armies. Keeps references to
    all armies and passes commands to specific ones.
  */
 public class ArmyManager{
     private ArrayList<RallyPoint> rallyPointList = new ArrayList<>();
-    private ArrayList<Army> armyList = new ArrayList<>();
+    private CopyOnWriteArrayList<Army> armyList;
     private final int maxArmies = 10;
     private static ArrayList<String> armyIDs = new ArrayList<>();
 
     public ArmyManager(){
+        armyList = new CopyOnWriteArrayList<>();
         for (int i = 1; i <= 20; i++)
             armyIDs.add("a" + i);
     }
@@ -75,16 +77,14 @@ public class ArmyManager{
 
     //Go through all of the armies and, if possible, execute a command
     public void executeCommands(){
-        for (Army a: armyList) {
-            a.executeCommand();
-        }
+        Iterator<Army> iter = armyList.iterator();
+        iter.forEachRemaining(Army::executeCommand);
     }
 
     //reset all of the armies' abilities to execute commands
     public void resetCommands(){
-        for (Army a: armyList) {
-            a.resetCommands();
-        }
+        Iterator<Army> iter = armyList.iterator();
+        iter.forEachRemaining(Army::resetCommands);
     }
 
     //Should be in abstract class
