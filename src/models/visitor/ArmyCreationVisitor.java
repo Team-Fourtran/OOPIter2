@@ -11,15 +11,18 @@ public class ArmyCreationVisitor implements PlayerVisitor{
     private TileAssociation location;
     private Unit[] units;
     private GameMap map;
+    private Player player;
 
-    public ArmyCreationVisitor(GameMap map, TileAssociation location, Unit ... units){
+    public ArmyCreationVisitor(GameMap map, Player player, TileAssociation location, Unit ... units){
+        this.player = player;
         this.location = location;
         this.units = units;
         this.map = map;
     }
 
     @Override
-    public void visitPlayer(Player player) {
+    public void visitPlayer(Player p) {
+        this.player = p;
         this.visitArmyManager(player.getArmies());
         this.visitUnitManager(player.getUnits());
         this.visitStructureManager(player.getStructures());
@@ -33,15 +36,15 @@ public class ArmyCreationVisitor implements PlayerVisitor{
         RallyPoint rp = armyManager.formRallyPoint(newArmy);
 
         rp.setArmy(newArmy);
-        location.add(rp);
-        location.add(newArmy); //Do we need to add the army?
+        map.addAssetToMap(rp, location);
+        map.addAssetToMap(newArmy, location);
         for (Unit u : units){
             newArmy.addUniversalCommand(
                     new JoinBattleGroupCommand(newArmy, u, map)
             );
         }
         rp.accept(
-                new MovementVisitor(map, location)
+                new MovementVisitor(map, player, location)
         );
 
     }

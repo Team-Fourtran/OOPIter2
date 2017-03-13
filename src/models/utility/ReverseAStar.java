@@ -15,6 +15,7 @@ public class ReverseAStar {
     private node end;
     private PlayerAsset goalAsset;
     private node startNode;
+    private node finalPath;
 
     private Queue<node> openList;
     private Queue<node> closedList;
@@ -26,6 +27,7 @@ public class ReverseAStar {
         closedList = new LinkedList<>();
         openList.add(new node(this.start, null, 0));
         execute();
+        finalPath = null;
     }
 
     //COSTS: current.getTileInfo().getMovementCost();
@@ -37,7 +39,12 @@ public class ReverseAStar {
             current = openList.remove();
             if (current.innerState.isAssetOwner(goalAsset)) {
                 //have reached the goal
-                break;
+                if (finalPath == null){
+                    finalPath = current;
+                }
+                else if (current.cost < finalPath.cost){
+                    finalPath = current;
+                }
             }
             closedList.add(current);
 
@@ -57,28 +64,23 @@ public class ReverseAStar {
                 }
             }
         }
-        this.end = current;
+        this.end = finalPath;
     }
 
     public ArrayList<TileAssociation> getPath(){
         ArrayList<TileAssociation> path = new ArrayList<>();
         node n = this.end;
+        if (n == null){
+            System.out.println("Invalid Destination!");
+            //TODO: Handle unreachable destinations
+            return path;
+        }
         while(n != startNode){
             path.add(n.innerState);
             n = n.parent;
         }
         path.add(startNode.innerState);  //Postcondition that startNode is included
         return path;
-    }
-
-    public int getDistance(){   //NOTE THIS IS NOT THE MINIMUM DISTANCE
-        node n = this.end;
-        int distance = 0;
-        while (n != startNode){
-            distance++;
-            n = n.parent;
-        }
-        return distance;
     }
 
     private boolean inOpenList(node n){

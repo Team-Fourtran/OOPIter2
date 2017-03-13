@@ -1,14 +1,14 @@
 package views;
 
 import java.awt.*;
-import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
+import models.assetOwnership.TileObserver;
+
 import java.util.HashMap;
 import java.util.Observable;
-import models.visitor.TileDrawingVisitor;
-import models.visitor.TileVisitor;
+import models.visitor.*;
 
-public class hexMech implements Observer{
+public class hexMech implements TileObserver{
 
     public static boolean XYVertex=true;	//true: x,y are the co-ords of the first vertex.
     //false: x,y are the co-ords of the top left rect. co-ord.
@@ -19,20 +19,22 @@ public class hexMech implements Observer{
     private static int t=0;	// short side of 30o triangle outside of each hex
     private static int r=0;	// radius of inscribed circle (centre to middle of each side). r= h/2
     private static int h=0;	// height. Distance between centres of two adjacent hexes. Distance between two opposite sides in a hex.
-    private Observable observable = null;
-    private static HashMap<TileAssociation, HexProperties> gps = new HashMap<>();
-    public void update(TileAssociation tA){
 
+    private static HashMap<TileAssociation, HexProperties> gps = new HashMap<>();
+    private static Graphics2D gg;
+
+    public static HexProperties getHexProperties(TileAssociation tileAssociation){
+        return gps.get(tileAssociation);
     }
+    //This doesn't do anything?
+    public void update(TileAssociation tA){}
     public static void setXYasVertex(boolean b) {
         XYVertex=b;
     }
     public static void setBorders(int b){
         BORDERS=b;
     }
-    /** This functions takes the Side length in pixels and uses that as the basic dimension of the hex.
-     It calculates all other needed constants from this dimension.
-     */
+
     public static void setHeight(int height) {
         h = height;			// h = basic dimension: height (distance between two adj centresr aka size)
         r = h/2;			// r = radius of inscribed circle
@@ -88,12 +90,11 @@ public class hexMech implements Observer{
         Polygon poly = hex(x,y);
 
         HexProperties h = new HexProperties(x, y, g2);
-        
         gps.put(tileAssoc, h);
-;
+        ;       gg = g2;
         g2.setColor(MainScreen.COLOURCELL);
         g2.drawPolygon(poly);
-    	//g2.fillPolygon(poly);
+        //g2.fillPolygon(poly);
 
         TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2);
         tileAssoc.accept(v);
@@ -116,6 +117,7 @@ public class hexMech implements Observer{
     public static void fillHex(int i, int j, int n, Graphics2D g2) {
         char c= 'o';
         int x = i * (s+t);
+        gg = g2;
         int y = j * h + (i%2) * h/2;
         if (n < 0) {
             g2.setColor(MainScreen.COLOURONE);
@@ -130,13 +132,13 @@ public class hexMech implements Observer{
             g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4);
         }
     }
-    
-	public static void updateTile(TileAssociation t2) {
-		HexProperties p = gps.get(t2);
-		TileDrawingVisitor v = new TileDrawingVisitor(p.getX(), p.getY(), p.getGraphic());
-		t2.accept(v);
-		v.drawTile();
-	}
+
+    public static void updateTile(TileAssociation t2) {
+        HexProperties p = gps.get(t2);
+        TileDrawingVisitor v = new TileDrawingVisitor(p.getX(), p.getY(), p.getGraphic());
+        t2.accept(v);
+        v.drawTile();
+    }
 
     /*****************************************************************************
      * Name: pxtoHex (pixel to hex)

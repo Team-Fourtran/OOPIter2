@@ -1,18 +1,33 @@
 package models.playerAsset.Assets;
 
+import models.assetOwnership.TileObserver;
 import models.command.Command;
 import models.visitor.AssetVisitor;
 
 import java.util.LinkedList;
+import java.util.Observable;
 import java.util.Queue;
+import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public abstract class PlayerAsset {
+public abstract class PlayerAsset extends Observable {
+    protected String assetID;
     private double movementTurns = 0.33; //Should be overridden by subtypes
     private CommandArray universalQueue = new CommandArray();
     private boolean hasExecutedCommand = false;
     private Queue<Command> commandQueue = new LinkedList<>();
     private int commandCount = 0;
     private int moveCounter = 0;
+    private CopyOnWriteArrayList<AssetObserver> observers = new CopyOnWriteArrayList<AssetObserver>();
+    
+    
+
+    public void setID(String id){
+        assetID = id;
+    }
+    public String getID(){
+        return assetID;
+    }
 
     public double getMovementTurns(){
         return movementTurns;
@@ -21,6 +36,7 @@ public abstract class PlayerAsset {
     public String getType(){
         return "basic asset type";
     }
+    
     public abstract void accept(AssetVisitor v);
 
     //Add a command to its queue
@@ -63,8 +79,10 @@ public abstract class PlayerAsset {
                 }
 
                 for (int i = 0; i < numCommands; i++) {
-                    commandQueue.remove().execute();
-                    moveCounter++;
+                    if(!commandQueue.isEmpty()){
+                        commandQueue.remove().execute();
+                        moveCounter++;
+                    }
                 }
 
                 if (moveCounter == 3 || endMovement)
@@ -114,4 +132,20 @@ public abstract class PlayerAsset {
         return false;
     }
 
+    /*
+     * Notifies observers that it has left/died
+     */
+    public void notifyLeave() {
+        for(AssetObserver ob : observers){
+            ob.updateLeave(this);
+        }
+    }
+    
+    public void addObserver(AssetObserver o) {
+    	observers.add(o);
+    }
+    
+    public void removeObserver(AssetObserver o) {
+    	observers.remove(o);
+    }
 }

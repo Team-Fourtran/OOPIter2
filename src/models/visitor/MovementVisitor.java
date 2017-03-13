@@ -3,21 +3,21 @@ package models.visitor;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.MoveCommand;
-import models.playerAsset.Assets.Army;
-import models.playerAsset.Assets.PlayerAsset;
-import models.playerAsset.Assets.RallyPoint;
+import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
-import models.playerAsset.Assets.Worker;
 
 import java.util.ArrayList;
 
 public class MovementVisitor implements AssetVisitor{
     private TileAssociation destination;
     private GameMap gameMap;
+    private Player player;
+    private ArrayList<TileAssociation> armyPath;
 
-    public MovementVisitor(GameMap gameMap, TileAssociation destination){
+    public MovementVisitor(GameMap gameMap, Player player, TileAssociation destination){
         this.destination = destination; //Ask about static methods...!
+        this.player = player;
         this.gameMap = gameMap;
     }
 
@@ -27,7 +27,7 @@ public class MovementVisitor implements AssetVisitor{
         TileAssociation cur = path.remove(0);
         for (TileAssociation next : path){
             unit.addCommand(
-                    new MoveCommand(unit, cur, next)
+                    new MoveCommand(gameMap, player, unit, cur, next)
             );
             cur = next;
         }
@@ -39,11 +39,12 @@ public class MovementVisitor implements AssetVisitor{
             gameMap.generateImmediateMovement(army, destination);
         }
         else{
-            ArrayList<TileAssociation> path = gameMap.generatePath(army, destination);
-            TileAssociation cur = path.remove(0);
-            for (TileAssociation next : path){
+            //ArrayList<TileAssociation> path = gameMap.generatePath(army, destination);
+            TileAssociation cur = armyPath.remove(0);
+            for (TileAssociation next : armyPath){
+                //if(player.getArmies())
                 army.addCommand(
-                        new MoveCommand(army, cur, next)
+                        new MoveCommand(gameMap, player, army, cur, next)
                 );
                 cur = next;
             }
@@ -60,6 +61,7 @@ public class MovementVisitor implements AssetVisitor{
 
     @Override
     public void visitRallyPoint(RallyPoint rallyPoint) {
+        armyPath = gameMap.generatePath(rallyPoint, destination);
         gameMap.generateImmediateMovement(rallyPoint, destination);
         this.visitArmy(rallyPoint.getArmy());
     }
