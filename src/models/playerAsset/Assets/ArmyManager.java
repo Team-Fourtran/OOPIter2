@@ -1,6 +1,7 @@
 package models.playerAsset.Assets;
 
 import models.playerAsset.Assets.Units.Unit;
+import models.visitor.AssetVisitor;
 import models.visitor.PlayerVisitor;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /* Management class for a Player's armies. Keeps references to
    all armies and passes commands to specific ones.
  */
-public class ArmyManager{
+public class ArmyManager implements Manager {
     private ArrayList<RallyPoint> rallyPointList = new ArrayList<>();
     private CopyOnWriteArrayList<Army> armyList;
     private final int maxArmies = 10;
@@ -36,17 +37,17 @@ public class ArmyManager{
         return rallyPoint;
     }
 
-    public void removeArmy(Army army){
+    public void removeArmy(PlayerAsset asset){
         RallyPoint toRemove = null;
         for (RallyPoint rp : rallyPointList){
-            if (rp.getArmy() == army){
+            if (rp.getArmy() == asset){
                 toRemove = rp;
             }
         }
         rallyPointList.remove(toRemove);
-        armyList.remove(army);
+        armyList.remove(asset);
     }
-
+    
     public RallyPoint getRallyPoint(Army army){
         for (RallyPoint rp : rallyPointList){
             if (rp.getArmy() == army){
@@ -55,8 +56,10 @@ public class ArmyManager{
         }
         return null;
     }
+    
 
     //free an army's ID when they are done using it for recycling
+    @Override
     public void freeID(String assetID) {
     	int escapee = Integer.parseInt(assetID.substring(assetID.lastIndexOf("u") + 1).trim());
     	for (int i = 0; i < armyIDs.size(); i++) {
@@ -70,6 +73,7 @@ public class ArmyManager{
     }
 
     //calculate total upkeep from each army, unit by unit
+    @Override
     public int calculateTotalUpkeep(){
         int totalUpkeep = 0;
         return totalUpkeep;
