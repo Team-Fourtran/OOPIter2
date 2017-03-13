@@ -48,12 +48,12 @@ class modelTest{
 //        testPowerUpDown();
         //testIterator();
 //        testCommandIterator();
-//        testPathfinding();
-//        testInfluenceMovement();
+//     	  testInfluenceMovement();
 //        testInfluenceReaction();
+//        testBuild();
+//        testPathfinding();
 //        testLandMine();
 //        testLandMine2();
-//        testBuild();
     }
 
 	private void configure() throws InterruptedException {
