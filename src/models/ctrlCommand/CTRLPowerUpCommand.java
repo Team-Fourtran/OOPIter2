@@ -15,12 +15,7 @@ public class CTRLPowerUpCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-//    public void configure (CombatAsset asset){
-//        isConfigured = true;
-//        this.asset = asset;
-//    }
-
-    @Override
+   @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         isConfigured = true;
         this.asset = (CombatAsset) parts.getRequestingAsset();

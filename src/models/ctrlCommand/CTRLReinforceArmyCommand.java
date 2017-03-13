@@ -17,12 +17,6 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-//    public void configure(Unit unit, RallyPoint rallyPoint){
-//        this.isConfigured = true;
-//        this.unit = unit;
-//        this.rallyPoint = rallyPoint;
-//    }
-
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
     }
