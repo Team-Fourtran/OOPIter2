@@ -45,24 +45,17 @@ class MessageGenerator implements KeyPressListener{
 
     private void generateMessage(){
         CTRLCommand thisCmd = currentState.getCmd();
-        boolean sendCmd = true;
         try {
             thisCmd.configure(currentState);
         } catch(Exception e){
             e.printStackTrace();
-            sendCmd = false;
         }
-        /* If configuring the command didn't throw an error */
-        if(sendCmd)
-            receiver.handleMsg(thisCmd);   /* Send it to the KeyboardController */
     }
 
-    public void requestTile(PlayerAsset asset){
-        tileTargetter.targetTile(this, asset);
-    }
-
-    public void receiveTargetTile(TileAssociation cbTile){
-        currentState.setDestinationTile(cbTile);
+    public void receiveConfiguredCmd(CTRLCommand cmd){
+        if(cmd.isConfigured())
+            receiver.handleMsg(cmd);   /* Send it to the KeyboardController */
+        else System.out.println("Command wasn't configured properly");
     }
 
     @Override //Listen to notifications from a KeyPressInformer
@@ -79,50 +72,45 @@ class MessageGenerator implements KeyPressListener{
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
-//        if(keystrokes.get("CONTROL")){
 
-            /* CONTROL+{UP/DOWN}: Cycle MODE */
-            else if(keystrokes.get("CONTROL") && keystrokes.get("UP")){
-                assetIterator.prevMode();           //CONTROL+UP: Previous Mode
-                updateCommandList();
-            } else if(keystrokes.get("CONTROL") && keystrokes.get("DOWN")){
-                assetIterator.nextMode();           //CONTROL+DOWN: Next Mode
-                updateCommandList();
-            }
+        /* CONTROL+{UP/DOWN}: Cycle MODE */
+        else if(keystrokes.get("CONTROL") && keystrokes.get("UP")){
+            assetIterator.prevMode();           //CONTROL+UP: Previous Mode
+            updateCommandList();
+        } else if(keystrokes.get("CONTROL") && keystrokes.get("DOWN")){
+            assetIterator.nextMode();           //CONTROL+DOWN: Next Mode
+            updateCommandList();
+        }
 
-            /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
-            else if(keystrokes.get("CONTROL") && keystrokes.get("LEFT")){        //CONTROL+LEFT: Previous Type
-                assetIterator.prevType();
-                updateCommandList();
-            } else if(keystrokes.get("CONTROL") && keystrokes.get("RIGHT")){     //CONTROL+RIGHT: Next Type
-                assetIterator.nextType();
-                updateCommandList();
-            }
-//        }
+        /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
+        else if(keystrokes.get("CONTROL") && keystrokes.get("LEFT")){        //CONTROL+LEFT: Previous Type
+            assetIterator.prevType();
+            updateCommandList();
+        } else if(keystrokes.get("CONTROL") && keystrokes.get("RIGHT")){     //CONTROL+RIGHT: Next Type
+            assetIterator.nextType();
+            updateCommandList();
+        }
 
         /* Keypresses without control cycle TYPE INSTANCES and COMMANDS */
-//        else {
 
         //LEFT/RIGHT: Cycle Type Instances
-        else if(keystrokes.get("LEFT")){
+        else if(!(keystrokes.get("CONTROL")) && keystrokes.get("LEFT")){
             assetIterator.prev();
             updateCommandList();
 
-        } else if(keystrokes.get("RIGHT")){
+        } else if(!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")){
             assetIterator.next();
             updateCommandList();
         }
 
         /* UP/DOWN: Cycle Commands */
-        else if(keystrokes.get("UP")){               /* Previous command */
+        else if(!(keystrokes.get("CONTROL")) && keystrokes.get("UP")){               /* Previous command */
             cmdIter.prev();
             currentState.setCmd(cmdIter.current());
-        } else if(keystrokes.get("DOWN")){      /* Next command */
+        } else if(!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")){      /* Next command */
             cmdIter.next();
             currentState.setCmd(cmdIter.current());
-            }
-//        }
-
+        }
 
         /* Update the State based on the new Iterator info */
         currentState.setMode(assetIterator.getCurrentMode());
@@ -139,14 +127,21 @@ class MessageGenerator implements KeyPressListener{
     }
 
     private void printStatus(){
-        System.out.println("STATUS:     "+currentState.getMode() + " "+currentState.getType()+" "+
-        currentState.getInstance().toString()+" "+currentState.getCmd().toString()
-        );
+        System.out.println("STATUS:     "+currentState.getMode() + " | "+currentState.getType()+" | "+
+        currentState.getInstance().toString()+" | "+currentState.getCmd().toString());
     }
 
     //Gets called when player turn switches. Changes the iterator on hand.
     protected void updateIterator(AssetIterator assetIterator){
         this.assetIterator = assetIterator;
+    }
+
+    public void requestTile(PlayerAsset asset){
+        tileTargetter.targetTile(this, asset);
+    }
+
+    public void receiveTargetTile(TileAssociation cbTile){
+        currentState.setDestinationTile(cbTile);
     }
 }
 

@@ -7,6 +7,7 @@ import models.playerAsset.Assets.Player;
 public interface CTRLCommand{
     void configure(CommandComponents parts) throws CommandNotConfiguredException;
     void execute(GameMap map, Player player) throws CommandNotConfiguredException;
+    boolean isConfigured();
     String toString();
 }
 

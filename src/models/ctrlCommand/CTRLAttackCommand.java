@@ -31,6 +31,10 @@ public class CTRLAttackCommand implements CTRLCommand{
         isConfigured = true;
     }
 
+    public boolean isConfigured(){
+        return this.isConfigured;
+    }
+
     @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
