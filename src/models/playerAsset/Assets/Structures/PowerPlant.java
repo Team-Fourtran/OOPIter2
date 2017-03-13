@@ -24,28 +24,4 @@ public class PowerPlant extends Structure {
 
     }
 
-    public ArrayList<Worker> removeWorkersFromGathering(int num){
-        ArrayList<Worker> newList = new ArrayList<>();
-        for (int i = 0; i < num && i < gatherers.size(); i++){
-            newList.add(gatherers.get(i));
-            gatherers.remove(i);
-        }
-
-        return newList;
-    }
-    public ArrayList<Worker> removeWorkersFromProduction(int num){
-        ArrayList<Worker> newList = new ArrayList<>();
-        for (int i = 0; i < num && i < producers.size(); i++){
-            newList.add(producers.get(i));
-            producers.remove(i);
-        }
-
-        return newList;
-    }
-    public void addWorkersToGathering(ArrayList<Worker> list){
-        gatherers.addAll(list);
-    }
-    public void addWorkersToProduction(ArrayList<Worker> list){
-        producers.addAll(list);
-    }
 }
