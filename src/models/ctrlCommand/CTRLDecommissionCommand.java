@@ -15,15 +15,12 @@ public class CTRLDecommissionCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-    public void configure(CombatAsset asset){
-        isConfigured = true;
-        this.asset = asset;
-    }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.asset = (CombatAsset) parts.getRequestingAsset();
         isConfigured = true;
+        parts.requestExecution();
     }
 
     public boolean isConfigured(){
@@ -44,5 +41,10 @@ public class CTRLDecommissionCommand implements CTRLCommand{
     @Override
     public String toString(){
         return "Decommission";
+    }
+
+    @Override
+    public void queryAgain() throws CommandNotConfiguredException {
+        //unused
     }
 }

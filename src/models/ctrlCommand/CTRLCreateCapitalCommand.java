@@ -16,14 +16,11 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-    public void configure(Unit unit){
-        this.unit = unit;
-        isConfigured = true;
-    }
-
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.unit = (Unit) parts.getRequestingAsset();
         isConfigured = true;
+        parts.requestExecution();
     }
 
     public boolean isConfigured(){
@@ -52,5 +49,10 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
     @Override
     public String toString(){
         return "Create Capital";
+    }
+
+    @Override
+    public void queryAgain() throws CommandNotConfiguredException {
+        //Unused
     }
 }

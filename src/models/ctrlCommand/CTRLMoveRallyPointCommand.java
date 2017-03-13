@@ -21,16 +21,25 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-    public void configure(PlayerAsset rallyPoint, TileAssociation destination) {
-        isConfigured = true;
-        this.destination = destination;
-        this.rallyPoint = rallyPoint;
-    }
+//    public void configure(PlayerAsset rallyPoint, TileAssociation destination) {
+//        isConfigured = true;
+//        this.destination = destination;
+//        this.rallyPoint = rallyPoint;
+//    }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-        isConfigured = true;
+        this.rallyPoint = parts.getRequestingAsset();
+        //TODO: Request destination tile
     }
+
+    @Override
+    //Called back when getDestinationTile is ready
+    public void queryAgain() throws CommandNotConfiguredException {
+        isConfigured = true;
+        //TODO: This
+    }
+
 
     public boolean isConfigured(){
         return this.isConfigured;

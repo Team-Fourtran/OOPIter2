@@ -17,14 +17,6 @@ public class CTRLBuildCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-//    public void configure(RallyPoint rallyPoint, String structureType, int numWorkersAssigned){
-//        this.rallyPoint = rallyPoint;
-//        this.structureType = structureType;
-//        this.numWorkersAssigned = numWorkersAssigned;
-//        isConfigured = true;
-//    }
-
-
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.parts = parts;
@@ -36,6 +28,7 @@ public class CTRLBuildCommand implements CTRLCommand{
     }
 
     @Override
+    //TODO: Figure out how to do multiple callbacks
     public void queryAgain() throws CommandNotConfiguredException {
 
         isConfigured = true;

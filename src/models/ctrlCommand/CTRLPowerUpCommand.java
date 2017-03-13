@@ -15,15 +15,16 @@ public class CTRLPowerUpCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-    public void configure (CombatAsset asset){
-        isConfigured = true;
-        this.asset = asset;
-    }
+//    public void configure (CombatAsset asset){
+//        isConfigured = true;
+//        this.asset = asset;
+//    }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-        this.asset = (CombatAsset) parts.getRequestingAsset();
         isConfigured = true;
+        this.asset = (CombatAsset) parts.getRequestingAsset();
+        parts.requestExecution();
     }
 
     public boolean isConfigured(){
@@ -45,5 +46,10 @@ public class CTRLPowerUpCommand implements CTRLCommand{
     @Override
     public String toString(){
         return "Power Up";
+    }
+
+    @Override
+    public void queryAgain() throws CommandNotConfiguredException {
+        //unused
     }
 }

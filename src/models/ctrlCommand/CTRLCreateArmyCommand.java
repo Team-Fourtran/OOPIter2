@@ -24,6 +24,11 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
     }
 
     @Override
+    public void queryAgain() throws CommandNotConfiguredException {
+        //TODO: This. Not sure if it'll be used or not. But needed to build.
+    }
+
+    @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         isConfigured = true;
     }

@@ -17,15 +17,23 @@ public class CTRLHealCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-    public void configure(Structure structure, TileAssociation tile){
-        this.isConfigured = true;
-        this.tile = tile;
-        this.structure = structure;
-    }
+//    public void configure(Structure structure, TileAssociation tile){
+//        this.isConfigured = true;
+//        this.tile = tile;
+//        this.structure = structure;
+//    }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.structure = (Structure) parts.getRequestingAsset();
+        //TODO: Request target tile
+    }
+
+    @Override
+    //Called back when getDestinationTile is ready
+    public void queryAgain() throws CommandNotConfiguredException {
         isConfigured = true;
+        //TODO: This
     }
 
     public boolean isConfigured(){

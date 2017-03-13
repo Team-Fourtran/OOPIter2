@@ -14,14 +14,16 @@ public class CTRLPowerDownCommand implements CTRLCommand{
     public CTRLPowerDownCommand(){
         isConfigured = false;
     }
-    public void configure(CombatAsset asset){
-        isConfigured = true;
-        this.asset = asset;
-    }
+//    public void configure(CombatAsset asset){
+//        isConfigured = true;
+//        this.asset = asset;
+//    }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         isConfigured = true;
+        this.asset = (CombatAsset) parts.getRequestingAsset();
+        parts.requestExecution();
     }
 
     public boolean isConfigured(){
@@ -43,5 +45,10 @@ public class CTRLPowerDownCommand implements CTRLCommand{
     @Override
     public String toString(){
         return "Power Down";
+    }
+
+    @Override
+    public void queryAgain() throws CommandNotConfiguredException {
+        //unused
     }
 }

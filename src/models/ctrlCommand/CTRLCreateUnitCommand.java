@@ -22,7 +22,15 @@ public class CTRLCreateUnitCommand implements CTRLCommand {
     }
 
     @Override
+    //TODO: Figure out how this will work
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.structure = (Structure) parts.getRequestingAsset();
+        //TODO: Request that desired unitType becomes available in CommandComponents parts
+    }
+
+    @Override
+    //Called back when unitType is ready to be queried from parts. TODO: This.
+    public void queryAgain() throws CommandNotConfiguredException {
         isConfigured = true;
     }
 
