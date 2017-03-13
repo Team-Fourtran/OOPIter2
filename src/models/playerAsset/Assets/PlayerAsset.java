@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Queue;
 import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class PlayerAsset extends Observable {
     protected String assetID;
@@ -17,7 +18,7 @@ public abstract class PlayerAsset extends Observable {
     private Queue<Command> commandQueue = new LinkedList<>();
     private int commandCount = 0;
     private int moveCounter = 0;
-    private Vector<AssetObserver> observers = new Vector<>(0);
+    private CopyOnWriteArrayList<AssetObserver> observers = new CopyOnWriteArrayList<AssetObserver>();
     
     
 
