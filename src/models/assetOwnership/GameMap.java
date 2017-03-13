@@ -99,10 +99,11 @@ public class GameMap {
     }
     
     // TODO: modify to include influenced tiles
-    public void replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){
+    public PlayerAsset replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){
         TileAssociation tileAssociation = searchForTileAssociation(oldAsset);
         removeAssetFromMap(oldAsset, tileAssociation);
         addAssetToMap(newAsset, tileAssociation);
+        return newAsset;
     }
     
     public void addInfluenceRadius(CombatAsset asset, TileAssociation baseTile){
