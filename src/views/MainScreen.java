@@ -5,8 +5,8 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
+import models.assetOwnership.TileObserver;
 import controllers.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -19,7 +19,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
-public class MainScreen implements Observer{
+public class MainScreen implements TileObserver {
     private JFrame mainScreen;
 
     private final int EMPTY = 0;

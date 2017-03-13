@@ -47,7 +47,7 @@ class modelTest{
 //        testInfluenceMovement();
 //        testInfluenceReaction();
 //        testLandMine();
-//        testLandMine2();
+        testLandMine2();
 //        testBuild();
     }
 

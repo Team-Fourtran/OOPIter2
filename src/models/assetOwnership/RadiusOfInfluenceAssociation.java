@@ -8,7 +8,7 @@ import models.playerAsset.Assets.PlayerAsset;
 /*
  * This class keeps track of the relationship between a player asset and its influenced tiles
  */
-public class RadiusOfInfluenceAssociation implements Observer {
+public class RadiusOfInfluenceAssociation implements TileObserver {
 	private CombatAsset asset;
 	private TileAssociation baseTile;
 	private Vector<TileAssociation> influencedTiles;
