@@ -2,6 +2,8 @@ package views;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
@@ -12,6 +14,9 @@ import java.awt.event.KeyAdapter;
 
 import models.command.Command;
 import models.playerAsset.Assets.PlayerAsset;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 
 public class MainScreen implements Observer{
@@ -34,9 +39,9 @@ public class MainScreen implements Observer{
     private KeyPressInformer keyInformer;
 
     private TileAssociation[] tiles;
-    private JTable unitTable;
+    private UnitOverview unitTable;
     private JTabbedPane tabbedPane;
-    private JTable strTable;
+    private StructureOverview strTable;
     private String[] unitColumnStats = {"UnitID", "Unit Type", "Offensive Damage",
             "Defensive Damage", "Armor",
             "Max Health", "Current Health", "Upkeep", "Location"};
@@ -118,35 +123,34 @@ public class MainScreen implements Observer{
         Container content = mainScreen.getContentPane();
         content.add(new JButton("Something"), BorderLayout.SOUTH);
         //Unit OV Table
-        Object[][] unitData = new Object[25][9];
+        String[][] unitData = new String[25][9];
+        unitData[0][0] = "HEY";
         NonEditableTable table = new NonEditableTable(unitData, unitColumnStats);
-        unitTable = new JTable(table);
-        unitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        Dimension dimension = new Dimension(900, 700);
-        unitTable.setPreferredSize(dimension);
-        JPanel unitOVPanel = new JPanel(new BorderLayout());
-        unitOVPanel.setPreferredSize(dimension);
-        unitOVPanel.add(new JScrollPane(unitTable), BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        Dimension buttonDimension = new Dimension(100, 30);
-        JButton createArmyButton = new JButton("Create Army");
-        buttonPanel.add(createArmyButton);
-        createArmyButton.setPreferredSize(buttonDimension);
-        unitOVPanel.add(buttonPanel, BorderLayout.SOUTH);
+        Dimension d = new Dimension(900, 700);
+
+        unitTable = new UnitOverview(d);
+        unitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
 
         //Structure OV Table
         Object[][] strData = new Object[25][9];
         NonEditableTable table1 = new NonEditableTable(strData, structureColumnStats);
-        strTable = new JTable(table1);
+        strTable = new StructureOverview(d);
         strTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        strTable.setPreferredSize(dimension);
-        JPanel strOVPanel = new JPanel(new BorderLayout());
-        strOVPanel.setPreferredSize(dimension);
-        strOVPanel.add(new JScrollPane(strTable), BorderLayout.CENTER);
+
         tabbedPane.addTab("Map", mapPane);
-        tabbedPane.addTab("Unit Overview", unitOVPanel);
-        tabbedPane.addTab("Structure Overview", strOVPanel);
+        tabbedPane.addTab("Unit Overview", unitTable.getPanel());
+        tabbedPane.addTab("Structure Overview", strTable.getPanel());
+
+        ChangeListener changeListener = new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent) {
+                JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+                int index = sourceTabbedPane.getSelectedIndex();
+                System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
+            }
+        };
+        tabbedPane.addChangeListener(changeListener);
 
         content.add(tabbedPane, BorderLayout.CENTER);
         tabbedPane.setFocusable(false);
