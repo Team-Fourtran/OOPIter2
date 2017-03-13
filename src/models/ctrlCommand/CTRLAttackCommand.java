@@ -14,21 +14,30 @@ public class CTRLAttackCommand implements CTRLCommand{
     private TileAssociation receiver;
 
     private boolean isConfigured;
+    private CommandComponents parts;
 
     public CTRLAttackCommand(){
         isConfigured = false;
     }
 
-    public void configure(CombatAsset giver, TileAssociation receiver, Player receivingPlayer){
-        isConfigured = true;
-        this.receivingPlayer = receivingPlayer;
-        this.giver = giver;
-        this.receiver = receiver;
-    }
-
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-        isConfigured = true;
+        this.parts = parts;
+        this.receivingPlayer = parts.getOpposingPlayer();
+        this.giver = (CombatAsset) parts.getRequestingAsset();
+        parts.requestDestinationTile();
+        //Still not configured - queryAgain needs to be called once the destination tile is ready.
+    }
+
+    public void queryAgain() throws CommandNotConfiguredException{
+        this.receiver = parts.getDestinationTile();
+        if(null != receiver){
+            isConfigured = true;
+            parts.requestExecution();
+        } else {
+            throw new CommandNotConfiguredException("queryAgain() was called, but the DestinationTile is null");
+        }
+
     }
 
     public boolean isConfigured(){

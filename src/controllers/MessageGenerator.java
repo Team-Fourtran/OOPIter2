@@ -171,6 +171,10 @@ class State implements CommandComponents{
 
     /* CommandComponents overrides */
 
+    @Override   //Called by CTRLCommands once they think they're ready to be executed.
+    public void requestExecution(){
+        this.msgGen.receiveConfiguredCmd(this.currentCommand);
+    }
     @Override
     public PlayerAsset getRequestingAsset() {return this.getInstance();}
 
@@ -183,13 +187,22 @@ class State implements CommandComponents{
     public TileAssociation getRequestingTile() {return null;}
 
     @Override
-    public TileAssociation getDestinationTile() {
-        msgGen.requestTile(currentInstance);
-        return destinationTile;
+    public void requestDestinationTile() {
+        this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
+        msgGen.requestTile(currentInstance);    //Tell the MessageGenerator to initiate the tile request process
+        //The method below (setDestinationTile) gets called once the tile is ready.
     }
+
     //This gets called when the Tile request comes through
     protected void setDestinationTile(TileAssociation t){
-        this.destinationTile = t;
+        this.destinationTile = t;       //Update the destination tile
+        currentCommand.queryAgain();    //Tell the current command to query again, signaling that the tile is done.
+    }
+
+    @Override
+    //Actually return the destination tile
+    public TileAssociation getDestinationTile() {
+        return this.destinationTile;
     }
 
     @Override

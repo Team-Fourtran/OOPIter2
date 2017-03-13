@@ -9,9 +9,14 @@ public interface CommandComponents {
     PlayerAsset getRequestingAsset();
     PlayerAsset getTargetAsset();
     TileAssociation getRequestingTile();
-    TileAssociation getDestinationTile();
+
+    void requestDestinationTile();          //Initiates a request to update the destination tile using the View's mechanism
+    TileAssociation getDestinationTile();   //Actually gets the tile
+
     Player getOpposingPlayer();
     String getString();
     int getInt();
     Unit[] getUnitList();
+
+    void requestExecution();    //Called by CTRLCommands once they think they're ready to be executed
 }
