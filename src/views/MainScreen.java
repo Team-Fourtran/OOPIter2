@@ -2,14 +2,14 @@ package views;
 
 import javax.swing.*;
 
-import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
+import models.assetOwnership.TileObserver;
 import controllers.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
-public class MainScreen implements Observer {
+public class MainScreen implements TileObserver {
     private JFrame mainScreen;
     
     final static int EMPTY = 0;

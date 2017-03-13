@@ -1,12 +1,15 @@
 package models.playerAsset.Assets;
 
+import models.assetOwnership.TileObserver;
 import models.command.Command;
 import models.visitor.AssetVisitor;
 
 import java.util.LinkedList;
+import java.util.Observable;
 import java.util.Queue;
+import java.util.Vector;
 
-public abstract class PlayerAsset {
+public abstract class PlayerAsset extends Observable {
     protected String assetID;
     private double movementTurns = 0.33; //Should be overridden by subtypes
     private CommandArray universalQueue = new CommandArray();
@@ -14,6 +17,9 @@ public abstract class PlayerAsset {
     private Queue<Command> commandQueue = new LinkedList<>();
     private int commandCount = 0;
     private int moveCounter = 0;
+    private Vector<AssetObserver> observers = new Vector<>(0);
+    
+    
 
     public void setID(String id){
         assetID = id;
@@ -125,4 +131,20 @@ public abstract class PlayerAsset {
         return false;
     }
 
+    /*
+     * Notifies observers that it has left/died
+     */
+    public void notifyLeave() {
+        for(AssetObserver ob : observers){
+            ob.updateLeave(this);
+        }
+    }
+    
+    public void addObserver(AssetObserver o) {
+    	observers.add(o);
+    }
+    
+    public void removeObserver(AssetObserver o) {
+    	observers.remove(o);
+    }
 }
