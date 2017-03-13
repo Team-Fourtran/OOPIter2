@@ -1,9 +1,6 @@
 package views;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
-import javafx.scene.input.KeyCode;
 import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
 import controllers.*;
@@ -11,8 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
 
-import models.command.Command;
-import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 import java.util.*;
 
@@ -174,14 +169,9 @@ public class MainScreen implements Observer{
         mainScreen.setSize( (int)(SCRSIZE/1.23), SCRSIZE);
         mainScreen.setResizable(true);
         mainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //mainScreen.setLocationRelativeTo(null);
     }
 
     class DrawingPanel extends JPanel{
-        //        int xPoint = 100;
-//        int yPoint = 100;
-        //int x = 0;
-        //int y = 0;
         private TileHighlightListener tHL;
         private CommandListener commandListener;
         private boolean toggleHT;
@@ -193,7 +183,6 @@ public class MainScreen implements Observer{
             toggleHT = false;
             commandListener = new CommandListener();
             tHL = new TileHighlightListener();
-//            addKeyListener(tHL);
             addKeyListener(commandListener);
         }
         @Override
@@ -329,35 +318,6 @@ public class MainScreen implements Observer{
                     }
                     board[x][y] = (int)' ';
                 }
-//
-//                if(id == KeyEvent.VK_D){
-//                    //hexMech.highlight(560, 500);
-//                    /*xPoint += 45;
-//                    Point p = new Point( hexMech.pxtoHex(xPoint, 300 ));
-//                    x = p.x;
-//                    y = p.y;
-//                    System.out.println(xPoint);
-//                    System.out.println(p.x + ", " + p.y);*/
-//                    board[x][y] = 0;
-//                    x = (x+1) % BSIZE;
-//                    board[x][y] = (int)' ';
-//                }
-//                if(id == KeyEvent.VK_A){
-//                    board[x][y] = 0;
-//                    x = (x-1 < 0)? BSIZE-1 : x-1;
-//                    board[x][y] = (int)' ';
-//                }
-//                if(id == KeyEvent.VK_W){
-//                    board[x][y] = 0;
-//                    y = (y-1 < 0)? BSIZE-1 : y-1;
-//                    board[x][y] = (int)' ';
-//                }
-//                if(id == KeyEvent.VK_X){
-//                    board[x][y] = 0;
-//                    y = (y+1) % BSIZE;
-//                    board[x][y] = (int)' ';
-//                }
-//
                 if(id == KeyEvent.VK_ESCAPE){
                     board[x][y] = 0;
                     disableHighlight();
