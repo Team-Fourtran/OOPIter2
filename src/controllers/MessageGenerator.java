@@ -46,12 +46,12 @@ class MessageGenerator implements KeyPressListener{
     @Override //Listen to notifications from a KeyPressInformer
     public void updateKeysPressed(HashMap<String, Boolean> kp) {
         interpretKeystrokes(kp);
-        printStatus();
     }
 
     /* Updates the State object based on the keystrokes detected */
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes){
         if(keystrokes.get("ENTER")){
+            printStatus();
             dispatchCommandForConfig(currentState.getCmd());
         }
 
@@ -66,8 +66,10 @@ class MessageGenerator implements KeyPressListener{
 
         /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
         else if(keystrokes.get("CONTROL") && keystrokes.get("LEFT")){        //CONTROL+LEFT: Previous Type
+            System.out.println("Going to previous type");
             assetIterator.prevType();
         } else if(keystrokes.get("CONTROL") && keystrokes.get("RIGHT")){     //CONTROL+RIGHT: Next Type
+            System.out.println("Going to next type");
             assetIterator.nextType();
         }
 
@@ -94,6 +96,8 @@ class MessageGenerator implements KeyPressListener{
         currentState.setType(assetIterator.getCurrentType());
         currentState.setInstance((PlayerAsset)assetIterator.getElement());
         updateCommandList();
+
+        printStatus();
     }
 
     private void updateCommandList(){

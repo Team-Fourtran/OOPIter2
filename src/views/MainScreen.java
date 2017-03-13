@@ -184,9 +184,9 @@ public class MainScreen implements TileObserver {
             addKeyListener(commandListener);
         }
         @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(1200, 1200);
-        }
+//        public Dimension getPreferredSize() {
+//            return new Dimension(1200, 1200);
+//        }
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
