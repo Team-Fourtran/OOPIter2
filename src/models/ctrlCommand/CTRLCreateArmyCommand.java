@@ -1,6 +1,3 @@
-/*
-IMMEDIATE COMMAND FROM CONTROLLER
- */
 package models.ctrlCommand;
 
 import models.assetOwnership.GameMap;
@@ -29,7 +26,7 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             player.accept(
-                    new ArmyCreationVisitor(map, RPLocation, units)
+                    new ArmyCreationVisitor(map, player, RPLocation, units)
             );
         } else {
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");

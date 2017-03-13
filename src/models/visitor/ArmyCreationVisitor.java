@@ -13,7 +13,8 @@ public class ArmyCreationVisitor implements PlayerVisitor{
     private GameMap map;
     private Player player;
 
-    public ArmyCreationVisitor(GameMap map, TileAssociation location, Unit ... units){
+    public ArmyCreationVisitor(GameMap map, Player player, TileAssociation location, Unit ... units){
+        this.player = player;
         this.location = location;
         this.units = units;
         this.map = map;
