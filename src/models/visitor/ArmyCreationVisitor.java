@@ -1,6 +1,7 @@
 package models.visitor;
 
 import models.assetOwnership.GameMap;
+import models.assetOwnership.PlayerAssetOwnership;
 import models.assetOwnership.TileAssociation;
 import models.command.JoinBattleGroupCommand;
 import models.playerAsset.Assets.*;
@@ -34,6 +35,7 @@ public class ArmyCreationVisitor implements PlayerVisitor{
         //Should have Army Factory to return new army...
         Army newArmy = armyManager.formArmy(units);
         RallyPoint rp = armyManager.formRallyPoint(newArmy);
+        PlayerAssetOwnership.addPlayerAsset(player, newArmy, rp);
 
         rp.setArmy(newArmy);
         map.addAssetToMap(rp, location);
