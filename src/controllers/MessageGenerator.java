@@ -43,21 +43,6 @@ class MessageGenerator implements KeyPressListener{
         );
     }
 
-    private void generateMessage(){
-        CTRLCommand thisCmd = currentState.getCmd();
-        try {
-            thisCmd.configure(currentState);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void receiveConfiguredCmd(CTRLCommand cmd){
-        if(cmd.isConfigured())
-            receiver.handleMsg(cmd);   /* Send it to the KeyboardController */
-        else System.out.println("Command wasn't configured properly");
-    }
-
     @Override //Listen to notifications from a KeyPressInformer
     public void updateKeysPressed(HashMap<String, Boolean> kp) {
         interpretKeystrokes(kp);
@@ -67,8 +52,7 @@ class MessageGenerator implements KeyPressListener{
     /* Updates the State object based on the keystrokes detected */
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes){
         if(keystrokes.get("ENTER")){
-            generateMessage();
-            updateCommandList();
+            dispatchCommandForConfig(currentState.getCmd());
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
@@ -76,19 +60,15 @@ class MessageGenerator implements KeyPressListener{
         /* CONTROL+{UP/DOWN}: Cycle MODE */
         else if(keystrokes.get("CONTROL") && keystrokes.get("UP")){
             assetIterator.prevMode();           //CONTROL+UP: Previous Mode
-            updateCommandList();
         } else if(keystrokes.get("CONTROL") && keystrokes.get("DOWN")){
             assetIterator.nextMode();           //CONTROL+DOWN: Next Mode
-            updateCommandList();
         }
 
         /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
         else if(keystrokes.get("CONTROL") && keystrokes.get("LEFT")){        //CONTROL+LEFT: Previous Type
             assetIterator.prevType();
-            updateCommandList();
         } else if(keystrokes.get("CONTROL") && keystrokes.get("RIGHT")){     //CONTROL+RIGHT: Next Type
             assetIterator.nextType();
-            updateCommandList();
         }
 
         /* Keypresses without control cycle TYPE INSTANCES and COMMANDS */
@@ -96,26 +76,24 @@ class MessageGenerator implements KeyPressListener{
         //LEFT/RIGHT: Cycle Type Instances
         else if(!(keystrokes.get("CONTROL")) && keystrokes.get("LEFT")){
             assetIterator.prev();
-            updateCommandList();
 
         } else if(!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")){
             assetIterator.next();
-            updateCommandList();
         }
 
         /* UP/DOWN: Cycle Commands */
         else if(!(keystrokes.get("CONTROL")) && keystrokes.get("UP")){               /* Previous command */
             cmdIter.prev();
-            currentState.setCmd(cmdIter.current());
         } else if(!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")){      /* Next command */
             cmdIter.next();
-            currentState.setCmd(cmdIter.current());
+
         }
 
         /* Update the State based on the new Iterator info */
         currentState.setMode(assetIterator.getCurrentMode());
         currentState.setType(assetIterator.getCurrentType());
         currentState.setInstance((PlayerAsset)assetIterator.getElement());
+        updateCommandList();
     }
 
     private void updateCommandList(){
@@ -136,8 +114,24 @@ class MessageGenerator implements KeyPressListener{
         this.assetIterator = assetIterator;
     }
 
-    public void requestTile(PlayerAsset asset){
-        tileTargetter.targetTile(this, asset);
+    private void dispatchCommandForConfig(CTRLCommand thisCmd){
+        try {
+            thisCmd.configure(currentState);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void receiveConfiguredCmd(CTRLCommand cmd){
+        if(cmd.isConfigured())
+            receiver.handleMsg(cmd);   /* Send it to the KeyboardController */
+        else System.out.println("Command wasn't configured properly");
+    }
+
+    /* Auxillary functions to request additional information for configuring Commands */
+
+    public void requestTile(PlayerAsset initialHighlightAsset){
+        tileTargetter.targetTile(this, initialHighlightAsset);
     }
 
     public void receiveTargetTile(TileAssociation cbTile){
@@ -175,10 +169,6 @@ class State implements CommandComponents{
     protected void setInstance(PlayerAsset instance){this.currentInstance = instance;}
     protected void setCmd(CTRLCommand cmd){this.currentCommand = cmd;}
 
-    protected void setDestinationTile(TileAssociation t){
-        this.destinationTile = t;
-    }
-
     /* CommandComponents overrides */
 
     @Override
@@ -195,10 +185,11 @@ class State implements CommandComponents{
     @Override
     public TileAssociation getDestinationTile() {
         msgGen.requestTile(currentInstance);
-        while (destinationTile == null){
-            //wait...
-        }
         return destinationTile;
+    }
+    //This gets called when the Tile request comes through
+    protected void setDestinationTile(TileAssociation t){
+        this.destinationTile = t;
     }
 
     @Override
