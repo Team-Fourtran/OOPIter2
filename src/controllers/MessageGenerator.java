@@ -196,7 +196,8 @@ class State implements CommandComponents{
     //This gets called when the Tile request comes through
     protected void setDestinationTile(TileAssociation t){
         this.destinationTile = t;       //Update the destination tile
-        currentCommand.queryAgain();    //Tell the current command to query again, signaling that the tile is done.
+        try {currentCommand.queryAgain();} catch(Exception e){e.printStackTrace();}
+        //Tell the current command to query again, signaling that the tile is done.
     }
 
     @Override

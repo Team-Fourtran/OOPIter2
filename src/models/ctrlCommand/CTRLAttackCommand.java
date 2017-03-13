@@ -37,7 +37,6 @@ public class CTRLAttackCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("queryAgain() was called, but the DestinationTile is null");
         }
-
     }
 
     public boolean isConfigured(){

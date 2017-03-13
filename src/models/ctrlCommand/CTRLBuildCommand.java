@@ -11,23 +11,35 @@ public class CTRLBuildCommand implements CTRLCommand{
     private String structureType;
     private int numWorkersAssigned;
     private boolean isConfigured;
+    private CommandComponents parts;
 
     public CTRLBuildCommand(){
         isConfigured = false;
     }
 
-    public void configure(RallyPoint rallyPoint, String structureType, int numWorkersAssigned){
-        this.rallyPoint = rallyPoint;
-        this.structureType = structureType;
-        this.numWorkersAssigned = numWorkersAssigned;
-        isConfigured = true;
-    }
+//    public void configure(RallyPoint rallyPoint, String structureType, int numWorkersAssigned){
+//        this.rallyPoint = rallyPoint;
+//        this.structureType = structureType;
+//        this.numWorkersAssigned = numWorkersAssigned;
+//        isConfigured = true;
+//    }
+
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-        isConfigured = true;
+        this.parts = parts;
+        this.rallyPoint = (RallyPoint) parts.getRequestingAsset();
+
+        //Needs to request a structure type and a number from the CommandComponents part object
+        this.structureType = structureType;
+        this.numWorkersAssigned = numWorkersAssigned;
     }
 
+    @Override
+    public void queryAgain() throws CommandNotConfiguredException {
+
+        isConfigured = true;
+    }
     public boolean isConfigured(){
         return this.isConfigured;
     }
