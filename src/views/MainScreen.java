@@ -42,12 +42,6 @@ public class MainScreen implements Observer{
     private UnitOverview unitTable;
     private JTabbedPane tabbedPane;
     private StructureOverview strTable;
-    private String[] unitColumnStats = {"UnitID", "Unit Type", "Offensive Damage",
-            "Defensive Damage", "Armor",
-            "Max Health", "Current Health", "Upkeep", "Location"};
-    private String[] structureColumnStats = {"StructuresID", "Structure Type", "Offensive Damage",
-            "Defensive Damage", "Armor", "Maximum Health",
-            "Current Health", "Upkeep", "Location"};
 
     private int x = 0;
     private int y = 0;
@@ -122,26 +116,16 @@ public class MainScreen implements Observer{
 
         Container content = mainScreen.getContentPane();
         content.add(new JButton("Something"), BorderLayout.SOUTH);
+
         //Unit OV Table
-        String[][] unitData = new String[25][9];
-        unitData[0][0] = "HEY";
-        NonEditableTable table = new NonEditableTable(unitData, unitColumnStats);
 
         Dimension d = new Dimension(900, 700);
-
         unitTable = new UnitOverview(d);
-        unitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-
-        //Structure OV Table
-        Object[][] strData = new Object[25][9];
-        NonEditableTable table1 = new NonEditableTable(strData, structureColumnStats);
         strTable = new StructureOverview(d);
-        strTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         tabbedPane.addTab("Map", mapPane);
-        tabbedPane.addTab("Unit Overview", unitTable.getPanel());
-        tabbedPane.addTab("Structure Overview", strTable.getPanel());
+        tabbedPane.addTab("Unit Overview", unitTable);
+        tabbedPane.addTab("Structure Overview", strTable);
 
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent) {
@@ -180,8 +164,7 @@ public class MainScreen implements Observer{
         private TileHighlightListener tHL;
         private CommandListener commandListener;
         private boolean toggleHT;
-        public DrawingPanel()
-        {
+        public DrawingPanel(){
             setBackground(COLOURBACK);
             setFocusable(true);
             requestFocusInWindow();
@@ -195,8 +178,7 @@ public class MainScreen implements Observer{
         public Dimension getPreferredSize() {
             return new Dimension(1200, 1200);
         }
-        public void paintComponent(Graphics g)
-        {
+        public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -297,9 +279,7 @@ public class MainScreen implements Observer{
                 }
                 repaint();
             }
-
         }
-
     }
 
     public void updateMainScreen() {
@@ -311,5 +291,4 @@ public class MainScreen implements Observer{
         hexMech.updateTile(t);
         mainScreen.repaint();
     }
-
 }
