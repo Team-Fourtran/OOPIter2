@@ -278,33 +278,86 @@ public class MainScreen implements Observer{
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
 
-                if(id == KeyEvent.VK_D){
-                    //hexMech.highlight(560, 500);
-                    /*xPoint += 45;
-                    Point p = new Point( hexMech.pxtoHex(xPoint, 300 ));
-                    x = p.x;
-                    y = p.y;
-                    System.out.println(xPoint);
-                    System.out.println(p.x + ", " + p.y);*/
+                if(id == KeyEvent.VK_Q || id == KeyEvent.VK_NUMPAD7){
                     board[x][y] = 0;
-                    x = (x+1) % BSIZE;
+                    if(x % 2 == 0 || x == 0){
+                        x = (x-1 < 0)? BSIZE-1 : x-1;
+                        y = (y-1 < 0)? BSIZE-1 : y-1;
+                    } else {
+                        x = (x-1 < 0)? BSIZE-1 : x-1;
+                    }
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_A){
-                    board[x][y] = 0;
-                    x = (x-1 < 0)? BSIZE-1 : x-1;
-                    board[x][y] = (int)' ';
-                }
-                if(id == KeyEvent.VK_W){
+                if(id == KeyEvent.VK_W || id == KeyEvent.VK_NUMPAD8){
                     board[x][y] = 0;
                     y = (y-1 < 0)? BSIZE-1 : y-1;
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_X){
+                if(id == KeyEvent.VK_E || id == KeyEvent.VK_NUMPAD9){
+                    board[x][y] = 0;
+                    if(x % 2 == 0 || x == 0){
+                        x = (x+1) % BSIZE;
+                        y = (y-1 < 0)? BSIZE-1 : y-1;
+                    } else{
+                        x = (x+1) % BSIZE;
+                    }
+
+                    board[x][y] = (int)' ';
+                }
+                if(id == KeyEvent.VK_A || id == KeyEvent.VK_NUMPAD1){
+                    board[x][y] = 0;
+                    if(x % 2 == 1 || x == 0) {
+                        y = (y+1) % BSIZE;
+                        x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
+                    } else{
+                        x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
+                    }
+                    board[x][y] = (int)' ';
+                }
+                if(id == KeyEvent.VK_S || id == KeyEvent.VK_NUMPAD2){
                     board[x][y] = 0;
                     y = (y+1) % BSIZE;
                     board[x][y] = (int)' ';
                 }
+                if(id == KeyEvent.VK_D || id == KeyEvent.VK_NUMPAD3){
+                    board[x][y] = 0;
+                    if(x % 2 == 1 || x == 0) {
+                        y = (y+1) % BSIZE;
+                        x = (x+1) % BSIZE;
+                    } else{
+                        x = (x+1) % BSIZE;
+                    }
+                    board[x][y] = (int)' ';
+                }
+//
+//                if(id == KeyEvent.VK_D){
+//                    //hexMech.highlight(560, 500);
+//                    /*xPoint += 45;
+//                    Point p = new Point( hexMech.pxtoHex(xPoint, 300 ));
+//                    x = p.x;
+//                    y = p.y;
+//                    System.out.println(xPoint);
+//                    System.out.println(p.x + ", " + p.y);*/
+//                    board[x][y] = 0;
+//                    x = (x+1) % BSIZE;
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_A){
+//                    board[x][y] = 0;
+//                    x = (x-1 < 0)? BSIZE-1 : x-1;
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_W){
+//                    board[x][y] = 0;
+//                    y = (y-1 < 0)? BSIZE-1 : y-1;
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_X){
+//                    board[x][y] = 0;
+//                    y = (y+1) % BSIZE;
+//                    board[x][y] = (int)' ';
+//                }
+//
                 if(id == KeyEvent.VK_ESCAPE){
                     board[x][y] = 0;
                     disableHighlight();
