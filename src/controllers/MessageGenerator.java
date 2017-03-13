@@ -163,51 +163,34 @@ class State implements CommandComponents{
         this.currentCommand = c;
     }
 
-    protected String getMode(){
-        return this.currentMode;
-    }
-    protected String getType(){
-        return this.currentType;
-    }
-    public PlayerAsset getInstance(){
-        return this.currentInstance;
-    }
-    public CTRLCommand getCmd(){
-        return this.currentCommand;
-    }
+    /* State-specific methods */
+    protected String getMode(){return this.currentMode;}
+    protected String getType(){return this.currentType;}
+    protected PlayerAsset getInstance(){return this.currentInstance;}
+    protected CTRLCommand getCmd(){return this.currentCommand;}
 
 
-    protected void setMode(String mode){
-        this.currentMode = mode;
-    }
-    protected void setType(String type){
-        this.currentType = type;
-    }
-    protected void setInstance(PlayerAsset instance){
-        this.currentInstance = instance;
-    }
-    protected void setCmd(CTRLCommand cmd){
-        this.currentCommand = cmd;
-    }
+    protected void setMode(String mode){this.currentMode = mode;}
+    protected void setType(String type){this.currentType = type;}
+    protected void setInstance(PlayerAsset instance){this.currentInstance = instance;}
+    protected void setCmd(CTRLCommand cmd){this.currentCommand = cmd;}
 
-    @Override
-    public PlayerAsset getRequestingAsset() {
-        return currentInstance;
-    }
-
-    @Override
-    public PlayerAsset getTargetAsset() {
-        return null;
-    }
-
-    @Override
-    public TileAssociation getRequestingTile() {
-        return null;
-    }
-
-    public void setDestinationTile(TileAssociation t){
+    protected void setDestinationTile(TileAssociation t){
         this.destinationTile = t;
     }
+
+    /* CommandComponents overrides */
+
+    @Override
+    public PlayerAsset getRequestingAsset() {return this.getInstance();}
+
+    @Override
+    //TODO: This
+    public PlayerAsset getTargetAsset() {return null;}
+
+    @Override
+    //TODO: This
+    public TileAssociation getRequestingTile() {return null;}
 
     @Override
     public TileAssociation getDestinationTile() {
@@ -219,22 +202,18 @@ class State implements CommandComponents{
     }
 
     @Override
-    public Player getOpposingPlayer() {
-        return null;
-    }
+    //TODO: This
+    public Player getOpposingPlayer() {return null;}
 
     @Override
-    public String getString() {
-        return null;
-    }
+    //TODO: This
+    public String getString() {return null;}
 
     @Override
-    public int getInt() {
-        return 0;
-    }
+    //TODO: This
+    public int getInt() {return 0;}
 
     @Override
-    public Unit[] getUnitList() {
-        return new Unit[0];
-    }
+    //TODO: This
+    public Unit[] getUnitList() {return new Unit[0];}
 }
