@@ -21,7 +21,6 @@ public class MapDecommissionVisitor implements AssetVisitor{
     public void visitUnit(Unit unit) {
         map.removeAssetFromMap(unit);
         new PlayerDecommissionVisitor(map, unit).visitUnitManager(player.getUnits());
-        player.getArmies().debugGetArmy().removeUnit(unit);
     }
 
     @Override

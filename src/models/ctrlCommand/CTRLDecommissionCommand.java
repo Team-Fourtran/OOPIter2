@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.Player;
@@ -20,6 +21,12 @@ public class CTRLDecommissionCommand implements CTRLCommand{
     }
 
     @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.asset = (CombatAsset) parts.getRequestingAsset();
+        isConfigured = true;
+    }
+
+    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             asset.accept(
@@ -28,6 +35,10 @@ public class CTRLDecommissionCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
+    }
 
+    @Override
+    public String toString(){
+        return "Decommission";
     }
 }

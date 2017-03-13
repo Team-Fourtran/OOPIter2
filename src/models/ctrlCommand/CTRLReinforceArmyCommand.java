@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.RallyPoint;
@@ -23,11 +24,21 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
     }
 
     @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        isConfigured = true;
+    }
+
+    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             rallyPoint.accept(
                     new ReinforceArmyVisitor(map, player, unit)
             );
         } else throw new CommandNotConfiguredException("[" + this + "] is not configured.");
+    }
+
+    @Override
+    public String toString(){
+        return "Reinforce Army";
     }
 }

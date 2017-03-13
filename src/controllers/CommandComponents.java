@@ -1,10 +1,17 @@
 package controllers;
 
-import models.ctrlCommand.CTRLCommand;
+import models.assetOwnership.TileAssociation;
+import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
-import models.playerAsset.Iterators.CommandIterator;
+import models.playerAsset.Assets.Units.Unit;
 
 public interface CommandComponents {
-    PlayerAsset getInstance();
-    CTRLCommand getCmd();
+    PlayerAsset getRequestingAsset();
+    PlayerAsset getTargetAsset();
+    TileAssociation getRequestingTile();
+    TileAssociation getDestinationTile();
+    Player getOpposingPlayer();
+    String getString();
+    int getInt();
+    Unit[] getUnitList();
 }

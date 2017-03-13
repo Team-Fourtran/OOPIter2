@@ -4,6 +4,7 @@ IMMEDIATE COMMAND FROM CONTROLLER
 
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.Player;
@@ -27,6 +28,11 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
     }
 
     @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        isConfigured = true;
+    }
+
+    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             //TODO: CHECK IF ARMY HAS A SOLDIER
@@ -36,6 +42,10 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
+    }
 
+    @Override
+    public String toString(){
+        return "Move Rally Point";
     }
 }

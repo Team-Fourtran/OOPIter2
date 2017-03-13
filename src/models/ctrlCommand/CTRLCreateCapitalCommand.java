@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.Units.Colonist;
@@ -21,6 +22,11 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
     }
 
     @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        isConfigured = true;
+    }
+
+    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             if(unit instanceof Colonist){ //TODO Get rid of type checking if handled by iterators
@@ -37,5 +43,10 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
         } else{
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
+    }
+
+    @Override
+    public String toString(){
+        return "Create Capital";
     }
 }

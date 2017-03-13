@@ -1,6 +1,7 @@
 package models.ctrlCommand;
 
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.AttackCommand;
@@ -23,6 +24,11 @@ public class CTRLAttackCommand implements CTRLCommand{
         this.receivingPlayer = receivingPlayer;
         this.giver = giver;
         this.receiver = receiver;
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        isConfigured = true;
     }
 
     @Override
@@ -65,5 +71,10 @@ public class CTRLAttackCommand implements CTRLCommand{
 //            System.out.println("Can't attack with this");
 //        }
 
+    }
+
+    @Override
+    public String toString(){
+        return "Attack";
     }
 }

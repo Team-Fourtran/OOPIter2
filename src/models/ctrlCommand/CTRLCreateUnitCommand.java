@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.command.CreateUnitCommand;
 import models.playerAsset.Assets.Player;
@@ -21,6 +22,11 @@ public class CTRLCreateUnitCommand implements CTRLCommand {
     }
 
     @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        isConfigured = true;
+    }
+
+    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException {
         if(isConfigured){
             structure.addCommand(
@@ -29,5 +35,10 @@ public class CTRLCreateUnitCommand implements CTRLCommand {
         } else{
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
+    }
+
+    @Override
+    public String toString(){
+        return "Create Unit";
     }
 }

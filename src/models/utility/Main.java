@@ -47,20 +47,28 @@ class modelTest{
 //        testInfluenceMovement();
 //        testInfluenceReaction();
 //        testLandMine();
-        testLandMine2();
+//        testLandMine2();
 //        testBuild();
     }
 
 	private void configure() throws InterruptedException {
         int length = 15;
         this.player = new Player();
-        TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.executeFancy();
-        this.game = new Game(player, _tiles);
-        this.map = game.getMap();
         this.am = player.getArmies();
         this.um = player.getUnits();
         this.sm = player.getStructures();
+        TileGen tileGen = new TileGen(length, length);
+        this._tiles = tileGen.execute();
+        Unit u0 = um.addNewUnit("colonist");
+        _tiles.get(8).add(u0);
+        Unit u1 = um.addNewUnit("explorer");
+        _tiles.get(9).add(u1);
+        Unit u2 = um.addNewUnit("melee");
+        _tiles.get(10).add(u2);
+        Unit u3 = um.addNewUnit("ranged");
+        _tiles.get(11).add(u3);
+        this.game = new Game(player, _tiles);
+        this.map = game.getMap();
     }
 
     private void changeTurn(int n) throws InterruptedException {

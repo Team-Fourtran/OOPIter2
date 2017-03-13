@@ -20,7 +20,7 @@ public class MainScreen implements Observer{
     private JFrame mainScreen;
 
     private final int EMPTY = 0;
-    private final int BSIZE = 20;
+    private final int BSIZE = 10;
     private final int HEXSIZE = 64;
     private final int BORDERS = 10;
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
@@ -258,7 +258,9 @@ public class MainScreen implements Observer{
             }
             @Override
             public void keyPressed(KeyEvent e){
-                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                if(e.getKeyCode() == KeyEvent.VK_CONTROL) {
+                    keyInformer.update("CONTROL", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
                     keyInformer.update("RIGHT", true);
                 } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
                     keyInformer.update("LEFT", true);
@@ -266,8 +268,6 @@ public class MainScreen implements Observer{
                     keyInformer.update("UP", true);
                 } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     keyInformer.update("DOWN", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
-                    keyInformer.update("CONTROL", true);
                 } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     keyInformer.update("ENTER", true);
                 }
