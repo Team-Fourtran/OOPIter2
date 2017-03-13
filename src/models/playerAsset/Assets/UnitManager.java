@@ -1,10 +1,13 @@
 
 package models.playerAsset.Assets;
+import models.playerAsset.Assets.Technology.StatTechnology;
+import models.playerAsset.Assets.Technology.Technology;
 import models.playerAsset.Assets.Units.*;
 import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.TypeIterator;
 import models.visitor.PlayerVisitor;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /* Manager for a Player's Units
@@ -22,6 +25,7 @@ public class UnitManager {
     final int maxUnitType = 10;
     static ArrayList<String> unitIDs = new ArrayList<>();
     ArrayList<Iterator<PlayerAsset>> unitIterators;
+    HashMap<String, ArrayList<Technology>> techMap;
 
     public UnitManager() {
         unitList = new ArrayList<>();
@@ -30,6 +34,7 @@ public class UnitManager {
         meleeList = new ArrayList<>();
         rangedList = new ArrayList<>();
         factory = new UnitFactory();
+        techMap = new HashMap<>();
         for (int i = 1; i <= 50; i++)
             unitIDs.add("u" + i);
         unitIterators = new ArrayList<>();
@@ -37,6 +42,17 @@ public class UnitManager {
         unitIterators.add(makeIterator(colonistList));
         unitIterators.add(makeIterator(meleeList));
         unitIterators.add(makeIterator(rangedList));
+    }
+
+    public void addTech(String unitType, StatTechnology tech){
+        techMap.get(unitType).add(tech);
+    }
+
+    public void applyTech(String unitType, StatTechnology tech){
+        for (Unit u: unitList)
+            if (unitType == u.getType())
+                tech.apply(u);
+
     }
 
     public void removeUnit(Unit unit){

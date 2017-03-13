@@ -5,10 +5,9 @@ import models.playerAsset.Assets.CombatAsset;
 /**
  * Created by Clay on 3/2/2017.
  */
-public class ArmorTech extends StatTechnology{
+public class OffenseDamageTech extends StatTechnology {
 
     public void apply(CombatAsset a){
-        a.setArmor(10 + a.getArmor());
+        a.setOffDamage(10 + a.getOffDamage(0));
     }
-
 }

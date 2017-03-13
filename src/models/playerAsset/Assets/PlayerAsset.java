@@ -17,6 +17,7 @@ public abstract class PlayerAsset {
     public double getMovementTurns(){
         return movementTurns;
     }
+    public void setMovementTurns(double moves) {movementTurns = moves;}
 
     public String getType(){
         return "basic asset type";

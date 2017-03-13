@@ -1,4 +1,9 @@
 package models.playerAsset.Assets.Technology;
 
-public class StatTechnology {
+import models.playerAsset.Assets.CombatAsset;
+import models.playerAsset.Assets.PlayerAsset;
+
+public abstract class StatTechnology extends Technology{
+
+    public abstract void apply(CombatAsset a);
 }

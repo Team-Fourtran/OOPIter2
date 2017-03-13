@@ -1,7 +1,8 @@
 package models.playerAsset.Assets.Technology;
 
-public class Technology {
+public abstract class Technology {
 
     private int turns;
+
 
 }

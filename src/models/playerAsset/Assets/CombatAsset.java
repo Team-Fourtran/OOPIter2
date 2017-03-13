@@ -11,6 +11,7 @@ public abstract class CombatAsset extends PlayerAsset {
     private int upkeep;
     private boolean poweredUp;
     private String assetID;
+    public int visibility;
 
     //Various getter and setters for attributes
     public void setRange(int range){
@@ -31,6 +32,10 @@ public abstract class CombatAsset extends PlayerAsset {
 
     public void setID(String id){
         assetID = id;
+    }
+
+    public void setVisibility(int visibility) {
+        this.visibility = visibility;
     }
 
     public void depleteHealth(int n){
@@ -95,6 +100,10 @@ public abstract class CombatAsset extends PlayerAsset {
 
     public int getUpkeep(){
         return upkeep;
+    }
+
+    public int getVisibility(){
+        return visibility;
     }
 
     //Power up a unit, increase the resource consumption back to %100
