@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.Units.Colonist;
@@ -18,6 +19,11 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
     public void configure(Unit unit){
         this.unit = unit;
         isConfigured = true;
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.RallyPoint;
@@ -20,6 +21,11 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
         this.isConfigured = true;
         this.unit = unit;
         this.rallyPoint = rallyPoint;
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+
     }
 
     @Override

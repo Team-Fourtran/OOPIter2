@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.Player;
@@ -17,6 +18,11 @@ public class CTRLDecommissionCommand implements CTRLCommand{
     public void configure(CombatAsset asset){
         isConfigured = true;
         this.asset = asset;
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+
     }
 
     @Override

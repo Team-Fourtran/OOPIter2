@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.Player;
@@ -20,6 +21,11 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
         isConfigured = true;
         this.RPLocation = startTile;
         this.units = units;
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+
     }
 
     @Override

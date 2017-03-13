@@ -4,6 +4,7 @@ IMMEDIATE COMMAND FROM CONTROLLER
 
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.Player;
@@ -24,6 +25,11 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
         isConfigured = true;
         this.destination = destination;
         this.rallyPoint = rallyPoint;
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.command.BuildCommand;
 import models.playerAsset.Assets.Player;
@@ -20,6 +21,11 @@ public class CTRLBuildCommand implements CTRLCommand{
         this.structureType = structureType;
         this.numWorkersAssigned = numWorkersAssigned;
         isConfigured = true;
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+
     }
 
     @Override

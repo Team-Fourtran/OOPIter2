@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.HealCommand;
@@ -20,6 +21,11 @@ public class CTRLHealCommand implements CTRLCommand{
         this.isConfigured = true;
         this.tile = tile;
         this.structure = structure;
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+
     }
 
     @Override
