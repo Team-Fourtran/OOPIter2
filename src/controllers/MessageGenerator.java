@@ -53,6 +53,7 @@ class MessageGenerator implements KeyPressListener{
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes){
         if(keystrokes.get("ENTER")){
             dispatchCommandForConfig(currentState.getCmd());
+            updateCommandList();
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
@@ -60,15 +61,19 @@ class MessageGenerator implements KeyPressListener{
         /* CONTROL+{UP/DOWN}: Cycle MODE */
         else if(keystrokes.get("CONTROL") && keystrokes.get("UP")){
             assetIterator.prevMode();           //CONTROL+UP: Previous Mode
+            updateCommandList();
         } else if(keystrokes.get("CONTROL") && keystrokes.get("DOWN")){
             assetIterator.nextMode();           //CONTROL+DOWN: Next Mode
+            updateCommandList();
         }
 
         /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
         else if(keystrokes.get("CONTROL") && keystrokes.get("LEFT")){        //CONTROL+LEFT: Previous Type
             assetIterator.prevType();
+            updateCommandList();
         } else if(keystrokes.get("CONTROL") && keystrokes.get("RIGHT")){     //CONTROL+RIGHT: Next Type
             assetIterator.nextType();
+            updateCommandList();
         }
 
         /* Keypresses without control cycle TYPE INSTANCES and COMMANDS */
@@ -76,24 +81,27 @@ class MessageGenerator implements KeyPressListener{
         //LEFT/RIGHT: Cycle Type Instances
         else if(!(keystrokes.get("CONTROL")) && keystrokes.get("LEFT")){
             assetIterator.prev();
+            updateCommandList();
 
         } else if(!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")){
             assetIterator.next();
+            updateCommandList();
         }
 
         /* UP/DOWN: Cycle Commands */
         else if(!(keystrokes.get("CONTROL")) && keystrokes.get("UP")){               /* Previous command */
             cmdIter.prev();
+            currentState.setCmd(cmdIter.current());
         } else if(!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")){      /* Next command */
             cmdIter.next();
-
+            currentState.setCmd(cmdIter.current());
         }
 
         /* Update the State based on the new Iterator info */
         currentState.setMode(assetIterator.getCurrentMode());
         currentState.setType(assetIterator.getCurrentType());
         currentState.setInstance((PlayerAsset)assetIterator.getElement());
-        updateCommandList();
+
     }
 
     private void updateCommandList(){
@@ -120,6 +128,7 @@ class MessageGenerator implements KeyPressListener{
         } catch(Exception e){
             e.printStackTrace();
         }
+        receiveConfiguredCmd(thisCmd);
     }
 
     public void receiveConfiguredCmd(CTRLCommand cmd){

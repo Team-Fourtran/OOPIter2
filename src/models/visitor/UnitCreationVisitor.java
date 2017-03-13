@@ -36,7 +36,7 @@ public class UnitCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitUnitManager(UnitManager unitManager) {
-        //TODO: see if we can pass in the TileAssociation so we dont have to call this map method...
+        //TODO: see if we can pass in the TileAssociation so we dont have to call this structureMap method...
         map.addAssetToMap(
                 unitManager.addNewUnit(unitType),
                 structure

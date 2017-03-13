@@ -1,7 +1,6 @@
 package models.playerAsset.Assets;
 
 
-import models.ctrlCommand.*;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
@@ -13,7 +12,6 @@ import models.visitor.PlayerVisitor;
 import java.util.ArrayList;
 
 public class Player {
-    //public for debugging
     private final ArmyManager armies;
     private final UnitManager units;
     private final StructureManager structures;
@@ -123,8 +121,8 @@ public class Player {
 
     public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> getAssetIterator(){
         ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list = new ArrayList<>();
-        list.add(units.getTypeIterator());
-        list.add(structures.getTypeIterator());
+        //list.add(units.getTypeIterator());
+//        list.add(structures.getTypeIterator());
         //list.add(armies.getTypeIterator());
         return makeAssetIterator(list);
     }

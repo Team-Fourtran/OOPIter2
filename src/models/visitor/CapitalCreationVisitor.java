@@ -26,7 +26,7 @@ public class CapitalCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitStructureManager(StructureManager structureManager) {
-        //TODO: See if we can pass the TileAssociation so we don't have to call this map method
+        //TODO: See if we can pass the TileAssociation so we don't have to call this structureMap method
         map.replaceAsset(
                 colonistToRemove,
                 structureManager.createStructure("capital")

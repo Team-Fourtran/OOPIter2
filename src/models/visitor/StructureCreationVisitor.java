@@ -33,7 +33,7 @@ public class StructureCreationVisitor implements PlayerVisitor{
     @Override
     public void visitStructureManager(StructureManager structureManager) {
         Structure s = structureManager.createStructure(structureType);
-        //TODO: see if we can pass in the TileAssociation so we dont have to call this map method...
+        //TODO: see if we can pass in the TileAssociation so we dont have to call this structureMap method...
         System.out.println("add structure");
         map.addAssetToMap(s, rallyPoint.getArmy());
     }

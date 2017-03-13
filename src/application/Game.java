@@ -28,12 +28,12 @@ public class Game {
       mainScreen.generateMainScreen();
       mainScreen.showMainScreen();
 
-      KeyboardController kbc = new KeyboardController(
-              this,
-              mainScreen.getKeyInformer(),
-              currentPlayer.getAssetIterator(),
-              mainScreen.getTileTargetter()
-      );
+//      KeyboardController kbc = new KeyboardController(
+//              this,
+//              mainScreen.getKeyInformer(),
+//              currentPlayer.getAssetIterator(),
+//              mainScreen.getTileTargetter()
+//      );
 
 
       Thread.sleep(1000);

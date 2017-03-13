@@ -3,8 +3,11 @@ package models.playerAsset.Assets;
 
 import models.playerAsset.Assets.Structures.*;
 import models.playerAsset.Iterators.Iterator;
+import models.playerAsset.Iterators.Iterator2;
 import models.playerAsset.Iterators.TypeIterator;
 import models.visitor.PlayerVisitor;
+import models.visitor.TypeListVisitor;
+
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -24,8 +27,8 @@ public class StructureManager implements Manager {
         structureList = new CopyOnWriteArrayList<>();
         factory = new StructureFactory();
         baseList = new ArrayList<>();
-        structureIterators = new ArrayList<>();
-        structureIterators.add(makeIterator(baseList));
+//        structureIterators = new ArrayList<>();
+//        structureIterators.add(makeIterator(baseList));
         for (int i = 1; i <= 20; i++)
             structureIDs.add("s" + i);
     }
@@ -125,7 +128,7 @@ public class StructureManager implements Manager {
         v.visitStructureManager(this);
     }
 
-    public Iterator<PlayerAsset> makeIterator(ArrayList<PlayerAsset> list) {
+/*    public Iterator<PlayerAsset> makeIterator(ArrayList<PlayerAsset> list) {
         return new Iterator<PlayerAsset>() {
 
             private int index = 0;
@@ -208,8 +211,89 @@ public class StructureManager implements Manager {
         };
     }
 
-    /*test method to grab iterator*/
+    *//*test method to grab iterator*//*
     public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> getTypeIterator() {
         return makeTypeIterator(structureIterators);
-    }
+    }*/
+public Iterator2<Structure> makeIterator(){
+    return new Iterator2<Structure>() {
+        private int current;
+        private int typeIndex;
+        private int typeSize;
+        private ArrayList<Structure> currentType;
+        private ArrayList<ArrayList<Structure>> typeList;
+
+        private int getSize(){
+            return currentType.size();
+        }
+
+        @Override
+        public void first() {
+            typeList = new ArrayList<>();
+            for (Structure s : structureList){
+                s.accept(
+                        new TypeListVisitor()
+                );
+            }
+            typeIndex = 0;
+            typeSize = typeList.size();
+            currentType = typeList.get(typeIndex);
+            for (int i = 0; i < typeSize; i++){
+                if (currentType.size() == 0){
+                    nextType();
+                }
+            }
+            current = 0;
+        }
+
+        @Override
+        public void next() {
+            current += 1;
+            current %= getSize();
+        }
+
+        @Override
+        public void prev() {
+            current -= 1;
+            if (current < 0){
+                current = getSize()-1;
+            }
+        }
+
+        @Override
+        public Structure current() {
+            if (getSize() > 0){
+                return currentType.get(current);
+            }
+            return null;
+        }
+
+        @Override
+        public void nextType() {
+            typeIndex++;
+            typeIndex %= typeSize;
+            currentType = typeList.get(typeIndex);
+            if (currentType.size() == 0){
+                nextType();
+            }
+        }
+
+        @Override
+        public void prevType() {
+            typeIndex--;
+            if (typeIndex < 0){
+                typeIndex = typeSize-1;
+            }
+            currentType = typeList.get(typeIndex);
+            if (currentType.size() == 0){
+                prevType();
+            }
+        }
+
+        @Override
+        public String getElement() {
+            return currentType.getClass().getFields().toString();
+        }
+    };
+}
 }

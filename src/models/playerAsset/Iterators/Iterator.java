@@ -1,9 +1,13 @@
 package models.playerAsset.Iterators;
 
+import models.playerAsset.Assets.Units.Unit;
+
+import java.util.ArrayList;
+
 public interface Iterator<T>{
 
-    public T first();
-    public void next();
-    public void prev();
-    public T current();
+    T first();
+    void next();
+    void prev();
+    T current();
 }

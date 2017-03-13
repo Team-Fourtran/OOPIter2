@@ -2,9 +2,14 @@
 package models.playerAsset.Assets;
 import models.playerAsset.Assets.Units.*;
 import models.playerAsset.Iterators.Iterator;
-import models.playerAsset.Iterators.TypeIterator;
+import models.playerAsset.Iterators.Iterator2;
+import models.playerAsset.Iterators.TypeIterator2;
 import models.visitor.PlayerVisitor;
+import models.visitor.TypeListVisitor;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /* Manager for a Player's Units
@@ -13,10 +18,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class UnitManager {
     private CopyOnWriteArrayList<Unit> unitList;
     final private UnitFactory factory;
-    ArrayList<PlayerAsset> explorerList;
-    ArrayList<PlayerAsset> colonistList;
-    ArrayList<PlayerAsset> meleeList;
-    ArrayList<PlayerAsset> rangedList;
+    ArrayList<Unit> explorerList;
+    ArrayList<Unit> colonistList;
+    ArrayList<Unit> meleeList;
+    ArrayList<Unit> rangedList;
     final int maxUnits = 25;
     final int maxUnitType = 10;
     static ArrayList<String> unitIDs = new ArrayList<>();
@@ -31,21 +36,25 @@ public class UnitManager {
         factory = new UnitFactory();
         for (int i = 1; i <= 50; i++)
             unitIDs.add("u" + i);
-        unitIterators = new ArrayList<>();
-        unitIterators.add(makeIterator(explorerList));
-        unitIterators.add(makeIterator(colonistList));
-        unitIterators.add(makeIterator(meleeList));
-        unitIterators.add(makeIterator(rangedList));
+//        unitIterators = new ArrayList<>();
+//        unitIterators.add(makeIterator(explorerList));
+//        unitIterators.add(makeIterator(colonistList));
+//        unitIterators.add(makeIterator(meleeList));
+//        unitIterators.add(makeIterator(rangedList));
     }
 
     public void removeUnit(Unit unit){
         unitList.remove(unit);
+        explorerList.remove(unit);
+        colonistList.remove(unit);
+        meleeList.remove(unit);
+        rangedList.remove(unit);
     }
 
     /*test method to grab iterator*/
-    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> getTypeIterator(){
-        return makeTypeIterator(unitIterators);
-    }
+//    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> getTypeIterator(){
+//        return makeTypeIterator(unitIterators);
+//    }
 
     public Unit addNewUnit(String type){
         Unit newUnit = factory.makeUnit(type);
@@ -114,87 +123,188 @@ public class UnitManager {
         }
         return totalUpkeep;
     }
+//
+//    public Iterator<PlayerAsset> makeIterator(ArrayList<PlayerAsset> list){
+//        return new Iterator<PlayerAsset>() {
+//
+//            private int index = 0;
+//
+//            @Override
+//            public PlayerAsset first() {
+//                if (!list.isEmpty())
+//                    return list.get(0);
+//                return null;
+//            }
+//
+//            @Override
+//            public void next() {
+//                index = (index+1) % list.size();
+//            }
+//
+//            @Override
+//            public void prev() {
+//                if (index != 0)
+//                    index--;
+//                else
+//                    index = list.size()-1;
+//            }
+//
+//            public PlayerAsset current(){
+//                //System.out.println(list.get(index).getType());
+//                return list.get(index);
+//            }
+//
+//            public PlayerAsset getElement(){
+//                return list.get(index);
+//            }
+//        };
+//    }
+//
+//    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> makeTypeIterator(ArrayList<Iterator<PlayerAsset>> list) {
+//        return new TypeIterator<PlayerAsset, Iterator<PlayerAsset>>() {
+//
+//            private int index = 0;
+//            private Iterator<PlayerAsset> current = current();
+//
+//            @Override
+//            public Iterator<PlayerAsset> first() {
+//                return list.get(0);
+//            }
+//
+//            public void nextType() {
+//                index = (index + 1) % list.size();
+//                current = list.get(index);
+//            }
+//
+//            public void prevType() {
+//                if (index != 0)
+//                    index--;
+//                else
+//                    index = list.size() - 1;
+//                current = list.get(index);
+//            }
+//
+//            public void next() {
+//                current.next();
+//            }
+//
+//            public void prev() {
+//                current.prev();
+//            }
+//
+//            public Iterator<PlayerAsset> current() {
+//                return list.get(index);
+//            }
+//
+//            public PlayerAsset getElement(){
+//                return current.current();
+//            }
+//
+//            public String getCurrentType(){
+//                return getElement().getType();
+//            }
+//
+//        };
+//    }
 
-    public Iterator<PlayerAsset> makeIterator(ArrayList<PlayerAsset> list){
-        return new Iterator<PlayerAsset>() {
+    public TypeIterator2<Map.Entry<String, ArrayList<Unit>>> makeTypeIterator(Map<String, ArrayList<Unit>> map){
+        return new TypeIterator2<Map.Entry<String,ArrayList<Unit>>>() {
+            private int current = 0;
+            private String key;
+            private ArrayList<Unit> values;
+            private ArrayList<Map.Entry<String, ArrayList<Unit>>> entries = new ArrayList<>();
 
-            private int index = 0;
 
             @Override
-            public PlayerAsset first() {
-                if (!list.isEmpty())
-                    return list.get(0);
+            public Map.Entry<String, ArrayList<Unit>> first() {
+                for (Map.Entry<String, ArrayList<Unit>> entry : map.entrySet()){
+                    entries.add(entry);
+                }
+                current = 0;
                 return null;
             }
 
             @Override
             public void next() {
-                index = (index+1) % list.size();
+                current += 1;
+                current %= map.size();
             }
 
             @Override
             public void prev() {
-                if (index != 0)
-                    index--;
-                else
-                    index = list.size()-1;
+                current -= 1;
+                if (current < 0){
+                    current = map.size()-1;
+                }
             }
 
-            public PlayerAsset current(){
-                //System.out.println(list.get(index).getType());
-                return list.get(index);
-            }
-
-            public PlayerAsset getElement(){
-                return list.get(index);
+            @Override
+            public Map.Entry<String, ArrayList<Unit>> current() {
+                return entries.get(current);
             }
         };
     }
 
-    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> makeTypeIterator(ArrayList<Iterator<PlayerAsset>> list) {
-        return new TypeIterator<PlayerAsset, Iterator<PlayerAsset>>() {
-
-            private int index = 0;
-            private Iterator<PlayerAsset> current = current();
+    public Iterator2<Unit> makeIterator(){
+        return new Iterator2<Unit>() {
+            private int current;
+            private TypeIterator2<Map.Entry<String, ArrayList<Unit>>> entryIter;
+            private ArrayList<Unit> currentUnitList;
+            private Map<String, ArrayList<Unit>> map = new HashMap<>();
 
             @Override
-            public Iterator<PlayerAsset> first() {
-                return list.get(0);
+            public void first() {
+                TypeListVisitor vis = new TypeListVisitor();
+                for (Unit u : unitList){
+                    u.accept(
+                            vis
+                    );
+                }
+                map = vis.getUnitMap();
+                entryIter = makeTypeIterator(map);
+                entryIter.first();
+                currentUnitList = entryIter.current().getValue();
+
             }
 
-            public void nextType() {
-                index = (index + 1) % list.size();
-                current = list.get(index);
-            }
-
-            public void prevType() {
-                if (index != 0)
-                    index--;
-                else
-                    index = list.size() - 1;
-                current = list.get(index);
-            }
-
+            @Override
             public void next() {
-                current.next();
+                current += 1;
+                current %= currentUnitList.size();
             }
 
+            @Override
             public void prev() {
-                current.prev();
+                current -= 1;
+                if (current < 0){
+                    current = currentUnitList.size()-1;
+                }
             }
 
-            public Iterator<PlayerAsset> current() {
-                return list.get(index);
+            @Override
+            public Unit current() {
+                if (currentUnitList.size() > 0){
+                    return currentUnitList.get(current);
+                }
+                return null;
             }
 
-            public PlayerAsset getElement(){
-                return current.current();
+            @Override
+            public void nextType() {
+                entryIter.next();
+                currentUnitList = entryIter.current().getValue();
             }
 
-            public String getCurrentType(){
-                return getElement().getType();
+            @Override
+            public void prevType() {
+                entryIter.prev();
+                currentUnitList = entryIter.current().getValue();
             }
 
+            @Override
+            public String getElement() {
+                return entryIter.current().getKey();
+            }
         };
     }
 }

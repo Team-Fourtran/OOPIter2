@@ -10,6 +10,7 @@ import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
 import models.playerAsset.Iterators.CommandIterator;
+import models.playerAsset.Iterators.Iterator2;
 import models.visitor.CommandListVisitor;
 
 import java.util.ArrayList;
@@ -61,14 +62,39 @@ class modelTest{
         this._tiles = tileGen.execute();
         Unit u0 = um.addNewUnit("colonist");
         _tiles.get(8).add(u0);
-        Unit u1 = um.addNewUnit("explorer");
+        Unit u1 = um.addNewUnit("colonist");
         _tiles.get(9).add(u1);
-        Unit u2 = um.addNewUnit("melee");
+        Unit u2 = um.addNewUnit("colonist");
         _tiles.get(10).add(u2);
-        Unit u3 = um.addNewUnit("ranged");
+        Unit u3 = um.addNewUnit("melee");
         _tiles.get(11).add(u3);
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
+        Iterator2<Unit> iter = um.makeIterator();
+        iter.first();
+        System.out.println(iter.getElement() + " " + iter.current());
+        iter.nextType();
+        System.out.println(iter.getElement() + " " + iter.current());
+        iter.next();
+        System.out.println(iter.getElement() + " " + iter.current());
+        iter.next();
+        System.out.println(iter.getElement() + " " + iter.current());
+        iter.next();
+        System.out.println(iter.getElement() + " " + iter.current());
+
+        CTRLDecommissionCommand dec = new CTRLDecommissionCommand();
+        dec.configure(u3);
+        game.notifyOfCommand(dec);
+        iter.first();
+        System.out.println(iter.getElement() + " " + iter.current());
+        iter.nextType();
+        System.out.println(iter.getElement() + " " + iter.current());
+        iter.nextType();
+        System.out.println(iter.getElement() + " " + iter.current());
+        iter.nextType();
+        System.out.println(iter.getElement() + " " + iter.current());
+        iter.nextType();
+        System.out.println(iter.getElement() + " " + iter.current());
     }
 
     private void changeTurn(int n) throws InterruptedException {
