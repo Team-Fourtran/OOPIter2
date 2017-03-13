@@ -1,13 +1,14 @@
 package views;
 
 import java.awt.*;
-import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
+import models.assetOwnership.TileObserver;
+
 import java.util.HashMap;
 import java.util.Observable;
 import models.visitor.*;
 
-public class hexMech implements Observer{
+public class hexMech implements TileObserver{
 
     public static boolean XYVertex=true;	//true: x,y are the co-ords of the first vertex.
     //false: x,y are the co-ords of the top left rect. co-ord.

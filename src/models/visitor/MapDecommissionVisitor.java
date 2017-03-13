@@ -19,6 +19,7 @@ public class MapDecommissionVisitor implements AssetVisitor{
 
     @Override
     public void visitUnit(Unit unit) {
+    	unit.notifyLeave(); // notify observers, particularly army
         map.removeAssetFromMap(unit);
         new PlayerDecommissionVisitor(map, unit).visitUnitManager(player.getUnits());
     }
