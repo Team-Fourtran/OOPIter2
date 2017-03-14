@@ -19,19 +19,19 @@ public class CTRLBuildCommand implements CTRLCommand{
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-        this.parts = parts;
-        this.rallyPoint = (RallyPoint) parts.getRequestingAsset();
+        this.rallyPoint = (RallyPoint)parts.getRequestingAsset();
+        this.structureType = parts.getStructureType();
 
-        //Needs to request a structure type and a number from the CommandComponents part object
-        this.structureType = structureType;
-        this.numWorkersAssigned = numWorkersAssigned;
-    }
-
-    @Override
-    //TODO: Figure out how to do multiple callbacks
-    public void callback() throws CommandNotConfiguredException {
         isConfigured = true;
     }
+
+    public void configure(RallyPoint rp, String type, int x) throws CommandNotConfiguredException {
+        this.rallyPoint = rp;
+        this.structureType = type;
+
+        isConfigured = true;
+    }
+
     public boolean isConfigured(){
         return this.isConfigured;
     }
@@ -56,5 +56,10 @@ public class CTRLBuildCommand implements CTRLCommand{
     @Override
     public String toString(){
         return "Build";
+    }
+
+    @Override
+    public void callback() throws CommandNotConfiguredException {
+        //Unused
     }
 }

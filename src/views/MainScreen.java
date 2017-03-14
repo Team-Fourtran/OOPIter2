@@ -11,12 +11,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
 
+import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
-
 import java.util.*;
 
 public class MainScreen implements TileObserver {
     private JFrame mainScreen;
+    private Player currentPlayer;
 
     private final int EMPTY = 0;
     private final int BSIZE = 10;
@@ -37,6 +38,7 @@ public class MainScreen implements TileObserver {
     private UnitOverview unitTable;
     private JTabbedPane tabbedPane;
     private StructureOverview strTable;
+    private PlayerTextField playerTextField;
 
     private int x = 0;
     private int y = 0;
@@ -47,6 +49,7 @@ public class MainScreen implements TileObserver {
     private DrawingPanel map;
     public MainScreen(TileAssociation[] tiles){
         this.tiles = tiles;
+        this.playerTextField = new PlayerTextField();
         for (int i = 0; i < tiles.length; i++) {
             tiles[i].addObserver(this);
         }
@@ -64,6 +67,11 @@ public class MainScreen implements TileObserver {
         }
     }
 
+    public void updatePlayer(Player p){
+        this.currentPlayer = p;
+        playerTextField.update(p.getName());
+    }
+
     public KeyPressInformer getKeyInformer(){
         return this.keyInformer;
     }
@@ -72,6 +80,9 @@ public class MainScreen implements TileObserver {
         return tileReceiver;
     }
     public void showMainScreen(){
+        //FullScreen
+        mainScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //mainScreen.setUndecorated(true);
         mainScreen.setVisible(true);
 //        StructureCreationDialog structureCreationDialog = new StructureCreationDialog();
 //        structureCreationDialog.createDialog();
@@ -122,15 +133,24 @@ public class MainScreen implements TileObserver {
         mainScreen = new JFrame("Fourtran Game");
 
         JPanel startScreen = new JPanel();
+        GridBagConstraints c = new GridBagConstraints();
 
         tabbedPane = new JTabbedPane();
 
         Container content = mainScreen.getContentPane();
-        content.add(new JButton("Something"), BorderLayout.SOUTH);
+        content.setLayout(new GridBagLayout());
+        PlayerInfoArea playerInfoArea = new PlayerInfoArea();
+        playerInfoArea.generatePlayerInfoArea(content);
+        //Controller information area
+        ControllerInfoArea controllerInfoArea = new ControllerInfoArea();
+        controllerInfoArea.generateControllerInfoArea(content);
+
+
+        //content.add(new JButton("Something"), BorderLayout.SOUTH);
 
         //Unit OV Table
 
-        Dimension d = new Dimension(900, 700);
+        Dimension d = new Dimension(1200, 1200);
         unitTable = new UnitOverview(d);
         strTable = new StructureOverview(d);
 
@@ -142,12 +162,22 @@ public class MainScreen implements TileObserver {
             public void stateChanged(ChangeEvent changeEvent) {
                 JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
                 int index = sourceTabbedPane.getSelectedIndex();
+                if (sourceTabbedPane.getSelectedComponent() instanceof DataTable){
+                    ((DataTable)sourceTabbedPane.getSelectedComponent()).update(currentPlayer);
+                }
                 System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
             }
         };
 
-        tabbedPane.addChangeListener(changeListener);
-        content.add(tabbedPane, BorderLayout.CENTER);
+        c.gridwidth = 4;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.fill = GridBagConstraints.BOTH;
+        content.add(tabbedPane, c);
+        //content.add(tabbedPane, BorderLayout.CENTER);
         tabbedPane.setFocusable(false);
         mapPane.setFocusable(false);
         map.setFocusable(true);
@@ -341,7 +371,6 @@ public class MainScreen implements TileObserver {
         map.enableHighlight();
 
         //Key listeners will call receiveTile on tileReceiver
-
     }
 
     public void updateMainScreen() {

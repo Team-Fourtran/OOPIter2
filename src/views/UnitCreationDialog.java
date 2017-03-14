@@ -1,11 +1,6 @@
 package views;
 
-/**
- * Created by TK on 3/13/17.
- */
-
 import javax.swing.*;
-import java.awt.event.WindowEvent;
 
 public class UnitCreationDialog {
     public static final String[] units = {"Explorer", "Colonist", "Melee", "Ranged"};
@@ -24,7 +19,8 @@ public class UnitCreationDialog {
                 units[0]);
 
     }
-    public String returnStructureType(){
+
+    public String returnUnitType(){
         if(unitType == null)
             return "null";
         else

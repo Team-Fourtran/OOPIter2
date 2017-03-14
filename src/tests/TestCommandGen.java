@@ -21,7 +21,7 @@ public class TestCommandGen{
 
     public static void main(String[] args) throws InterruptedException{
         int length = 10;
-        Player player = new Player();
+        Player player = new Player("Player 1");
         ArmyManager am = player.getArmies();
         UnitManager um = player.getUnits();
         StructureManager sm = player.getStructures();
@@ -60,7 +60,7 @@ public class TestCommandGen{
         //Make a KeyPressInformer, which alerts registered listeners of changes in the hashmap
         keySim = new KeyPressInformer(keySimMap);
 
-        AssetIterator assIter = player.getAssetIterator();
+        AssetIterator assIter = player.makeIterator();
 
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.executeFancy();

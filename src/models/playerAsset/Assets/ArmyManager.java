@@ -1,10 +1,15 @@
 package models.playerAsset.Assets;
 
 import models.playerAsset.Assets.Units.Unit;
-import models.visitor.AssetVisitor;
+import models.playerAsset.Iterators.Iterator2;
+import models.playerAsset.Iterators.specificTypeIterator;
 import models.visitor.PlayerVisitor;
+import models.visitor.TypeListVisitor;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /* Management class for a Player's armies. Keeps references to
@@ -102,5 +107,145 @@ public class ArmyManager implements Manager {
 
     public RallyPoint debugGetRallyPoint(){
         return rallyPointList.get(0);
+    }
+
+    public Iterator2<Army> makeIterator(){
+        return new Iterator2<Army>() {
+            private int current;
+            private specificTypeIterator<Army> entryIter;
+            private ArrayList<Army> currentArmyList;
+            private Map<String, ArrayList<Army>> map = new HashMap<>();
+
+            @Override
+            public Iterator2<Army> first() {
+                TypeListVisitor vis = new TypeListVisitor();
+                for (Army u : armyList){
+                    u.accept(
+                            vis
+                    );
+                }
+                map = vis.getArmyMap();
+                entryIter = new specificTypeIterator<>(map);
+                entryIter.first();
+                if (entryIter.current() == null){
+                    currentArmyList = null;
+                }
+                else{
+                    currentArmyList = entryIter.current().getValue();
+                }
+                current = 0;
+                return this;
+            }
+
+            @Override
+            public void next() {
+                current += 1;
+                current %= currentArmyList.size();
+            }
+
+            @Override
+            public void prev() {
+                current -= 1;
+                if (current < 0){
+                    current = currentArmyList.size()-1;
+                }
+            }
+
+            @Override
+            public Army current() {
+                if (currentArmyList == null){
+                    return null;
+                }
+                return currentArmyList.get(current);
+            }
+
+            @Override
+            public void nextType() {
+                current = 0;    //Reset since the next type may have less instances
+                entryIter.next();
+                currentArmyList = entryIter.current().getValue();
+            }
+
+            @Override
+            public void prevType() {
+                current = 0;    //Reset since the next type may have less instances
+                entryIter.prev();
+                currentArmyList = entryIter.current().getValue();
+            }
+
+            @Override
+            public String getElement() {
+                return entryIter.current().getKey();
+            }
+        };
+    }
+
+    public Iterator2<RallyPoint> makeRPIterator(){
+        return new Iterator2<RallyPoint>() {
+            private int current;
+            private specificTypeIterator<RallyPoint> entryIter;
+            private ArrayList<RallyPoint> currentRPList;
+            private Map<String, ArrayList<RallyPoint>> map = new HashMap<>();
+
+            @Override
+            public Iterator2<RallyPoint> first() {
+                TypeListVisitor vis = new TypeListVisitor();
+                for (RallyPoint rp : rallyPointList){
+                    rp.accept(
+                            vis
+                    );
+                }
+                map = vis.getRPMap();
+                entryIter = new specificTypeIterator<>(map);
+                entryIter.first();
+                if (entryIter.current() == null){
+                    currentRPList = null;
+                }
+                else{
+                    currentRPList = entryIter.current().getValue();
+                }
+                current = 0;
+                return this;
+            }
+
+            @Override
+            public void next() {
+                current += 1;
+                current %= currentRPList.size();
+            }
+
+            @Override
+            public void prev() {
+                current -= 1;
+                if (current < 0){
+                    current = currentRPList.size()-1;
+                }
+            }
+
+            @Override
+            public RallyPoint current() {
+                if (currentRPList == null){
+                    return null;
+                }
+                return currentRPList.get(current);
+            }
+
+            @Override
+            public void nextType() {
+                entryIter.next();
+                currentRPList = entryIter.current().getValue();
+            }
+
+            @Override
+            public void prevType() {
+                entryIter.prev();
+                currentRPList = entryIter.current().getValue();
+            }
+
+            @Override
+            public String getElement() {
+                return entryIter.current().getKey();
+            }
+        };
     }
 }

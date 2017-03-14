@@ -1,9 +1,5 @@
 package views;
 
-/**
- * Created by TK on 3/13/17.
- */
-
 import javax.swing.*;
 
 public class StructureCreationDialog {
@@ -33,4 +29,5 @@ public class StructureCreationDialog {
         frame.setVisible(false);
         frame.dispose();
     }
+
 }

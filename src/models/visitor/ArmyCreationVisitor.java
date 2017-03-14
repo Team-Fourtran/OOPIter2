@@ -44,7 +44,7 @@ public class ArmyCreationVisitor implements PlayerVisitor{
                     new JoinBattleGroupCommand(newArmy, u, map)
             );
         }
-        rp.accept( // Bug here that adds stuff to TA twice
+        rp.accept( //TODO Bug here that adds stuff to TA twice
                 new MovementVisitor(map, player, location)
         );
 
@@ -57,6 +57,9 @@ public class ArmyCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitUnitManager(UnitManager unitManager) {
+//        for (Unit u : units){
+//            unitManager.removeUnit(u);
+//        }
         //TODO Ask Clay what happens to the units here that are added to an army
     }
 }

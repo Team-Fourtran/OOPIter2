@@ -41,7 +41,6 @@ public class CommandListVisitor implements SpecificAssetVisitor{
         else{
             cmdList.add(new CTRLPowerDownCommand());
             cmdList.add(new CTRLAttackCommand());
-            cmdList.add(new CTRLMoveRallyPointCommand());
             cmdList.add(new CTRLDecommissionCommand());
         }
         cmdList.add(new CTRLCancelQueuedOrders());
@@ -66,6 +65,7 @@ public class CommandListVisitor implements SpecificAssetVisitor{
     public void visitRallyPoint(RallyPoint rallyPoint) {
         cmdList.add(new CTRLBuildCommand());
         cmdList.add(new CTRLCancelQueuedOrders());
+        cmdList.add(new CTRLMoveRallyPointCommand());
     }
 
     public CommandIterator getIterator(){

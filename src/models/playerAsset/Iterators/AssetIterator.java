@@ -1,9 +1,14 @@
 package models.playerAsset.Iterators;
 
-public interface AssetIterator<S, T> extends TypeIterator<S, T> {
+import models.ctrlCommand.CTRLCommand;
 
-    public void nextMode();
-    public void prevMode();
-    public String getCurrentMode();
+public interface AssetIterator extends Iterator2 {
+    void update();
+    void nextInstance();
+    void prevInstance();
+    String getCurrentMode();
 
+    void nextCommand();
+    void prevCommand();
+    CTRLCommand getCommand();
 }

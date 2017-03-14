@@ -14,7 +14,13 @@ public class CTRLCancelQueuedOrders implements CTRLCommand{
     }
 
     @Override
+    public void callback() throws CommandNotConfiguredException {
+
+    }
+
+    @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.asset = parts.getRequestingAsset();
         isConfigured = true;
         this.asset = parts.getRequestingAsset();
         parts.requestExecution();

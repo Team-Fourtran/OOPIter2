@@ -184,11 +184,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
     public void visitColonist(Colonist colonist) {
         BufferedImage texture = null;
         try{
-            texture = ImageIO.read(new File("src/application/images/terrain/Snow.png"));
+            texture = ImageIO.read(new File("src/application/images/units/colonist.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        texture = resizeImage(texture);
+//        texture = resizeImage(texture);
         addToPriorityQueue(UNIT, texture);
     }
 
@@ -196,11 +196,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
     public void visitExplorer(Explorer explorer) {
         BufferedImage texture = null;
         try{
-            texture = ImageIO.read(new File("src/application/images/terrain/Snow.png"));
+            texture = ImageIO.read(new File("src/application/images/units/red_explorer_trans.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        texture = resizeImage(texture);
+        //texture = resizeImage(texture);
         addToPriorityQueue(UNIT, texture);
     }
 
@@ -220,12 +220,12 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
     public void visitRangedUnit(RangedUnit rangedUnit) {
         BufferedImage texture = null;
         try{
-            texture = ImageIO.read(new File("src/application/images/terrain/Snow.png"));
+            texture = ImageIO.read(new File("src/application/images/units/ranged.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         texture = resizeImage(texture);
-        addToPriorityQueue(UNIT, texture);
+        addToPriorityQueue(STRUCTURE, texture);
     }
 
     @Override

@@ -24,6 +24,7 @@ public class Game {
       _tiles = list.toArray(_tiles);
 
       mainScreen = new MainScreen(_tiles);
+      mainScreen.updatePlayer(currentPlayer);
       mainScreen.initialize();
       mainScreen.generateMainScreen();
       mainScreen.showMainScreen();
@@ -31,11 +32,9 @@ public class Game {
       KeyboardController kbc = new KeyboardController(
               this,
               mainScreen.getKeyInformer(),
-              currentPlayer.getAssetIterator(),
+              currentPlayer.makeIterator(),
               mainScreen.getTileTargetter()
       );
-
-
       Thread.sleep(1000);
   }
 
@@ -49,6 +48,9 @@ public class Game {
   
   public void notifyOfCommand(CTRLCommand cmd){
       try {
+          //TODO remove this and implement player switching
+          currentPlayer.endTurn();
+          currentPlayer.beginTurn();
           cmd.execute(map, currentPlayer);
       } catch (CommandNotConfiguredException e) {
           e.printStackTrace();

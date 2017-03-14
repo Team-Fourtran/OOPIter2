@@ -1,27 +1,30 @@
 package models.playerAsset.Assets;
 
 
-import models.ctrlCommand.*;
-import models.playerAsset.Assets.Structures.Structure;
-import models.playerAsset.Assets.Units.Unit;
+import models.ctrlCommand.CTRLCommand;
 import models.playerAsset.Iterators.AssetIterator;
-import models.playerAsset.Iterators.Iterator;
-import models.playerAsset.Iterators.TypeIterator;
-
+import models.playerAsset.Iterators.CommandIterator;
+import models.playerAsset.Iterators.Iterator2;
+import models.visitor.CommandListVisitor;
 import models.visitor.PlayerVisitor;
-
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Player {
-    //public for debugging
+    private final String playerName;
     private final ArmyManager armies;
     private final UnitManager units;
     private final StructureManager structures;
 
-    public Player(){
+    public Player(String playerName){
+        this.playerName = playerName;
         armies = new ArmyManager();
         units = new UnitManager();
         structures = new StructureManager();
+    }
+
+    public String getName(){
+        return playerName;
     }
 
     //method to do maintenance tasks on player's assets
@@ -44,71 +47,6 @@ public class Player {
         structures.accept(v);
     }
 
-    private AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> makeAssetIterator(ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list) {
-        return new AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>>(){
-
-            private int index = 0;
-            private TypeIterator<PlayerAsset, Iterator<PlayerAsset>> current = current();
-
-            public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> first() {
-                return list.get(0);
-            }
-
-            public void nextMode(){
-                index = (index + 1) % list.size();
-                current = list.get(index);
-            }
-
-            public void prevMode(){
-                if (index != 0)
-                    index--;
-                else
-                    index = list.size() - 1;
-                current = list.get(index);
-            }
-
-            public void nextType() {
-                current.nextType();
-            }
-
-            public void prevType() {
-                current.prevType();
-            }
-
-            public void next() {
-                current.next();
-            }
-
-            public void prev() {
-                current.prev();
-            }
-
-            public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> current() {
-                return list.get(index);
-            }
-
-
-            public PlayerAsset getElement(){
-                return current().getElement();
-            }
-
-            @Override
-            public String getCurrentMode() {
-                if (getElement() instanceof Unit)
-                    return "Unit Mode";
-                else if (getElement() instanceof Structure)
-                    return "Structure Mode";
-                else
-                    return "Army Mode";
-            }
-
-            public String getCurrentType(){
-                return current.getCurrentType();
-            }
-
-        };
-    }
-
     public UnitManager getUnits() {
         return units;
     }
@@ -121,70 +59,164 @@ public class Player {
         return structures;
     }
 
-    public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> getAssetIterator(){
-        ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list = new ArrayList<>();
-        list.add(units.getTypeIterator());
-        list.add(structures.getTypeIterator());
-        //list.add(armies.getTypeIterator());
-        return makeAssetIterator(list);
+    public AssetIterator makeIterator(){
+        return new AssetIterator() {
+            private String[] modes = {"ARMY MODE", "UNIT MODE", "STRUCTURE MODE", "RALLY POINT MODE"};
+            private Iterator2<? extends PlayerAsset> currentIter;
+            private int currentIndex;
+            private Map<String, Iterator2<? extends PlayerAsset>> map = new HashMap<>();
+            private CommandIterator cmdIter;
+
+            private void findPrevState(String prevMode, String prevType, PlayerAsset prevAsset){
+                String firstMode = getCurrentMode();
+                while(!getCurrentMode().equals(prevMode)){
+                    next();
+                    if(getCurrentMode().equals(firstMode)){
+                        return;
+                    }
+                }
+                String firstType = getElement();
+                while(!getElement().equals(prevType)){
+                    nextType();
+                    if (getElement().equals(firstType)){
+                        return;
+                    }
+                }
+                PlayerAsset firstAsset = current();
+                while(current() != prevAsset){
+                    nextInstance();
+                    if(current() == firstAsset){
+                        return;
+                    }
+                }
+            }
+
+            private void updateCommandIter(){
+                CommandListVisitor cmdGetter = new CommandListVisitor();
+                current().accept(cmdGetter);
+                cmdIter = cmdGetter.getIterator();
+            }
+
+            @Override
+            public void update() {
+                String prevMode = getCurrentMode();
+                String prevType = getElement();
+                PlayerAsset prevAsset = current();
+                first();
+                findPrevState(prevMode, prevType, prevAsset);
+                updateCommandIter();
+            }
+
+            @Override
+            public AssetIterator first() {
+                currentIndex = 0;
+                map.put("ARMY MODE", armies.makeIterator().first());
+                map.put("UNIT MODE", units.makeIterator().first());
+                map.put("STRUCTURE MODE", structures.makeIterator().first());
+                map.put("RALLY POINT MODE", armies.makeRPIterator().first());
+
+                for (int i = 0; i < map.size(); i++){
+                    currentIter = map.get(modes[currentIndex]);
+                    currentIter.first();
+                    if (currentIter.current() == null || currentIter==null){
+                        next();
+                    }
+                }
+                updateCommandIter();
+                return this;
+            }
+
+            ////////////////MODE////////////////
+            @Override
+            public void next() {
+                currentIndex += 1;
+                currentIndex %= map.size();
+                for (int i = 0; i < map.size(); i++){
+                    currentIter = map.get(modes[currentIndex]);
+                    currentIter.first();
+                    if (currentIter.current() == null){
+                        next();
+                    }
+                }
+                updateCommandIter();
+            }
+
+            @Override
+            public void prev() {
+                currentIndex -= 1;
+                if (currentIndex < 0){
+                    currentIndex = map.size()-1;
+                }
+                currentIter = map.get(modes[currentIndex]);
+                currentIter.first();
+                if (currentIter.current() == null){
+                    prev();
+                }
+                updateCommandIter();
+            }
+
+            @Override
+            public String getCurrentMode() {
+                return modes[currentIndex];
+            }
+            ////////////////MODE////////////////
+
+            ///////////////TYPE////////////////
+            @Override
+            public void nextType() {
+                currentIter.nextType();
+                updateCommandIter();
+            }
+
+            @Override
+            public void prevType() {
+                currentIter.prevType();
+                updateCommandIter();
+            }
+
+            //Gets current Type
+            @Override
+            public String getElement() {
+                return currentIter.getElement();
+            }
+            ///////////////TYPE////////////////
+
+
+            /////////////INSTANCE///////////////
+            @Override
+            public void nextInstance() {
+                currentIter.next();
+                updateCommandIter();
+            }
+
+            @Override
+            public void prevInstance() {
+                currentIter.prev();
+                updateCommandIter();
+            }
+
+            @Override
+            public PlayerAsset current() {
+                return currentIter.current();
+            }
+            /////////////INSTANCE///////////////
+
+            /////////////COMMANDS///////////////
+            @Override
+            public void nextCommand() {
+                cmdIter.next();
+            }
+
+            @Override
+            public void prevCommand() {
+                cmdIter.prev();
+            }
+
+            @Override
+            public CTRLCommand getCommand() {
+                return cmdIter.current();
+            }
+            /////////////COMMANDS///////////////
+        };
     }
-
-//    public CommandIterator makeCommandIterator(){
-//        /* Create 4 ArrayLists of CTRLCommand objects, one list per type of command (unit, army, &c) */
-//        ArrayList<CTRLCommand> unitCmds = new ArrayList<>();
-//        ArrayList<CTRLCommand> armyCmds = new ArrayList<>();
-//        ArrayList<CTRLCommand> rallyPointCmds = new ArrayList<>();
-//        ArrayList<CTRLCommand> structureCmds = new ArrayList<>();
-//
-//        /* Populate each list with blank versions of each of the CTRLCommands that fall under it */
-//
-//                //CTRLAttackCommand: This can be either an Army command or a Structure command.
-//                armyCmds.add(new CTRLAttackCommand());
-//                structureCmds.add(new CTRLAttackCommand());
-//
-//                //CTRLCancelQueuedOrders: This can be an Army command or a Structure command
-//                armyCmds.add(new CTRLCancelQueuedOrders());
-//                structureCmds.add(new CTRLCancelQueuedOrders());
-//
-//                //CTRLCreateArmyCommand: This doesn't actually belong here?
-//                //TODO: Figure out how to handle CreateArmyCommand
-//
-//                //CTRLCreateCapitalCommand: I guess this is a Unit command, since only Colonists can do it?
-//                unitCmds.add(new CTRLCreateCapitalCommand());
-//
-//                //CTRLDecommissionCommand: This can be a Unit, Army, or Stucture command
-//                unitCmds.add(new CTRLDecommissionCommand());
-//                armyCmds.add(new CTRLDecommissionCommand());
-//                structureCmds.add(new CTRLDecommissionCommand());
-//
-//                //CTRLHealCommand: This is a Structure command
-//                structureCmds.add(new CTRLHealCommand());
-//
-//                //CTRLMoveRallyPointCommand: This is an Army command. Unintuitively, it is NOT a RP Command.
-//                armyCmds.add(new CTRLMoveRallyPointCommand());
-//
-//                //CTRLPowerDownCommand: This can be a Unit, Army, or Structure command
-//                unitCmds.add(new CTRLPowerDownCommand());
-//                armyCmds.add(new CTRLPowerDownCommand());
-//                structureCmds.add(new CTRLPowerDownCommand());
-//
-//                //CTRLPowerUpCommand: This can be a Unit, Army, or Structure command
-//                unitCmds.add(new CTRLPowerUpCommand());
-//                armyCmds.add(new CTRLPowerUpCommand());
-//                structureCmds.add(new CTRLPowerUpCommand());
-//
-//                //CTRLReinforceArmyCommand: This is a Unit command
-//                unitCmds.add(new CTRLReinforceArmyCommand());
-//
-//        /* Create an ArrayList to hold all of the ArrayLists */
-//        ArrayList<ArrayList<CTRLCommand>> listList = new ArrayList<>();
-//        listList.add(unitCmds);
-//        listList.add(armyCmds);
-//        listList.add(rallyPointCmds);
-//        listList.add(structureCmds);
-//
-//        /* Create a CommandIterator using the meta-List we just created */
-//        return new CommandIterator(listList);
-//    }
-
 }

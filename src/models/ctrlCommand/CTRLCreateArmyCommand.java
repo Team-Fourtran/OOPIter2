@@ -24,7 +24,6 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
     }
 
     @Override
-
     public void callback() throws CommandNotConfiguredException {
         //TODO: This. Not sure if it'll be used or not. But needed to build.
     }

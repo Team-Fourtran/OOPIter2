@@ -1,24 +1,20 @@
 package views;
 
-        import javax.swing.*;
-        import java.awt.*;
+import models.playerAsset.Assets.Player;
+import models.visitor.TableFormatVisitor;
 
-public class StructureOverview extends JPanel {
-    private String[] structureColumnStats = {"StructuresID", "Structure Type", "Offensive Damage",
-            "Defensive Damage", "Armor", "Maximum Health",
-            "Current Health", "Upkeep", "Location"};
+import javax.swing.*;
+import java.awt.*;
+
+public class StructureOverview extends JPanel implements DataTable {
+    JTable structureTable;
+    Dimension d;
 
     public StructureOverview(Dimension d){
-        JTable structureTable = new JTable();
-        String[][] structureData = new String[25][9];
-        structureData[0][0] = "YO";
-        NonEditableTable table = new NonEditableTable(structureData, structureColumnStats);
-        structureTable.setModel(table);
-        structureTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        structureTable.setPreferredSize(d);
-
+        this.structureTable = new JTable();
+        this.d = d;
         this.setLayout(new BorderLayout());
-        this.setPreferredSize(d);
+        //this.setPreferredSize(d);
         this.add(new JScrollPane(structureTable), BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
@@ -27,6 +23,19 @@ public class StructureOverview extends JPanel {
         buttonPanel.add(createArmyButton);
         createArmyButton.setPreferredSize(buttonDimension);
         this.add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    @Override
+    public void update(Player currentPlayer) {
+        TableFormatVisitor vis = new TableFormatVisitor(currentPlayer);
+        vis.visitStructureManager(currentPlayer.getStructures());
+        NonEditableTable table = vis.getFormattedTable();
+        if(table == null){
+            return;
+        }
+        structureTable.setModel(table);
+        structureTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        structureTable.setPreferredSize(d);
     }
 }
 
