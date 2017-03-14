@@ -19,6 +19,11 @@ public class ControllerInfoArea {
         JTextField typeInstanceTextField = new JTextField();
         JTextField commandsTextField = new JTextField();
 
+        modeTextField.setEditable(false);
+        typeTextField.setEditable(false);
+        typeInstanceTextField.setEditable(false);
+        commandsTextField.setEditable(false);
+
         modeLabel.setLabelFor(modeTextField);
         typeLabel.setLabelFor(typeTextField);
         typeInstanceLabel.setLabelFor(typeInstanceTextField);
@@ -36,6 +41,7 @@ public class ControllerInfoArea {
         JPanel commandsPane = new JPanel(new GridLayout(1, 2,0 ,0 ));
         commandsPane.add(commandsLabel);
         commandsPane.add(commandsTextField);
+
         b.gridx = 0;
         b.gridy = 2;
         cont.add(modePane, b);

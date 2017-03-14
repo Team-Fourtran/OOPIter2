@@ -25,6 +25,10 @@ public class PlayerInfoArea {
         JTextField oreTextField = new JTextField();
         JTextField foodTextField = new JTextField();
 
+        foodTextField.setEditable(false);
+        oreTextField.setEditable(false);
+        energyTextField.setEditable(false);
+
         energyLabel.setLabelFor(energyTextField);
         oreLabel.setLabelFor(oreTextField);
         foodLabel.setLabelFor(foodTextField);
