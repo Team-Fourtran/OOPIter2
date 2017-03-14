@@ -14,10 +14,14 @@ public class Game {
 
   private MainScreen mainScreen;
   private Player currentPlayer;
+  private Player goodPlayer;
+  private Player enemyPlayer;
   private GameMap map;
 
-  public Game(Player player, ArrayList<TileAssociation> list) throws InterruptedException{
+  public Game(Player player, Player enemyPlayer, ArrayList<TileAssociation> list) throws InterruptedException{
       this.currentPlayer = player;
+      this.goodPlayer = player;
+      this.enemyPlayer = enemyPlayer;
       this.map = new GameMap(list, 5, 5);
 
       TileAssociation[] _tiles = new TileAssociation[list.size()];

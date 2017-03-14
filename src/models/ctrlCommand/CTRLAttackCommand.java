@@ -43,6 +43,8 @@ public class CTRLAttackCommand implements CTRLCommand{
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.parts = parts;
         this.giver = (CombatAsset) parts.getRequestingAsset();
+        parts.requestDestinationTile(this);
+        isConfigured = false;
     }
 
     public boolean isConfigured(){
