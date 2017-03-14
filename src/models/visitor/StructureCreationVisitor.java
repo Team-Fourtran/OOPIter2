@@ -2,6 +2,7 @@ package models.visitor;
 
 
 import models.assetOwnership.GameMap;
+import models.assetOwnership.PlayerAssetOwnership;
 import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
 
@@ -9,6 +10,7 @@ public class StructureCreationVisitor implements PlayerVisitor{
     private GameMap map;
     private RallyPoint rallyPoint;
     private String structureType;
+    private Player player;
 
     public StructureCreationVisitor(GameMap map, RallyPoint rallyPoint, String structureType){
         this.map = map;
@@ -22,6 +24,7 @@ public class StructureCreationVisitor implements PlayerVisitor{
         this.visitArmyManager(player.getArmies());
         this.visitStructureManager(player.getStructures());
         this.visitUnitManager(player.getUnits());
+        this.player = player;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class StructureCreationVisitor implements PlayerVisitor{
     @Override
     public void visitStructureManager(StructureManager structureManager) {
         Structure s = structureManager.createStructure(structureType);
-        //TODO: see if we can pass in the TileAssociation so we dont have to call this structureMap method...
+        PlayerAssetOwnership.addPlayerAsset(player, s);
         System.out.println("add structure");
         map.addAssetToMap(s, rallyPoint.getArmy());
     }

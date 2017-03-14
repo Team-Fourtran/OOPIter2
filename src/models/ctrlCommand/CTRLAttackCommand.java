@@ -9,27 +9,38 @@ import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.Player;
 
 public class CTRLAttackCommand implements CTRLCommand{
-    private Player receivingPlayer;
     private CombatAsset giver;  //RallyPoint or Structure
     private TileAssociation receiver;
 
     private boolean isConfigured;
+    private CommandComponents parts;
 
     public CTRLAttackCommand(){
         isConfigured = false;
     }
 
-    public void configure(CombatAsset giver, TileAssociation receiver, Player receivingPlayer){
-        isConfigured = true;
-        this.receivingPlayer = receivingPlayer;
+    public void configure(CombatAsset giver, TileAssociation receiver){
         this.giver = giver;
         this.receiver = receiver;
     }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.parts = parts;
         this.giver = (CombatAsset) parts.getRequestingAsset();
-        isConfigured = true;
+        parts.requestDestinationTile();
+        //Still not configured - queryAgain needs to be called once the destination tile is ready.
+    }
+
+    //Called back when getDestinationTile is ready
+    public void queryAgain() throws CommandNotConfiguredException{
+        this.receiver = parts.getDestinationTile();
+        if(null != receiver){
+            isConfigured = true;
+            parts.requestExecution();
+        } else {
+            throw new CommandNotConfiguredException("queryAgain() was called, but the DestinationTile is null");
+        }
     }
 
     public boolean isConfigured(){
@@ -42,7 +53,6 @@ public class CTRLAttackCommand implements CTRLCommand{
             giver.addCommand(
                     new AttackCommand(
                             player,
-                            receivingPlayer,
                             map,
                             giver,
                             receiver
@@ -51,31 +61,6 @@ public class CTRLAttackCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
-
-//        if (giver instanceof RallyPoint){
-//            giver.addCommand(
-//                    new AttackCommand(
-//                            player,
-//                            map,
-//                            ((RallyPoint) giver).getArmy(),
-//                            receiver
-//                    )
-//            );
-//        }
-//        else if (giver instanceof Structure){
-//            giver.addCommand(
-//                    new AttackCommand(
-//                            player,
-//                            map,
-//                            (Structure) giver,
-//                            receiver
-//                    )
-//            );
-//        }
-//        else{
-//            System.out.println("Can't attack with this");
-//        }
-
     }
 
     @Override

@@ -16,7 +16,6 @@ public class CTRLDecommissionCommand implements CTRLCommand{
     }
 
     public void configure(CombatAsset asset){
-        isConfigured = true;
         this.asset = asset;
     }
 
@@ -24,6 +23,7 @@ public class CTRLDecommissionCommand implements CTRLCommand{
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.asset = (CombatAsset) parts.getRequestingAsset();
         isConfigured = true;
+        parts.requestExecution();
     }
 
     public boolean isConfigured(){

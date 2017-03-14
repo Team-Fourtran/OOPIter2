@@ -14,7 +14,6 @@ public class CTRLCancelQueuedOrders implements CTRLCommand{
     }
 
     public void configure(PlayerAsset asset){
-        isConfigured = true;
         this.asset = asset;
     }
 
@@ -22,6 +21,8 @@ public class CTRLCancelQueuedOrders implements CTRLCommand{
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.asset = parts.getRequestingAsset();
         isConfigured = true;
+        this.asset = parts.getRequestingAsset();
+        parts.requestExecution();
     }
 
     public boolean isConfigured(){
@@ -39,4 +40,5 @@ public class CTRLCancelQueuedOrders implements CTRLCommand{
     public String toString(){
         return "Cancel Queued Orders";
     }
+
 }

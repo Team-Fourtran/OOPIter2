@@ -18,7 +18,6 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
     }
 
     public void configure(Unit unit, RallyPoint rallyPoint){
-        this.isConfigured = true;
         this.unit = unit;
         this.rallyPoint = rallyPoint;
     }

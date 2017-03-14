@@ -11,6 +11,7 @@ public class CTRLBuildCommand implements CTRLCommand{
     private String structureType;
     private int numWorkersAssigned;
     private boolean isConfigured;
+    private CommandComponents parts;
 
     public CTRLBuildCommand(){
         isConfigured = false;
@@ -20,7 +21,6 @@ public class CTRLBuildCommand implements CTRLCommand{
         this.rallyPoint = rallyPoint;
         this.structureType = structureType;
         this.numWorkersAssigned = numWorkersAssigned;
-        isConfigured = true;
     }
 
     @Override
@@ -28,7 +28,6 @@ public class CTRLBuildCommand implements CTRLCommand{
         this.rallyPoint = (RallyPoint)parts.getRequestingAsset();
         isConfigured = true;
     }
-
     public boolean isConfigured(){
         return this.isConfigured;
     }

@@ -24,23 +24,27 @@ public class Main {
 
 class modelTest{
     private Player player;
+    private Player enemyPlayer;
     private Game game;
     private GameMap map;
     private ArrayList<TileAssociation> _tiles;
     private ArmyManager am;
     private UnitManager um;
     private StructureManager sm;
+    private ArmyManager amEnemy;
+    private UnitManager umEnemy;
+    private StructureManager smEnemy;
 
     modelTest() throws InterruptedException {
         configure();
 //        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
-        //testCapitalCreation();
+//        testCapitalCreation();
 //        testArmyCreationAndMovement();
-        //testHeal();
+//        testHeal();
 //        testDecommission();
-        //testPowerUpDown();
+//        testPowerUpDown();
 //        testIterator();
 //        testCommandIterator();
 //        testPathfinding();
@@ -50,7 +54,6 @@ class modelTest{
 //        testLandMine2();
 //        testBuild();
     }
-
 	private void configure() throws InterruptedException {
         int length = 15;
         this.player = new Player();
@@ -119,17 +122,17 @@ class modelTest{
         Army army = am.debugGetArmy();
         RallyPoint rp = am.debugGetRallyPoint();
 
-        CTRLMoveRallyPointCommand cmrpc = new CTRLMoveRallyPointCommand();
-        cmrpc.configure(rp, _tiles.get(8));
-        game.notifyOfCommand(cmrpc);
-
-        CTRLAttackCommand cacmd = new CTRLAttackCommand();
-        cacmd.configure(army, _tiles.get(6), player);
-        game.notifyOfCommand(cacmd);
-        game.notifyOfCommand(cacmd);
-        game.notifyOfCommand(cacmd);
-        game.notifyOfCommand(cacmd);
-        game.notifyOfCommand(cacmd);
+//        CTRLMoveRallyPointCommand cmrpc = new CTRLMoveRallyPointCommand();
+//        cmrpc.configure(rp, _tiles.get(8));
+//        game.notifyOfCommand(cmrpc);
+//
+//        CTRLAttackCommand cacmd = new CTRLAttackCommand();
+//        cacmd.configure(army, _tiles.get(6), player);
+//        game.notifyOfCommand(cacmd);
+//        game.notifyOfCommand(cacmd);
+//        game.notifyOfCommand(cacmd);
+//        game.notifyOfCommand(cacmd);
+//        game.notifyOfCommand(cacmd);
 
         changeTurn(6);
     }
@@ -173,16 +176,16 @@ class modelTest{
 
         changeTurn(4);
 
-        CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
-        rac.configure(u2, am.debugGetRallyPoint());
-        game.notifyOfCommand(rac);
+//        CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
+//        rac.configure(u2, am.debugGetRallyPoint());
+//        game.notifyOfCommand(rac);
 
         changeTurn(3);
 
-        CTRLMoveRallyPointCommand mrpc = new CTRLMoveRallyPointCommand();
-        mrpc.configure(am.debugGetRallyPoint(), _tiles.get(223));
-
-        game.notifyOfCommand(mrpc);
+//        CTRLMoveRallyPointCommand mrpc = new CTRLMoveRallyPointCommand();
+//        mrpc.configure(am.debugGetRallyPoint(), _tiles.get(223));
+//
+//        game.notifyOfCommand(mrpc);
 
         changeTurn(6);
     }
@@ -258,7 +261,7 @@ class modelTest{
         game.notifyOfCommand(cmrpc);
 
         CTRLAttackCommand catkcmd = new CTRLAttackCommand();
-        catkcmd.configure(s1, _tiles.get(2), player);
+        catkcmd.configure(s1, _tiles.get(2));
         game.notifyOfCommand(catkcmd);
 
         changeTurn(2);
@@ -268,7 +271,7 @@ class modelTest{
         game.notifyOfCommand(chcmd);
 
         catkcmd = new CTRLAttackCommand();
-        catkcmd.configure(s1, _tiles.get(2), player);
+        catkcmd.configure(s1, _tiles.get(2));
         game.notifyOfCommand(catkcmd);
 
         chcmd = new CTRLHealCommand();
@@ -276,7 +279,7 @@ class modelTest{
         game.notifyOfCommand(chcmd);
 
         catkcmd = new CTRLAttackCommand();
-        catkcmd.configure(s1, _tiles.get(2), player);
+        catkcmd.configure(s1, _tiles.get(2));
         game.notifyOfCommand(catkcmd);
 
         chcmd = new CTRLHealCommand();
@@ -571,4 +574,3 @@ class modelTest{
         System.out.println(iter.getCurrentMode() + "  " + iter.getElement() + "  " + iter.getElement() + "  " + iter.current().toString());
     }
 }
-

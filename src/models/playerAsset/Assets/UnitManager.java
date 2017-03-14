@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /* Manager for a Player's Units
    Helps create units and pass commands to them
  */
-public class UnitManager {
+public class UnitManager implements Manager {
     private CopyOnWriteArrayList<Unit> unitList;
     final private UnitFactory factory;
     ArrayList<Unit> explorerList;
@@ -43,7 +43,7 @@ public class UnitManager {
 //        unitIterators.add(makeIterator(rangedList));
     }
 
-    public void removeUnit(Unit unit){
+    public void removeUnit(PlayerAsset unit){
         unitList.remove(unit);
         explorerList.remove(unit);
         colonistList.remove(unit);
@@ -104,6 +104,7 @@ public class UnitManager {
     }
 
     //recycle an ID of a unit who doesn't need one anymore
+    @Override
     public void freeID(String assetID) {
         int escapee = Integer.parseInt(assetID.substring(assetID.lastIndexOf("u") + 1).trim());
         for (int i = 0; i < unitIDs.size(); i++) {
@@ -116,6 +117,7 @@ public class UnitManager {
         }
     }
 
+    @Override
     public int calculateTotalUpkeep(){
         int totalUpkeep = 0;
         for (Unit u: unitList){

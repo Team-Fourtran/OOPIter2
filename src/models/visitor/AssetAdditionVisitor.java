@@ -9,7 +9,9 @@ import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
-
+/*
+ * This visitor assists with adding assets to tile associations
+ */
 public class AssetAdditionVisitor implements AssetVisitor {
 	GameMap map;
 	TileAssociation location;

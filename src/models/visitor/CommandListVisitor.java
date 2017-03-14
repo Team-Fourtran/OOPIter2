@@ -22,12 +22,12 @@ public class CommandListVisitor implements SpecificAssetVisitor{
         //Applicable to all units
         if (!unit.getPoweredUp()){
             cmdList.clear();
-            cmdList.add(new CTRLPowerUpCommand());
+            //cmdList.add(new CTRLPowerUpCommand());
         }
         else{
-            cmdList.add(new CTRLPowerDownCommand());
-            cmdList.add(new CTRLReinforceArmyCommand());
-            cmdList.add(new CTRLDecommissionCommand());
+//            cmdList.add(new CTRLPowerDownCommand());
+//            cmdList.add(new CTRLReinforceArmyCommand());
+//            cmdList.add(new CTRLDecommissionCommand());
         }
     }
 
@@ -36,15 +36,15 @@ public class CommandListVisitor implements SpecificAssetVisitor{
         //Applicable to all armies
         if (!army.getPoweredUp()){
             cmdList.clear();
-            cmdList.add(new CTRLPowerUpCommand());
+//            cmdList.add(new CTRLPowerUpCommand());
         }
         else{
-            cmdList.add(new CTRLPowerDownCommand());
-            cmdList.add(new CTRLAttackCommand());
-            cmdList.add(new CTRLMoveRallyPointCommand());
-            cmdList.add(new CTRLDecommissionCommand());
+//            cmdList.add(new CTRLPowerDownCommand());
+//            cmdList.add(new CTRLAttackCommand());
+//            cmdList.add(new CTRLMoveRallyPointCommand());
+//            cmdList.add(new CTRLDecommissionCommand());
         }
-        cmdList.add(new CTRLCancelQueuedOrders());
+//        cmdList.add(new CTRLCancelQueuedOrders());
     }
 
     @Override
@@ -52,20 +52,20 @@ public class CommandListVisitor implements SpecificAssetVisitor{
         //Applicable to all Structures
         if (!structure.getPoweredUp()){
             cmdList.clear();
-            cmdList.add(new CTRLPowerUpCommand());
+//            cmdList.add(new CTRLPowerUpCommand());
         }
         else{
-            cmdList.add(new CTRLPowerDownCommand());
-            cmdList.add(new CTRLHealCommand());
-            cmdList.add(new CTRLDecommissionCommand());
+//            cmdList.add(new CTRLPowerDownCommand());
+//            cmdList.add(new CTRLHealCommand());
+//            cmdList.add(new CTRLDecommissionCommand());
         }
-        cmdList.add(new CTRLCancelQueuedOrders());
+//        cmdList.add(new CTRLCancelQueuedOrders());
     }
 
     @Override
     public void visitRallyPoint(RallyPoint rallyPoint) {
-        cmdList.add(new CTRLBuildCommand());
-        cmdList.add(new CTRLCancelQueuedOrders());
+//        cmdList.add(new CTRLBuildCommand());
+//        cmdList.add(new CTRLCancelQueuedOrders());
     }
 
     public CommandIterator getIterator(){
@@ -74,7 +74,7 @@ public class CommandListVisitor implements SpecificAssetVisitor{
 
     @Override
     public void visitCapital(Capital capital) {
-        cmdList.add(new CTRLCreateUnitCommand());
+//        cmdList.add(new CTRLCreateUnitCommand());
         this.visitStructure(capital);
     }
 
@@ -85,8 +85,8 @@ public class CommandListVisitor implements SpecificAssetVisitor{
 
     @Override
     public void visitFort(Fort fort) {
-        cmdList.add(new CTRLAttackCommand());
-        cmdList.add(new CTRLCreateUnitCommand());
+//        cmdList.add(new CTRLAttackCommand());
+//        cmdList.add(new CTRLCreateUnitCommand());
         this.visitStructure(fort);
     }
 
@@ -112,7 +112,7 @@ public class CommandListVisitor implements SpecificAssetVisitor{
 
     @Override
     public void visitColonist(Colonist colonist) {
-        cmdList.add(new CTRLCreateCapitalCommand());
+//        cmdList.add(new CTRLCreateCapitalCommand());
         this.visitUnit(colonist);
     }
 

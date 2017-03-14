@@ -18,15 +18,15 @@ public class CTRLHealCommand implements CTRLCommand{
     }
 
     public void configure(Structure structure, TileAssociation tile){
-        this.isConfigured = true;
-        this.tile = tile;
         this.structure = structure;
+        this.tile = tile;
     }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.structure = (Structure) parts.getRequestingAsset();
         isConfigured = true;
+        //TODO: This
     }
 
     public boolean isConfigured(){

@@ -1,16 +1,19 @@
 package models.visitor;
 
 import models.assetOwnership.GameMap;
+import models.assetOwnership.PlayerAssetOwnership;
 import models.playerAsset.Assets.ArmyManager;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.StructureManager;
 import models.playerAsset.Assets.Structures.Structure;
+import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Assets.UnitManager;
 
 public class UnitCreationVisitor implements PlayerVisitor{
     private GameMap map;
     private Structure structure;
     private String unitType;
+    private Player player;
 
     public UnitCreationVisitor(GameMap map, Structure structure, String unitType){
         this.map = map;
@@ -22,6 +25,7 @@ public class UnitCreationVisitor implements PlayerVisitor{
     public void visitPlayer(Player player) {
         this.visitStructureManager(player.getStructures());
         this.visitUnitManager(player.getUnits());
+        this.player = player;
     }
 
     @Override
@@ -36,9 +40,11 @@ public class UnitCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitUnitManager(UnitManager unitManager) {
-        //TODO: see if we can pass in the TileAssociation so we dont have to call this structureMap method...
+    	Unit u = unitManager.addNewUnit(unitType);
+    	PlayerAssetOwnership.addPlayerAsset(player, u);
+        //TODO: see if we can pass in the TileAssociation so we dont have to call this map method...
         map.addAssetToMap(
-                unitManager.addNewUnit(unitType),
+                u,
                 structure
         );
     }

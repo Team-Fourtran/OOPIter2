@@ -1,27 +1,26 @@
 package views;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import javafx.scene.input.KeyCode;
-import models.assetOwnership.Observer;
 import models.assetOwnership.TileAssociation;
+import models.assetOwnership.TileObserver;
 import controllers.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
 
-import models.command.Command;
-import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
+
 import java.util.*;
 
-public class MainScreen implements Observer{
+public class MainScreen implements TileObserver {
     private JFrame mainScreen;
 
     private final int EMPTY = 0;
     private final int BSIZE = 10;
-    private final int HEXSIZE = 64;
+    private final int HEXSIZE = 128;
     private final int BORDERS = 10;
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
@@ -35,15 +34,9 @@ public class MainScreen implements Observer{
     private KeyPressInformer keyInformer;
 
     private TileAssociation[] tiles;
-    private JTable unitTable;
+    private UnitOverview unitTable;
     private JTabbedPane tabbedPane;
-    private JTable strTable;
-    private String[] unitColumnStats = {"UnitID", "Unit Type", "Offensive Damage",
-            "Defensive Damage", "Armor",
-            "Max Health", "Current Health", "Upkeep", "Location"};
-    private String[] structureColumnStats = {"StructuresID", "Structure Type", "Offensive Damage",
-            "Defensive Damage", "Armor", "Maximum Health",
-            "Current Health", "Upkeep", "Location"};
+    private StructureOverview strTable;
 
     private int x = 0;
     private int y = 0;
@@ -80,6 +73,14 @@ public class MainScreen implements Observer{
     }
     public void showMainScreen(){
         mainScreen.setVisible(true);
+//        StructureCreationDialog structureCreationDialog = new StructureCreationDialog();
+//        structureCreationDialog.createDialog();
+//        String structure = structureCreationDialog.returnStructureType();
+//        System.out.println(structure);
+//        structureCreationDialog.closeDialog();
+//        structureCreationDialog.createDialog();
+//        structure = structureCreationDialog.returnStructureType();
+//        System.out.println(structure);
     }
     public void initialize(){
         hexMech.setXYasVertex(false);
@@ -116,48 +117,89 @@ public class MainScreen implements Observer{
         map = new DrawingPanel();
         map.setBackground(Color.blue);
         JScrollPane mapPane = new JScrollPane(map);
-        Dimension d1 = new Dimension(1200, 1200);
-        mapPane.setPreferredSize(d1);
+        //Dimension d1 = new Dimension(1200, 1200);
+        //mapPane.setPreferredSize(d1);
         mainScreen = new JFrame("Fourtran Game");
 
         JPanel startScreen = new JPanel();
+        GridBagConstraints c = new GridBagConstraints();
 
         tabbedPane = new JTabbedPane();
 
         Container content = mainScreen.getContentPane();
-        content.add(new JButton("Something"), BorderLayout.SOUTH);
+        content.setLayout(new GridBagLayout());
+        //Adding JTextfields.
+        JLabel playerLabel = new JLabel("Player");
+        JTextField playerTextField = new JTextField();
+        playerLabel.setLabelFor(playerTextField);
+        JPanel playerPane = new JPanel(new GridLayout(1, 2, 0, 0));
+        playerPane.add(playerLabel);
+        playerPane.add(playerTextField);
+
+        c.gridx = 0;
+        c.gridy = 2;
+        c.weightx = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        content.add(playerPane, c);
+
+        JLabel resourceLabel = new JLabel("Resources");
+        JLabel energyLabel = new JLabel("Energy");
+        JLabel oreLabel = new JLabel("Ore");
+        JLabel foodLabel = new JLabel("Food");
+        JTextField energyTextField = new JTextField();
+        JTextField oreTextField = new JTextField();
+        JTextField foodTextField = new JTextField();
+
+        energyLabel.setLabelFor(energyTextField);
+        oreLabel.setLabelFor(oreTextField);
+        foodLabel.setLabelFor(foodTextField);
+
+        JPanel foodPane = new JPanel(new GridLayout(1, 2, 0, 0));
+        foodPane.add(foodLabel);
+        foodPane.add(foodTextField);
+        JPanel energyPane = new JPanel(new GridLayout(1, 2, 0, 0));
+        energyPane.add(energyLabel);
+        energyPane.add(energyTextField);
+        JPanel orePane = new JPanel(new GridLayout(1, 2,0 ,0 ));
+        orePane.add(oreLabel);
+        orePane.add(oreTextField);
+
+        c.gridx = 1;
+        c.gridy = 2;
+        content.add(foodPane, c);
+        c.gridx = 2;
+        c.gridy = 2;
+        content.add(energyPane, c);
+        c.gridx = 3;
+        c.gridy = 2;
+        content.add(orePane, c);
         //Unit OV Table
-        Object[][] unitData = new Object[25][9];
-        NonEditableTable table = new NonEditableTable(unitData, unitColumnStats);
-        unitTable = new JTable(table);
-        unitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        Dimension dimension = new Dimension(900, 700);
-        unitTable.setPreferredSize(dimension);
-        JPanel unitOVPanel = new JPanel(new BorderLayout());
-        unitOVPanel.setPreferredSize(dimension);
-        unitOVPanel.add(new JScrollPane(unitTable), BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        Dimension buttonDimension = new Dimension(100, 30);
-        JButton createArmyButton = new JButton("Create Army");
-        buttonPanel.add(createArmyButton);
-        createArmyButton.setPreferredSize(buttonDimension);
-        unitOVPanel.add(buttonPanel, BorderLayout.SOUTH);
+        Dimension d = new Dimension(500, 700);
+        unitTable = new UnitOverview(d);
+        strTable = new StructureOverview(d);
 
-        //Structure OV Table
-        Object[][] strData = new Object[25][9];
-        NonEditableTable table1 = new NonEditableTable(strData, structureColumnStats);
-        strTable = new JTable(table1);
-        strTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        strTable.setPreferredSize(dimension);
-        JPanel strOVPanel = new JPanel(new BorderLayout());
-        strOVPanel.setPreferredSize(dimension);
-        strOVPanel.add(new JScrollPane(strTable), BorderLayout.CENTER);
         tabbedPane.addTab("Map", mapPane);
-        tabbedPane.addTab("Unit Overview", unitOVPanel);
-        tabbedPane.addTab("Structure Overview", strOVPanel);
+        tabbedPane.addTab("Unit Overview", unitTable);
+        tabbedPane.addTab("Structure Overview", strTable);
+        //tabbedPane.setPreferredSize(d1);
+        ChangeListener changeListener = new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent) {
+                JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+                int index = sourceTabbedPane.getSelectedIndex();
+                System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
+            }
+        };
+        tabbedPane.addChangeListener(changeListener);
 
-        content.add(tabbedPane, BorderLayout.CENTER);
+        c.gridwidth = 4;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.fill = GridBagConstraints.BOTH;
+        content.add(tabbedPane, c);
         tabbedPane.setFocusable(false);
         mapPane.setFocusable(false);
         map.setFocusable(true);
@@ -172,36 +214,30 @@ public class MainScreen implements Observer{
         });
 
         mainScreen.setSize( (int)(SCRSIZE/1.23), SCRSIZE);
+        mainScreen.pack();
         mainScreen.setResizable(true);
         mainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //mainScreen.setLocationRelativeTo(null);
+
     }
 
     class DrawingPanel extends JPanel{
-        //        int xPoint = 100;
-//        int yPoint = 100;
-        //int x = 0;
-        //int y = 0;
         private TileHighlightListener tHL;
         private CommandListener commandListener;
         private boolean toggleHT;
-        public DrawingPanel()
-        {
+        public DrawingPanel(){
             setBackground(COLOURBACK);
             setFocusable(true);
             requestFocusInWindow();
             toggleHT = false;
             commandListener = new CommandListener();
             tHL = new TileHighlightListener();
-//            addKeyListener(tHL);
             addKeyListener(commandListener);
         }
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(1200, 1200);
+            return new Dimension(600, 700);
         }
-        public void paintComponent(Graphics g)
-        {
+        public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -329,35 +365,6 @@ public class MainScreen implements Observer{
                     }
                     board[x][y] = (int)' ';
                 }
-//
-//                if(id == KeyEvent.VK_D){
-//                    //hexMech.highlight(560, 500);
-//                    /*xPoint += 45;
-//                    Point p = new Point( hexMech.pxtoHex(xPoint, 300 ));
-//                    x = p.x;
-//                    y = p.y;
-//                    System.out.println(xPoint);
-//                    System.out.println(p.x + ", " + p.y);*/
-//                    board[x][y] = 0;
-//                    x = (x+1) % BSIZE;
-//                    board[x][y] = (int)' ';
-//                }
-//                if(id == KeyEvent.VK_A){
-//                    board[x][y] = 0;
-//                    x = (x-1 < 0)? BSIZE-1 : x-1;
-//                    board[x][y] = (int)' ';
-//                }
-//                if(id == KeyEvent.VK_W){
-//                    board[x][y] = 0;
-//                    y = (y-1 < 0)? BSIZE-1 : y-1;
-//                    board[x][y] = (int)' ';
-//                }
-//                if(id == KeyEvent.VK_X){
-//                    board[x][y] = 0;
-//                    y = (y+1) % BSIZE;
-//                    board[x][y] = (int)' ';
-//                }
-//
                 if(id == KeyEvent.VK_ESCAPE){
                     board[x][y] = 0;
                     disableHighlight();
@@ -387,6 +394,7 @@ public class MainScreen implements Observer{
         map.enableHighlight();
 
         //Key listeners will call receiveTile on tileReceiver
+
     }
 
     public void updateMainScreen() {
@@ -398,5 +406,4 @@ public class MainScreen implements Observer{
         hexMech.updateTile(t);
         mainScreen.repaint();
     }
-
 }

@@ -18,7 +18,7 @@ public class TileAssociation extends Observable{
     private Tile tile;
     private AssetOwner assetOwner;
     private HashMap<Direction, TileAssociation> neighbors = new HashMap<Direction, TileAssociation>();
-    private Vector<Observer> observers = new Vector<>(0);
+    private Vector<TileObserver> observers = new Vector<>(0);
 
     public TileAssociation(Tile t){
         this.tile = t;
@@ -77,21 +77,16 @@ public class TileAssociation extends Observable{
     
     @Override
     public void notifyObservers(){
-        for(Observer ob : observers){
+        for(TileObserver ob : observers){
             ob.update(this);
         }
     }
     
-    public void addObserver(Observer o) {
-    	// TODO remove this it is for testing purposes
-    	if (o instanceof RadiusOfInfluenceAssociation) {
-//    		System.out.println("register as roi");
-    	}
+    public void addObserver(TileObserver o) {
     	observers.add(o);
     }
     
-    public void removeObserver(Observer o) {
-//    	System.out.println("deregister");
+    public void removeObserver(TileObserver o) {
     	observers.remove(o);
     }
     

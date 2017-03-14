@@ -18,13 +18,13 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
 
     public void configure(Unit unit){
         this.unit = unit;
-        isConfigured = true;
     }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.unit = (Unit) parts.getRequestingAsset();
         isConfigured = true;
+        parts.requestExecution();
     }
 
     public boolean isConfigured(){
