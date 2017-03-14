@@ -5,7 +5,7 @@ package models.tileInfo;
  * Allows for harvesting of these resources one unit at a time.
  */
 public class ResourcePackage {
-	private int foodCount, buildingMaterialsCount, researchMaterialsCount;
+	private int foodCount, oreCount, energyCount;
 	
 	/*
 	 *  Initialize the count of each resource type
@@ -13,14 +13,14 @@ public class ResourcePackage {
 	
 	public ResourcePackage() {
 		this.foodCount = 0;
-		this.buildingMaterialsCount = 0;
-		this.researchMaterialsCount = 0;
+		this.oreCount = 0;
+		this.energyCount = 0;
 	}
 	
-	public ResourcePackage(int foodCount, int buildingMaterialsCount, int researchMaterialsCount) {
+	public ResourcePackage(int foodCount, int oreCount, int energyCount) {
 		this.foodCount = foodCount;
-		this.buildingMaterialsCount = buildingMaterialsCount;
-		this.researchMaterialsCount = researchMaterialsCount;
+		this.oreCount = oreCount;
+		this.energyCount = energyCount;
 	}
 	
 	// Set the count of food, building materials, or research materials
@@ -28,12 +28,12 @@ public class ResourcePackage {
 		this.foodCount = foodCount;
 	}
 	
-	public void setBuildingMaterialsCount(int buildingMaterialsCount) {
-		this.buildingMaterialsCount = buildingMaterialsCount;
+	public void setOreCount(int oreCount) {
+		this.oreCount = oreCount;
 	}
 	
-	public void setResearchMaterialsCount(int researchMaterialsCount) {
-		this.researchMaterialsCount = researchMaterialsCount;
+	public void setEnergyCount(int energyCount) {
+		this.energyCount = energyCount;
 	}
 	
 	/*
@@ -43,12 +43,12 @@ public class ResourcePackage {
 		return foodCount;
 	}
 	
-	public int getBuildingMaterialsCount() {
-		return buildingMaterialsCount;
+	public int getOreCount() {
+		return oreCount;
 	}
 	
-	public int getResearchMaterialsCount() {
-		return researchMaterialsCount;
+	public int getEnergyCount() {
+		return energyCount;
 	}
 	
 	/*
@@ -60,15 +60,15 @@ public class ResourcePackage {
 		return harvest;
 	}
 	
-	public int harvestBuildingMaterialsCount() {
-		int harvest = buildingMaterialsCount;
-		buildingMaterialsCount = 0;
+	public int harvestOre() {
+		int harvest = oreCount;
+		oreCount = 0;
 		return harvest;
 	}
 	
-	public int harvestResearchMaterialsCount() {
-		int harvest = researchMaterialsCount;
-		researchMaterialsCount = 0;
+	public int harvestEnergy() {
+		int harvest = energyCount;
+		energyCount = 0;
 		return harvest;
 	}
 }
