@@ -22,6 +22,11 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
     }
 
     @Override
+    public void callback() throws CommandNotConfiguredException {
+
+    }
+
+    @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.unit = (Unit) parts.getRequestingAsset();
         isConfigured = true;

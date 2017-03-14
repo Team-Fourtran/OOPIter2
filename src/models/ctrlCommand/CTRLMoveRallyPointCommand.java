@@ -28,6 +28,11 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
     }
 
     @Override
+    public void callback() throws CommandNotConfiguredException {
+
+    }
+
+    @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.rallyPoint = parts.getRequestingAsset();
         this.destination = parts.getDestinationTile();

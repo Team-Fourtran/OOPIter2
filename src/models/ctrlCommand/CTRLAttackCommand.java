@@ -25,6 +25,11 @@ public class CTRLAttackCommand implements CTRLCommand{
     }
 
     @Override
+    public void callback() throws CommandNotConfiguredException {
+
+    }
+
+    @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.giver = (CombatAsset) parts.getRequestingAsset();
         isConfigured = true;

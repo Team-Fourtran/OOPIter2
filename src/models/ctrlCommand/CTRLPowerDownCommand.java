@@ -20,6 +20,11 @@ public class CTRLPowerDownCommand implements CTRLCommand{
     }
 
     @Override
+    public void callback() throws CommandNotConfiguredException {
+
+    }
+
+    @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.asset = (CombatAsset) parts.getRequestingAsset();
         isConfigured = true;

@@ -22,6 +22,11 @@ public class CTRLCreateUnitCommand implements CTRLCommand {
     }
 
     @Override
+    public void callback() throws CommandNotConfiguredException {
+
+    }
+
+    @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.structure = (Structure) parts.getRequestingAsset();
         this.unitType = parts.getUnitType();

@@ -24,6 +24,11 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
     }
 
     @Override
+    public void callback() throws CommandNotConfiguredException {
+
+    }
+
+    @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         isConfigured = true;
     }
