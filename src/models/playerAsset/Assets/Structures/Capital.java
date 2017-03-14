@@ -18,7 +18,6 @@ public class Capital extends ResourceStructure {
         setUpkeep(1);
         setRadiusOfInfluence(2);
         setProductionRate(1);
-        setRange(3);
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();

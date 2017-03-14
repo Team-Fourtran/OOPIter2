@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Observable;
 import models.visitor.*;
 
-public class hexMech implements TileObserver{
+public class hexMech {
 
     public static boolean XYVertex=true;	//true: x,y are the co-ords of the first vertex.
     //false: x,y are the co-ords of the top left rect. co-ord.
@@ -26,8 +26,6 @@ public class hexMech implements TileObserver{
     public static HexProperties getHexProperties(TileAssociation tileAssociation){
         return gps.get(tileAssociation);
     }
-    //This doesn't do anything?
-    public void update(TileAssociation tA){}
     public static void setXYasVertex(boolean b) {
         XYVertex=b;
     }

@@ -24,6 +24,7 @@ public class Main {
 }
 
 class modelTest{
+	private Player currentPlayer;
     private Player player;
     private Player enemyPlayer;
     private Game game;
@@ -38,7 +39,7 @@ class modelTest{
 
     modelTest() throws InterruptedException {
         configure();
-        testAttack();
+//        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
 //        testCapitalCreation();
@@ -49,7 +50,7 @@ class modelTest{
         //testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
-//        testInfluenceReaction();
+        testInfluenceReaction();
 //        testBuild();
 //        testPathfinding();
 //        testLandMine();
@@ -60,6 +61,7 @@ class modelTest{
         int length = 15;
         this.player = new Player();
         this.enemyPlayer = new Player();
+        this.currentPlayer = player;
         TileGen tileGen = new TileGen(length, length);
         this._tiles = tileGen.execute();
         this.game = new Game(player, _tiles);
@@ -76,8 +78,8 @@ class modelTest{
         for(int i = 0; i < n; i++){
             System.out.println("NewTurn:");
             Thread.sleep(250);
-            player.endTurn();
-            player.beginTurn();
+            currentPlayer.endTurn();
+            currentPlayer.beginTurn();
             Thread.sleep(250);
         }
     }
@@ -486,14 +488,30 @@ class modelTest{
 		// Have an army enter the RoI of the fort
 		// The fort will receive some notification to attack
 		
-		Unit u0 = um.addNewUnit("melee");
-		map.addAssetToMap(u0, _tiles.get(8));
-		PlayerAssetOwnership.addPlayerAsset(player, u0);
+		// Create fort
+		Structure s0 = sm.createStructure("fort");
+		map.addAssetToMap(s0, _tiles.get(4));
+        PlayerAssetOwnership.addPlayerAsset(player, s0);
 		
+        // Create enemy army
+        Unit u0 = umEnemy.addNewUnit("melee");
+        map.addAssetToMap(u0, _tiles.get(8));
+        PlayerAssetOwnership.addPlayerAsset(enemyPlayer, u0);
+        
+        changeTurn(2);
+        
+        this.currentPlayer = enemyPlayer;
+        game.setCurrentPlayer(enemyPlayer);
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(6), u0);
+        game.notifyOfCommand(cac);
+        
 		changeTurn(1);
 		
-		Unit u1 = um.addNewUnit("melee");
-		map.addAssetToMap(u1, _tiles.get(9));
+        this.currentPlayer = player;
+        game.setCurrentPlayer(player);
+		
+        changeTurn(6);
 	}
 
     private void testLandMine() throws InterruptedException{
