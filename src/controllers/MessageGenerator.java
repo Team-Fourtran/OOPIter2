@@ -132,6 +132,7 @@ class MessageGenerator implements KeyPressListener{
         if(cmd.isConfigured())
             receiver.handleMsg(cmd);   /* Send it to the KeyboardController */
         else System.out.println("Command wasn't configured properly");
+        updateCommandList();    //So that the list of commands is updated before the next one can be issued
     }
 
     /* Auxillary functions to request additional information for configuring Commands */
