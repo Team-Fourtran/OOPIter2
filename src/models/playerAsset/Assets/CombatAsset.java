@@ -2,7 +2,6 @@ package models.playerAsset.Assets;
 
 public abstract class CombatAsset extends PlayerAsset {
 
-    private int range;
     private int offDamage;
     private int defDamage;
     private int armor;
@@ -14,10 +13,6 @@ public abstract class CombatAsset extends PlayerAsset {
     private String assetID;
 
     //Various getter and setters for attributes
-
-    public void setRange(int range){
-        this.range = range;
-    }
 
     public void setMaxHealth(int maxHealth){this.maxHealth = maxHealth;}
 
@@ -40,12 +35,12 @@ public abstract class CombatAsset extends PlayerAsset {
     }
 
     public void depleteHealth(int n){
-        if (armor >= 0){
+    	
+        if (armor > 0){
             if (armor >= n){
                 armor -= n;
             }
             else{
-                currentHealth -= (n-armor);
                 armor = 0;
             }
         }
@@ -66,7 +61,7 @@ public abstract class CombatAsset extends PlayerAsset {
     }
 
     public int getOffDamage(int distance){
-        if (distance <= range){ // && if it is in the radius of influence
+        if (distance <= radiusOfInfluence){
         	// return percentage of offDamage based off difference between radius of influence and distance
             return offDamage;
         }
@@ -76,7 +71,7 @@ public abstract class CombatAsset extends PlayerAsset {
     }
 
     public int getDefDamage(int distance){
-        if (distance <= range){
+        if (distance <= radiusOfInfluence){
             return defDamage;
         }
         else{

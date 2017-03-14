@@ -32,10 +32,14 @@ public class TileAssociation extends Observable{
     public boolean isAssetOwner(PlayerAsset asset){
         return (assetOwner.hasAsset(asset));
     }
+    
+    public AssetOwner getAssetOwner() {
+    	return assetOwner;
+    }
 
     public boolean remove(PlayerAsset p){
         boolean removal = assetOwner.removeAsset(p);
-        notifyObservers();
+        notifyObserversRemove(p);
         return removal;
     }
 
@@ -45,7 +49,7 @@ public class TileAssociation extends Observable{
 
     public void add(PlayerAsset p){
         assetOwner.addAsset(p);
-        notifyObservers();
+        notifyObserversAdd(p);
     }
 
     // Eventually have a method for removing Resources
@@ -57,7 +61,7 @@ public class TileAssociation extends Observable{
     public void setNeighbor(Direction d, TileAssociation t){
         neighbors.put(d, t);
     }
-
+    
     public double getMovementCost() {
         return tile.getMovementCost();
     }
@@ -75,10 +79,15 @@ public class TileAssociation extends Observable{
         }
     }
     
-    @Override
-    public void notifyObservers(){
+    public void notifyObserversAdd(PlayerAsset p) {
         for(TileObserver ob : observers){
-            ob.update(this);
+            ob.updateAdd(this, p);
+        }
+    }
+    
+    public void notifyObserversRemove(PlayerAsset p) {
+        for(TileObserver ob : observers){
+            ob.updateRemove(this, p);
         }
     }
     

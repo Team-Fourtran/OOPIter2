@@ -37,6 +37,10 @@ public class Game {
 	  return map;
   }
   
+  public void setCurrentPlayer(Player p) {
+	  this.currentPlayer = p;
+  }
+  
   public void notifyOfCommand(CTRLCommand cmd){
       try {
           cmd.execute(map, currentPlayer);

@@ -107,7 +107,7 @@ public class GameMap {
     }
     
     public void addInfluenceRadius(CombatAsset asset, TileAssociation baseTile){
-    	RadiusOfInfluenceAssociation roi = new RadiusOfInfluenceAssociation(asset, baseTile);
+    	RadiusOfInfluenceAssociation roi = new RadiusOfInfluenceAssociation(asset, baseTile, this);
     	tileInfluence.put(asset, roi);
     }
     
@@ -127,8 +127,10 @@ public class GameMap {
             System.out.println("Asset has no location?!?!");
             return;
         }
-        removeAssetFromMap(asset, start);
-        addAssetToMap(asset, destination);
+        if (start != destination) {
+	        removeAssetFromMap(asset, start);
+	        addAssetToMap(asset, destination);
+        }
     }
 
     public void debugPrint(){

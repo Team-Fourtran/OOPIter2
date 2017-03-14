@@ -4,6 +4,9 @@ import java.util.Vector;
 
 import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.PlayerAsset;
+import models.playerAsset.Assets.Structures.Structure;
+import models.visitor.AssetApproachVisitor;
+import models.visitor.SpecificAssetVisitor;
 
 /*
  * This class keeps track of the relationship between a player asset and its influenced tiles
@@ -12,11 +15,13 @@ public class RadiusOfInfluenceAssociation implements TileObserver {
 	private CombatAsset asset;
 	private TileAssociation baseTile;
 	private Vector<TileAssociation> influencedTiles;
+	private GameMap map;
 	
-	public RadiusOfInfluenceAssociation(CombatAsset asset, TileAssociation baseTile) {
+	public RadiusOfInfluenceAssociation(CombatAsset asset, TileAssociation baseTile, GameMap map) {
 		this.asset = asset;
 		this.baseTile = baseTile;
 		this.influencedTiles = assignTileAssociationsWithinRadius(asset);
+		this.map = map;
 		// register itself as an observer of each of those tiles
 		for (int i = 0; i < influencedTiles.size(); i++) {
 			influencedTiles.get(i).addObserver(this);
@@ -58,10 +63,20 @@ public class RadiusOfInfluenceAssociation implements TileObserver {
 		}
 	}
 
+	/*
+	 * Something entered the radius of influence in TileAssociation tA
+	 */
 	@Override
-	public void update(TileAssociation tA) {
-//		System.out.println("appearance: " + tA);
-		// Use SpecificAssetVisitor
-		// Need to identify if it is enemy unit
+	public void updateAdd(TileAssociation tA, PlayerAsset approachingAsset) {
+		if (PlayerAssetOwnership.getPlayerOwnership(approachingAsset) != PlayerAssetOwnership.getPlayerOwnership(asset)) {
+			SpecificAssetVisitor v = new AssetApproachVisitor(map, tA, approachingAsset);
+			asset.accept(v);
+		}
+	}
+
+	@Override
+	public void updateRemove(TileAssociation tileAssociation, PlayerAsset p) {
+		// TODO Auto-generated method stub
+		
 	}
 }
