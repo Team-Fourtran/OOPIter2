@@ -3,12 +3,15 @@ package views;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import models.assetOwnership.TileAssociation;
 import models.assetOwnership.TileObserver;
 import controllers.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
+import models.playerAsset.Assets.Player;
+import models.playerAsset.Assets.PlayerAsset;
 
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
@@ -17,6 +20,7 @@ import java.util.*;
 public class MainScreen implements TileObserver {
     private JFrame mainScreen;
     private Player currentPlayer;
+    private PlayerInfoArea playerInfoArea;
 
     private final int EMPTY = 0;
     private final int BSIZE = 10;
@@ -25,7 +29,7 @@ public class MainScreen implements TileObserver {
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
     static final Color COLOURBACK =  Color.WHITE;
-    static final Color COLOURCELL =  Color.ORANGE;
+    static final Color COLOURCELL =  Color.BLACK;
     static final Color COLOURGRID =  Color.BLACK;
     static final Color COLOURONE = new Color(255,223,255,200);
     static final Color COLOURTWO = new Color(0,0,0,124);
@@ -37,7 +41,6 @@ public class MainScreen implements TileObserver {
     private UnitOverview unitTable;
     private JTabbedPane tabbedPane;
     private StructureOverview strTable;
-    private PlayerTextField playerTextField;
 
     private int x = 0;
     private int y = 0;
@@ -46,9 +49,9 @@ public class MainScreen implements TileObserver {
     TileTargetting tileReceiver;
 
     private DrawingPanel map;
-    public MainScreen(TileAssociation[] tiles){
+    public MainScreen(Player p, TileAssociation[] tiles){
+        this.currentPlayer = p;
         this.tiles = tiles;
-        this.playerTextField = new PlayerTextField();
         for (int i = 0; i < tiles.length; i++) {
             tiles[i].addObserver(this);
         }
@@ -68,7 +71,7 @@ public class MainScreen implements TileObserver {
 
     public void updatePlayer(Player p){
         this.currentPlayer = p;
-        playerTextField.update(p.getName());
+        playerInfoArea.update(p.getName());
     }
 
     public KeyPressInformer getKeyInformer(){
@@ -79,6 +82,9 @@ public class MainScreen implements TileObserver {
         return tileReceiver;
     }
     public void showMainScreen(){
+        mainScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainScreen.setVisible(true);
+
         //FullScreen
         mainScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //mainScreen.setUndecorated(true);
@@ -127,8 +133,8 @@ public class MainScreen implements TileObserver {
         map = new DrawingPanel();
         map.setBackground(Color.blue);
         JScrollPane mapPane = new JScrollPane(map);
-        Dimension d1 = new Dimension(1200, 1200);
-        mapPane.setPreferredSize(d1);
+        //Dimension d1 = new Dimension(1200, 1200);
+        //mapPane.setPreferredSize(d1);
         mainScreen = new JFrame("Fourtran Game");
 
         JPanel startScreen = new JPanel();
@@ -138,25 +144,25 @@ public class MainScreen implements TileObserver {
 
         Container content = mainScreen.getContentPane();
         content.setLayout(new GridBagLayout());
-        PlayerInfoArea playerInfoArea = new PlayerInfoArea();
-        playerInfoArea.generatePlayerInfoArea(content);
+
         //Controller information area
         ControllerInfoArea controllerInfoArea = new ControllerInfoArea();
         controllerInfoArea.generateControllerInfoArea(content);
 
-
-        //content.add(new JButton("Something"), BorderLayout.SOUTH);
+        //Player Information Area with Resources
+        this.playerInfoArea = new PlayerInfoArea();
+        playerInfoArea.generatePlayerInfoArea(content);
 
         //Unit OV Table
+        Dimension d = new Dimension(900, 700);
 
-        Dimension d = new Dimension(1200, 1200);
         unitTable = new UnitOverview(d);
         strTable = new StructureOverview(d);
 
         tabbedPane.addTab("Map", mapPane);
         tabbedPane.addTab("Unit Overview", unitTable);
         tabbedPane.addTab("Structure Overview", strTable);
-
+        //tabbedPane.setPreferredSize(d1);
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent) {
                 JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
@@ -177,7 +183,7 @@ public class MainScreen implements TileObserver {
         c.weighty = 1;
         c.fill = GridBagConstraints.BOTH;
         content.add(tabbedPane, c);
-        //content.add(tabbedPane, BorderLayout.CENTER);
+
         tabbedPane.setFocusable(false);
         mapPane.setFocusable(false);
         map.setFocusable(true);
@@ -190,18 +196,14 @@ public class MainScreen implements TileObserver {
             }
 
         });
-
         mainScreen.setSize( (int)(SCRSIZE/1.23), SCRSIZE);
+        mainScreen.pack();
         mainScreen.setResizable(true);
         mainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //mainScreen.setLocationRelativeTo(null);
+
     }
 
     class DrawingPanel extends JPanel{
-        //        int xPoint = 100;
-//        int yPoint = 100;
-        //int x = 0;
-        //int y = 0;
         private TileHighlightListener tHL;
         private CommandListener commandListener;
         private boolean toggleHT;
@@ -212,12 +214,11 @@ public class MainScreen implements TileObserver {
             toggleHT = false;
             commandListener = new CommandListener();
             tHL = new TileHighlightListener();
-//            addKeyListener(tHL);
             addKeyListener(commandListener);
         }
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(1200, 1200);
+            return new Dimension(600, 1500);
         }
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
@@ -376,10 +377,6 @@ public class MainScreen implements TileObserver {
         map.enableHighlight();
 
         //Key listeners will call receiveTile on tileReceiver
-    }
-
-    public void updateMainScreen() {
-        mainScreen.repaint();
     }
 
     @Override

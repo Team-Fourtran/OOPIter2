@@ -27,8 +27,7 @@ public class Game {
       TileAssociation[] _tiles = new TileAssociation[list.size()];
       _tiles = list.toArray(_tiles);
 
-      mainScreen = new MainScreen(_tiles);
-      mainScreen.updatePlayer(currentPlayer);
+      mainScreen = new MainScreen(currentPlayer, _tiles);
       mainScreen.initialize();
       mainScreen.generateMainScreen();
       mainScreen.showMainScreen();
@@ -53,6 +52,7 @@ public class Game {
   public void notifyOfCommand(CTRLCommand cmd){
       try {
           //TODO remove this and implement player switching
+          mainScreen.updatePlayer(currentPlayer);
           currentPlayer.endTurn();
           currentPlayer.beginTurn();
           cmd.execute(map, currentPlayer);

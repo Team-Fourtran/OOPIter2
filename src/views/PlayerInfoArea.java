@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PlayerInfoArea {
+    private String playerName = "";
+
     public void generatePlayerInfoArea(Container cont){
         JLabel playerLabel = new JLabel("Player");
         JTextField playerTextField = new JTextField();
@@ -43,14 +45,18 @@ public class PlayerInfoArea {
         orePane.add(oreLabel);
         orePane.add(oreTextField);
 
-        c.gridx = 0;
-        c.gridy = 3;
-        cont.add(foodPane, c);
         c.gridx = 1;
         c.gridy = 3;
-        cont.add(energyPane, c);
+        cont.add(foodPane, c);
         c.gridx = 2;
         c.gridy = 3;
+        cont.add(energyPane, c);
+        c.gridx = 3;
+        c.gridy = 3;
         cont.add(orePane, c);
+
+    }
+    public void update(String playerName){
+        this.playerName = playerName;
     }
 }
