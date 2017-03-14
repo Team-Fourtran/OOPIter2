@@ -49,9 +49,9 @@ class modelTest{
 //        testPowerUpDown();
         //testIterator();
 //        testCommandIterator();
-     	  testInfluenceMovement();
+//     	  testInfluenceMovement();
 //        testInfluenceReaction();
-//        testBuild();
+        testBuild();
 //        testPathfinding();
 //        testLandMine();
 //        testLandMine2();

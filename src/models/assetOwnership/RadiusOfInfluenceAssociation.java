@@ -10,56 +10,33 @@ import models.visitor.SpecificAssetVisitor;
 /*
  * This class keeps track of the relationship between a player asset and its influenced tiles
  */
-public class RadiusOfInfluenceAssociation implements TileObserver {
+public class RadiusOfInfluenceAssociation extends Radius implements TileObserver {
 	private CombatAsset asset;
-	private TileAssociation baseTile;
-	private Vector<TileAssociation> influencedTiles;
 	private GameMap map;
 	
 	public RadiusOfInfluenceAssociation(CombatAsset asset, TileAssociation baseTile, GameMap map) {
+		super(baseTile, asset.getRadiusOfInfluence());
 		this.asset = asset;
-		this.baseTile = baseTile;
-		this.influencedTiles = assignTileAssociationsWithinRadius(asset);
 		this.map = map;
 		// register itself as an observer of each of those tiles
-		for (int i = 0; i < influencedTiles.size(); i++) {
-			influencedTiles.get(i).addObserver(this);
+		for (int i = 0; i < super.getInfluencedTiles().size(); i++) {
+			super.getInfluencedTiles().get(i).addObserver(this);
 		}
 	}
-	
-	public Vector<TileAssociation> getInfluencedTiles() {
-		return influencedTiles;
-	}
-	
+
+	@Override
 	public Vector<TileAssociation> updateInfluencedTiles() {
 		// need to no longer be observer of the old ones
-		for (int i = 0; i < influencedTiles.size(); i++) {
-			influencedTiles.get(i).removeObserver(this);
+		super.setRadiusSize(asset.getRadiusOfInfluence());
+		for (int i = 0; i < super.getInfluencedTiles().size(); i++) {
+			super.getInfluencedTiles().get(i).removeObserver(this);
 		}
 		
-		influencedTiles = assignTileAssociationsWithinRadius(asset);
-		for (int i = 0; i < influencedTiles.size(); i++) {
-			influencedTiles.get(i).addObserver(this);
+		super.assignTileAssociationsWithinRadius();
+		for (int i = 0; i < super.getInfluencedTiles().size(); i++) {
+			super.getInfluencedTiles().get(i).addObserver(this);
 		}
-		return influencedTiles;
-	}
-	
-	private Vector<TileAssociation> assignTileAssociationsWithinRadius(CombatAsset asset) {
-		Vector<TileAssociation> vec = new Vector<TileAssociation>();
-		TileAssociation start = baseTile;
-		assignTileAssociationsWithinRadius(start, asset.getRadiusOfInfluence(), vec);
-		return vec;
-	}
-	
-	private void assignTileAssociationsWithinRadius(TileAssociation s, int radius, Vector<TileAssociation> vec) {
-		if (!vec.contains(s)) {
-			vec.add(s);
-		}
-		if (radius != 0) {
-			for (TileAssociation t : s.getNeighbors()) {
-				assignTileAssociationsWithinRadius(t, radius-1, vec);
-			}
-		}
+		return super.getInfluencedTiles();
 	}
 
 	/*
