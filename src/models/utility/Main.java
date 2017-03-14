@@ -100,7 +100,7 @@ class modelTest{
         this.amEnemy = enemyPlayer.getArmies();
         TileGen tileGen = new TileGen(length, length);
         this._tiles = tileGen.execute();
-        this.game = new Game(player, _tiles);
+        this.game = new Game(player, enemyPlayer, _tiles);
         this.map = game.getMap();
     }
 
