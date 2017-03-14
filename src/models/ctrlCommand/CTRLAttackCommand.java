@@ -63,31 +63,6 @@ public class CTRLAttackCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
-
-//        if (giver instanceof RallyPoint){
-//            giver.addCommand(
-//                    new AttackCommand(
-//                            player,
-//                            map,
-//                            ((RallyPoint) giver).getArmy(),
-//                            receiver
-//                    )
-//            );
-//        }
-//        else if (giver instanceof Structure){
-//            giver.addCommand(
-//                    new AttackCommand(
-//                            player,
-//                            map,
-//                            (Structure) giver,
-//                            receiver
-//                    )
-//            );
-//        }
-//        else{
-//            System.out.println("Can't attack with this");
-//        }
-
     }
 
     @Override

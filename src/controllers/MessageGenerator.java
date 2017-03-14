@@ -2,11 +2,10 @@ package controllers;
 
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.CTRLCommand;
+import models.ctrlCommand.CommandNotConfiguredException;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
-import models.playerAsset.Iterators.CommandIterator;
 import models.playerAsset.Assets.*;
-import models.visitor.CommandListVisitor;
 import views.StructureCreationDialog;
 import views.UnitCreationDialog;
 
@@ -17,7 +16,6 @@ class MessageGenerator implements KeyPressListener {
     private AssetIterator assetIterator;  //Used to iterate through current Player's assets
     private KeyboardController receiver;
     private TileTargetting tileTargetter;
-//    private CommandIterator cmdIter;
 
     State currentState;
 
@@ -30,18 +28,12 @@ class MessageGenerator implements KeyPressListener {
         this.assetIterator = assIter;               //Set up the asset iterator
         assetIterator.first();
 
-        CommandListVisitor cmdGetter = new CommandListVisitor();  //Set up the CommandList visitor
-
-        PlayerAsset tempAsset = (PlayerAsset) assetIterator.current();
-        tempAsset.accept(cmdGetter);
-//        cmdIter = cmdGetter.getIterator();
         /* Initialize the State object */
         currentState = new State(
                 this,
                 assetIterator.getCurrentMode(),
                 assetIterator.getElement(), //get type
-                tempAsset
-//                cmdIter.first()
+                (PlayerAsset) assetIterator.current()
         );
     }
 
@@ -55,9 +47,6 @@ class MessageGenerator implements KeyPressListener {
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes) {
         if (keystrokes.get("ENTER")) {
             dispatchCommandForConfig(assetIterator.getCommand());
-
-//            updateCommandList(); //TODO JUAN this should be here
-            return;
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
@@ -65,19 +54,15 @@ class MessageGenerator implements KeyPressListener {
         /* CONTROL+{UP/DOWN}: Cycle MODE */
         else if (keystrokes.get("CONTROL") && keystrokes.get("UP")) {
             assetIterator.prev();           //CONTROL+UP: Previous Mode
-//            updateCommandList();
         } else if (keystrokes.get("CONTROL") && keystrokes.get("DOWN")) {
             assetIterator.next();           //CONTROL+DOWN: Next Mode
-//            updateCommandList();
         }
 
         /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
         else if (keystrokes.get("CONTROL") && keystrokes.get("LEFT")) {        //CONTROL+LEFT: Previous Type
             assetIterator.prevType();
-//            updateCommandList();
         } else if (keystrokes.get("CONTROL") && keystrokes.get("RIGHT")) {     //CONTROL+RIGHT: Next Type
             assetIterator.nextType();
-//            updateCommandList();
         }
 
         /* Keypresses without control cycle TYPE INSTANCES and COMMANDS */
@@ -85,10 +70,8 @@ class MessageGenerator implements KeyPressListener {
         //LEFT/RIGHT: Cycle Type Instances
         else if (!(keystrokes.get("CONTROL")) && keystrokes.get("LEFT")) {
             assetIterator.prevInstance();
-//            updateCommandList();
         } else if (!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")) {
             assetIterator.nextInstance();
-//            updateCommandList();
         }
 
         /* UP/DOWN: Cycle Commands */
@@ -99,16 +82,8 @@ class MessageGenerator implements KeyPressListener {
         }
     }
 
-//    private void updateCommandList(){
-//        /* Update the CommandIterator */
-//        CommandListVisitor cmdGetter = new CommandListVisitor();
-//        ((PlayerAsset) assetIterator.current()).accept(cmdGetter);
-//        cmdIter = cmdGetter.getIterator();
-//        currentState.setCmd(cmdIter.current());
-//    }
-
     private void printStatus() {
-        System.out.println("STATUS:     " + currentState.getMode() + " | " + currentState.getType() + " | " + currentState.getInstance().toString() + " | " + currentState.getCmd().toString());
+        System.out.println("STATUS:     " + currentState.getMode() + " | " + currentState.getType() + " | " + currentState.getInstance().getID() + " | " + currentState.getCmd().toString());
     }
 
     //Gets called when player turn switches. Changes the iterator on hand.
@@ -122,14 +97,16 @@ class MessageGenerator implements KeyPressListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        receiveConfiguredCmd(thisCmd);  //TODO JUAN Why is this not there? Issues arise
+        if(thisCmd.isConfigured()){
+            receiveConfiguredCmd(thisCmd);  //TODO JUAN Why is this not there? Issues arise
+        }
     }
 
     public void receiveConfiguredCmd(CTRLCommand cmd) {
         if (cmd.isConfigured())
             receiver.handleMsg(cmd);   /* Send it to the KeyboardController */
         else System.out.println("Command wasn't configured properly");
-        assetIterator.update();
+            assetIterator.update();
     }
 
     /* Auxillary functions to request additional information for configuring Commands */
@@ -199,7 +176,7 @@ class MessageGenerator implements KeyPressListener {
 
         @Override   //Called by CTRLCommands once they think they're ready to be executed.
         public void requestExecution() {
-            this.msgGen.receiveConfiguredCmd(this.currentCommand);
+            this.msgGen.receiveConfiguredCmd(getCmd());
         }
 
         @Override
@@ -221,7 +198,7 @@ class MessageGenerator implements KeyPressListener {
 
         @Override
         public TileAssociation getDestinationTile() {
-            msgGen.requestTile(currentInstance);
+//            msgGen.requestTile(currentInstance);
             return destinationTile;
         }
 
@@ -231,7 +208,7 @@ class MessageGenerator implements KeyPressListener {
             this.destinationTile = t;       //Update the destination tile
             try {
                 currentCommand.callback();
-            } catch (Exception e) {
+            } catch (CommandNotConfiguredException e) {
                 e.printStackTrace();
             }
             //Tell the current command to query again, signaling that the tile is done.
@@ -242,7 +219,7 @@ class MessageGenerator implements KeyPressListener {
             this.currentCommand = callbackObject;   //Set the current command so that we may call back to it
             System.out.println("Requesting requestTile(). Set callback CTRLCommand to " + callbackObject.hashCode());
             this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
-            msgGen.requestTile(currentInstance);    //Tell the MessageGenerator to initiate the tile request process
+            msgGen.requestTile((PlayerAsset)assetIterator.current());    //Tell the MessageGenerator to initiate the tile request process
             //The method below (setDestinationTile) gets called once the tile is ready.
         }
 

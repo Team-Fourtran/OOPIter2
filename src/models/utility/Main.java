@@ -78,9 +78,9 @@ class modelTest{
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
 
-//        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
-//        cac.configure(_tiles.get(20), u2, u3);
-//        game.notifyOfCommand(cac);
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(20), u2, u3);
+        game.notifyOfCommand(cac);
     }
 
 	private void configure() throws InterruptedException {
