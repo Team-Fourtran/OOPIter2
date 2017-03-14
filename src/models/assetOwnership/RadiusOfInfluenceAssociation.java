@@ -19,24 +19,24 @@ public class RadiusOfInfluenceAssociation extends Radius implements TileObserver
 		this.asset = asset;
 		this.map = map;
 		// register itself as an observer of each of those tiles
-		for (int i = 0; i < super.getInfluencedTiles().size(); i++) {
-			super.getInfluencedTiles().get(i).addObserver(this);
+		for (int i = 0; i < getInfluencedTiles().size(); i++) {
+			getInfluencedTiles().get(i).addObserver(this);
 		}
 	}
 
 	@Override
 	public Vector<TileAssociation> updateInfluencedTiles() {
 		// need to no longer be observer of the old ones
-		super.setRadiusSize(asset.getRadiusOfInfluence());
-		for (int i = 0; i < super.getInfluencedTiles().size(); i++) {
-			super.getInfluencedTiles().get(i).removeObserver(this);
+		setRadiusSize(asset.getRadiusOfInfluence());
+		for (int i = 0; i < getInfluencedTiles().size(); i++) {
+			getInfluencedTiles().get(i).removeObserver(this);
 		}
 		
-		super.assignTileAssociationsWithinRadius();
-		for (int i = 0; i < super.getInfluencedTiles().size(); i++) {
-			super.getInfluencedTiles().get(i).addObserver(this);
+		assignTileAssociationsWithinRadius();
+		for (int i = 0; i < getInfluencedTiles().size(); i++) {
+			getInfluencedTiles().get(i).addObserver(this);
 		}
-		return super.getInfluencedTiles();
+		return getInfluencedTiles();
 	}
 
 	/*
