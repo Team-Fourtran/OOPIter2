@@ -5,6 +5,7 @@ import models.playerAsset.Assets.Structures.*;
 import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.Iterator2;
 import models.playerAsset.Iterators.TypeIterator2;
+import models.playerAsset.Iterators.specificTypeIterator;
 import models.visitor.PlayerVisitor;
 import models.visitor.TypeListVisitor;
 
@@ -130,48 +131,10 @@ public class StructureManager implements Manager {
         v.visitStructureManager(this);
     }
 
-
-    public TypeIterator2<Map.Entry<String, ArrayList<Structure>>> makeTypeIterator(Map<String, ArrayList<Structure>> map){
-        return new TypeIterator2<Map.Entry<String,ArrayList<Structure>>>() {
-            private int current = 0;
-            private ArrayList<Map.Entry<String, ArrayList<Structure>>> entries = new ArrayList<>();
-
-            @Override
-            public void first() {
-                for (Map.Entry<String, ArrayList<Structure>> entry : map.entrySet()){
-                    entries.add(entry);
-                }
-                current = 0;
-            }
-
-            @Override
-            public void next() {
-                current += 1;
-                current %= map.size();
-            }
-
-            @Override
-            public void prev() {
-                current -= 1;
-                if (current < 0){
-                    current = map.size()-1;
-                }
-            }
-
-            @Override
-            public Map.Entry<String, ArrayList<Structure>> current() {
-                if(entries.isEmpty()){
-                    return null;
-                }
-                return entries.get(current);
-            }
-        };
-    }
-
     public Iterator2<Structure> makeIterator(){
         return new Iterator2<Structure>() {
             private int current;
-            private TypeIterator2<Map.Entry<String, ArrayList<Structure>>> entryIter;
+            private specificTypeIterator<Structure> entryIter;
             private ArrayList<Structure> currentStructureList;
             private Map<String, ArrayList<Structure>> map = new HashMap<>();
 
@@ -184,7 +147,7 @@ public class StructureManager implements Manager {
                     );
                 }
                 map = vis.getStructureMap();
-                entryIter = makeTypeIterator(map);
+                entryIter = new specificTypeIterator<>(map);
                 entryIter.first();
                 if (entryIter.current() == null){
                     currentStructureList = null;

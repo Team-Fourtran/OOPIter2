@@ -3,6 +3,7 @@ package models.playerAsset.Assets;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.Iterator2;
 import models.playerAsset.Iterators.TypeIterator2;
+import models.playerAsset.Iterators.specificTypeIterator;
 import models.visitor.PlayerVisitor;
 import models.visitor.TypeListVisitor;
 
@@ -109,48 +110,10 @@ public class ArmyManager implements Manager {
         return rallyPointList.get(0);
     }
 
-
-    public TypeIterator2<Map.Entry<String, ArrayList<Army>>> makeTypeIterator(Map<String, ArrayList<Army>> map){
-        return new TypeIterator2<Map.Entry<String,ArrayList<Army>>>() {
-            private int current = 0;
-            private ArrayList<Map.Entry<String, ArrayList<Army>>> entries = new ArrayList<>();
-
-            @Override
-            public void first() {
-                for (Map.Entry<String, ArrayList<Army>> entry : map.entrySet()){
-                    entries.add(entry);
-                }
-                current = 0;
-            }
-
-            @Override
-            public void next() {
-                current += 1;
-                current %= map.size();
-            }
-
-            @Override
-            public void prev() {
-                current -= 1;
-                if (current < 0){
-                    current = map.size()-1;
-                }
-            }
-
-            @Override
-            public Map.Entry<String, ArrayList<Army>> current() {
-                if(entries.isEmpty()){
-                    return null;
-                }
-                return entries.get(current);
-            }
-        };
-    }
-
     public Iterator2<Army> makeIterator(){
         return new Iterator2<Army>() {
             private int current;
-            private TypeIterator2<Map.Entry<String, ArrayList<Army>>> entryIter;
+            private specificTypeIterator<Army> entryIter;
             private ArrayList<Army> currentArmyList;
             private Map<String, ArrayList<Army>> map = new HashMap<>();
 
@@ -163,7 +126,7 @@ public class ArmyManager implements Manager {
                     );
                 }
                 map = vis.getArmyMap();
-                entryIter = makeTypeIterator(map);
+                entryIter = new specificTypeIterator<>(map);
                 entryIter.first();
                 if (entryIter.current() == null){
                     currentArmyList = null;
@@ -207,6 +170,75 @@ public class ArmyManager implements Manager {
             public void prevType() {
                 entryIter.prev();
                 currentArmyList = entryIter.current().getValue();
+            }
+
+            @Override
+            public String getElement() {
+                return entryIter.current().getKey();
+            }
+        };
+    }
+
+    public Iterator2<RallyPoint> makeRPIterator(){
+        return new Iterator2<RallyPoint>() {
+            private int current;
+            private specificTypeIterator<RallyPoint> entryIter;
+            private ArrayList<RallyPoint> currentRPList;
+            private Map<String, ArrayList<RallyPoint>> map = new HashMap<>();
+
+            @Override
+            public Iterator2<RallyPoint> first() {
+                TypeListVisitor vis = new TypeListVisitor();
+                for (RallyPoint rp : rallyPointList){
+                    rp.accept(
+                            vis
+                    );
+                }
+                map = vis.getRPMap();
+                entryIter = new specificTypeIterator<>(map);
+                entryIter.first();
+                if (entryIter.current() == null){
+                    currentRPList = null;
+                }
+                else{
+                    currentRPList = entryIter.current().getValue();
+                }
+                current = 0;
+                return this;
+            }
+
+            @Override
+            public void next() {
+                current += 1;
+                current %= currentRPList.size();
+            }
+
+            @Override
+            public void prev() {
+                current -= 1;
+                if (current < 0){
+                    current = currentRPList.size()-1;
+                }
+            }
+
+            @Override
+            public RallyPoint current() {
+                if (currentRPList == null){
+                    return null;
+                }
+                return currentRPList.get(current);
+            }
+
+            @Override
+            public void nextType() {
+                entryIter.next();
+                currentRPList = entryIter.current().getValue();
+            }
+
+            @Override
+            public void prevType() {
+                entryIter.prev();
+                currentRPList = entryIter.current().getValue();
             }
 
             @Override

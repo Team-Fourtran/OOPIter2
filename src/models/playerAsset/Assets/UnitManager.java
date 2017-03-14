@@ -4,6 +4,7 @@ import models.playerAsset.Assets.Units.*;
 import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.Iterator2;
 import models.playerAsset.Iterators.TypeIterator2;
+import models.playerAsset.Iterators.specificTypeIterator;
 import models.visitor.PlayerVisitor;
 import models.visitor.TypeListVisitor;
 
@@ -126,48 +127,10 @@ public class UnitManager implements Manager {
         return totalUpkeep;
     }
 
-    public TypeIterator2<Map.Entry<String, ArrayList<Unit>>> makeTypeIterator(Map<String, ArrayList<Unit>> map){
-        return new TypeIterator2<Map.Entry<String,ArrayList<Unit>>>() {
-            private int current = 0;
-            private ArrayList<Map.Entry<String, ArrayList<Unit>>> entries = new ArrayList<>();
-
-
-            @Override
-            public void first() {
-                for (Map.Entry<String, ArrayList<Unit>> entry : map.entrySet()){
-                    entries.add(entry);
-                }
-                current = 0;
-            }
-
-            @Override
-            public void next() {
-                current += 1;
-                current %= map.size();
-            }
-
-            @Override
-            public void prev() {
-                current -= 1;
-                if (current < 0){
-                    current = map.size()-1;
-                }
-            }
-
-            @Override
-            public Map.Entry<String, ArrayList<Unit>> current() {
-                if(entries.isEmpty()){
-                    return null;
-                }
-                return entries.get(current);
-            }
-        };
-    }
-
     public Iterator2<Unit> makeIterator(){
         return new Iterator2<Unit>() {
             private int current;
-            private TypeIterator2<Map.Entry<String, ArrayList<Unit>>> entryIter;
+            private specificTypeIterator<Unit> entryIter;
             private ArrayList<Unit> currentUnitList;
             private Map<String, ArrayList<Unit>> map = new HashMap<>();
 
@@ -180,7 +143,7 @@ public class UnitManager implements Manager {
                     );
                 }
                 map = vis.getUnitMap();
-                entryIter = makeTypeIterator(map);
+                entryIter = new specificTypeIterator<>(map);
                 entryIter.first();
                 if (entryIter.current() == null){
                     currentUnitList = null;

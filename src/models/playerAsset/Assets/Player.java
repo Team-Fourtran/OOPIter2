@@ -125,19 +125,10 @@ public class Player {
 
     public AssetIterator<PlayerAsset> makeIterator(){
         return new AssetIterator<PlayerAsset>() {
-            private String[] modes = {"ARMY MODE", "UNIT MODE", "STRUCTURE MODE"};
+            private String[] modes = {"ARMY MODE", "UNIT MODE", "STRUCTURE MODE", "RALLY POINT MODE"};
             private Iterator2<? extends PlayerAsset> currentIter;
             private int currentIndex;
             private Map<String, Iterator2<? extends PlayerAsset>> map = new HashMap<>();
-
-            @Override
-            public void update() {
-                map.replace("ARMY MODE", armies.makeIterator().first());
-                map.replace("UNIT MODE", units.makeIterator().first());
-                map.replace("STRUCTURE MODE", structures.makeIterator().first());
-                //map.replace("RALLY POINT MODE", armies.makeRPIterator());
-                //TODO reset to original value if not destroyed
-            }
 
             @Override
             public AssetIterator<PlayerAsset> first() {
@@ -145,7 +136,7 @@ public class Player {
                 map.put("ARMY MODE", armies.makeIterator().first());
                 map.put("UNIT MODE", units.makeIterator().first());
                 map.put("STRUCTURE MODE", structures.makeIterator().first());
-                //map.put("RALLY POINT MODE", armies.makeRPIterator());
+                map.put("RALLY POINT MODE", armies.makeRPIterator().first());
                 for (int i = 0; i < map.size(); i++){
                     currentIter = map.get(modes[currentIndex]);
                     currentIter.first();

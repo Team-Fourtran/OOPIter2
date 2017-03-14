@@ -15,6 +15,7 @@ public class TypeListVisitor implements SpecificAssetVisitor {
     Map<String, ArrayList<Unit>> unitMap = new HashMap<>();
     Map<String, ArrayList<Structure>> structureMap = new HashMap<>();
     Map<String, ArrayList<Army>> armyMap = new HashMap<>();
+    Map<String, ArrayList<RallyPoint>> RPMap = new HashMap<>();
 
     public Map<String, ArrayList<Unit>> getUnitMap(){
         return unitMap;
@@ -25,10 +26,13 @@ public class TypeListVisitor implements SpecificAssetVisitor {
     public Map<String, ArrayList<Army>> getArmyMap(){
         return armyMap;
     }
+    public Map<String, ArrayList<RallyPoint>> getRPMap(){
+        return RPMap;
+    }
 
     @Override
     public void visitUnit(Unit unit) {
-
+        //Nothing
     }
 
     @Override
@@ -53,12 +57,20 @@ public class TypeListVisitor implements SpecificAssetVisitor {
 
     @Override
     public void visitStructure(Structure structure) {
-
+        //Nothing
     }
 
     @Override
     public void visitRallyPoint(RallyPoint rallyPoint) {
-
+        ArrayList<RallyPoint> newList = new ArrayList<>();
+        newList.add(rallyPoint);
+        if(RPMap.containsKey("Rally Point")){
+            ArrayList<RallyPoint> temp = RPMap.get("Rally Point");
+            temp.addAll(newList);
+            RPMap.replace("Rally Point", temp);
+            return;
+        }
+        RPMap.put("Rally Point", newList);
     }
 
     @Override
