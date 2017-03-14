@@ -23,16 +23,17 @@ public class CTRLAttackCommand implements CTRLCommand{
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.parts = parts;
         this.giver = (CombatAsset) parts.getRequestingAsset();
-        parts.requestDestinationTile();
+        parts.requestDestinationTile(this);
         //Still not configured - queryAgain needs to be called once the destination tile is ready.
     }
 
     //Called back when getDestinationTile is ready
-    public void queryAgain() throws CommandNotConfiguredException{
-        this.receiver = parts.getDestinationTile();
-        if(null != receiver){
-            isConfigured = true;
-            parts.requestExecution();
+    public void callback() throws CommandNotConfiguredException{
+        this.receiver = parts.getDestinationTile(); //Query parts for the destination tile.
+        if(null != receiver){       //Calling requestDestinationTile set it to null before initiating the highlighting
+            //If it's not null, highlighting worked properly and we have a DestinationTile
+            isConfigured = true;    //Flip the flag so that it'll execute properly without exceptions
+            parts.requestExecution();   //Request execution
         } else {
             throw new CommandNotConfiguredException("queryAgain() was called, but the DestinationTile is null");
         }

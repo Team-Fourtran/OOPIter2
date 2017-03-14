@@ -120,6 +120,7 @@ class MessageGenerator implements KeyPressListener{
 
     private void dispatchCommandForConfig(CTRLCommand thisCmd){
         try {
+            System.out.println("Command requesting config: " + thisCmd.hashCode());
             thisCmd.configure(currentState);
         } catch(Exception e){
             e.printStackTrace();
@@ -191,7 +192,8 @@ class State implements CommandComponents{
     public TileAssociation getRequestingTile() {return null;}
 
     @Override
-    public void requestDestinationTile() {
+    public void requestDestinationTile(CTRLCommand callbackObject) {
+        this.currentCommand = callbackObject;   //Set the current command so that we may call back to it
         this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
         msgGen.requestTile(currentInstance);    //Tell the MessageGenerator to initiate the tile request process
         //The method below (setDestinationTile) gets called once the tile is ready.
@@ -200,7 +202,7 @@ class State implements CommandComponents{
     //This gets called when the Tile request comes through
     protected void setDestinationTile(TileAssociation t){
         this.destinationTile = t;       //Update the destination tile
-        try {currentCommand.queryAgain();} catch(Exception e){e.printStackTrace();}
+        try {currentCommand.callback();} catch(Exception e){e.printStackTrace();}
         //Tell the current command to query again, signaling that the tile is done.
     }
 
