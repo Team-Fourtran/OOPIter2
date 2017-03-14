@@ -4,6 +4,7 @@ package models.assetOwnership;
 import models.playerAsset.Assets.PlayerAsset;
 import models.tileInfo.Item;
 import models.tileInfo.OneShotItem;
+import models.tileInfo.ResourcePackage;
 import models.tileInfo.Tile;
 import models.utility.Direction;
 import models.visitor.*;
@@ -52,6 +53,18 @@ public class TileAssociation extends Observable{
         notifyObserversAdd(p);
     }
 
+    public ResourcePackage getResourcePackage() {
+    	return tile.getResourcePackage();
+    }
+    
+    public ResourcePackage occupyResourcePackage() {
+    	return tile.occupyResourcePackage();
+    }
+    
+    public void deoccupyResourcePackage() {
+    	tile.deoccupyResourcePackage();
+    }
+    
     // Eventually have a method for removing Resources
     
     public Collection<TileAssociation> getNeighbors(){

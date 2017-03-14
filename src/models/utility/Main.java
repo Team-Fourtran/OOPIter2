@@ -7,6 +7,10 @@ import models.assetOwnership.PlayerAssetOwnership;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.*;
 import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Structures.EnergyHarvestStrategy;
+import models.playerAsset.Assets.Structures.FoodHarvestStrategy;
+import models.playerAsset.Assets.Structures.OreHarvestStrategy;
+import models.playerAsset.Assets.Structures.ResourceStructure;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
@@ -51,7 +55,8 @@ class modelTest{
 //        testCommandIterator();
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
-        testBuild();
+//        testBuild();
+          testHarvest();
 //        testPathfinding();
 //        testLandMine();
 //        testLandMine2();
@@ -87,9 +92,9 @@ class modelTest{
     private void testAttack() throws InterruptedException {
         Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("colonist");
-        Structure s1 = sm.createStructure("capital");
+        Structure s1 = sm.createStructure("capital", _tiles.get(4));
         PlayerAssetOwnership.addPlayerAsset(player, u0, u1, s1);
-        Structure s0 = smEnemy.createStructure("capital");
+        Structure s0 = smEnemy.createStructure("capital", _tiles.get(6));
         PlayerAssetOwnership.addPlayerAsset(enemyPlayer, s0);
         
         map.addAssetToMap(s0, _tiles.get(6));
@@ -137,7 +142,7 @@ class modelTest{
     }
 
     private void testCreateUnit() throws InterruptedException{
-        Structure s0 = sm.createStructure("capital");
+        Structure s0 = sm.createStructure("capital", _tiles.get(22));
         Unit u0 = um.addNewUnit("melee");
         Unit u1 = um.addNewUnit("colonist");
         map.addAssetToMap(s0, _tiles.get(22));
@@ -244,7 +249,7 @@ class modelTest{
         Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("ranged");
-        Structure s0 = smEnemy.createStructure("capital");
+        Structure s0 = smEnemy.createStructure("capital", _tiles.get(2));
 
         map.addAssetToMap(s0, _tiles.get(2));
         map.addAssetToMap(u2, _tiles.get(2));
@@ -355,11 +360,11 @@ class modelTest{
         um.addNewUnit("ranged");
         um.addNewUnit("ranged");
 
-        sm.createStructure("base");
-        sm.createStructure("base");
-        sm.createStructure("base");
-        sm.createStructure("base");
-        sm.createStructure("base");
+        sm.createStructure("capital", null);
+        sm.createStructure("capital", null);
+        sm.createStructure("capital", null);
+        sm.createStructure("capital", null);
+        sm.createStructure("capital", null);
 
         AssetIterator iter = player.getAssetIterator();
 
@@ -391,7 +396,7 @@ class modelTest{
 
     private void testCommandIterator() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
-        Structure s0 = sm.createStructure("fort");
+        Structure s0 = sm.createStructure("fort", null);
         PlayerAssetOwnership.addPlayerAsset(player, u0, s0);
 
         CTRLPowerUpCommand cmd = new CTRLPowerUpCommand();
@@ -489,7 +494,7 @@ class modelTest{
 		// The fort will receive some notification to attack
 		
 		// Create fort
-		Structure s0 = sm.createStructure("fort");
+		Structure s0 = sm.createStructure("fort", null);
 		map.addAssetToMap(s0, _tiles.get(4));
         PlayerAssetOwnership.addPlayerAsset(player, s0);
 		
@@ -606,6 +611,37 @@ class modelTest{
         cmr.configure(am.debugGetRallyPoint(), _tiles.get(216));
         game.notifyOfCommand(cmr);
         changeTurn(12);
+    }
+    
+    private void testHarvest() throws InterruptedException {
+    	// configure tile with food resource
+    	_tiles.get(4).getResourcePackage().setFoodCount(5);
+    	// put a capital on this same tile
+    	Structure s1 = sm.createStructure("capital", _tiles.get(4)); // add to manager
+    	// how can we configure the capital's work radius?
+    	PlayerAssetOwnership.addPlayerAsset(player, s1); // add to player list. Actually this could be done in the managers maybe
+    	map.addAssetToMap(s1, _tiles.get(4)); // add to map
+    	ResourceStructure t = (ResourceStructure) s1; // need to treat it as a resource structure
+    	t.setHarvestType(new FoodHarvestStrategy(t.getWorkRadius()));
+    	t.startHarvest();
+    	
+    	_tiles.get(4).getResourcePackage().setFoodCount(0);
+    	_tiles.get(5).getResourcePackage().setFoodCount(5);
+    	t.setRadiusSize(1); // increase radius
+    	t.startHarvest();
+    	
+    	// change strategy to ore harvest
+    	_tiles.get(3).getResourcePackage().setOreCount(1);
+    	t.setHarvestType(new OreHarvestStrategy(t.getWorkRadius()));
+    	t.startHarvest();
+    	
+    	// change strategy to energy harvest
+    	_tiles.get(5).getResourcePackage().setEnergyCount(2);
+    	t.setHarvestType(new EnergyHarvestStrategy(t.getWorkRadius()));
+    	t.startHarvest();
+    	
+    	t.setRadiusSize(0);
+    	t.startHarvest(); // shouldn't be able to harvest that energy anymore
     }
 }
 
