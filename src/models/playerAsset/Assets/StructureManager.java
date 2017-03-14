@@ -45,6 +45,7 @@ public class StructureManager implements Manager {
         techMap.put("fort", new ArrayList<>());
         techMap.put("observationtower", new ArrayList<>());
         techMap.put("university", new ArrayList<>());
+        techMap.put("worker", new ArrayList<>());
     }
 
     //return amount of structures a Player has
@@ -55,6 +56,7 @@ public class StructureManager implements Manager {
     //add a new structure to the map on an Army's location
     public Structure createStructure(String type) {
         Structure s = factory.makeStructure(type);
+        applyTech(s);
         s.setID(structureIDs.get(0));
         structureIDs.remove(0);
         //TODO: fix addStructureToList
@@ -133,15 +135,24 @@ public class StructureManager implements Manager {
     //apply tech to pertinent units upon discovery
     public void applyTech(String structureType, Technology tech){
         if (techMap.containsKey(structureType))
-            for (Structure s: structureList)
-                if (structureType == s.getType())
-                    tech.apply(s);
+            if (structureType.equals("worker")) {
+                for (Structure s : structureList)
+                    if (s instanceof ResourceStructure)
+                        tech.apply(s);
+            }
+            else
+                for (Structure s: structureList)
+                    if (structureType == s.getType())
+                        tech.apply(s);
     }
 
     //apply existing tech to new unit
     public void applyTech(Structure s){
         for (Technology tech: techMap.get(s.getType()))
             tech.apply(s);
+        if (s instanceof ResourceStructure)
+            for (Technology tech: techMap.get("worker"))
+                tech.apply(s);
     }
 
     public void resetCommands() {

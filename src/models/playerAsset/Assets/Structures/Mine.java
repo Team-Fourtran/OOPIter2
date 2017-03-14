@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 public class Mine extends ResourceStructure{
 
+    int rawMaterial;
+    int producedMaterial;
+
     public Mine() {
 
         setOffDamage(75);
@@ -17,6 +20,8 @@ public class Mine extends ResourceStructure{
         setUpkeep(1);
         setRadiusOfInfluence(1);
         setProductionRate(1);
+        setWorkerDensity(1);
+        setWorkRadius(0);
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();

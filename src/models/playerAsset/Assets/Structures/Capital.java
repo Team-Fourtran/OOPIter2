@@ -8,6 +8,12 @@ import java.util.ArrayList;
 
 public class Capital extends ResourceStructure {
 
+    int rawFood;
+    int producedFood;
+    int rawOre;
+    int producedOre;
+    int rawEnergy;
+    int producedEnergy;
 
     public Capital() {
         setOffDamage(75);

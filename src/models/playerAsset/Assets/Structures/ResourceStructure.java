@@ -5,13 +5,12 @@ import models.playerAsset.Assets.Worker;
 
 import java.util.ArrayList;
 
-/**
- * Created by Clay on 3/8/2017.
- */
 public class ResourceStructure extends Structure{
 
     ArrayList<Worker> gatherers;
     ArrayList<Worker> producers;
+    int workerDensity;
+    int workRadius;
 
     public ArrayList<Worker> removeWorkersFromGathering(int num){
         ArrayList<Worker> newList = new ArrayList<>();
@@ -40,4 +39,10 @@ public class ResourceStructure extends Structure{
     public void addWorkersToProduction(ArrayList<Worker> list){
         producers.addAll(list);
     }
+
+    public int getWorkerDensity(){return workerDensity;}
+    public int getWorkRadius(){return workRadius;}
+    public void setWorkerDensity(int w){workerDensity = w;}
+    public void setWorkRadius(int r){workRadius = r;}
+
 }

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 public class Farm  extends ResourceStructure{
 
+    int rawMaterial;
+    int producedMaterial;
+
     public Farm() {
 
         setOffDamage(75);

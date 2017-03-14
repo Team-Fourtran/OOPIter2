@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 public class PowerPlant extends ResourceStructure {
 
+    int rawMaterial;
+    int producedMaterial;
+
     public PowerPlant() {
 
         setOffDamage(75);
