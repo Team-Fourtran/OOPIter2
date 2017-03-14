@@ -645,3 +645,4 @@ class modelTest{
         System.out.println(iter.getCurrentMode() + "  " + iter.getElement() + "  " + iter.getElement() + "  " + iter.current().toString());
     }
 }
+

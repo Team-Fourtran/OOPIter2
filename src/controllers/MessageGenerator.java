@@ -45,6 +45,7 @@ class MessageGenerator implements KeyPressListener {
     /* Updates the State object based on the keystrokes detected */
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes) {
         if (keystrokes.get("ENTER")) {
+            currentState.setCmd(assetIterator.getCommand());
             dispatchCommandForConfig(assetIterator.getCommand());
         }
 
@@ -92,7 +93,6 @@ class MessageGenerator implements KeyPressListener {
     }
 
     private void dispatchCommandForConfig(CTRLCommand thisCmd) {
-        System.out.println("Command requesting config: " + thisCmd.hashCode());
         try {
             thisCmd.configure(currentState);
         } catch (Exception e) {
@@ -101,7 +101,6 @@ class MessageGenerator implements KeyPressListener {
     }
 
     public void receiveConfiguredCmd(CTRLCommand cmd) {
-        System.out.println("Command received:: " + cmd.hashCode());
         if (cmd.isConfigured())
             receiver.handleMsg(cmd);   /* Send it to the KeyboardController */
         else System.out.println("Command wasn't configured properly");
@@ -189,7 +188,6 @@ class MessageGenerator implements KeyPressListener {
         @Override
         public void requestDestinationTile(CTRLCommand callbackObject) {
             this.currentCommand = callbackObject;   //Set the current command so that we may call back to it
-            System.out.println("Requesting requestTile(). Set callback CTRLCommand to " + callbackObject.hashCode());
             this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
             msgGen.requestTile(currentInstance);    //Tell the MessageGenerator to initiate the tile request process
             //The method below (setDestinationTile) gets called once the tile is ready.
@@ -197,7 +195,6 @@ class MessageGenerator implements KeyPressListener {
 
         //This gets called when the Tile request comes through
         protected void setDestinationTile(TileAssociation t){
-            System.out.println("In State: Got tilestate back: " + t + "\nCalling back to CTRLCommand " + currentCommand.hashCode());
             this.destinationTile = t;       //Update the destination tile
             try {currentCommand.callback();} catch(Exception e){e.printStackTrace();}
             //Tell the current command to query again, signaling that the tile is done.
