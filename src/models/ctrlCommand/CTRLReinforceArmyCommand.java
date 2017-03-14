@@ -24,13 +24,17 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
     }
 
     @Override
-    public void callback() throws CommandNotConfiguredException {
-
+    //TODO: Configure w/ getting RallyPoint from CommandComponents asynchronously
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.unit = (Unit) parts.getRequestingAsset();
+        isConfigured = true;
+        //Request rally point?
     }
 
     @Override
-    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-        this.unit = (Unit) parts.getRequestingAsset();
+    //Wait for RallyPoint to become available to query
+    //TODO: This
+    public void callback() throws CommandNotConfiguredException {
         isConfigured = true;
     }
 

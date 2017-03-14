@@ -40,12 +40,12 @@ class MessageGenerator implements KeyPressListener {
     @Override //Listen to notifications from a KeyPressInformer
     public void updateKeysPressed(HashMap<String, Boolean> kp) {
         interpretKeystrokes(kp);
-        printStatus();
     }
 
     /* Updates the State object based on the keystrokes detected */
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes) {
         if (keystrokes.get("ENTER")) {
+            currentState.setCmd(assetIterator.getCommand());
             dispatchCommandForConfig(assetIterator.getCommand());
         }
 
@@ -59,6 +59,7 @@ class MessageGenerator implements KeyPressListener {
         }
 
         /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
+
         else if (keystrokes.get("CONTROL") && keystrokes.get("LEFT")) {        //CONTROL+LEFT: Previous Type
             assetIterator.prevType();
         } else if (keystrokes.get("CONTROL") && keystrokes.get("RIGHT")) {     //CONTROL+RIGHT: Next Type
@@ -97,16 +98,13 @@ class MessageGenerator implements KeyPressListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(thisCmd.isConfigured()){
-            receiveConfiguredCmd(thisCmd);  //TODO JUAN Why is this not there? Issues arise
-        }
     }
 
     public void receiveConfiguredCmd(CTRLCommand cmd) {
         if (cmd.isConfigured())
             receiver.handleMsg(cmd);   /* Send it to the KeyboardController */
         else System.out.println("Command wasn't configured properly");
-            assetIterator.update();
+        assetIterator.update();
     }
 
     /* Auxillary functions to request additional information for configuring Commands */
@@ -175,14 +173,11 @@ class MessageGenerator implements KeyPressListener {
     /* CommandComponents overrides */
 
         @Override   //Called by CTRLCommands once they think they're ready to be executed.
-        public void requestExecution() {
-            this.msgGen.receiveConfiguredCmd(getCmd());
+        public void requestExecution(){
+            this.msgGen.receiveConfiguredCmd(this.currentCommand);
         }
-
         @Override
-        public PlayerAsset getRequestingAsset() {
-            return this.getInstance();
-        }
+        public PlayerAsset getRequestingAsset() {return this.getInstance();}
 
         @Override
         //TODO: This
@@ -191,36 +186,24 @@ class MessageGenerator implements KeyPressListener {
         }
 
         @Override
-        //TODO: This
-        public TileAssociation getRequestingTile() {
-            return null;
-        }
-
-        @Override
-        public TileAssociation getDestinationTile() {
-//            msgGen.requestTile(currentInstance);
-            return destinationTile;
+        public void requestDestinationTile(CTRLCommand callbackObject) {
+            this.currentCommand = callbackObject;   //Set the current command so that we may call back to it
+            this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
+            msgGen.requestTile(currentInstance);    //Tell the MessageGenerator to initiate the tile request process
+            //The method below (setDestinationTile) gets called once the tile is ready.
         }
 
         //This gets called when the Tile request comes through
-        protected void setDestinationTile(TileAssociation t) {
-            System.out.println("In State: Got tilestate back: " + t + "\nCalling back to CTRLCommand " + currentCommand.hashCode());
+        protected void setDestinationTile(TileAssociation t){
             this.destinationTile = t;       //Update the destination tile
-            try {
-                currentCommand.callback();
-            } catch (CommandNotConfiguredException e) {
-                e.printStackTrace();
-            }
+            try {currentCommand.callback();} catch(Exception e){e.printStackTrace();}
             //Tell the current command to query again, signaling that the tile is done.
         }
 
         @Override
-        public void requestDestinationTile(CTRLCommand callbackObject) {
-            this.currentCommand = callbackObject;   //Set the current command so that we may call back to it
-            System.out.println("Requesting requestTile(). Set callback CTRLCommand to " + callbackObject.hashCode());
-            this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
-            msgGen.requestTile((PlayerAsset)assetIterator.current());    //Tell the MessageGenerator to initiate the tile request process
-            //The method below (setDestinationTile) gets called once the tile is ready.
+        //Actually return the destination tile
+        public TileAssociation getDestinationTile() {
+            return this.destinationTile;
         }
 
         @Override

@@ -3,6 +3,7 @@ package views;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import models.assetOwnership.TileAssociation;
 import models.assetOwnership.TileObserver;
 import controllers.*;
@@ -167,7 +168,6 @@ public class MainScreen implements TileObserver {
                 System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
             }
         };
-        tabbedPane.addChangeListener(changeListener);
 
         c.gridwidth = 4;
         c.gridheight = 2;
@@ -194,14 +194,10 @@ public class MainScreen implements TileObserver {
         mainScreen.setSize( (int)(SCRSIZE/1.23), SCRSIZE);
         mainScreen.setResizable(true);
         mainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //mainScreen.setLocationRelativeTo(null);
+
     }
 
     class DrawingPanel extends JPanel{
-        //        int xPoint = 100;
-//        int yPoint = 100;
-        //int x = 0;
-        //int y = 0;
         private TileHighlightListener tHL;
         private CommandListener commandListener;
         private boolean toggleHT;
@@ -212,13 +208,12 @@ public class MainScreen implements TileObserver {
             toggleHT = false;
             commandListener = new CommandListener();
             tHL = new TileHighlightListener();
-//            addKeyListener(tHL);
             addKeyListener(commandListener);
         }
         @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(1200, 1200);
-        }
+//        public Dimension getPreferredSize() {
+//            return new Dimension(1200, 1200);
+//        }
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

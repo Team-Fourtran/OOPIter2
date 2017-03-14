@@ -25,10 +25,17 @@ public class CTRLHealCommand implements CTRLCommand{
     }
 
     @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.parts = parts;
+        this.structure = (Structure) parts.getRequestingAsset();
+        parts.requestDestinationTile(this);
+        //Still not configured - queryAgain needs to be called once the destination tile is ready.
+    }
+
+    @Override
+    //Called back when getDestinationTile is ready
     public void callback() throws CommandNotConfiguredException {
-        System.out.println(parts + "\n" + tile);
         this.tile = parts.getDestinationTile(); //Query parts for the destination tile.
-        System.out.println(parts + "\n" + tile);
         if(null != tile){       //Calling requestDestinationTile set it to null before initiating the highlighting
             //If it's not null, highlighting worked properly and we have a DestinationTile
             isConfigured = true;    //Flip the flag so that it'll execute properly without exceptions
@@ -36,14 +43,6 @@ public class CTRLHealCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("queryAgain() was called, but the DestinationTile is null");
         }
-    }
-
-    @Override
-    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-        this.parts = parts;
-        this.structure = (Structure) parts.getRequestingAsset();
-        parts.requestDestinationTile(this);
-        isConfigured = false;
     }
 
     public boolean isConfigured(){

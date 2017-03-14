@@ -19,6 +19,7 @@ public class UnitCreationDialog {
                 units[0]);
 
     }
+
     public String returnUnitType(){
         if(unitType == null)
             return "null";
