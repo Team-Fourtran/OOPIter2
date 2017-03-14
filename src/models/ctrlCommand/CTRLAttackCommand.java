@@ -29,9 +29,7 @@ public class CTRLAttackCommand implements CTRLCommand{
 
     //Called back when getDestinationTile is ready
     public void callback() throws CommandNotConfiguredException{
-        System.out.println(parts + "\n" + receiver);
         this.receiver = parts.getDestinationTile(); //Query parts for the destination tile.
-        System.out.println(parts + "\n" + receiver);
         if(null != receiver){       //Calling requestDestinationTile set it to null before initiating the highlighting
             //If it's not null, highlighting worked properly and we have a DestinationTile
             isConfigured = true;    //Flip the flag so that it'll execute properly without exceptions

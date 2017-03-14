@@ -43,7 +43,7 @@ public class TestCommandGen{
 
 
         sm.createStructure("fort");
-        sm.createStructure("university");
+        sm.createStructure("capital");
         sm.createStructure("mine");
         sm.createStructure("farm");
         sm.createStructure("university");
