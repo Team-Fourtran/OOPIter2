@@ -52,7 +52,8 @@ class MessageGenerator implements KeyPressListener{
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes){
         if(keystrokes.get("ENTER")){
             printStatus();
-            dispatchCommandForConfig(currentState.getCmd());
+            dispatchCommandForConfig();
+            return;
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
@@ -118,10 +119,10 @@ class MessageGenerator implements KeyPressListener{
         this.assetIterator = assetIterator;
     }
 
-    private void dispatchCommandForConfig(CTRLCommand thisCmd){
+    private void dispatchCommandForConfig(){
         try {
-            System.out.println("Command requesting config: " + thisCmd.hashCode());
-            thisCmd.configure(currentState);
+            System.out.println("Command requesting config: " + currentState.getCmd().hashCode());
+            currentState.getCmd().configure(currentState);
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -136,10 +137,12 @@ class MessageGenerator implements KeyPressListener{
     /* Auxillary functions to request additional information for configuring Commands */
 
     public void requestTile(PlayerAsset initialHighlightAsset){
+        System.out.println("MessageGenerator requesting tile. Callback is " + currentState.getCmd().hashCode());
         tileTargetter.targetTile(this, initialHighlightAsset);
     }
 
     public void receiveTargetTile(TileAssociation cbTile){
+        System.out.println("MessageGenerator received tile. Callback is " + currentState.getCmd().hashCode());
         currentState.setDestinationTile(cbTile);
     }
 }
@@ -194,6 +197,7 @@ class State implements CommandComponents{
     @Override
     public void requestDestinationTile(CTRLCommand callbackObject) {
         this.currentCommand = callbackObject;   //Set the current command so that we may call back to it
+        System.out.println("Requesting requestTile(). Set callback CTRLCommand to " + callbackObject.hashCode());
         this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
         msgGen.requestTile(currentInstance);    //Tell the MessageGenerator to initiate the tile request process
         //The method below (setDestinationTile) gets called once the tile is ready.
@@ -201,6 +205,7 @@ class State implements CommandComponents{
 
     //This gets called when the Tile request comes through
     protected void setDestinationTile(TileAssociation t){
+        System.out.println("In State: Got tilestate back: " + t + "\nCalling back to CTRLCommand " + currentCommand.hashCode());
         this.destinationTile = t;       //Update the destination tile
         try {currentCommand.callback();} catch(Exception e){e.printStackTrace();}
         //Tell the current command to query again, signaling that the tile is done.

@@ -29,7 +29,7 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
 
     @Override
     //Called back when getDestinationTile is ready
-    public void queryAgain() throws CommandNotConfiguredException {
+    public void callback() throws CommandNotConfiguredException {
         isConfigured = true;
         //TODO: This
     }

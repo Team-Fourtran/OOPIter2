@@ -15,7 +15,6 @@ public class CTRLDecommissionCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.asset = (CombatAsset) parts.getRequestingAsset();
@@ -44,7 +43,7 @@ public class CTRLDecommissionCommand implements CTRLCommand{
     }
 
     @Override
-    public void queryAgain() throws CommandNotConfiguredException {
+    public void callback() throws CommandNotConfiguredException {
         //unused
     }
 }

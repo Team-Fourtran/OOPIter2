@@ -29,8 +29,7 @@ public class CTRLBuildCommand implements CTRLCommand{
 
     @Override
     //TODO: Figure out how to do multiple callbacks
-    public void queryAgain() throws CommandNotConfiguredException {
-
+    public void callback() throws CommandNotConfiguredException {
         isConfigured = true;
     }
     public boolean isConfigured(){

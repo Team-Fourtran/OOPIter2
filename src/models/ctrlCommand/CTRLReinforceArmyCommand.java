@@ -23,7 +23,8 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
 
     @Override
     //Wait for RallyPoint to become available to query
-    public void queryAgain() throws CommandNotConfiguredException {
+    //TODO: This
+    public void callback() throws CommandNotConfiguredException {
         isConfigured = true;
     }
 

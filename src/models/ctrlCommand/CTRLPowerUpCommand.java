@@ -44,7 +44,7 @@ public class CTRLPowerUpCommand implements CTRLCommand{
     }
 
     @Override
-    public void queryAgain() throws CommandNotConfiguredException {
+    public void callback() throws CommandNotConfiguredException {
         //unused
     }
 }

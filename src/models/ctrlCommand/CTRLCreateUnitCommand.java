@@ -29,8 +29,9 @@ public class CTRLCreateUnitCommand implements CTRLCommand {
     }
 
     @Override
-    //Called back when unitType is ready to be queried from parts. TODO: This.
-    public void queryAgain() throws CommandNotConfiguredException {
+    //Called back when unitType is ready to be queried from parts.
+    //TODO: This.
+    public void callback() throws CommandNotConfiguredException {
         isConfigured = true;
     }
 
