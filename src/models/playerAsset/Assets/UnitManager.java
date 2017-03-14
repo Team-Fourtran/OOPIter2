@@ -35,6 +35,7 @@ public class UnitManager {
         rangedList = new ArrayList<>();
         factory = new UnitFactory();
         techMap = new HashMap<>();
+        initMap();
         for (int i = 1; i <= 50; i++)
             unitIDs.add("u" + i);
         unitIterators = new ArrayList<>();
@@ -44,15 +45,31 @@ public class UnitManager {
         unitIterators.add(makeIterator(rangedList));
     }
 
-    public void addTech(String unitType, StatTechnology tech){
-        techMap.get(unitType).add(tech);
+    public void initMap(){
+        techMap.put("melee", new ArrayList<>());
+        techMap.put("ranged", new ArrayList<>());
+        techMap.put("colonist", new ArrayList<>());
+        techMap.put("explorer", new ArrayList<>());
     }
 
-    public void applyTech(String unitType, StatTechnology tech){
-        for (Unit u: unitList)
-            if (unitType == u.getType())
-                tech.apply(u);
+    public void addTech(String unitType, Technology tech){
+        if (techMap.containsKey(unitType))
+                techMap.get(unitType).add(tech);
+    }
 
+    //apply tech to pertinent units upon discovery
+    public void applyTech(String unitType, Technology tech){
+        if (techMap.containsKey(unitType))
+            for (Unit u: unitList)
+                if (unitType == u.getType())
+                    tech.apply(u);
+
+    }
+
+    //apply existing tech to new unit
+    public void applyTech(Unit u){
+        for (Technology tech: techMap.get(u.getType()))
+            tech.apply(u);
     }
 
     public void removeUnit(Unit unit){
@@ -66,6 +83,7 @@ public class UnitManager {
 
     public Unit addNewUnit(String type){
         Unit newUnit = factory.makeUnit(type);
+        applyTech(newUnit);
         newUnit.setID(unitIDs.get(0));
         unitIDs.remove(0);
         addUnitToList(newUnit, type);

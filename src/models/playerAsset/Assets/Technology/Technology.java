@@ -1,8 +1,10 @@
 package models.playerAsset.Assets.Technology;
 
-public abstract class Technology {
+import models.playerAsset.Assets.CombatAsset;
 
-    private int turns;
+public interface Technology {
+
+    public void apply(CombatAsset a);
 
 
 }

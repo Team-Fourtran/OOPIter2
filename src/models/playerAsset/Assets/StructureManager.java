@@ -2,10 +2,15 @@ package models.playerAsset.Assets;
 
 
 import models.playerAsset.Assets.Structures.*;
+import models.playerAsset.Assets.Technology.StatTechnology;
+import models.playerAsset.Assets.Technology.Technology;
+import models.playerAsset.Assets.Technology.WorkerTechnology;
+import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.TypeIterator;
 import models.visitor.PlayerVisitor;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /* Management class for a Player's structures
    Passes commands to specific structures
@@ -18,6 +23,7 @@ public class StructureManager implements Manager {
     static ArrayList<String> structureIDs = new ArrayList<>();
     final private StructureFactory factory;
     ArrayList<Iterator<PlayerAsset>> structureIterators;
+    HashMap<String, ArrayList<Technology>> techMap;
 
     public StructureManager() {
         factory = new StructureFactory();
@@ -27,7 +33,19 @@ public class StructureManager implements Manager {
         structureIterators.add(makeIterator(baseList));
         for (int i = 1; i <= 20; i++)
             structureIDs.add("s" + i);
+        techMap = new HashMap<>();
+        initMap();
 
+    }
+
+    public void initMap(){
+        techMap.put("capital", new ArrayList<>());
+        techMap.put("farm", new ArrayList<>());
+        techMap.put("mine", new ArrayList<>());
+        techMap.put("powerplant", new ArrayList<>());
+        techMap.put("fort", new ArrayList<>());
+        techMap.put("observationtower", new ArrayList<>());
+        techMap.put("university", new ArrayList<>());
     }
 
     //return amount of structures a Player has
@@ -108,6 +126,25 @@ public class StructureManager implements Manager {
                 break;
             }
         }
+    }
+
+    public void addTech(String type, Technology tech){
+        if (techMap.containsKey(type))
+            techMap.get(type).add(tech);
+    }
+
+    //apply tech to pertinent units upon discovery
+    public void applyTech(String structureType, Technology tech){
+        if (techMap.containsKey(structureType))
+            for (Structure s: structureList)
+                if (structureType == s.getType())
+                    tech.apply(s);
+    }
+
+    //apply existing tech to new unit
+    public void applyTech(Structure s){
+        for (Technology tech: techMap.get(s.getType()))
+            tech.apply(s);
     }
 
     public void resetCommands() {
