@@ -24,7 +24,6 @@ public class Main {
 }
 
 class modelTest{
-	private Player currentPlayer;
     private Player player;
     private Player enemyPlayer;
     private Game game;
@@ -38,7 +37,8 @@ class modelTest{
     private StructureManager smEnemy;
 
     modelTest() throws InterruptedException {
-        configure();
+//        liveTest();
+        configure(); //Comment out KeyboardController in Game
 //        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
@@ -59,7 +59,7 @@ class modelTest{
 //        testLandMine2();
     }
 
-	private void configure() throws InterruptedException {
+    private void liveTest() throws InterruptedException {
         int length = 10;
         this.player = new Player();
         this.am = player.getArmies();
@@ -75,52 +75,36 @@ class modelTest{
         _tiles.get(10).add(u2);
         Unit u3 = um.addNewUnit("melee");
         _tiles.get(11).add(u3);
-
-//        Army a0 = am.formArmy(u0, u1);
-//        Army a1 = am.formArmy(u2, u3);
-//        Structure s0 = sm.createStructure("capital");
-//        _tiles.get(1).add(s0);
-//        Structure s1 = sm.createStructure("capital");
-//        _tiles.get(2).add(s1);
-//        Structure s2 = sm.createStructure("capital");
-//        _tiles.get(3).add(s2);
-//        Structure s3 = sm.createStructure("fort");
-//        _tiles.get(4).add(s3);
-//        Structure s4 = sm.createStructure("university");
-//        _tiles.get(5).add(s4);
-//        Structure s5 = sm.createStructure("farm");
-//        _tiles.get(6).add(s5);
-//        Structure s6 = sm.createStructure("farm");
-//        _tiles.get(7).add(s6);
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
 
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
         cac.configure(_tiles.get(20), u2, u3);
         game.notifyOfCommand(cac);
-//        Iterator2<Structure> iter = sm.makeIterator();
-//        iter.first();
+    }
 
-//        this.enemyPlayer = new Player();
-//        this.currentPlayer = player;
-//        TileGen tileGen = new TileGen(length, length);
-//        this._tiles = tileGen.execute();
-//        this.game = new Game(player, _tiles);
-//        this.map = game.getMap();
-//        this.am = player.getArmies();
-//        this.um = player.getUnits();
-//        this.sm = player.getStructures();
-//        this.amEnemy = enemyPlayer.getArmies();
-//        this.umEnemy = enemyPlayer.getUnits();
-//        this.smEnemy = enemyPlayer.getStructures();
+	private void configure() throws InterruptedException {
+        int length = 15;
+        this.player = new Player();
+        this.am = player.getArmies();
+        this.um = player.getUnits();
+        this.sm = player.getStructures();
+        this.enemyPlayer = new Player();
+        this.umEnemy = enemyPlayer.getUnits();
+        this.smEnemy = enemyPlayer.getStructures();
+        this.amEnemy = enemyPlayer.getArmies();
+        TileGen tileGen = new TileGen(length, length);
+        this._tiles = tileGen.execute();
+        this.game = new Game(player, _tiles);
+        this.map = game.getMap();
     }
 
     private void changeTurn(int n) throws InterruptedException {
         for(int i = 0; i < n; i++){
             System.out.println("NewTurn:");
             Thread.sleep(250);
-            currentPlayer.endTurn();
-            currentPlayer.beginTurn();
+            player.endTurn();
+            player.beginTurn();
             Thread.sleep(250);
         }
     }
@@ -130,8 +114,8 @@ class modelTest{
         Unit u1 = um.addNewUnit("colonist");
         Structure s1 = sm.createStructure("capital");
         PlayerAssetOwnership.addPlayerAsset(player, u0, u1, s1);
-        Structure s0 = smEnemy.createStructure("capital");
-        PlayerAssetOwnership.addPlayerAsset(enemyPlayer, s0);
+        Structure s0 = sm.createStructure("capital");
+//        PlayerAssetOwnership.addPlayerAsset(enemyPlayer, s0);
         
         map.addAssetToMap(s0, _tiles.get(6));
         map.addAssetToMap(s1, _tiles.get(4));
@@ -222,7 +206,7 @@ class modelTest{
         rac.configure(u2, am.debugGetRallyPoint());
         game.notifyOfCommand(rac);
 
-        changeTurn(3);
+        changeTurn(2);
 
         CTRLMoveRallyPointCommand mrpc = new CTRLMoveRallyPointCommand();
         mrpc.configure(am.debugGetRallyPoint(), _tiles.get(223));
@@ -544,7 +528,7 @@ class modelTest{
         
         changeTurn(2);
         
-        this.currentPlayer = enemyPlayer;
+        this.player = enemyPlayer;
         game.setCurrentPlayer(enemyPlayer);
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
         cac.configure(_tiles.get(6), u0);
@@ -552,7 +536,7 @@ class modelTest{
         
 		changeTurn(1);
 		
-        this.currentPlayer = player;
+        this.player = player;
         game.setCurrentPlayer(player);
 		
         changeTurn(2);
