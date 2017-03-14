@@ -20,7 +20,7 @@ public class MainScreen implements TileObserver {
 
     private final int EMPTY = 0;
     private final int BSIZE = 10;
-    private final int HEXSIZE = 64;
+    private final int HEXSIZE = 128;
     private final int BORDERS = 10;
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
@@ -117,27 +117,72 @@ public class MainScreen implements TileObserver {
         map = new DrawingPanel();
         map.setBackground(Color.blue);
         JScrollPane mapPane = new JScrollPane(map);
-        Dimension d1 = new Dimension(1200, 1200);
-        mapPane.setPreferredSize(d1);
+        //Dimension d1 = new Dimension(1200, 1200);
+        //mapPane.setPreferredSize(d1);
         mainScreen = new JFrame("Fourtran Game");
 
         JPanel startScreen = new JPanel();
+        GridBagConstraints c = new GridBagConstraints();
 
         tabbedPane = new JTabbedPane();
 
         Container content = mainScreen.getContentPane();
-        content.add(new JButton("Something"), BorderLayout.SOUTH);
+        content.setLayout(new GridBagLayout());
+        //Adding JTextfields.
+        JLabel playerLabel = new JLabel("Player");
+        JTextField playerTextField = new JTextField();
+        playerLabel.setLabelFor(playerTextField);
+        JPanel playerPane = new JPanel(new GridLayout(1, 2, 0, 0));
+        playerPane.add(playerLabel);
+        playerPane.add(playerTextField);
 
+        c.gridx = 0;
+        c.gridy = 2;
+        c.weightx = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        content.add(playerPane, c);
+
+        JLabel resourceLabel = new JLabel("Resources");
+        JLabel energyLabel = new JLabel("Energy");
+        JLabel oreLabel = new JLabel("Ore");
+        JLabel foodLabel = new JLabel("Food");
+        JTextField energyTextField = new JTextField();
+        JTextField oreTextField = new JTextField();
+        JTextField foodTextField = new JTextField();
+
+        energyLabel.setLabelFor(energyTextField);
+        oreLabel.setLabelFor(oreTextField);
+        foodLabel.setLabelFor(foodTextField);
+
+        JPanel foodPane = new JPanel(new GridLayout(1, 2, 0, 0));
+        foodPane.add(foodLabel);
+        foodPane.add(foodTextField);
+        JPanel energyPane = new JPanel(new GridLayout(1, 2, 0, 0));
+        energyPane.add(energyLabel);
+        energyPane.add(energyTextField);
+        JPanel orePane = new JPanel(new GridLayout(1, 2,0 ,0 ));
+        orePane.add(oreLabel);
+        orePane.add(oreTextField);
+
+        c.gridx = 1;
+        c.gridy = 2;
+        content.add(foodPane, c);
+        c.gridx = 2;
+        c.gridy = 2;
+        content.add(energyPane, c);
+        c.gridx = 3;
+        c.gridy = 2;
+        content.add(orePane, c);
         //Unit OV Table
 
-        Dimension d = new Dimension(900, 700);
+        Dimension d = new Dimension(500, 700);
         unitTable = new UnitOverview(d);
         strTable = new StructureOverview(d);
 
         tabbedPane.addTab("Map", mapPane);
         tabbedPane.addTab("Unit Overview", unitTable);
         tabbedPane.addTab("Structure Overview", strTable);
-
+        //tabbedPane.setPreferredSize(d1);
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent) {
                 JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
@@ -145,9 +190,16 @@ public class MainScreen implements TileObserver {
                 System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
             }
         };
-
         tabbedPane.addChangeListener(changeListener);
-        content.add(tabbedPane, BorderLayout.CENTER);
+
+        c.gridwidth = 4;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.fill = GridBagConstraints.BOTH;
+        content.add(tabbedPane, c);
         tabbedPane.setFocusable(false);
         mapPane.setFocusable(false);
         map.setFocusable(true);
@@ -162,6 +214,7 @@ public class MainScreen implements TileObserver {
         });
 
         mainScreen.setSize( (int)(SCRSIZE/1.23), SCRSIZE);
+        mainScreen.pack();
         mainScreen.setResizable(true);
         mainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -182,7 +235,7 @@ public class MainScreen implements TileObserver {
         }
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(1200, 1200);
+            return new Dimension(600, 700);
         }
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;

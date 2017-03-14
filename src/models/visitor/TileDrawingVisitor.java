@@ -254,9 +254,10 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 
     private BufferedImage resizeImage(BufferedImage texture){
         int type = texture.getType() == 0? BufferedImage.TYPE_INT_ARGB : texture.getType();
-        BufferedImage resizedImage = new BufferedImage(64, 64, type);
+        //Original Size = 64/64
+        BufferedImage resizedImage = new BufferedImage(138, 128, type);
         Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(texture, 0, 0, 64, 64, null);
+        g.drawImage(texture, 0, 0, 138, 128, null);
         g.dispose();
         g.setComposite(AlphaComposite.Src);
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -277,7 +278,9 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
             if (i == 0) {
             }
             for (int j = 0; j < a.size(); j++) {
-                g2.drawImage(a.get(j), x+14, y+10, null);
+                //g2.drawImage(a.get(j), x+14, y+10, null);
+                g2.drawImage(a.get(j), x+17, y+10, null);
+
             }
         }
     }

@@ -13,7 +13,8 @@ public class hexMech implements TileObserver{
     public static boolean XYVertex=true;	//true: x,y are the co-ords of the first vertex.
     //false: x,y are the co-ords of the top left rect. co-ord.
 
-    private static int BORDERS = 30;	//default number of pixels for the border.
+    //Original border = 30;
+    private static int BORDERS = 5;	//default number of pixels for the border.
 
     private static int s=0;	// length of one side
     private static int t=0;	// short side of 30o triangle outside of each hex
@@ -91,7 +92,7 @@ public class hexMech implements TileObserver{
 
         HexProperties h = new HexProperties(x, y, g2);
         gps.put(tileAssoc, h);
-        ;       gg = g2;
+        gg = g2;
         g2.setColor(MainScreen.COLOURCELL);
         g2.drawPolygon(poly);
         //g2.fillPolygon(poly);
