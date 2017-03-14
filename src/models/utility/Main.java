@@ -50,7 +50,7 @@ class modelTest{
 //        testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
-//        testInfluenceReaction();
+        testInfluenceReaction();
 //        testLandMine();
 //        testLandMine2();
 //        testBuild();
@@ -65,17 +65,22 @@ class modelTest{
         this.am = player.getArmies();
         this.um = player.getUnits();
         this.sm = player.getStructures();
+        this.enemyPlayer = new Player("Player 2");
+        this.umEnemy = enemyPlayer.getUnits();
+        this.smEnemy = enemyPlayer.getStructures();
+        this.amEnemy = enemyPlayer.getArmies();
+
         TileGen tileGen = new TileGen(length, length);
         this._tiles = tileGen.execute();
         Unit u0 = um.addNewUnit("colonist");
         _tiles.get(8).add(u0);
         Unit u1 = um.addNewUnit("explorer");
         _tiles.get(9).add(u1);
-        Unit u2 = um.addNewUnit("ranged");
+        Unit u2 = umEnemy.addNewUnit("ranged");
         _tiles.get(10).add(u2);
-        Unit u3 = um.addNewUnit("melee");
+        Unit u3 = umEnemy.addNewUnit("melee");
         _tiles.get(11).add(u3);
-        this.game = new Game(player, _tiles);
+        this.game = new Game(player, enemyPlayer, _tiles);
         this.map = game.getMap();
 
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();

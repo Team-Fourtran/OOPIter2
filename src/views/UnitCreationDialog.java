@@ -3,7 +3,7 @@ package views;
 import javax.swing.*;
 
 public class UnitCreationDialog {
-    public static final String[] units = {"Explorer", "Colonist", "Melee", "Ranged"};
+    public static final String[] units = {"Explorer", "Melee", "Ranged"};
     private String unitType;
     private JFrame frame;
 

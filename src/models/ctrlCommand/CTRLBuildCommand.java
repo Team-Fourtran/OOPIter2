@@ -32,6 +32,7 @@ public class CTRLBuildCommand implements CTRLCommand{
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.rallyPoint = (RallyPoint)parts.getRequestingAsset();
         this.structureType = parts.getStructureType();
+        this.numWorkersAssigned = parts.getInt();
         isConfigured = true;
     }
 

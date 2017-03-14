@@ -347,35 +347,6 @@ public class MainScreen implements TileObserver {
                     }
                     board[x][y] = (int)' ';
                 }
-//
-//                if(id == KeyEvent.VK_D){
-//                    //hexMech.highlight(560, 500);
-//                    /*xPoint += 45;
-//                    Point p = new Point( hexMech.pxtoHex(xPoint, 300 ));
-//                    x = p.x;
-//                    y = p.y;
-//                    System.out.println(xPoint);
-//                    System.out.println(p.x + ", " + p.y);*/
-//                    board[x][y] = 0;
-//                    x = (x+1) % BSIZE;
-//                    board[x][y] = (int)' ';
-//                }
-//                if(id == KeyEvent.VK_A){
-//                    board[x][y] = 0;
-//                    x = (x-1 < 0)? BSIZE-1 : x-1;
-//                    board[x][y] = (int)' ';
-//                }
-//                if(id == KeyEvent.VK_W){
-//                    board[x][y] = 0;
-//                    y = (y-1 < 0)? BSIZE-1 : y-1;
-//                    board[x][y] = (int)' ';
-//                }
-//                if(id == KeyEvent.VK_X){
-//                    board[x][y] = 0;
-//                    y = (y+1) % BSIZE;
-//                    board[x][y] = (int)' ';
-//                }
-//
                 if(id == KeyEvent.VK_ESCAPE){
                     board[x][y] = 0;
                     disableHighlight();
