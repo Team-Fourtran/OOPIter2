@@ -3,9 +3,6 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by TK on 3/14/17.
- */
 public class PlayerInfoArea {
     public void generatePlayerInfoArea(Container cont){
         JLabel playerLabel = new JLabel("Player");

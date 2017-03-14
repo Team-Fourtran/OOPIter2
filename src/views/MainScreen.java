@@ -37,6 +37,7 @@ public class MainScreen implements TileObserver {
     private UnitOverview unitTable;
     private JTabbedPane tabbedPane;
     private StructureOverview strTable;
+    private PlayerTextField playerTextField;
 
     private int x = 0;
     private int y = 0;
@@ -47,6 +48,7 @@ public class MainScreen implements TileObserver {
     private DrawingPanel map;
     public MainScreen(TileAssociation[] tiles){
         this.tiles = tiles;
+        this.playerTextField = new PlayerTextField();
         for (int i = 0; i < tiles.length; i++) {
             tiles[i].addObserver(this);
         }
@@ -66,6 +68,7 @@ public class MainScreen implements TileObserver {
 
     public void updatePlayer(Player p){
         this.currentPlayer = p;
+        playerTextField.update(p.getName());
     }
 
     public KeyPressInformer getKeyInformer(){

@@ -8,14 +8,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
+    private final String playerName;
     private final ArmyManager armies;
     private final UnitManager units;
     private final StructureManager structures;
 
-    public Player(){
+    public Player(String playerName){
+        this.playerName = playerName;
         armies = new ArmyManager();
         units = new UnitManager();
         structures = new StructureManager();
+    }
+
+    public String getName(){
+        return playerName;
     }
 
     //method to do maintenance tasks on player's assets

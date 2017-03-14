@@ -3,9 +3,6 @@ package views;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by TK on 3/14/17.
- */
 public class ControllerInfoArea {
     public void generateControllerInfoArea(Container cont){
         GridBagConstraints b = new GridBagConstraints();

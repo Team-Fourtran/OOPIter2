@@ -21,7 +21,7 @@ public class TestCommandGen{
 
     public static void main(String[] args) throws InterruptedException{
         int length = 10;
-        Player player = new Player();
+        Player player = new Player("Player 1");
         ArmyManager am = player.getArmies();
         UnitManager um = player.getUnits();
         StructureManager sm = player.getStructures();

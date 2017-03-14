@@ -61,7 +61,7 @@ class modelTest{
 
     private void liveTest() throws InterruptedException {
         int length = 10;
-        this.player = new Player();
+        this.player = new Player("Player 1");
         this.am = player.getArmies();
         this.um = player.getUnits();
         this.sm = player.getStructures();
@@ -85,11 +85,11 @@ class modelTest{
 
 	private void configure() throws InterruptedException {
         int length = 15;
-        this.player = new Player();
+        this.player = new Player("Player 1");
         this.am = player.getArmies();
         this.um = player.getUnits();
         this.sm = player.getStructures();
-        this.enemyPlayer = new Player();
+        this.enemyPlayer = new Player("Player 2");
         this.umEnemy = enemyPlayer.getUnits();
         this.smEnemy = enemyPlayer.getStructures();
         this.amEnemy = enemyPlayer.getArmies();
