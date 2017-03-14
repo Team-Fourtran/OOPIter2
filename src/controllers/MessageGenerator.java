@@ -56,7 +56,7 @@ class MessageGenerator implements KeyPressListener{
         if(keystrokes.get("ENTER")){
             dispatchCommandForConfig(currentState.getCmd());
             assetIterator.first();
-            //updateCommandList(); //TODO JUAN this should be here
+            updateCommandList(); //TODO JUAN this should be here
             return;
         }
 
