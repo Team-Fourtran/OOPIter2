@@ -3,13 +3,13 @@ package models.ctrlCommand;
 import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.Player;
+import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.Units.Colonist;
 import models.playerAsset.Assets.Units.Unit;
 import models.visitor.CapitalCreationVisitor;
 
 public class CTRLCreateCapitalCommand implements CTRLCommand{
     private Unit unit;  //TODO: Might be able to make of type Colonist
-
     private boolean isConfigured;
 
     public CTRLCreateCapitalCommand(){
@@ -23,6 +23,7 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.unit = (Unit) parts.getRequestingAsset();
         isConfigured = true;
     }
 

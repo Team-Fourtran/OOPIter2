@@ -123,105 +123,19 @@ public class UnitManager {
         }
         return totalUpkeep;
     }
-//
-//    public Iterator<PlayerAsset> makeIterator(ArrayList<PlayerAsset> list){
-//        return new Iterator<PlayerAsset>() {
-//
-//            private int index = 0;
-//
-//            @Override
-//            public PlayerAsset first() {
-//                if (!list.isEmpty())
-//                    return list.get(0);
-//                return null;
-//            }
-//
-//            @Override
-//            public void next() {
-//                index = (index+1) % list.size();
-//            }
-//
-//            @Override
-//            public void prev() {
-//                if (index != 0)
-//                    index--;
-//                else
-//                    index = list.size()-1;
-//            }
-//
-//            public PlayerAsset current(){
-//                //System.out.println(list.get(index).getType());
-//                return list.get(index);
-//            }
-//
-//            public PlayerAsset getElement(){
-//                return list.get(index);
-//            }
-//        };
-//    }
-//
-//    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> makeTypeIterator(ArrayList<Iterator<PlayerAsset>> list) {
-//        return new TypeIterator<PlayerAsset, Iterator<PlayerAsset>>() {
-//
-//            private int index = 0;
-//            private Iterator<PlayerAsset> current = current();
-//
-//            @Override
-//            public Iterator<PlayerAsset> first() {
-//                return list.get(0);
-//            }
-//
-//            public void nextType() {
-//                index = (index + 1) % list.size();
-//                current = list.get(index);
-//            }
-//
-//            public void prevType() {
-//                if (index != 0)
-//                    index--;
-//                else
-//                    index = list.size() - 1;
-//                current = list.get(index);
-//            }
-//
-//            public void next() {
-//                current.next();
-//            }
-//
-//            public void prev() {
-//                current.prev();
-//            }
-//
-//            public Iterator<PlayerAsset> current() {
-//                return list.get(index);
-//            }
-//
-//            public PlayerAsset getElement(){
-//                return current.current();
-//            }
-//
-//            public String getCurrentType(){
-//                return getElement().getType();
-//            }
-//
-//        };
-//    }
 
     public TypeIterator2<Map.Entry<String, ArrayList<Unit>>> makeTypeIterator(Map<String, ArrayList<Unit>> map){
         return new TypeIterator2<Map.Entry<String,ArrayList<Unit>>>() {
             private int current = 0;
-            private String key;
-            private ArrayList<Unit> values;
             private ArrayList<Map.Entry<String, ArrayList<Unit>>> entries = new ArrayList<>();
 
 
             @Override
-            public Map.Entry<String, ArrayList<Unit>> first() {
+            public void first() {
                 for (Map.Entry<String, ArrayList<Unit>> entry : map.entrySet()){
                     entries.add(entry);
                 }
                 current = 0;
-                return null;
             }
 
             @Override
@@ -263,8 +177,13 @@ public class UnitManager {
                 map = vis.getUnitMap();
                 entryIter = makeTypeIterator(map);
                 entryIter.first();
-                currentUnitList = entryIter.current().getValue();
-
+                if (entryIter.current() == null){
+                    currentUnitList = null;
+                }
+                else{
+                    currentUnitList = entryIter.current().getValue();
+                }
+                current = 0;
             }
 
             @Override
@@ -283,10 +202,10 @@ public class UnitManager {
 
             @Override
             public Unit current() {
-                if (currentUnitList.size() > 0){
-                    return currentUnitList.get(current);
+                if (currentUnitList == null){
+                    return null;
                 }
-                return null;
+                return currentUnitList.get(current);
             }
 
             @Override

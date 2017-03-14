@@ -4,11 +4,13 @@ package models.playerAsset.Assets;
 import models.playerAsset.Assets.Structures.*;
 import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.Iterator2;
-import models.playerAsset.Iterators.TypeIterator;
+import models.playerAsset.Iterators.TypeIterator2;
 import models.visitor.PlayerVisitor;
 import models.visitor.TypeListVisitor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /* Management class for a Player's structures
@@ -128,172 +130,110 @@ public class StructureManager implements Manager {
         v.visitStructureManager(this);
     }
 
-/*    public Iterator<PlayerAsset> makeIterator(ArrayList<PlayerAsset> list) {
-        return new Iterator<PlayerAsset>() {
 
-            private int index = 0;
+    public TypeIterator2<Map.Entry<String, ArrayList<Structure>>> makeTypeIterator(Map<String, ArrayList<Structure>> map){
+        return new TypeIterator2<Map.Entry<String,ArrayList<Structure>>>() {
+            private int current = 0;
+            private ArrayList<Map.Entry<String, ArrayList<Structure>>> entries = new ArrayList<>();
 
             @Override
-            public PlayerAsset first() {
-                if (!list.isEmpty())
-                    return list.get(0);
-                return null;
+            public void first() {
+                for (Map.Entry<String, ArrayList<Structure>> entry : map.entrySet()){
+                    entries.add(entry);
+                }
+                current = 0;
             }
 
             @Override
             public void next() {
-                index = (index + 1) % list.size();
+                current += 1;
+                current %= map.size();
             }
 
             @Override
             public void prev() {
-                if (index != 0)
-                    index--;
-                else
-                    index = list.size() - 1;
-            }
-
-            public PlayerAsset current() {
-                //System.out.println(list.get(index).getType());
-                return list.get(index);
-            }
-
-            public PlayerAsset getElement() {
-                return list.get(index);
-            }
-        };
-    }
-
-    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> makeTypeIterator(ArrayList<Iterator<PlayerAsset>> list) {
-        return new TypeIterator<PlayerAsset, Iterator<PlayerAsset>>() {
-
-            private int index = 0;
-            private Iterator<PlayerAsset> current = current();
-
-            @Override
-            public Iterator<PlayerAsset> first() {
-                return list.get(0);
-            }
-
-            public void nextType() {
-                index = (index + 1) % list.size();
-                current = list.get(index);
-            }
-
-            public void prevType() {
-                if (index != 0)
-                    index--;
-                else
-                    index = list.size() - 1;
-                current = list.get(index);
-            }
-
-            public void next() {
-                current.next();
-            }
-
-            public void prev() {
-                current.prev();
-            }
-
-            public Iterator<PlayerAsset> current() {
-                return list.get(index);
-            }
-
-            public PlayerAsset getElement() {
-                return current.current();
-            }
-
-            public String getCurrentType(){
-                return getElement().getType();
-            }
-
-        };
-    }
-
-    *//*test method to grab iterator*//*
-    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> getTypeIterator() {
-        return makeTypeIterator(structureIterators);
-    }*/
-public Iterator2<Structure> makeIterator(){
-    return new Iterator2<Structure>() {
-        private int current;
-        private int typeIndex;
-        private int typeSize;
-        private ArrayList<Structure> currentType;
-        private ArrayList<ArrayList<Structure>> typeList;
-
-        private int getSize(){
-            return currentType.size();
-        }
-
-        @Override
-        public void first() {
-            typeList = new ArrayList<>();
-            for (Structure s : structureList){
-                s.accept(
-                        new TypeListVisitor()
-                );
-            }
-            typeIndex = 0;
-            typeSize = typeList.size();
-            currentType = typeList.get(typeIndex);
-            for (int i = 0; i < typeSize; i++){
-                if (currentType.size() == 0){
-                    nextType();
+                current -= 1;
+                if (current < 0){
+                    current = map.size()-1;
                 }
             }
-            current = 0;
-        }
 
-        @Override
-        public void next() {
-            current += 1;
-            current %= getSize();
-        }
-
-        @Override
-        public void prev() {
-            current -= 1;
-            if (current < 0){
-                current = getSize()-1;
+            @Override
+            public Map.Entry<String, ArrayList<Structure>> current() {
+                if(entries.size() == 0){
+                    return null;
+                }
+                return entries.get(current);
             }
-        }
+        };
+    }
 
-        @Override
-        public Structure current() {
-            if (getSize() > 0){
-                return currentType.get(current);
-            }
-            return null;
-        }
+    public Iterator2<Structure> makeIterator(){
+        return new Iterator2<Structure>() {
+            private int current;
+            private TypeIterator2<Map.Entry<String, ArrayList<Structure>>> entryIter;
+            private ArrayList<Structure> currentStructureList;
+            private Map<String, ArrayList<Structure>> map = new HashMap<>();
 
-        @Override
-        public void nextType() {
-            typeIndex++;
-            typeIndex %= typeSize;
-            currentType = typeList.get(typeIndex);
-            if (currentType.size() == 0){
-                nextType();
+            @Override
+            public void first() {
+                TypeListVisitor vis = new TypeListVisitor();
+                for (Structure u : structureList){
+                    u.accept(
+                            vis
+                    );
+                }
+                map = vis.getStructureMap();
+                entryIter = makeTypeIterator(map);
+                entryIter.first();
+                currentStructureList = entryIter.current().getValue();
+                if (entryIter.current() == null){
+                    currentStructureList = null;
+                }
+                else{
+                    currentStructureList = entryIter.current().getValue();
+                }
+                current = 0;
             }
-        }
 
-        @Override
-        public void prevType() {
-            typeIndex--;
-            if (typeIndex < 0){
-                typeIndex = typeSize-1;
+            @Override
+            public void next() {
+                current += 1;
+                current %= currentStructureList.size();
             }
-            currentType = typeList.get(typeIndex);
-            if (currentType.size() == 0){
-                prevType();
-            }
-        }
 
-        @Override
-        public String getElement() {
-            return currentType.getClass().getFields().toString();
-        }
-    };
-}
+            @Override
+            public void prev() {
+                current -= 1;
+                if (current < 0){
+                    current = currentStructureList.size()-1;
+                }
+            }
+
+            @Override
+            public Structure current() {
+                if (currentStructureList == null){
+                    return null;
+                }
+                return currentStructureList.get(current);
+            }
+
+            @Override
+            public void nextType() {
+                entryIter.next();
+                currentStructureList = entryIter.current().getValue();
+            }
+
+            @Override
+            public void prevType() {
+                entryIter.prev();
+                currentStructureList = entryIter.current().getValue();
+            }
+
+            @Override
+            public String getElement() {
+                return entryIter.current().getKey();
+            }
+        };
+    }
 }

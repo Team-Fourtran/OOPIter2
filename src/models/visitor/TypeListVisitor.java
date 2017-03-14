@@ -1,6 +1,7 @@
 package models.visitor;
 
 import models.playerAsset.Assets.Army;
+import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.*;
 import models.playerAsset.Assets.Units.*;
@@ -13,7 +14,7 @@ import java.util.Map;
 public class TypeListVisitor implements SpecificAssetVisitor {
     Map<String, ArrayList<Unit>> unitMap = new HashMap<>();
     Map<String, ArrayList<Structure>> structureMap = new HashMap<>();
-    Map<String, ArrayList<Unit>> armyMap = new HashMap<>();
+    Map<String, ArrayList<Army>> armyMap = new HashMap<>();
 
     public Map<String, ArrayList<Unit>> getUnitMap(){
         return unitMap;
@@ -21,10 +22,9 @@ public class TypeListVisitor implements SpecificAssetVisitor {
     public Map<String, ArrayList<Structure>> getStructureMap(){
         return structureMap;
     }
-    public Map<String, ArrayList<Unit>> getArmyMap(){
+    public Map<String, ArrayList<Army>> getArmyMap(){
         return armyMap;
     }
-
 
     @Override
     public void visitUnit(Unit unit) {
@@ -33,7 +33,22 @@ public class TypeListVisitor implements SpecificAssetVisitor {
 
     @Override
     public void visitArmy(Army army) {
-
+        ArrayList<Army> newList = new ArrayList<>();
+        newList.add(army);
+        if(armyMap.containsKey("Entire Army")){
+            ArrayList<Army> temp = armyMap.get("Entire Army");
+            temp.addAll(newList);
+            armyMap.replace("Entire Army", temp);
+            return;
+        }
+        armyMap.put("Entire Army", newList);
+//
+//        ArrayList<Unit> bg = army.getBattleGroup();
+//        ArrayList<Unit> rf = army.getReinforcements();
+//        armyMap.put("Battle Group", bg);
+//        armyMap.put("Reinforcements", rf);
+//        bg.addAll(rf);
+//        armyMap.put("Entire Army", bg);
     }
 
     @Override

@@ -28,14 +28,12 @@ public class Game {
       mainScreen.generateMainScreen();
       mainScreen.showMainScreen();
 
-//      KeyboardController kbc = new KeyboardController(
-//              this,
-//              mainScreen.getKeyInformer(),
-//              currentPlayer.getAssetIterator(),
-//              mainScreen.getTileTargetter()
-//      );
-
-
+      KeyboardController kbc = new KeyboardController(
+              this,
+              mainScreen.getKeyInformer(),
+              currentPlayer.makeIterator(),
+              mainScreen.getTileTargetter()
+      );
       Thread.sleep(1000);
   }
 
@@ -45,6 +43,8 @@ public class Game {
   
   public void notifyOfCommand(CTRLCommand cmd){
       try {
+          currentPlayer.endTurn();
+          currentPlayer.beginTurn();
           cmd.execute(map, currentPlayer);
       } catch (CommandNotConfiguredException e) {
           e.printStackTrace();

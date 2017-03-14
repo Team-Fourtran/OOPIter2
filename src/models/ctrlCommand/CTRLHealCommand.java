@@ -25,6 +25,7 @@ public class CTRLHealCommand implements CTRLCommand{
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.structure = (Structure) parts.getRequestingAsset();
         isConfigured = true;
     }
 

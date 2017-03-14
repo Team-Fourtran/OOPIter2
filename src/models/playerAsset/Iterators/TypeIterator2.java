@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface TypeIterator2<T>{
 
-    public T first();
+    public void first();
     public void next();
     public void prev();
     public T current();

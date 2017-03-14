@@ -30,14 +30,14 @@ class MessageGenerator implements KeyPressListener{
 
         CommandListVisitor cmdGetter = new CommandListVisitor();  //Set up the CommandList visitor
 
-        PlayerAsset tempAsset = (PlayerAsset) assetIterator.getElement();
+        PlayerAsset tempAsset = (PlayerAsset) assetIterator.current();
         tempAsset.accept(cmdGetter);
         cmdIter = cmdGetter.getIterator();
         /* Initialize the State object */
         currentState = new State(
                 this,
                 assetIterator.getCurrentMode(),
-                assetIterator.getCurrentType(),
+                assetIterator.getElement(), //get type
                 tempAsset,
                 cmdIter.first()
         );
@@ -60,10 +60,10 @@ class MessageGenerator implements KeyPressListener{
 
         /* CONTROL+{UP/DOWN}: Cycle MODE */
         else if(keystrokes.get("CONTROL") && keystrokes.get("UP")){
-            assetIterator.prevMode();           //CONTROL+UP: Previous Mode
+            assetIterator.prev();           //CONTROL+UP: Previous Mode
             updateCommandList();
         } else if(keystrokes.get("CONTROL") && keystrokes.get("DOWN")){
-            assetIterator.nextMode();           //CONTROL+DOWN: Next Mode
+            assetIterator.next();           //CONTROL+DOWN: Next Mode
             updateCommandList();
         }
 
@@ -80,11 +80,11 @@ class MessageGenerator implements KeyPressListener{
 
         //LEFT/RIGHT: Cycle Type Instances
         else if(!(keystrokes.get("CONTROL")) && keystrokes.get("LEFT")){
-            assetIterator.prev();
+            assetIterator.prevInstance();
             updateCommandList();
 
         } else if(!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")){
-            assetIterator.next();
+            assetIterator.nextInstance();
             updateCommandList();
         }
 
@@ -99,22 +99,21 @@ class MessageGenerator implements KeyPressListener{
 
         /* Update the State based on the new Iterator info */
         currentState.setMode(assetIterator.getCurrentMode());
-        currentState.setType(assetIterator.getCurrentType());
-        currentState.setInstance((PlayerAsset)assetIterator.getElement());
+        currentState.setType(assetIterator.getElement());
+        currentState.setInstance((PlayerAsset)assetIterator.current());
 
     }
 
     private void updateCommandList(){
         /* Update the CommandIterator */
         CommandListVisitor cmdGetter = new CommandListVisitor();
-        ((PlayerAsset) assetIterator.getElement()).accept(cmdGetter);
+        ((PlayerAsset) assetIterator.current()).accept(cmdGetter);
         cmdIter = cmdGetter.getIterator();
         currentState.setCmd(cmdIter.current());
     }
 
     private void printStatus(){
-        System.out.println("STATUS:     "+currentState.getMode() + " | "+currentState.getType()+" | "+
-        currentState.getInstance().toString()+" | "+currentState.getCmd().toString());
+        System.out.println("STATUS:     "+currentState.getMode() + " | "+currentState.getType()+" | "+currentState.getInstance().toString()+" | "+currentState.getCmd().toString());
     }
 
     //Gets called when player turn switches. Changes the iterator on hand.
@@ -150,7 +149,7 @@ class MessageGenerator implements KeyPressListener{
 
 class State implements CommandComponents{
     /* Acts as an internal structure to encapsulate the MessageGenerator's state, but also as an implementation of a
-     * public interface to pass around the components for configureing a Command object */
+     * public interface to pass around the components for configuring a Command object */
     private String currentMode;
     private String currentType;
     private PlayerAsset currentInstance;

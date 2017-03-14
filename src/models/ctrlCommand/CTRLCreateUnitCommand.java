@@ -23,6 +23,8 @@ public class CTRLCreateUnitCommand implements CTRLCommand {
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.structure = (Structure) parts.getRequestingAsset();
+        this.unitType = "melee";
         isConfigured = true;
     }
 

@@ -1,9 +1,7 @@
 package models.playerAsset.Iterators;
 
-public interface AssetIterator<S, T> extends TypeIterator<S, T> {
-
-    public void nextMode();
-    public void prevMode();
-    public String getCurrentMode();
-
+public interface AssetIterator<T> extends Iterator2 {
+    void nextInstance();
+    void prevInstance();
+    String getCurrentMode();
 }

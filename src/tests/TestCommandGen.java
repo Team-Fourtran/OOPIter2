@@ -60,7 +60,7 @@ public class TestCommandGen{
         //Make a KeyPressInformer, which alerts registered listeners of changes in the hashmap
         keySim = new KeyPressInformer(keySimMap);
 
-        AssetIterator assIter = player.getAssetIterator();
+        AssetIterator assIter = player.makeIterator();
 
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.executeFancy();
