@@ -34,9 +34,8 @@ public class Game {
 
       KeyboardController kbc = new KeyboardController(
               this,
-              mainScreen.getKeyInformer(),
-              currentPlayer.makeIterator(),
-              mainScreen.getTileTargetter()
+              mainScreen,
+              currentPlayer.makeIterator()
       );
       Thread.sleep(1000);
   }
