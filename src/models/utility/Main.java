@@ -52,7 +52,7 @@ class modelTest{
     }
 
 	private void configure() throws InterruptedException {
-        int length = 15;
+        int length = 10;
         this.player = new Player();
         this.am = player.getArmies();
         this.um = player.getUnits();
@@ -63,10 +63,11 @@ class modelTest{
         _tiles.get(8).add(u0);
         Unit u1 = um.addNewUnit("colonist");
         _tiles.get(9).add(u1);
-//        Unit u2 = um.addNewUnit("colonist");
-//        _tiles.get(10).add(u2);
-//        Unit u3 = um.addNewUnit("melee");
-//        _tiles.get(11).add(u3);
+        Unit u2 = um.addNewUnit("colonist");
+        _tiles.get(10).add(u2);
+        Unit u3 = um.addNewUnit("melee");
+        _tiles.get(11).add(u3);
+
 //        Army a0 = am.formArmy(u0, u1);
 //        Army a1 = am.formArmy(u2, u3);
 //        Structure s0 = sm.createStructure("capital");
@@ -86,6 +87,9 @@ class modelTest{
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
 
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(20), u2, u3);
+        game.notifyOfCommand(cac);
 //        Iterator2<Structure> iter = sm.makeIterator();
 //        iter.first();
 

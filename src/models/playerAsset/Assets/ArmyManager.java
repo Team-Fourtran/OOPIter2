@@ -136,7 +136,7 @@ public class ArmyManager{
 
             @Override
             public Map.Entry<String, ArrayList<Army>> current() {
-                if(map.isEmpty()){
+                if(entries.isEmpty()){
                     return null;
                 }
                 return entries.get(current);
@@ -152,7 +152,7 @@ public class ArmyManager{
             private Map<String, ArrayList<Army>> map = new HashMap<>();
 
             @Override
-            public void first() {
+            public Iterator2<Army> first() {
                 TypeListVisitor vis = new TypeListVisitor();
                 for (Army u : armyList){
                     u.accept(
@@ -169,6 +169,7 @@ public class ArmyManager{
                     currentArmyList = entryIter.current().getValue();
                 }
                 current = 0;
+                return this;
             }
 
             @Override

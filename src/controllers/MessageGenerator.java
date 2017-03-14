@@ -7,6 +7,8 @@ import models.playerAsset.Iterators.AssetIterator;
 import models.playerAsset.Iterators.CommandIterator;
 import models.playerAsset.Assets.*;
 import models.visitor.CommandListVisitor;
+import views.StructureCreationDialog;
+import views.UnitCreationDialog;
 
 import java.util.HashMap;
 
@@ -53,6 +55,7 @@ class MessageGenerator implements KeyPressListener{
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes){
         if(keystrokes.get("ENTER")){
             dispatchCommandForConfig(currentState.getCmd());
+            assetIterator.first();
             updateCommandList();
         }
 
@@ -205,8 +208,22 @@ class State implements CommandComponents{
     public Player getOpposingPlayer() {return null;}
 
     @Override
-    //TODO: This
-    public String getString() {return null;}
+    public String getUnitType() {
+        UnitCreationDialog dialog = new UnitCreationDialog();
+        dialog.createDialog();
+        String type = dialog.returnUnitType();
+        dialog.closeDialog();
+        return type;
+    }
+
+    @Override
+    public String getStructureType(){
+        StructureCreationDialog dialog = new StructureCreationDialog();
+        dialog.createDialog();
+        String type = dialog.returnStructureType();
+        dialog.closeDialog();
+        return type;
+    }
 
     @Override
     //TODO: This

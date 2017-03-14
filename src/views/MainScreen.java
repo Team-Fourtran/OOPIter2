@@ -80,6 +80,14 @@ public class MainScreen implements Observer{
     }
     public void showMainScreen(){
         mainScreen.setVisible(true);
+//        StructureCreationDialog structureCreationDialog = new StructureCreationDialog();
+//        structureCreationDialog.createDialog();
+//        String structure = structureCreationDialog.returnStructureType();
+//        System.out.println(structure);
+//        structureCreationDialog.closeDialog();
+//        structureCreationDialog.createDialog();
+//        structure = structureCreationDialog.returnStructureType();
+//        System.out.println(structure);
     }
     public void initialize(){
         hexMech.setXYasVertex(false);

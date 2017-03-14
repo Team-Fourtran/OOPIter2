@@ -154,6 +154,9 @@ public class UnitManager {
 
             @Override
             public Map.Entry<String, ArrayList<Unit>> current() {
+                if(entries.isEmpty()){
+                    return null;
+                }
                 return entries.get(current);
             }
         };
@@ -167,7 +170,7 @@ public class UnitManager {
             private Map<String, ArrayList<Unit>> map = new HashMap<>();
 
             @Override
-            public void first() {
+            public Iterator2<Unit> first() {
                 TypeListVisitor vis = new TypeListVisitor();
                 for (Unit u : unitList){
                     u.accept(
@@ -184,6 +187,7 @@ public class UnitManager {
                     currentUnitList = entryIter.current().getValue();
                 }
                 current = 0;
+                return this;
             }
 
             @Override

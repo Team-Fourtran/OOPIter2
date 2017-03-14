@@ -11,7 +11,8 @@ public interface CommandComponents {
     TileAssociation getRequestingTile();
     TileAssociation getDestinationTile();
     Player getOpposingPlayer();
-    String getString();
+    String getStructureType();
+    String getUnitType();
     int getInt();
     Unit[] getUnitList();
 }

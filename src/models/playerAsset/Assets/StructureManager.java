@@ -160,7 +160,7 @@ public class StructureManager implements Manager {
 
             @Override
             public Map.Entry<String, ArrayList<Structure>> current() {
-                if(entries.size() == 0){
+                if(entries.isEmpty()){
                     return null;
                 }
                 return entries.get(current);
@@ -176,7 +176,7 @@ public class StructureManager implements Manager {
             private Map<String, ArrayList<Structure>> map = new HashMap<>();
 
             @Override
-            public void first() {
+            public Iterator2<Structure> first() {
                 TypeListVisitor vis = new TypeListVisitor();
                 for (Structure u : structureList){
                     u.accept(
@@ -186,7 +186,6 @@ public class StructureManager implements Manager {
                 map = vis.getStructureMap();
                 entryIter = makeTypeIterator(map);
                 entryIter.first();
-                currentStructureList = entryIter.current().getValue();
                 if (entryIter.current() == null){
                     currentStructureList = null;
                 }
@@ -194,6 +193,7 @@ public class StructureManager implements Manager {
                     currentStructureList = entryIter.current().getValue();
                 }
                 current = 0;
+                return this;
             }
 
             @Override
