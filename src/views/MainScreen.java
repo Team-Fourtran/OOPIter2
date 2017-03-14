@@ -1,22 +1,18 @@
 package views;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
-import javafx.scene.input.KeyCode;
-import models.assetOwnership.Observer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import models.assetOwnership.TileAssociation;
+import models.assetOwnership.TileObserver;
 import controllers.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
-
-import models.command.Command;
-import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 import java.util.*;
 
-public class MainScreen implements Observer{
+public class MainScreen implements TileObserver {
     private JFrame mainScreen;
 
     private final int EMPTY = 0;
@@ -35,15 +31,9 @@ public class MainScreen implements Observer{
     private KeyPressInformer keyInformer;
 
     private TileAssociation[] tiles;
-    private JTable unitTable;
+    private UnitOverview unitTable;
     private JTabbedPane tabbedPane;
-    private JTable strTable;
-    private String[] unitColumnStats = {"UnitID", "Unit Type", "Offensive Damage",
-            "Defensive Damage", "Armor",
-            "Max Health", "Current Health", "Upkeep", "Location"};
-    private String[] structureColumnStats = {"StructuresID", "Structure Type", "Offensive Damage",
-            "Defensive Damage", "Armor", "Maximum Health",
-            "Current Health", "Upkeep", "Location"};
+    private StructureOverview strTable;
 
     private int x = 0;
     private int y = 0;
@@ -134,36 +124,25 @@ public class MainScreen implements Observer{
 
         Container content = mainScreen.getContentPane();
         content.add(new JButton("Something"), BorderLayout.SOUTH);
+
         //Unit OV Table
-        Object[][] unitData = new Object[25][9];
-        NonEditableTable table = new NonEditableTable(unitData, unitColumnStats);
-        unitTable = new JTable(table);
-        unitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        Dimension dimension = new Dimension(900, 700);
-        unitTable.setPreferredSize(dimension);
-        JPanel unitOVPanel = new JPanel(new BorderLayout());
-        unitOVPanel.setPreferredSize(dimension);
-        unitOVPanel.add(new JScrollPane(unitTable), BorderLayout.CENTER);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        Dimension buttonDimension = new Dimension(100, 30);
-        JButton createArmyButton = new JButton("Create Army");
-        buttonPanel.add(createArmyButton);
-        createArmyButton.setPreferredSize(buttonDimension);
-        unitOVPanel.add(buttonPanel, BorderLayout.SOUTH);
+        Dimension d = new Dimension(900, 700);
+        unitTable = new UnitOverview(d);
+        strTable = new StructureOverview(d);
 
-        //Structure OV Table
-        Object[][] strData = new Object[25][9];
-        NonEditableTable table1 = new NonEditableTable(strData, structureColumnStats);
-        strTable = new JTable(table1);
-        strTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        strTable.setPreferredSize(dimension);
-        JPanel strOVPanel = new JPanel(new BorderLayout());
-        strOVPanel.setPreferredSize(dimension);
-        strOVPanel.add(new JScrollPane(strTable), BorderLayout.CENTER);
         tabbedPane.addTab("Map", mapPane);
-        tabbedPane.addTab("Unit Overview", unitOVPanel);
-        tabbedPane.addTab("Structure Overview", strOVPanel);
+        tabbedPane.addTab("Unit Overview", unitTable);
+        tabbedPane.addTab("Structure Overview", strTable);
+
+        ChangeListener changeListener = new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent) {
+                JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+                int index = sourceTabbedPane.getSelectedIndex();
+                System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
+            }
+        };
+        tabbedPane.addChangeListener(changeListener);
 
         content.add(tabbedPane, BorderLayout.CENTER);
         tabbedPane.setFocusable(false);
@@ -193,8 +172,7 @@ public class MainScreen implements Observer{
         private TileHighlightListener tHL;
         private CommandListener commandListener;
         private boolean toggleHT;
-        public DrawingPanel()
-        {
+        public DrawingPanel(){
             setBackground(COLOURBACK);
             setFocusable(true);
             requestFocusInWindow();
@@ -208,8 +186,7 @@ public class MainScreen implements Observer{
         public Dimension getPreferredSize() {
             return new Dimension(1200, 1200);
         }
-        public void paintComponent(Graphics g)
-        {
+        public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
@@ -402,9 +379,16 @@ public class MainScreen implements Observer{
     }
 
     @Override
-    public void update(TileAssociation t) {
+    public void updateAdd(TileAssociation t, PlayerAsset p) {
+    	updateTile(t);
+    }
+    
+    public void updateRemove(TileAssociation t, PlayerAsset p) {
+    	updateTile(t);
+    }
+    
+    public void updateTile(TileAssociation t) {
         hexMech.updateTile(t);
         mainScreen.repaint();
     }
-
 }

@@ -1,6 +1,12 @@
 package models.visitor;
 
+import models.assetOwnership.GameMap;
+import models.assetOwnership.PlayerAssetOwnership;
+import models.assetOwnership.TileAssociation;
+import models.command.AttackCommand;
+import models.command.AttackContinueCommand;
 import models.playerAsset.Assets.Army;
+import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.Capital;
 import models.playerAsset.Assets.Structures.Farm;
@@ -17,6 +23,15 @@ import models.playerAsset.Assets.Units.RangedUnit;
 import models.playerAsset.Assets.Units.Unit;
 
 public class AssetApproachVisitor implements SpecificAssetVisitor {
+	GameMap map;
+	TileAssociation t; // the tile to attack
+	PlayerAsset approachingAsset;
+	
+	public AssetApproachVisitor(GameMap map,TileAssociation t, PlayerAsset approachingAsset) {
+		this.map = map;
+		this.t = t;
+		this.approachingAsset = approachingAsset;
+	}
 
 	@Override
 	public void visitUnit(Unit unit) {
@@ -32,8 +47,7 @@ public class AssetApproachVisitor implements SpecificAssetVisitor {
 
 	@Override
 	public void visitStructure(Structure structure) {
-		// cease operations of worker units in radius of influence
-		
+		// TODO: cease operations of worker units in radius of influence
 	}
 
 	@Override
@@ -57,6 +71,13 @@ public class AssetApproachVisitor implements SpecificAssetVisitor {
 	@Override
 	public void visitFort(Fort fort) {
 		// attack enemy in radius of influence
+		fort.clearQueue();
+		fort.addUniversalCommand(new AttackContinueCommand(
+							PlayerAssetOwnership.getPlayerOwnership(fort),
+							map,
+							fort,
+							t
+						));
 		// apply defense buff to friendly forces in radius of influence
 		visitStructure(fort);
 	}

@@ -9,7 +9,6 @@ import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.Player;
 
 public class CTRLAttackCommand implements CTRLCommand{
-    private Player receivingPlayer;
     private CombatAsset giver;  //RallyPoint or Structure
     private TileAssociation receiver;
 
@@ -19,9 +18,8 @@ public class CTRLAttackCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-    public void configure(CombatAsset giver, TileAssociation receiver, Player receivingPlayer){
+    public void configure(CombatAsset giver, TileAssociation receiver){
         isConfigured = true;
-        this.receivingPlayer = receivingPlayer;
         this.giver = giver;
         this.receiver = receiver;
     }
@@ -42,7 +40,6 @@ public class CTRLAttackCommand implements CTRLCommand{
             giver.addCommand(
                     new AttackCommand(
                             player,
-                            receivingPlayer,
                             map,
                             giver,
                             receiver
