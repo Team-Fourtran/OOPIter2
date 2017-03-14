@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.PlayerAsset;
-import models.playerAsset.Assets.Structures.Structure;
 import models.visitor.AssetApproachVisitor;
 import models.visitor.SpecificAssetVisitor;
 
