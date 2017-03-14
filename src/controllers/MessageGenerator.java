@@ -56,7 +56,8 @@ class MessageGenerator implements KeyPressListener{
         if(keystrokes.get("ENTER")){
             dispatchCommandForConfig(currentState.getCmd());
             assetIterator.first();
-            updateCommandList();
+            //updateCommandList(); //TODO JUAN this should be here
+            return;
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
@@ -130,7 +131,7 @@ class MessageGenerator implements KeyPressListener{
         } catch(Exception e){
             e.printStackTrace();
         }
-        receiveConfiguredCmd(thisCmd);
+        receiveConfiguredCmd(thisCmd);  //TODO JUAN Why is this not there? Issues arise
     }
 
     public void receiveConfiguredCmd(CTRLCommand cmd){
@@ -182,6 +183,10 @@ class State implements CommandComponents{
 
     /* CommandComponents overrides */
 
+    @Override   //Called by CTRLCommands once they think they're ready to be executed.
+    public void requestExecution(){
+        this.msgGen.receiveConfiguredCmd(this.currentCommand);
+    }
     @Override
     public PlayerAsset getRequestingAsset() {return this.getInstance();}
 
@@ -200,7 +205,19 @@ class State implements CommandComponents{
     }
     //This gets called when the Tile request comes through
     protected void setDestinationTile(TileAssociation t){
-        this.destinationTile = t;
+        System.out.println("In State: Got tilestate back: " + t + "\nCalling back to CTRLCommand " + currentCommand.hashCode());
+        this.destinationTile = t;       //Update the destination tile
+        try {currentCommand.callback();} catch(Exception e){e.printStackTrace();}
+        //Tell the current command to query again, signaling that the tile is done.
+    }
+
+    @Override
+    public void requestDestinationTile(CTRLCommand callbackObject) {
+        this.currentCommand = callbackObject;   //Set the current command so that we may call back to it
+        System.out.println("Requesting requestTile(). Set callback CTRLCommand to " + callbackObject.hashCode());
+        this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
+        msgGen.requestTile(currentInstance);    //Tell the MessageGenerator to initiate the tile request process
+        //The method below (setDestinationTile) gets called once the tile is ready.
     }
 
     @Override

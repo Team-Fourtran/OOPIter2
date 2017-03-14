@@ -12,6 +12,7 @@ import models.playerAsset.Assets.PlayerAsset;
 import models.visitor.MovementVisitor;
 
 public class CTRLMoveRallyPointCommand implements CTRLCommand{
+    private CommandComponents parts;
     private TileAssociation destination;
     private PlayerAsset rallyPoint; //RallyPoint
 
@@ -22,18 +23,28 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
     }
 
     public void configure(PlayerAsset rallyPoint, TileAssociation destination) {
-        isConfigured = true;
         this.destination = destination;
         this.rallyPoint = rallyPoint;
+        parts.requestDestinationTile(this);
     }
 
     @Override
     public void callback() throws CommandNotConfiguredException {
-
+        System.out.println(parts + "\n" + destination);
+        this.destination = parts.getDestinationTile(); //Query parts for the destination tile.
+        System.out.println(parts + "\n" + destination);
+        if(null != destination){       //Calling requestDestinationTile set it to null before initiating the highlighting
+            //If it's not null, highlighting worked properly and we have a DestinationTile
+            isConfigured = true;    //Flip the flag so that it'll execute properly without exceptions
+            parts.requestExecution();   //Request execution
+        } else {
+            throw new CommandNotConfiguredException("queryAgain() was called, but the DestinationTile is null");
+        }
     }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.parts = parts;
         this.rallyPoint = parts.getRequestingAsset();
         this.destination = parts.getDestinationTile();
         isConfigured = true;
