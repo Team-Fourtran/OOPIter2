@@ -50,7 +50,7 @@ class modelTest{
 //        testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
-        testInfluenceReaction();
+//        testInfluenceReaction();
 //        testLandMine();
 //        testLandMine2();
 //        testBuild();
