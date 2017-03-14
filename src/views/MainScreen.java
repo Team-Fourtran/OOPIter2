@@ -9,11 +9,14 @@ import controllers.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
+
+import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 import java.util.*;
 
 public class MainScreen implements TileObserver {
     private JFrame mainScreen;
+    private Player currentPlayer;
 
     private final int EMPTY = 0;
     private final int BSIZE = 10;
@@ -61,6 +64,10 @@ public class MainScreen implements TileObserver {
         }
     }
 
+    public void updatePlayer(Player p){
+        this.currentPlayer = p;
+    }
+
     public KeyPressInformer getKeyInformer(){
         return this.keyInformer;
     }
@@ -69,6 +76,9 @@ public class MainScreen implements TileObserver {
         return tileReceiver;
     }
     public void showMainScreen(){
+        //FullScreen
+        mainScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //mainScreen.setUndecorated(true);
         mainScreen.setVisible(true);
 //        StructureCreationDialog structureCreationDialog = new StructureCreationDialog();
 //        structureCreationDialog.createDialog();
@@ -127,7 +137,7 @@ public class MainScreen implements TileObserver {
 
         //Unit OV Table
 
-        Dimension d = new Dimension(900, 700);
+        Dimension d = new Dimension(1200, 1200);
         unitTable = new UnitOverview(d);
         strTable = new StructureOverview(d);
 
@@ -139,6 +149,9 @@ public class MainScreen implements TileObserver {
             public void stateChanged(ChangeEvent changeEvent) {
                 JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
                 int index = sourceTabbedPane.getSelectedIndex();
+                if (sourceTabbedPane.getSelectedComponent() instanceof DataTable){
+                    ((DataTable)sourceTabbedPane.getSelectedComponent()).update(currentPlayer);
+                }
                 System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
             }
         };

@@ -1,22 +1,18 @@
 package views;
 
+import models.playerAsset.Assets.Player;
+import models.visitor.TableFormatVisitor;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class UnitOverview extends JPanel {
-    private String[] unitColumnStats = {"UnitID", "Unit Type", "Offensive Damage",
-            "Defensive Damage", "Armor",
-            "Max Health", "Current Health", "Upkeep", "Location"};
+public class UnitOverview extends JPanel implements DataTable{
+    JTable unitTable;
+    Dimension d;
 
     public UnitOverview(Dimension d){
-        JTable unitTable = new JTable();
-        String[][] unitData = new String[25][9];
-        unitData[0][0] = "YO";
-        NonEditableTable table = new NonEditableTable(unitData, unitColumnStats);
-        unitTable.setModel(table);
-        unitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        unitTable.setPreferredSize(d);
-
+        this.unitTable = new JTable();
+        this.d = d;
         this.setLayout(new BorderLayout());
         this.setPreferredSize(d);
         this.add(new JScrollPane(unitTable), BorderLayout.CENTER);
@@ -27,5 +23,18 @@ public class UnitOverview extends JPanel {
         buttonPanel.add(createArmyButton);
         createArmyButton.setPreferredSize(buttonDimension);
         this.add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    @Override
+    public void update(Player currentPlayer) {
+        TableFormatVisitor vis = new TableFormatVisitor();
+        vis.visitUnitManager(currentPlayer.getUnits());
+        NonEditableTable table = vis.getFormattedTable();
+        if(table == null){
+            return;
+        }
+        unitTable.setModel(table);
+        unitTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        unitTable.setPreferredSize(d);
     }
 }
