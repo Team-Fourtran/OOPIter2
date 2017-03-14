@@ -74,11 +74,47 @@ public class AttackVisitor implements AssetVisitor{
 
     @Override
     public void visitArmy(Army army) {
-
+    	// check if unit is not of the giving player
+    	if (PlayerAssetOwnership.getPlayerOwnership(army) != givingPlayer) {
+            //unit is not part of an army
+            army.depleteHealth(giver.getOffDamage(distance));
+            if ( army.getCurrentHealth() <= 0 ){
+                //Dead!
+                army.accept(
+                        new DeathVisitor(map, PlayerAssetOwnership.getPlayerOwnership(army))
+                );
+                giver.clearQueue();
+                //TODO: EXPLOSION
+            }
+            else{
+                //Still alive!
+	            //For defDamage allocation:
+	            if (army.getDefDamage(distance) > 0){
+	                giver.depleteHealth(army.getDefDamage(distance));
+	                if (giver.getCurrentHealth() <= 0 ){
+	                    //Dead!
+	                    giver.accept(
+	                            new DeathVisitor(map, givingPlayer)
+	                    );
+	                }
+	            }
+            }
+    	}
     }
 
     @Override
     public void visitRallyPoint(RallyPoint rallyPoint) {
-        //Undefined
+    }
+    
+    public boolean isAllDead() {
+    	// need to check if there are any enemies left in TA asset Owner
+    	for (int i = 0; i < receiver.getAssetOwner().getAssets().size(); i++) {
+    		PlayerAsset p = receiver.getAssetOwner().getAssets().get(i);
+    		// if there is another player asset in this tile association that is not of the player, continue
+    		if (PlayerAssetOwnership.getPlayerOwnership(p) != givingPlayer) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 }

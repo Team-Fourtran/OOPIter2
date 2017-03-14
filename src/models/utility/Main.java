@@ -24,6 +24,7 @@
 //}
 //
 //class modelTest{
+//	private Player currentPlayer;
 //    private Player player;
 //    private Player enemyPlayer;
 //    private Game game;
@@ -38,7 +39,7 @@
 //
 //    modelTest() throws InterruptedException {
 //        configure();
-//        testAttack();
+////        testAttack();
 ////        testCreateUnit();
 ////        testReinforceArmy();
 ////        testCapitalCreation();
@@ -50,16 +51,17 @@
 ////        testCommandIterator();
 ////     	  testInfluenceMovement();
 ////        testInfluenceReaction();
-////        testBuild();
+//        testBuild();
 ////        testPathfinding();
 ////        testLandMine();
 ////        testLandMine2();
 //    }
 //
-//    private void configure() throws InterruptedException {
+//	private void configure() throws InterruptedException {
 //        int length = 15;
 //        this.player = new Player();
 //        this.enemyPlayer = new Player();
+//        this.currentPlayer = player;
 //        TileGen tileGen = new TileGen(length, length);
 //        this._tiles = tileGen.execute();
 //        this.game = new Game(player, _tiles);
@@ -76,8 +78,8 @@
 //        for(int i = 0; i < n; i++){
 //            System.out.println("NewTurn:");
 //            Thread.sleep(250);
-//            player.endTurn();
-//            player.beginTurn();
+//            currentPlayer.endTurn();
+//            currentPlayer.beginTurn();
 //            Thread.sleep(250);
 //        }
 //    }
@@ -338,8 +340,8 @@
 //    }
 //
 //    private void testIterator() throws InterruptedException{
-//        // Need to store references to these created Units, so that they can be assigned to the Player, to work in application as whole
-//        // PlayerAssetOwnership.addPlayerAsset(player, u0, ...);
+//    	// Need to store references to these created Units, so that they can be assigned to the Player, to work in application as whole
+//    	// PlayerAssetOwnership.addPlayerAsset(player, u0, ...);
 //        um.addNewUnit("explorer");
 //        um.addNewUnit("explorer");
 //        um.addNewUnit("explorer");
@@ -446,7 +448,7 @@
 //        Army a = am.debugGetArmy();
 //        Vector<TileAssociation> v0 = map.getRadiusOfInfluence(a);
 //        for (int i = 0; i < v0.size(); i++) {
-//            v0.get(i).add(u0);
+//        	v0.get(i).add(u0);
 //        }
 //
 //        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
@@ -454,14 +456,14 @@
 //        game.notifyOfCommand(mrp);
 //
 //        for (int i = 0; i < v0.size(); i++) {
-//            v0.get(i).remove(u0);
+//        	v0.get(i).remove(u0);
 //        }
 //
 //        changeTurn(4);
 //
 //        Vector<TileAssociation> v1 = map.getRadiusOfInfluence(a);
 //        for (int i = 0; i < v1.size(); i++) {
-//            v1.get(i).add(u0);
+//        	v1.get(i).add(u0);
 //        }
 //
 //        // add ranged unit as reinforcement
@@ -469,32 +471,55 @@
 //        rac.configure(u3, am.debugGetRallyPoint());
 //        game.notifyOfCommand(rac);
 //
-//        for (int i = 0; i < v0.size(); i++) {
-//            v1.get(i).remove(u0);
+//        for (int i = 0; i < v1.size(); i++) {
+//        	v1.get(i).remove(u0);
 //        }
 //
 //        changeTurn(4);
 //
 //        Vector<TileAssociation> v2 = map.getRadiusOfInfluence(a);
 //        for (int i = 0; i < v2.size(); i++) {
-//            v2.get(i).add(u0);
+//        	v2.get(i).add(u0);
 //        }
-//    }
+//	}
 //
-//    private void testInfluenceReaction() throws InterruptedException {
-//        // Create a fort
-//        // Have an army enter the RoI of the fort
-//        // The fort will receive some notification to attack
+//	private void testInfluenceReaction() throws InterruptedException {
+//		// Create a fort
+//		// Have an army enter the RoI of the fort
+//		// The fort will receive some notification to attack
 //
-//        Unit u0 = um.addNewUnit("melee");
+//		// Create fort
+//		Structure s0 = sm.createStructure("fort");
+//		map.addAssetToMap(s0, _tiles.get(4));
+//        PlayerAssetOwnership.addPlayerAsset(player, s0);
+//
+//        // Create enemy army
+//        Unit u0 = umEnemy.addNewUnit("melee");
 //        map.addAssetToMap(u0, _tiles.get(8));
-//        PlayerAssetOwnership.addPlayerAsset(player, u0);
+//        PlayerAssetOwnership.addPlayerAsset(enemyPlayer, u0);
+//
+//        changeTurn(2);
+//
+//        this.currentPlayer = enemyPlayer;
+//        game.setCurrentPlayer(enemyPlayer);
+//        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+//        cac.configure(_tiles.get(6), u0);
+//        game.notifyOfCommand(cac);
+//
+//		changeTurn(1);
+//
+//        this.currentPlayer = player;
+//        game.setCurrentPlayer(player);
+//
+//        changeTurn(2);
+//
+//        CTRLDecommissionCommand cdcmd = new CTRLDecommissionCommand();
+//        cdcmd.configure(s0);
+//        game.notifyOfCommand(cdcmd);
+//
 //
 //        changeTurn(1);
-//
-//        Unit u1 = um.addNewUnit("melee");
-//        map.addAssetToMap(u1, _tiles.get(9));
-//    }
+//	}
 //
 //    private void testLandMine() throws InterruptedException{
 //        Unit u0 = um.addNewUnit("colonist");

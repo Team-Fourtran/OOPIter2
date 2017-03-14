@@ -31,7 +31,6 @@ public class ArmyCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitArmyManager(ArmyManager armyManager) {
-
         //Should have Army Factory to return new army...
         Army newArmy = armyManager.formArmy(units);
         RallyPoint rp = armyManager.formRallyPoint(newArmy);
@@ -45,7 +44,7 @@ public class ArmyCreationVisitor implements PlayerVisitor{
                     new JoinBattleGroupCommand(newArmy, u, map)
             );
         }
-        rp.accept(
+        rp.accept( // Bug here that adds stuff to TA twice
                 new MovementVisitor(map, player, location)
         );
 

@@ -349,7 +349,15 @@ public class MainScreen implements TileObserver {
     }
 
     @Override
-    public void update(TileAssociation t) {
+    public void updateAdd(TileAssociation t, PlayerAsset p) {
+    	updateTile(t);
+    }
+    
+    public void updateRemove(TileAssociation t, PlayerAsset p) {
+    	updateTile(t);
+    }
+    
+    public void updateTile(TileAssociation t) {
         hexMech.updateTile(t);
         mainScreen.repaint();
     }

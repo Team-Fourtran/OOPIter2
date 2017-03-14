@@ -40,4 +40,20 @@ public class AttackCommand implements Command{
     public double getTurns() {
         return 1;
     }
+    
+    public Player getGivingPlayer() {
+    	return givingPlayer;
+    }
+    
+    public CombatAsset getGiver() {
+    	return giver;
+    }
+    
+    public TileAssociation getReceiver() {
+    	return receiver;
+    }
+    
+    public GameMap getMap() {
+    	return map;
+    }
 }
