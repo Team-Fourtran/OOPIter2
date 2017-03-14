@@ -56,10 +56,10 @@ class modelTest{
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
 //        testBuild();
-          testHarvest();
+//          testHarvest();
 //        testPathfinding();
 //        testLandMine();
-//        testLandMine2();
+        testLandMine2();
     }
 
 	private void configure() throws InterruptedException {
@@ -68,7 +68,7 @@ class modelTest{
         this.enemyPlayer = new Player();
         this.currentPlayer = player;
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+        this._tiles = tileGen.executeFancy();
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
         this.am = player.getArmies();
@@ -494,7 +494,7 @@ class modelTest{
 		// The fort will receive some notification to attack
 		
 		// Create fort
-		Structure s0 = sm.createStructure("fort", null);
+		Structure s0 = sm.createStructure("fort", _tiles.get(4));
 		map.addAssetToMap(s0, _tiles.get(4));
         PlayerAssetOwnership.addPlayerAsset(player, s0);
 		
