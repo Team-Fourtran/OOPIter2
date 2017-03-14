@@ -129,11 +129,20 @@ public class MainScreen implements TileObserver {
         mainScreen = new JFrame("Fourtran Game");
 
         JPanel startScreen = new JPanel();
+        GridBagConstraints c = new GridBagConstraints();
 
         tabbedPane = new JTabbedPane();
 
         Container content = mainScreen.getContentPane();
-        content.add(new JButton("Something"), BorderLayout.SOUTH);
+        content.setLayout(new GridBagLayout());
+        PlayerInfoArea playerInfoArea = new PlayerInfoArea();
+        playerInfoArea.generatePlayerInfoArea(content);
+        //Controller information area
+        ControllerInfoArea controllerInfoArea = new ControllerInfoArea();
+        controllerInfoArea.generateControllerInfoArea(content);
+
+
+        //content.add(new JButton("Something"), BorderLayout.SOUTH);
 
         //Unit OV Table
 
@@ -157,7 +166,15 @@ public class MainScreen implements TileObserver {
         };
         tabbedPane.addChangeListener(changeListener);
 
-        content.add(tabbedPane, BorderLayout.CENTER);
+        c.gridwidth = 4;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.fill = GridBagConstraints.BOTH;
+        content.add(tabbedPane, c);
+        //content.add(tabbedPane, BorderLayout.CENTER);
         tabbedPane.setFocusable(false);
         mapPane.setFocusable(false);
         map.setFocusable(true);
