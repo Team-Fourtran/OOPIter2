@@ -27,7 +27,7 @@ public class UnitOverview extends JPanel implements DataTable{
 
     @Override
     public void update(Player currentPlayer) {
-        TableFormatVisitor vis = new TableFormatVisitor();
+        TableFormatVisitor vis = new TableFormatVisitor(currentPlayer);
         vis.visitUnitManager(currentPlayer.getUnits());
         NonEditableTable table = vis.getFormattedTable();
         if(table == null){

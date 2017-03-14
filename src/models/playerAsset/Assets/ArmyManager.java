@@ -2,7 +2,6 @@ package models.playerAsset.Assets;
 
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.Iterator2;
-import models.playerAsset.Iterators.TypeIterator2;
 import models.playerAsset.Iterators.specificTypeIterator;
 import models.visitor.PlayerVisitor;
 import models.visitor.TypeListVisitor;
