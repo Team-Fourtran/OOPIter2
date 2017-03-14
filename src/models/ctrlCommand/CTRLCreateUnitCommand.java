@@ -22,8 +22,22 @@ public class CTRLCreateUnitCommand implements CTRLCommand {
     }
 
     @Override
-    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
 
+    //TODO: Figure out how this will work
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.structure = (Structure) parts.getRequestingAsset();
+        //TODO: Request that desired unitType becomes available in CommandComponents parts
+    }
+
+    @Override
+    //Called back when unitType is ready to be queried from parts.
+    //TODO: This.
+    public void callback() throws CommandNotConfiguredException {
+        isConfigured = true;
+    }
+
+    public boolean isConfigured(){
+        return this.isConfigured;
     }
 
     @Override
@@ -35,5 +49,10 @@ public class CTRLCreateUnitCommand implements CTRLCommand {
         } else{
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
+    }
+
+    @Override
+    public String toString(){
+        return "Create Unit";
     }
 }

@@ -18,7 +18,7 @@ public class TileAssociation extends Observable{
     private Tile tile;
     private AssetOwner assetOwner;
     private HashMap<Direction, TileAssociation> neighbors = new HashMap<Direction, TileAssociation>();
-    private Vector<Observer> observers = new Vector<>(0);
+    private Vector<TileObserver> observers = new Vector<>(0);
 
     public TileAssociation(Tile t){
         this.tile = t;
@@ -32,10 +32,14 @@ public class TileAssociation extends Observable{
     public boolean isAssetOwner(PlayerAsset asset){
         return (assetOwner.hasAsset(asset));
     }
+    
+    public AssetOwner getAssetOwner() {
+    	return assetOwner;
+    }
 
     public boolean remove(PlayerAsset p){
         boolean removal = assetOwner.removeAsset(p);
-        notifyObservers();
+        notifyObserversRemove(p);
         return removal;
     }
 
@@ -45,7 +49,7 @@ public class TileAssociation extends Observable{
 
     public void add(PlayerAsset p){
         assetOwner.addAsset(p);
-        notifyObservers();
+        notifyObserversAdd(p);
     }
 
     // Eventually have a method for removing Resources
@@ -57,7 +61,7 @@ public class TileAssociation extends Observable{
     public void setNeighbor(Direction d, TileAssociation t){
         neighbors.put(d, t);
     }
-
+    
     public double getMovementCost() {
         return tile.getMovementCost();
     }
@@ -75,23 +79,23 @@ public class TileAssociation extends Observable{
         }
     }
     
-    @Override
-    public void notifyObservers(){
-        for(Observer ob : observers){
-            ob.update(this);
+    public void notifyObserversAdd(PlayerAsset p) {
+        for(TileObserver ob : observers){
+            ob.updateAdd(this, p);
         }
     }
     
-    public void addObserver(Observer o) {
-    	// TODO remove this it is for testing purposes
-    	if (o instanceof RadiusOfInfluenceAssociation) {
-//    		System.out.println("register as roi");
-    	}
+    public void notifyObserversRemove(PlayerAsset p) {
+        for(TileObserver ob : observers){
+            ob.updateRemove(this, p);
+        }
+    }
+    
+    public void addObserver(TileObserver o) {
     	observers.add(o);
     }
     
-    public void removeObserver(Observer o) {
-//    	System.out.println("deregister");
+    public void removeObserver(TileObserver o) {
     	observers.remove(o);
     }
     

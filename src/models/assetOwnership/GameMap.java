@@ -56,7 +56,7 @@ public class GameMap {
         return calculateDistance(start, asset2);
     }
     
-    private TileAssociation searchForTileAssociation(PlayerAsset asset){
+    public TileAssociation searchForTileAssociation(PlayerAsset asset){
         for (TileAssociation t : tiles){
             if (t.isAssetOwner(asset)){
                 return t;
@@ -99,14 +99,15 @@ public class GameMap {
     }
     
     // TODO: modify to include influenced tiles
-    public void replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){
+    public PlayerAsset replaceAsset(PlayerAsset oldAsset, PlayerAsset newAsset){
         TileAssociation tileAssociation = searchForTileAssociation(oldAsset);
         removeAssetFromMap(oldAsset, tileAssociation);
         addAssetToMap(newAsset, tileAssociation);
+        return newAsset;
     }
     
     public void addInfluenceRadius(CombatAsset asset, TileAssociation baseTile){
-    	RadiusOfInfluenceAssociation roi = new RadiusOfInfluenceAssociation(asset, baseTile);
+    	RadiusOfInfluenceAssociation roi = new RadiusOfInfluenceAssociation(asset, baseTile, this);
     	tileInfluence.put(asset, roi);
     }
     
@@ -126,8 +127,10 @@ public class GameMap {
             System.out.println("Asset has no location?!?!");
             return;
         }
-        removeAssetFromMap(asset, start);
-        addAssetToMap(asset, destination);
+        if (start != destination) {
+	        removeAssetFromMap(asset, start);
+	        addAssetToMap(asset, destination);
+        }
     }
 
     public void debugPrint(){

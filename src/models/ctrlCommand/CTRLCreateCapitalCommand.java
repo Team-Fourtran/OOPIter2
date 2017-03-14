@@ -16,20 +16,21 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-    public void configure(Unit unit){
-        this.unit = unit;
-        isConfigured = true;
-    }
-
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.unit = (Unit) parts.getRequestingAsset();
+        isConfigured = true;
+        parts.requestExecution();
+    }
 
+    public boolean isConfigured(){
+        return this.isConfigured;
     }
 
     @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
-            if(unit instanceof Colonist){ //TODO Get rid of type checking if handled by iterators
+            if(unit instanceof Colonist){
                 player.accept(
                         new CapitalCreationVisitor(
                                 unit,
@@ -43,5 +44,15 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
         } else{
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
+    }
+
+    @Override
+    public String toString(){
+        return "Create Capital";
+    }
+
+    @Override
+    public void callback() throws CommandNotConfiguredException {
+        //Unused
     }
 }

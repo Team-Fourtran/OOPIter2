@@ -17,15 +17,19 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
         isConfigured = false;
     }
 
-    public void configure(Unit unit, RallyPoint rallyPoint){
-        this.isConfigured = true;
-        this.unit = unit;
-        this.rallyPoint = rallyPoint;
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
     }
 
     @Override
-    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+    //Wait for RallyPoint to become available to query
+    //TODO: This
+    public void callback() throws CommandNotConfiguredException {
+        isConfigured = true;
+    }
 
+    public boolean isConfigured(){
+        return this.isConfigured;
     }
 
     @Override
@@ -35,5 +39,10 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
                     new ReinforceArmyVisitor(map, player, unit)
             );
         } else throw new CommandNotConfiguredException("[" + this + "] is not configured.");
+    }
+
+    @Override
+    public String toString(){
+        return "Reinforce Army";
     }
 }

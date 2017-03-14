@@ -17,7 +17,6 @@ public class TileTargetting {
         screen.doTileTargetting(this,startingHighlight);
     }
 
-
     public void receiveTile(TileAssociation ta){
         if(null != ta)
             receiver.receiveTargetTile(ta);

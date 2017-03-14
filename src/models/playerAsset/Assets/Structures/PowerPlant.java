@@ -1,11 +1,11 @@
 package models.playerAsset.Assets.Structures;
 
+import models.playerAsset.Assets.Worker;
 import models.visitor.AssetVisitor;
 import models.visitor.SpecificAssetVisitor;
-
 import java.util.ArrayList;
 
-public class PowerPlant extends Structure {
+public class PowerPlant extends ResourceStructure {
 
     public PowerPlant() {
 
@@ -18,6 +18,9 @@ public class PowerPlant extends Structure {
         setRadiusOfInfluence(1);
         setProductionRate(1);
         staff = new ArrayList<>();
+
+        gatherers = new ArrayList<>();
+        producers = new ArrayList<>();
     }
 
     @Override
@@ -33,4 +36,5 @@ public class PowerPlant extends Structure {
     public String getType(){
         return "Power Plant";
     }
+
 }

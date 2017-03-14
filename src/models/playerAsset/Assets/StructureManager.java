@@ -79,11 +79,10 @@ public class StructureManager implements Manager {
                 baseList.add((University) s);
                 break;
         }
-
     }
 
     //destroy a structure
-    public void removeStructure(Structure structure) {
+    public void removeStructure(PlayerAsset structure) {
         if (structureList.remove(structure)){
             freeID(structure.getID());
             //TODO check if this works
@@ -96,6 +95,7 @@ public class StructureManager implements Manager {
     }
 
     //recycle a structure's ID after it is done using it
+    @Override
     public void freeID(String assetID) {
         int escapee = Integer.parseInt(assetID.substring(assetID.lastIndexOf("s") + 1).trim());
         for (int i = 0; i < structureIDs.size(); i++) {

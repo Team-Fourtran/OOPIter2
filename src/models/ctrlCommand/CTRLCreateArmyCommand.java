@@ -24,8 +24,19 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
     }
 
     @Override
-    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
 
+    public void callback() throws CommandNotConfiguredException {
+        //TODO: This. Not sure if it'll be used or not. But needed to build.
+    }
+
+    @Override
+    //TODO: Figure out how this command will work. Not CommandParts...
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        isConfigured = true;
+    }
+
+    public boolean isConfigured(){
+        return this.isConfigured;
     }
 
     @Override
@@ -37,6 +48,10 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
+    }
 
+    @Override
+    public String toString(){
+        return "Create Army";
     }
 }
