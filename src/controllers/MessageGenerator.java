@@ -90,6 +90,13 @@ class MessageGenerator implements KeyPressListener {
     //Gets called when player turn switches. Changes the iterator on hand.
     protected void updateIterator(AssetIterator assetIterator) {
         this.assetIterator = assetIterator;
+        /* Reboot the State object */
+        currentState = new State(
+                this,
+                assetIterator.getCurrentMode(),
+                assetIterator.getElement(), //get type
+                (PlayerAsset) assetIterator.current()
+        );
     }
 
     private void dispatchCommandForConfig(CTRLCommand thisCmd) {

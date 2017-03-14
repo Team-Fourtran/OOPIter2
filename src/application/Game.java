@@ -1,5 +1,6 @@
 package application;
 
+import com.sun.tools.javac.util.ArrayUtils;
 import controllers.KeyboardController;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
@@ -14,14 +15,18 @@ public class Game {
 
   private MainScreen mainScreen;
   private Player currentPlayer;
-  private Player goodPlayer;
-  private Player enemyPlayer;
+  private Player[] players;
   private GameMap map;
 
+  private KeyboardController kbc;
+
   public Game(Player player, Player enemyPlayer, ArrayList<TileAssociation> list) throws InterruptedException{
-      this.currentPlayer = player;
-      this.goodPlayer = player;
-      this.enemyPlayer = enemyPlayer;
+      /* Initialize Players array, and set the initial current player */
+      this.players = new Player[2];
+      this.players[0] = player;
+      this.players[1] = enemyPlayer;
+      this.currentPlayer = players[0];
+
       this.map = new GameMap(list, 5, 5);
 
       TileAssociation[] _tiles = new TileAssociation[list.size()];
@@ -33,7 +38,7 @@ public class Game {
       mainScreen.generateMainScreen();
       mainScreen.showMainScreen();
 
-      KeyboardController kbc = new KeyboardController(
+      this.kbc = new KeyboardController(
               this,
               mainScreen.getKeyInformer(),
               currentPlayer.makeIterator(),
@@ -45,16 +50,32 @@ public class Game {
   public GameMap getMap() {
 	  return map;
   }
-  
+
+  public void turnSwitch(){
+      togglePlayers();
+      this.kbc.updateIterator(currentPlayer.makeIterator());        //Update the KeyboardController
+  }
+
+  private void togglePlayers(){
+      int newIndex = java.util.Arrays.asList(players).indexOf(currentPlayer)+1 % 2; //mod magic
+      this.currentPlayer = players[newIndex];
+  }
+
+
+
+
+
+
+  //Leaving this so as to not break some tests in Utility/Main
   public void setCurrentPlayer(Player p) {
 	  this.currentPlayer = p;
   }
-  
+
   public void notifyOfCommand(CTRLCommand cmd){
       try {
-          //TODO remove this and implement player switching
-          currentPlayer.endTurn();
-          currentPlayer.beginTurn();
+//          //TODO remove this and implement player switching
+//          currentPlayer.endTurn();
+//          currentPlayer.beginTurn();
           cmd.execute(map, currentPlayer);
       } catch (CommandNotConfiguredException e) {
           e.printStackTrace();
