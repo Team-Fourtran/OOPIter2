@@ -49,12 +49,12 @@ class modelTest{
 //        testPowerUpDown();
         //testIterator();
 //        testCommandIterator();
-//     	  testInfluenceMovement();
+     	  testInfluenceMovement();
 //        testInfluenceReaction();
 //        testBuild();
 //        testPathfinding();
 //        testLandMine();
-        testLandMine2();
+//        testLandMine2();
     }
 
 	private void configure() throws InterruptedException {
@@ -63,7 +63,7 @@ class modelTest{
         this.enemyPlayer = new Player();
         this.currentPlayer = player;
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.executeFancy();
+        this._tiles = tileGen.execute();
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
         this.am = player.getArmies();
@@ -471,7 +471,7 @@ class modelTest{
         rac.configure(u3, am.debugGetRallyPoint());
         game.notifyOfCommand(rac);
 
-        for (int i = 0; i < v0.size(); i++) {
+        for (int i = 0; i < v1.size(); i++) {
         	v1.get(i).remove(u0);
         }       
         
