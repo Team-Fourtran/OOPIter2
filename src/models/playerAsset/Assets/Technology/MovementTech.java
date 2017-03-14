@@ -7,7 +7,7 @@ import models.playerAsset.Assets.CombatAsset;
  */
 
 //should be in separate abstract class because it doesnt apply to structures
-public class MovementTech extends StatTechnology {
+public class MovementTech implements Technology {
 
     public void apply(CombatAsset a){
         a.setMovementTurns(a.getMovementTurns() / 2);

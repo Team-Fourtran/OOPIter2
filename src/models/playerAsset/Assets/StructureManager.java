@@ -2,10 +2,7 @@ package models.playerAsset.Assets;
 
 
 import models.playerAsset.Assets.Structures.*;
-import models.playerAsset.Assets.Technology.StatTechnology;
 import models.playerAsset.Assets.Technology.Technology;
-import models.playerAsset.Assets.Technology.WorkerTechnology;
-import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.TypeIterator;
 import models.visitor.PlayerVisitor;

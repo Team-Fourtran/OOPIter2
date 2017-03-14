@@ -4,9 +4,7 @@ import models.playerAsset.Assets.ArmyManager;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.StructureManager;
 import models.playerAsset.Assets.Structures.University;
-import models.playerAsset.Assets.Technology.StatTechnology;
 import models.playerAsset.Assets.Technology.Technology;
-import models.playerAsset.Assets.Technology.WorkerTechnology;
 import models.playerAsset.Assets.UnitManager;
 
 public class NewTechVisitor implements PlayerVisitor{
@@ -31,6 +29,6 @@ public class NewTechVisitor implements PlayerVisitor{
     }
     public void visitUnitManager(UnitManager unitManager){
         tech = univ.discoverTechnology(type);
-        unitManager.addTech(asset, (StatTechnology)tech);
+        unitManager.addTech(asset, tech);
     }
 }

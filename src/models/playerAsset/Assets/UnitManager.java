@@ -1,6 +1,5 @@
 
 package models.playerAsset.Assets;
-import models.playerAsset.Assets.Technology.StatTechnology;
 import models.playerAsset.Assets.Technology.Technology;
 import models.playerAsset.Assets.Units.*;
 import models.playerAsset.Iterators.Iterator;

@@ -5,7 +5,7 @@ import models.playerAsset.Assets.CombatAsset;
 /**
  * Created by Clay on 3/2/2017.
  */
-public class WorkRadiusTech extends WorkerTechnology {
+public class WorkRadiusTech implements Technology {
 
     @Override
     public void apply(CombatAsset a) {
