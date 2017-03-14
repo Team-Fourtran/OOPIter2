@@ -44,71 +44,6 @@ public class Player {
         structures.accept(v);
     }
 
-//    private AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> makeAssetIterator(ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list) {
-//        return new AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>>(){
-//
-//            private int index = 0;
-//            private TypeIterator<PlayerAsset, Iterator<PlayerAsset>> current = current();
-//
-//            public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> first() {
-//                return list.get(0);
-//            }
-//
-//            public void nextMode(){
-//                index = (index + 1) % list.size();
-//                current = list.get(index);
-//            }
-//
-//            public void prevMode(){
-//                if (index != 0)
-//                    index--;
-//                else
-//                    index = list.size() - 1;
-//                current = list.get(index);
-//            }
-//
-//            public void nextType() {
-//                current.nextType();
-//            }
-//
-//            public void prevType() {
-//                current.prevType();
-//            }
-//
-//            public void next() {
-//                current.next();
-//            }
-//
-//            public void prev() {
-//                current.prev();
-//            }
-//
-//            public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> current() {
-//                return list.get(index);
-//            }
-//
-//
-//            public PlayerAsset getElement(){
-//                return current().getElement();
-//            }
-//
-//            @Override
-//            public String getCurrentMode() {
-//                if (getElement() instanceof Unit)
-//                    return "Unit Mode";
-//                else if (getElement() instanceof Structure)
-//                    return "Structure Mode";
-//                else
-//                    return "Army Mode";
-//            }
-//
-//            public String getCurrentType(){
-//                return current.getCurrentType();
-//            }
-//
-//        };
-//    }
-
     public UnitManager getUnits() {
         return units;
     }
@@ -121,20 +56,45 @@ public class Player {
         return structures;
     }
 
-//    public AssetIterator<PlayerAsset, TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> getAssetIterator(){
-//        ArrayList<TypeIterator<PlayerAsset, Iterator<PlayerAsset>>> list = new ArrayList<>();
-//        //list.add(units.getTypeIterator());
-////        list.add(structures.getTypeIterator());
-//        //list.add(armies.getTypeIterator());
-//        return makeAssetIterator(list);
-//    }
-
     public AssetIterator<PlayerAsset> makeIterator(){
         return new AssetIterator<PlayerAsset>() {
             private String[] modes = {"ARMY MODE", "UNIT MODE", "STRUCTURE MODE", "RALLY POINT MODE"};
             private Iterator2<? extends PlayerAsset> currentIter;
             private int currentIndex;
             private Map<String, Iterator2<? extends PlayerAsset>> map = new HashMap<>();
+
+            private void findPrevState(String prevMode, String prevType, PlayerAsset prevAsset){
+                String firstMode = getCurrentMode();
+                while(!getCurrentMode().equals(prevMode)){
+                    next();
+                    if(getCurrentMode().equals(firstMode)){
+                        return;
+                    }
+                }
+                String firstType = getElement();
+                while(!getElement().equals(prevType)){
+                    nextType();
+                    if (getElement().equals(firstType)){
+                        return;
+                    }
+                }
+                PlayerAsset firstAsset = current();
+                while(current() != prevAsset){
+                    nextInstance();
+                    if(current() == firstAsset){
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void update() {
+                String prevMode = getCurrentMode();
+                String prevType = getElement();
+                PlayerAsset prevAsset = current();
+                first();
+                findPrevState(prevMode, prevType, prevAsset);
+            }
 
             @Override
             public AssetIterator<PlayerAsset> first() {
@@ -143,6 +103,7 @@ public class Player {
                 map.put("UNIT MODE", units.makeIterator().first());
                 map.put("STRUCTURE MODE", structures.makeIterator().first());
                 map.put("RALLY POINT MODE", armies.makeRPIterator().first());
+
                 for (int i = 0; i < map.size(); i++){
                     currentIter = map.get(modes[currentIndex]);
                     currentIter.first();
@@ -203,6 +164,7 @@ public class Player {
                 return currentIter.getElement();
             }
             ///////////////TYPE////////////////
+
 
             /////////////INSTANCE///////////////
             @Override

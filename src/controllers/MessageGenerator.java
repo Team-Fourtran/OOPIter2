@@ -55,7 +55,7 @@ class MessageGenerator implements KeyPressListener{
     private void interpretKeystrokes(HashMap<String, Boolean> keystrokes){
         if(keystrokes.get("ENTER")){
             dispatchCommandForConfig(currentState.getCmd());
-            assetIterator.first();
+            assetIterator.update();
             updateCommandList(); //TODO JUAN this should be here
             return;
         }
@@ -66,7 +66,8 @@ class MessageGenerator implements KeyPressListener{
         else if(keystrokes.get("CONTROL") && keystrokes.get("UP")){
             assetIterator.prev();           //CONTROL+UP: Previous Mode
             updateCommandList();
-        } else if(keystrokes.get("CONTROL") && keystrokes.get("DOWN")){
+        }
+        else if(keystrokes.get("CONTROL") && keystrokes.get("DOWN")){
             assetIterator.next();           //CONTROL+DOWN: Next Mode
             updateCommandList();
         }
@@ -75,7 +76,8 @@ class MessageGenerator implements KeyPressListener{
         else if(keystrokes.get("CONTROL") && keystrokes.get("LEFT")){        //CONTROL+LEFT: Previous Type
             assetIterator.prevType();
             updateCommandList();
-        } else if(keystrokes.get("CONTROL") && keystrokes.get("RIGHT")){     //CONTROL+RIGHT: Next Type
+        }
+        else if(keystrokes.get("CONTROL") && keystrokes.get("RIGHT")){     //CONTROL+RIGHT: Next Type
             assetIterator.nextType();
             updateCommandList();
         }
@@ -87,7 +89,8 @@ class MessageGenerator implements KeyPressListener{
             assetIterator.prevInstance();
             updateCommandList();
 
-        } else if(!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")){
+        }
+        else if(!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")){
             assetIterator.nextInstance();
             updateCommandList();
         }
@@ -96,7 +99,8 @@ class MessageGenerator implements KeyPressListener{
         else if(!(keystrokes.get("CONTROL")) && keystrokes.get("UP")){               /* Previous command */
             cmdIter.prev();
             currentState.setCmd(cmdIter.current());
-        } else if(!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")){      /* Next command */
+        }
+        else if(!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")){      /* Next command */
             cmdIter.next();
             currentState.setCmd(cmdIter.current());
         }
