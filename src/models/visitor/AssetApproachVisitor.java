@@ -4,6 +4,7 @@ import models.assetOwnership.GameMap;
 import models.assetOwnership.PlayerAssetOwnership;
 import models.assetOwnership.TileAssociation;
 import models.command.AttackCommand;
+import models.command.AttackContinueCommand;
 import models.playerAsset.Assets.Army;
 import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.RallyPoint;
@@ -71,37 +72,12 @@ public class AssetApproachVisitor implements SpecificAssetVisitor {
 	public void visitFort(Fort fort) {
 		// attack enemy in radius of influence
 		fort.clearQueue();
-		// hard coded this shit, 
-		fort.addCommand(new AttackCommand(
+		fort.addUniversalCommand(new AttackContinueCommand(
 							PlayerAssetOwnership.getPlayerOwnership(fort),
 							map,
 							fort,
 							t
 						));
-		fort.addCommand(new AttackCommand(
-				PlayerAssetOwnership.getPlayerOwnership(fort),
-				map,
-				fort,
-				t
-			));
-		fort.addCommand(new AttackCommand(
-				PlayerAssetOwnership.getPlayerOwnership(fort),
-				map,
-				fort,
-				t
-			));
-		fort.addCommand(new AttackCommand(
-				PlayerAssetOwnership.getPlayerOwnership(fort),
-				map,
-				fort,
-				t
-			));
-		fort.addCommand(new AttackCommand(
-				PlayerAssetOwnership.getPlayerOwnership(fort),
-				map,
-				fort,
-				t
-			));
 		// apply defense buff to friendly forces in radius of influence
 		visitStructure(fort);
 	}

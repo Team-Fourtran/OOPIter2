@@ -23,6 +23,10 @@ public class AssetOwner {
     public boolean hasAsset(PlayerAsset asset){
         return assetList.contains(asset);
     }
+    
+    public ArrayList<PlayerAsset> getAssets() {
+    	return assetList;
+    }
 
     protected boolean removeAsset(PlayerAsset p){
         if(assetList.remove(p)){

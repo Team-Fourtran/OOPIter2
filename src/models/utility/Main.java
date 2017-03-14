@@ -50,11 +50,11 @@ class modelTest{
         //testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
-        testInfluenceReaction();
+//        testInfluenceReaction();
 //        testBuild();
 //        testPathfinding();
 //        testLandMine();
-//        testLandMine2();
+        testLandMine2();
     }
 
 	private void configure() throws InterruptedException {
@@ -63,7 +63,7 @@ class modelTest{
         this.enemyPlayer = new Player();
         this.currentPlayer = player;
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+        this._tiles = tileGen.executeFancy();
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
         this.am = player.getArmies();
@@ -511,7 +511,14 @@ class modelTest{
         this.currentPlayer = player;
         game.setCurrentPlayer(player);
 		
-        changeTurn(6);
+        changeTurn(2);
+        
+        CTRLDecommissionCommand cdcmd = new CTRLDecommissionCommand();
+        cdcmd.configure(s0);
+        game.notifyOfCommand(cdcmd);
+
+
+        changeTurn(1);
 	}
 
     private void testLandMine() throws InterruptedException{
