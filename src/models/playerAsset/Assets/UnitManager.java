@@ -1,9 +1,7 @@
 
 package models.playerAsset.Assets;
 import models.playerAsset.Assets.Units.*;
-import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.Iterator2;
-import models.playerAsset.Iterators.TypeIterator2;
 import models.playerAsset.Iterators.specificTypeIterator;
 import models.visitor.PlayerVisitor;
 import models.visitor.TypeListVisitor;
@@ -19,49 +17,26 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class UnitManager implements Manager {
     private CopyOnWriteArrayList<Unit> unitList;
     final private UnitFactory factory;
-    ArrayList<Unit> explorerList;
-    ArrayList<Unit> colonistList;
-    ArrayList<Unit> meleeList;
-    ArrayList<Unit> rangedList;
     final int maxUnits = 25;
     final int maxUnitType = 10;
     static ArrayList<String> unitIDs = new ArrayList<>();
-    ArrayList<Iterator<PlayerAsset>> unitIterators;
 
     public UnitManager() {
         unitList = new CopyOnWriteArrayList<>();
-        explorerList = new ArrayList<>();
-        colonistList = new ArrayList<>();
-        meleeList = new ArrayList<>();
-        rangedList = new ArrayList<>();
         factory = new UnitFactory();
         for (int i = 1; i <= 50; i++)
             unitIDs.add("u" + i);
-//        unitIterators = new ArrayList<>();
-//        unitIterators.add(makeIterator(explorerList));
-//        unitIterators.add(makeIterator(colonistList));
-//        unitIterators.add(makeIterator(meleeList));
-//        unitIterators.add(makeIterator(rangedList));
     }
 
     public void removeUnit(PlayerAsset unit){
         unitList.remove(unit);
-        explorerList.remove(unit);
-        colonistList.remove(unit);
-        meleeList.remove(unit);
-        rangedList.remove(unit);
     }
-
-    /*test method to grab iterator*/
-//    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> getTypeIterator(){
-//        return makeTypeIterator(unitIterators);
-//    }
 
     public Unit addNewUnit(String type){
         Unit newUnit = factory.makeUnit(type);
         newUnit.setID(unitIDs.get(0));
         unitIDs.remove(0);
-        addUnitToList(newUnit, type);
+        unitList.add(newUnit);
         return newUnit;
     }
 
@@ -80,28 +55,6 @@ public class UnitManager implements Manager {
     //Should be in abstract class
     public void accept(PlayerVisitor v){
         v.visitUnitManager(this);
-    }
-
-    public void addUnitToList(Unit u, String type){
-
-        switch(type){
-            case "explorer":
-                unitList.add(u);
-                explorerList.add((Explorer)u);
-                break;
-            case "colonist":
-                unitList.add(u);
-                colonistList.add((Colonist)u);
-                break;
-            case "melee":
-                unitList.add(u);
-                meleeList.add((MeleeUnit)u);
-                break;
-            case "ranged":
-                unitList.add(u);
-                rangedList.add((RangedUnit)u);
-                break;
-        }
     }
 
     //recycle an ID of a unit who doesn't need one anymore

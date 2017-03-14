@@ -69,12 +69,12 @@ class modelTest{
         this._tiles = tileGen.execute();
         Unit u0 = um.addNewUnit("colonist");
         _tiles.get(8).add(u0);
-        Unit u1 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("explorer");
         _tiles.get(9).add(u1);
-//        Unit u2 = um.addNewUnit("colonist");
-//        _tiles.get(10).add(u2);
-//        Unit u3 = um.addNewUnit("melee");
-//        _tiles.get(11).add(u3);
+        Unit u2 = um.addNewUnit("ranged");
+        _tiles.get(10).add(u2);
+        Unit u3 = um.addNewUnit("melee");
+        _tiles.get(11).add(u3);
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
 

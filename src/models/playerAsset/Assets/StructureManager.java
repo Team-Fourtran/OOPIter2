@@ -24,7 +24,6 @@ public class StructureManager implements Manager {
     final int maxStructures = 10;
     static ArrayList<String> structureIDs = new ArrayList<>();
     final private StructureFactory factory;
-    ArrayList<Iterator<PlayerAsset>> structureIterators;
 
     public StructureManager() {
         structureList = new CopyOnWriteArrayList<>();
