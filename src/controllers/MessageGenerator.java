@@ -92,17 +92,16 @@ class MessageGenerator implements KeyPressListener {
     }
 
     private void dispatchCommandForConfig(CTRLCommand thisCmd) {
+        System.out.println("Command requesting config: " + thisCmd.hashCode());
         try {
             thisCmd.configure(currentState);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(thisCmd.isConfigured()){
-            receiveConfiguredCmd(thisCmd);  //TODO JUAN Why is this not there? Issues arise
-        }
     }
 
     public void receiveConfiguredCmd(CTRLCommand cmd) {
+        System.out.println("Command received:: " + cmd.hashCode());
         if (cmd.isConfigured())
             receiver.handleMsg(cmd);   /* Send it to the KeyboardController */
         else System.out.println("Command wasn't configured properly");
