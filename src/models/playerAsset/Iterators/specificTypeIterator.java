@@ -1,7 +1,5 @@
 package models.playerAsset.Iterators;
 
-import models.playerAsset.Assets.Army;
-
 import java.util.ArrayList;
 import java.util.Map;
 

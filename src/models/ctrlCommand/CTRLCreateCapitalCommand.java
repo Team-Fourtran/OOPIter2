@@ -43,7 +43,8 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
                 player.accept(
                         new CapitalCreationVisitor(
                                 unit,
-                                map
+                                map,
+                                player
                         )
                 );
             }

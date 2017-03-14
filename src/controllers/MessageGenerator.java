@@ -12,16 +12,16 @@ import views.UnitCreationDialog;
 
 import java.util.HashMap;
 
-class MessageGenerator implements KeyPressListener{
+class MessageGenerator implements KeyPressListener {
 
     private AssetIterator assetIterator;  //Used to iterate through current Player's assets
     private KeyboardController receiver;
     private TileTargetting tileTargetter;
-    private CommandIterator cmdIter;
+//    private CommandIterator cmdIter;
 
     State currentState;
 
-    MessageGenerator(KeyboardController receiver, KeyPressInformer keyInformer, AssetIterator assIter, TileTargetting tt){
+    MessageGenerator(KeyboardController receiver, KeyPressInformer keyInformer, AssetIterator assIter, TileTargetting tt) {
         this.receiver = receiver;                   //Set up who will receive Commands once they're generated
 
         keyInformer.registerClient(this);    //Register self to get keypress notifications from the keyInformer
@@ -34,14 +34,14 @@ class MessageGenerator implements KeyPressListener{
 
         PlayerAsset tempAsset = (PlayerAsset) assetIterator.current();
         tempAsset.accept(cmdGetter);
-        cmdIter = cmdGetter.getIterator();
+//        cmdIter = cmdGetter.getIterator();
         /* Initialize the State object */
         currentState = new State(
                 this,
                 assetIterator.getCurrentMode(),
                 assetIterator.getElement(), //get type
-                tempAsset,
-                cmdIter.first()
+                tempAsset
+//                cmdIter.first()
         );
     }
 
@@ -52,205 +52,234 @@ class MessageGenerator implements KeyPressListener{
     }
 
     /* Updates the State object based on the keystrokes detected */
-    private void interpretKeystrokes(HashMap<String, Boolean> keystrokes){
-        if(keystrokes.get("ENTER")){
-            dispatchCommandForConfig(currentState.getCmd());
-            assetIterator.update();
-            updateCommandList(); //TODO JUAN this should be here
+    private void interpretKeystrokes(HashMap<String, Boolean> keystrokes) {
+        if (keystrokes.get("ENTER")) {
+            dispatchCommandForConfig(assetIterator.getCommand());
+
+//            updateCommandList(); //TODO JUAN this should be here
             return;
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
 
         /* CONTROL+{UP/DOWN}: Cycle MODE */
-        else if(keystrokes.get("CONTROL") && keystrokes.get("UP")){
+        else if (keystrokes.get("CONTROL") && keystrokes.get("UP")) {
             assetIterator.prev();           //CONTROL+UP: Previous Mode
-            updateCommandList();
-        }
-        else if(keystrokes.get("CONTROL") && keystrokes.get("DOWN")){
+//            updateCommandList();
+        } else if (keystrokes.get("CONTROL") && keystrokes.get("DOWN")) {
             assetIterator.next();           //CONTROL+DOWN: Next Mode
-            updateCommandList();
+//            updateCommandList();
         }
 
         /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
-        else if(keystrokes.get("CONTROL") && keystrokes.get("LEFT")){        //CONTROL+LEFT: Previous Type
+        else if (keystrokes.get("CONTROL") && keystrokes.get("LEFT")) {        //CONTROL+LEFT: Previous Type
             assetIterator.prevType();
-            updateCommandList();
-        }
-        else if(keystrokes.get("CONTROL") && keystrokes.get("RIGHT")){     //CONTROL+RIGHT: Next Type
+//            updateCommandList();
+        } else if (keystrokes.get("CONTROL") && keystrokes.get("RIGHT")) {     //CONTROL+RIGHT: Next Type
             assetIterator.nextType();
-            updateCommandList();
+//            updateCommandList();
         }
 
         /* Keypresses without control cycle TYPE INSTANCES and COMMANDS */
 
         //LEFT/RIGHT: Cycle Type Instances
-        else if(!(keystrokes.get("CONTROL")) && keystrokes.get("LEFT")){
+        else if (!(keystrokes.get("CONTROL")) && keystrokes.get("LEFT")) {
             assetIterator.prevInstance();
-            updateCommandList();
-
-        }
-        else if(!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")){
+//            updateCommandList();
+        } else if (!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")) {
             assetIterator.nextInstance();
-            updateCommandList();
+//            updateCommandList();
         }
 
         /* UP/DOWN: Cycle Commands */
-        else if(!(keystrokes.get("CONTROL")) && keystrokes.get("UP")){               /* Previous command */
-            cmdIter.prev();
-            currentState.setCmd(cmdIter.current());
+        else if (!(keystrokes.get("CONTROL")) && keystrokes.get("UP")) {               /* Previous command */
+            assetIterator.prevCommand();
+        } else if (!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")) {      /* Next command */
+            assetIterator.nextCommand();
         }
-        else if(!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")){      /* Next command */
-            cmdIter.next();
-            currentState.setCmd(cmdIter.current());
-        }
-
-        /* Update the State based on the new Iterator info */
-        currentState.setMode(assetIterator.getCurrentMode());
-        currentState.setType(assetIterator.getElement());
-        currentState.setInstance((PlayerAsset)assetIterator.current());
-
     }
 
-    private void updateCommandList(){
-        /* Update the CommandIterator */
-        CommandListVisitor cmdGetter = new CommandListVisitor();
-        ((PlayerAsset) assetIterator.current()).accept(cmdGetter);
-        cmdIter = cmdGetter.getIterator();
-        currentState.setCmd(cmdIter.current());
-    }
+//    private void updateCommandList(){
+//        /* Update the CommandIterator */
+//        CommandListVisitor cmdGetter = new CommandListVisitor();
+//        ((PlayerAsset) assetIterator.current()).accept(cmdGetter);
+//        cmdIter = cmdGetter.getIterator();
+//        currentState.setCmd(cmdIter.current());
+//    }
 
-    private void printStatus(){
-        System.out.println("STATUS:     "+currentState.getMode() + " | "+currentState.getType()+" | "+currentState.getInstance().toString()+" | "+currentState.getCmd().toString());
+    private void printStatus() {
+        System.out.println("STATUS:     " + currentState.getMode() + " | " + currentState.getType() + " | " + currentState.getInstance().toString() + " | " + currentState.getCmd().toString());
     }
 
     //Gets called when player turn switches. Changes the iterator on hand.
-    protected void updateIterator(AssetIterator assetIterator){
+    protected void updateIterator(AssetIterator assetIterator) {
         this.assetIterator = assetIterator;
     }
 
-    private void dispatchCommandForConfig(CTRLCommand thisCmd){
+    private void dispatchCommandForConfig(CTRLCommand thisCmd) {
         try {
             thisCmd.configure(currentState);
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         receiveConfiguredCmd(thisCmd);  //TODO JUAN Why is this not there? Issues arise
     }
 
-    public void receiveConfiguredCmd(CTRLCommand cmd){
-        if(cmd.isConfigured())
+    public void receiveConfiguredCmd(CTRLCommand cmd) {
+        if (cmd.isConfigured())
             receiver.handleMsg(cmd);   /* Send it to the KeyboardController */
         else System.out.println("Command wasn't configured properly");
+        assetIterator.update();
     }
 
     /* Auxillary functions to request additional information for configuring Commands */
 
-    public void requestTile(PlayerAsset initialHighlightAsset){
+    public void requestTile(PlayerAsset initialHighlightAsset) {
         tileTargetter.targetTile(this, initialHighlightAsset);
     }
 
-    public void receiveTargetTile(TileAssociation cbTile){
+    public void receiveTargetTile(TileAssociation cbTile) {
         currentState.setDestinationTile(cbTile);
     }
-}
-
-class State implements CommandComponents{
-    /* Acts as an internal structure to encapsulate the MessageGenerator's state, but also as an implementation of a
-     * public interface to pass around the components for configuring a Command object */
-    private String currentMode;
-    private String currentType;
-    private PlayerAsset currentInstance;
-    private CTRLCommand currentCommand;
-    private MessageGenerator msgGen;
-    private TileAssociation destinationTile;
-
-    State(MessageGenerator msgGen, String m, String t, PlayerAsset i, CTRLCommand c){
-        this.msgGen = msgGen;
-        this.currentMode = m;
-        this.currentType = t;
-        this.currentInstance = i;
-        this.currentCommand = c;
-    }
-
-    /* State-specific methods */
-    protected String getMode(){return this.currentMode;}
-    protected String getType(){return this.currentType;}
-    protected PlayerAsset getInstance(){return this.currentInstance;}
-    protected CTRLCommand getCmd(){return this.currentCommand;}
 
 
-    protected void setMode(String mode){this.currentMode = mode;}
-    protected void setType(String type){this.currentType = type;}
-    protected void setInstance(PlayerAsset instance){this.currentInstance = instance;}
-    protected void setCmd(CTRLCommand cmd){this.currentCommand = cmd;}
+    private class State implements CommandComponents {
+        /* Acts as an internal structure to encapsulate the MessageGenerator's state, but also as an implementation of a
+         * public interface to pass around the components for configuring a Command object */
+        private String currentMode;
+        private String currentType;
+        private PlayerAsset currentInstance;
+        private CTRLCommand currentCommand;
+        private MessageGenerator msgGen;
+        private TileAssociation destinationTile;
+
+        State(MessageGenerator msgGen, String m, String t, PlayerAsset i) {
+            this.msgGen = msgGen;
+            this.currentMode = m;
+            this.currentType = t;
+            this.currentInstance = i;
+//            this.currentCommand = c;
+        }
+
+        /* State-specific methods */
+        protected String getMode() {
+            return assetIterator.getCurrentMode();
+        }
+
+        protected String getType() {
+            return assetIterator.getElement();
+        }
+
+        protected PlayerAsset getInstance() {
+            return (PlayerAsset) assetIterator.current();
+        }
+
+        protected CTRLCommand getCmd() {
+            return assetIterator.getCommand();
+        }
+
+
+        protected void setMode(String mode) {
+            this.currentMode = mode;
+        }
+
+        protected void setType(String type) {
+            this.currentType = type;
+        }
+
+        protected void setInstance(PlayerAsset instance) {
+            this.currentInstance = instance;
+        }
+
+        protected void setCmd(CTRLCommand cmd) {
+            this.currentCommand = cmd;
+        }
 
     /* CommandComponents overrides */
 
-    @Override   //Called by CTRLCommands once they think they're ready to be executed.
-    public void requestExecution(){
-        this.msgGen.receiveConfiguredCmd(this.currentCommand);
+        @Override   //Called by CTRLCommands once they think they're ready to be executed.
+        public void requestExecution() {
+            this.msgGen.receiveConfiguredCmd(this.currentCommand);
+        }
+
+        @Override
+        public PlayerAsset getRequestingAsset() {
+            return this.getInstance();
+        }
+
+        @Override
+        //TODO: This
+        public PlayerAsset getTargetAsset() {
+            return null;
+        }
+
+        @Override
+        //TODO: This
+        public TileAssociation getRequestingTile() {
+            return null;
+        }
+
+        @Override
+        public TileAssociation getDestinationTile() {
+            msgGen.requestTile(currentInstance);
+            return destinationTile;
+        }
+
+        //This gets called when the Tile request comes through
+        protected void setDestinationTile(TileAssociation t) {
+            System.out.println("In State: Got tilestate back: " + t + "\nCalling back to CTRLCommand " + currentCommand.hashCode());
+            this.destinationTile = t;       //Update the destination tile
+            try {
+                currentCommand.callback();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //Tell the current command to query again, signaling that the tile is done.
+        }
+
+        @Override
+        public void requestDestinationTile(CTRLCommand callbackObject) {
+            this.currentCommand = callbackObject;   //Set the current command so that we may call back to it
+            System.out.println("Requesting requestTile(). Set callback CTRLCommand to " + callbackObject.hashCode());
+            this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
+            msgGen.requestTile(currentInstance);    //Tell the MessageGenerator to initiate the tile request process
+            //The method below (setDestinationTile) gets called once the tile is ready.
+        }
+
+        @Override
+        //TODO: This
+        public Player getOpposingPlayer() {
+            return null;
+        }
+
+        @Override
+        public String getUnitType() {
+            UnitCreationDialog dialog = new UnitCreationDialog();
+            dialog.createDialog();
+            String type = dialog.returnUnitType();
+            dialog.closeDialog();
+            return type;
+        }
+
+        @Override
+        public String getStructureType() {
+            StructureCreationDialog dialog = new StructureCreationDialog();
+            dialog.createDialog();
+            String type = dialog.returnStructureType();
+            dialog.closeDialog();
+            return type;
+        }
+
+        @Override
+        //TODO: This
+        public int getInt() {
+            return 0;
+        }
+
+        @Override
+        //TODO: This
+        public Unit[] getUnitList() {
+            return new Unit[0];
+        }
     }
-    @Override
-    public PlayerAsset getRequestingAsset() {return this.getInstance();}
-
-    @Override
-    //TODO: This
-    public PlayerAsset getTargetAsset() {return null;}
-
-    @Override
-    //TODO: This
-    public TileAssociation getRequestingTile() {return null;}
-
-    @Override
-    public TileAssociation getDestinationTile() {
-        msgGen.requestTile(currentInstance);
-        return destinationTile;
-    }
-    //This gets called when the Tile request comes through
-    protected void setDestinationTile(TileAssociation t){
-        System.out.println("In State: Got tilestate back: " + t + "\nCalling back to CTRLCommand " + currentCommand.hashCode());
-        this.destinationTile = t;       //Update the destination tile
-        try {currentCommand.callback();} catch(Exception e){e.printStackTrace();}
-        //Tell the current command to query again, signaling that the tile is done.
-    }
-
-    @Override
-    public void requestDestinationTile(CTRLCommand callbackObject) {
-        this.currentCommand = callbackObject;   //Set the current command so that we may call back to it
-        System.out.println("Requesting requestTile(). Set callback CTRLCommand to " + callbackObject.hashCode());
-        this.destinationTile = null;            //Reset the destination tile to remove ambiguity.
-        msgGen.requestTile(currentInstance);    //Tell the MessageGenerator to initiate the tile request process
-        //The method below (setDestinationTile) gets called once the tile is ready.
-    }
-
-    @Override
-    //TODO: This
-    public Player getOpposingPlayer() {return null;}
-
-    @Override
-    public String getUnitType() {
-        UnitCreationDialog dialog = new UnitCreationDialog();
-        dialog.createDialog();
-        String type = dialog.returnUnitType();
-        dialog.closeDialog();
-        return type;
-    }
-
-    @Override
-    public String getStructureType(){
-        StructureCreationDialog dialog = new StructureCreationDialog();
-        dialog.createDialog();
-        String type = dialog.returnStructureType();
-        dialog.closeDialog();
-        return type;
-    }
-
-    @Override
-    //TODO: This
-    public int getInt() {return 0;}
-
-    @Override
-    //TODO: This
-    public Unit[] getUnitList() {return new Unit[0];}
 }

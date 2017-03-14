@@ -161,12 +161,14 @@ public class ArmyManager implements Manager {
 
             @Override
             public void nextType() {
+                current = 0;    //Reset since the next type may have less instances
                 entryIter.next();
                 currentArmyList = entryIter.current().getValue();
             }
 
             @Override
             public void prevType() {
+                current = 0;    //Reset since the next type may have less instances
                 entryIter.prev();
                 currentArmyList = entryIter.current().getValue();
             }

@@ -1,8 +1,11 @@
 package models.playerAsset.Assets;
 
 
+import models.ctrlCommand.CTRLCommand;
 import models.playerAsset.Iterators.AssetIterator;
+import models.playerAsset.Iterators.CommandIterator;
 import models.playerAsset.Iterators.Iterator2;
+import models.visitor.CommandListVisitor;
 import models.visitor.PlayerVisitor;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,12 +59,13 @@ public class Player {
         return structures;
     }
 
-    public AssetIterator<PlayerAsset> makeIterator(){
-        return new AssetIterator<PlayerAsset>() {
+    public AssetIterator makeIterator(){
+        return new AssetIterator() {
             private String[] modes = {"ARMY MODE", "UNIT MODE", "STRUCTURE MODE", "RALLY POINT MODE"};
             private Iterator2<? extends PlayerAsset> currentIter;
             private int currentIndex;
             private Map<String, Iterator2<? extends PlayerAsset>> map = new HashMap<>();
+            private CommandIterator cmdIter;
 
             private void findPrevState(String prevMode, String prevType, PlayerAsset prevAsset){
                 String firstMode = getCurrentMode();
@@ -87,6 +91,12 @@ public class Player {
                 }
             }
 
+            private void updateCommandIter(){
+                CommandListVisitor cmdGetter = new CommandListVisitor();
+                current().accept(cmdGetter);
+                cmdIter = cmdGetter.getIterator();
+            }
+
             @Override
             public void update() {
                 String prevMode = getCurrentMode();
@@ -94,10 +104,11 @@ public class Player {
                 PlayerAsset prevAsset = current();
                 first();
                 findPrevState(prevMode, prevType, prevAsset);
+                updateCommandIter();
             }
 
             @Override
-            public AssetIterator<PlayerAsset> first() {
+            public AssetIterator first() {
                 currentIndex = 0;
                 map.put("ARMY MODE", armies.makeIterator().first());
                 map.put("UNIT MODE", units.makeIterator().first());
@@ -111,6 +122,7 @@ public class Player {
                         next();
                     }
                 }
+                updateCommandIter();
                 return this;
             }
 
@@ -126,6 +138,7 @@ public class Player {
                         next();
                     }
                 }
+                updateCommandIter();
             }
 
             @Override
@@ -139,6 +152,7 @@ public class Player {
                 if (currentIter.current() == null){
                     prev();
                 }
+                updateCommandIter();
             }
 
             @Override
@@ -151,11 +165,13 @@ public class Player {
             @Override
             public void nextType() {
                 currentIter.nextType();
+                updateCommandIter();
             }
 
             @Override
             public void prevType() {
                 currentIter.prevType();
+                updateCommandIter();
             }
 
             //Gets current Type
@@ -170,11 +186,13 @@ public class Player {
             @Override
             public void nextInstance() {
                 currentIter.next();
+                updateCommandIter();
             }
 
             @Override
             public void prevInstance() {
                 currentIter.prev();
+                updateCommandIter();
             }
 
             @Override
@@ -182,6 +200,23 @@ public class Player {
                 return currentIter.current();
             }
             /////////////INSTANCE///////////////
+
+            /////////////COMMANDS///////////////
+            @Override
+            public void nextCommand() {
+                cmdIter.next();
+            }
+
+            @Override
+            public void prevCommand() {
+                cmdIter.prev();
+            }
+
+            @Override
+            public CTRLCommand getCommand() {
+                return cmdIter.current();
+            }
+            /////////////COMMANDS///////////////
         };
     }
 }
