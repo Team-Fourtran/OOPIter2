@@ -5,18 +5,9 @@ import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 
-public interface AssetVisitor {
+public interface AssetVisitor extends ObjectVisitor{
     void visitUnit(Unit unit);
     void visitArmy(Army army);
     void visitStructure(Structure structure);
     void visitRallyPoint(RallyPoint rallyPoint);
 }
-
-
-//class AttackVisitor implements AssetVisitor{
-//
-//}
-//
-//class HealingVisitor implements AssetVisitor{
-//
-//}

@@ -1,7 +1,6 @@
 package models.visitor;
 
 import models.assetOwnership.GameMap;
-import models.playerAsset.*;
 import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
@@ -40,5 +39,6 @@ public class PlayerDecommissionVisitor implements PlayerVisitor {
         byebye.clearQueue();
         unitManager.removeUnit((Unit) byebye);
         //TODO remove from army if a reinforcement
+        // TODO also have the army update its influence radius if a unit is removed
     }
 }

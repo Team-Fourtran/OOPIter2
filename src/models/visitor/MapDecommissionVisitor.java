@@ -2,13 +2,11 @@ package models.visitor;
 
 import models.assetOwnership.GameMap;
 import models.command.Command;
-import models.playerAsset.*;
 import models.playerAsset.Assets.Army;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
-import models.playerAsset.Assets.Worker;
 
 public class MapDecommissionVisitor implements AssetVisitor{
     private GameMap map;
@@ -19,11 +17,12 @@ public class MapDecommissionVisitor implements AssetVisitor{
         this.player = p;
     }
 
-
     @Override
     public void visitUnit(Unit unit) {
+    	unit.notifyLeave(); // notify observers, particularly army
         map.removeAssetFromMap(unit);
         new PlayerDecommissionVisitor(map, unit).visitUnitManager(player.getUnits());
+//        player.getArmies().debugGetArmy().removeUnit(unit);
     }
 
     @Override

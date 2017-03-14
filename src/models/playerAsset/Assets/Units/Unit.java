@@ -1,12 +1,16 @@
 package models.playerAsset.Assets.Units;
 
+import models.playerAsset.Assets.AssetObserver;
 import models.playerAsset.Assets.CombatAsset;
+import java.util.Observable;
+import java.util.Vector;
+
 import models.visitor.AssetVisitor;
 
 /* High level unit class used to define the Unit type
 	and define some basic functionality
  */
-public abstract class Unit extends CombatAsset {
+public abstract class Unit extends CombatAsset{
 	
     private double movesPerTurn; 	//REVISIT AND MODIFY
 

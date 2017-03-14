@@ -9,11 +9,13 @@ public abstract class CombatAsset extends PlayerAsset {
     private int maxHealth;
     private int currentHealth;
     private int upkeep;
+    private int radiusOfInfluence;
     private boolean poweredUp;
     private String assetID;
     public int visibility;
 
     //Various getter and setters for attributes
+
     public void setRange(int range){
         this.range = range;
     }
@@ -24,11 +26,15 @@ public abstract class CombatAsset extends PlayerAsset {
 
     public void setArmor(int armor){this.armor = armor;}
 
-    public void setOffDamage(int OffDamage){this.offDamage = offDamage;}
+    public void setOffDamage(int offDamage){
+        this.offDamage = offDamage;
+    }
 
     public void setDefDamage(int defDamage){this.defDamage = defDamage;}
 
     public void setUpkeep(int upkeep){this.upkeep = upkeep;}
+    
+    public void setRadiusOfInfluence(int radius){this.radiusOfInfluence = radius;}
 
     public void setID(String id){
         assetID = id;
@@ -65,7 +71,8 @@ public abstract class CombatAsset extends PlayerAsset {
     }
 
     public int getOffDamage(int distance){
-        if (distance <= range){
+        if (distance <= range){ // && if it is in the radius of influence
+        	// return percentage of offDamage based off difference between radius of influence and distance
             return offDamage;
         }
         else{
@@ -100,6 +107,10 @@ public abstract class CombatAsset extends PlayerAsset {
 
     public int getUpkeep(){
         return upkeep;
+    }
+    
+    public int getRadiusOfInfluence() {
+    	return radiusOfInfluence;
     }
 
     public int getVisibility(){

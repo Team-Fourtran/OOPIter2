@@ -1,5 +1,8 @@
 package models.playerAsset.Assets.Structures;
 
+import models.visitor.AssetVisitor;
+import models.visitor.SpecificAssetVisitor;
+
 import java.util.ArrayList;
 import models.playerAsset.Assets.Technology.*;
 import models.visitor.PlayerVisitor;
@@ -15,6 +18,7 @@ public class University extends Structure{
         setMaxHealth(200);
         setCurrentHealth(200);
         setUpkeep(1);
+        setRadiusOfInfluence(1);
         setProductionRate(1);
         staff = new ArrayList<>();
         factory = new TechFactory();
@@ -22,5 +26,16 @@ public class University extends Structure{
 
     public Technology discoverTechnology(String tech){
         return factory.makeTech(tech);
+    }
+
+
+    @Override
+    public void accept(AssetVisitor v) {
+        if (v instanceof SpecificAssetVisitor){
+            ((SpecificAssetVisitor)v).visitUniversity(this);
+        }
+        else{
+            super.accept(v);
+        }
     }
 }

@@ -8,13 +8,15 @@ import models.playerAsset.Iterators.TypeIterator;
 import models.visitor.PlayerVisitor;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 
 /* Management class for a Player's structures
    Passes commands to specific structures
  */
 
 public class StructureManager implements Manager {
-    public ArrayList<Structure> structureList;
+    private CopyOnWriteArrayList<Structure> structureList;
     ArrayList<PlayerAsset> baseList;
     final int maxStructures = 10;
     static ArrayList<String> structureIDs = new ArrayList<>();
@@ -23,8 +25,8 @@ public class StructureManager implements Manager {
     HashMap<String, ArrayList<Technology>> techMap;
 
     public StructureManager() {
+        structureList = new CopyOnWriteArrayList<>();
         factory = new StructureFactory();
-        structureList = new ArrayList<>();
         baseList = new ArrayList<>();
         structureIterators = new ArrayList<>();
         structureIterators.add(makeIterator(baseList));
@@ -97,13 +99,10 @@ public class StructureManager implements Manager {
     }
 
     //destroy a structure
-    public void removeStructure(Structure structure) {
-        for (Structure s : structureList) {
-            if (s == structure) {
-                freeID(s.getID());
-                structureList.remove(s);
-                return;
-            }
+    public void removeStructure(PlayerAsset structure) {
+        if (structureList.remove(structure)){
+            freeID(structure.getID());
+            //TODO check if this works
         }
     }
 
@@ -113,6 +112,7 @@ public class StructureManager implements Manager {
     }
 
     //recycle a structure's ID after it is done using it
+    @Override
     public void freeID(String assetID) {
         int escapee = Integer.parseInt(assetID.substring(assetID.lastIndexOf("s") + 1).trim());
         for (int i = 0; i < structureIDs.size(); i++) {
@@ -145,17 +145,15 @@ public class StructureManager implements Manager {
     }
 
     public void resetCommands() {
-        for (Structure s : structureList) {
-            s.resetCommands();
-        }
+        java.util.Iterator<Structure> iter = structureList.iterator();
+        iter.forEachRemaining(Structure::resetCommands);
     }
 
     //go through the structures and, if possible, execute a command
     //used at beginning of player's turn
     public void executeCommands() {
-        for (Structure s : structureList) {
-            s.executeCommand();
-        }
+        java.util.Iterator<Structure> iter = structureList.iterator();
+        iter.forEachRemaining(Structure::executeCommand);
     }
 
     //Should be in abstract class
@@ -189,7 +187,7 @@ public class StructureManager implements Manager {
             }
 
             public PlayerAsset current() {
-                System.out.println(list.get(index).getType());
+                //System.out.println(list.get(index).getType());
                 return list.get(index);
             }
 
@@ -237,6 +235,10 @@ public class StructureManager implements Manager {
 
             public PlayerAsset getElement() {
                 return current.current();
+            }
+
+            public String getCurrentType(){
+                return getElement().getType();
             }
 
         };

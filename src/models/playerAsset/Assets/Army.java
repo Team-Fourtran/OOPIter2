@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 //TODO: Add Army Iterators
 
-public class Army extends CombatAsset {
+public class Army extends CombatAsset implements AssetObserver {
     private ArrayList<Unit> battleGroup = new ArrayList<>();
     private ArrayList<Unit> reinforcements = new ArrayList<>();
 
@@ -38,6 +38,22 @@ public class Army extends CombatAsset {
         return totalDamage;
     }
 
+    /*
+     * Returns the maximum radius of influence for the army's units
+     * 
+     */
+    @Override
+    public int getRadiusOfInfluence() {
+    	int maxRadius = 0;
+    	for (Unit _u : battleGroup) {
+    		System.out.println(_u.getType());
+    		if (_u.getRadiusOfInfluence() > maxRadius) {
+    			maxRadius = _u.getRadiusOfInfluence();
+    		}
+    	}
+    	return maxRadius;
+    }
+    
     public double getMovementSpeed(){
         double minMoves = 100;
         for (Unit _u : battleGroup){
@@ -61,8 +77,13 @@ public class Army extends CombatAsset {
     }
 
     public void addToBattleGroup(Unit u){
+    	// if we already have unit in reinforcements, we don't need to make ourselves an observer again
+    	if (reinforcements.contains(u)) {
+    		reinforcements.remove(u);
+    	} else {
+    		u.addObserver(this);
+    	}
         battleGroup.add(u);
-        reinforcements.remove(u);
         u.clearQueue();
         setMaxHealth((this.getMaxHealth() + u.getMaxHealth()));
         setCurrentHealth((this.getCurrentHealth() + u.getCurrentHealth()));
@@ -70,6 +91,13 @@ public class Army extends CombatAsset {
 
     public void addReinforcement(Unit u){
         reinforcements.add(u);
+        u.addObserver(this);
+    }
+
+    public void removeUnit(PlayerAsset asset){
+        battleGroup.remove(asset);
+        reinforcements.remove(asset);
+        asset.removeObserver(this);
     }
 
     public boolean hasBattleGroup(){
@@ -101,4 +129,9 @@ public class Army extends CombatAsset {
     public void accept(AssetVisitor v) {
         v.visitArmy(this);
     }
+
+	@Override
+	public void updateLeave(PlayerAsset asset) {
+		removeUnit(asset);
+	}
 }

@@ -1,8 +1,8 @@
 package models.playerAsset.Assets.Structures;
 
-/**
- * Created by Clay on 2/26/2017.
- */
+import models.visitor.AssetVisitor;
+import models.visitor.SpecificAssetVisitor;
+
 public class ObservationTower extends Structure {
     public ObservationTower() {
 
@@ -12,7 +12,18 @@ public class ObservationTower extends Structure {
         setMaxHealth(200);
         setCurrentHealth(200);
         setUpkeep(1);
+        setRadiusOfInfluence(2);
         setProductionRate(1);
     }
 
+
+    @Override
+    public void accept(AssetVisitor v) {
+        if (v instanceof SpecificAssetVisitor){
+            ((SpecificAssetVisitor)v).visitObservationTower(this);
+        }
+        else{
+            super.accept(v);
+        }
+    }
 }

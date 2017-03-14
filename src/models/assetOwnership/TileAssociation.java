@@ -2,11 +2,14 @@ package models.assetOwnership;
 
 
 import models.playerAsset.Assets.PlayerAsset;
+import models.tileInfo.Item;
+import models.tileInfo.OneShotItem;
 import models.tileInfo.Tile;
 import models.utility.Direction;
-import models.visitor.AssetVisitor;
-import models.visitor.TileVisitor;
+import models.visitor.*;
+
 import java.util.Observable;
+import java.util.Vector;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,7 +18,7 @@ public class TileAssociation extends Observable{
     private Tile tile;
     private AssetOwner assetOwner;
     private HashMap<Direction, TileAssociation> neighbors = new HashMap<Direction, TileAssociation>();
-    private ArrayList<Observer> observers = new ArrayList<>(0);
+    private Vector<TileObserver> observers = new Vector<>(0);
 
     public TileAssociation(Tile t){
         this.tile = t;
@@ -30,12 +33,14 @@ public class TileAssociation extends Observable{
         return (assetOwner.hasAsset(asset));
     }
 
-
-    public void remove(PlayerAsset ... p){
-        for (PlayerAsset _p : p){
-            assetOwner.removeAsset(_p);
-        }
+    public boolean remove(PlayerAsset p){
+        boolean removal = assetOwner.removeAsset(p);
         notifyObservers();
+        return removal;
+    }
+
+    public void removeItem(){
+        tile.removeItem();
     }
 
     public void add(PlayerAsset p){
@@ -46,7 +51,6 @@ public class TileAssociation extends Observable{
     // Eventually have a method for removing Resources
     
     public Collection<TileAssociation> getNeighbors(){
-    	neighbors.values();
         return neighbors.values();
     }
 
@@ -62,22 +66,28 @@ public class TileAssociation extends Observable{
         return assetOwner.getNumAssetsOwned();
     }
     
-    public void accept(AssetVisitor v) {
+    public void accept(ObjectVisitor v) {
         if (v instanceof TileVisitor){
             tile.accept((TileVisitor) v);
         }
-    	assetOwner.accept(v);
+        if (v instanceof AssetVisitor) {
+            assetOwner.accept((AssetVisitor) v);
+        }
     }
     
     @Override
     public void notifyObservers(){
-        for(Observer ob : observers){
+        for(TileObserver ob : observers){
             ob.update(this);
         }
     }
     
-    public void addObserver(Observer o) {
+    public void addObserver(TileObserver o) {
     	observers.add(o);
+    }
+    
+    public void removeObserver(TileObserver o) {
+    	observers.remove(o);
     }
     
 }

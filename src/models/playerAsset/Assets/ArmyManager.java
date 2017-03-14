@@ -1,20 +1,23 @@
 package models.playerAsset.Assets;
 
 import models.playerAsset.Assets.Units.Unit;
+import models.visitor.AssetVisitor;
 import models.visitor.PlayerVisitor;
-
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /* Management class for a Player's armies. Keeps references to
    all armies and passes commands to specific ones.
  */
-public class ArmyManager{
+public class ArmyManager implements Manager {
     private ArrayList<RallyPoint> rallyPointList = new ArrayList<>();
-    private ArrayList<Army> armyList = new ArrayList<>();
+    private CopyOnWriteArrayList<Army> armyList;
     private final int maxArmies = 10;
     private static ArrayList<String> armyIDs = new ArrayList<>();
 
     public ArmyManager(){
+        armyList = new CopyOnWriteArrayList<>();
         for (int i = 1; i <= 20; i++)
             armyIDs.add("a" + i);
     }
@@ -34,17 +37,17 @@ public class ArmyManager{
         return rallyPoint;
     }
 
-    public void removeArmy(Army army){
+    public void removeArmy(PlayerAsset asset){
         RallyPoint toRemove = null;
         for (RallyPoint rp : rallyPointList){
-            if (rp.getArmy() == army){
+            if (rp.getArmy() == asset){
                 toRemove = rp;
             }
         }
         rallyPointList.remove(toRemove);
-        armyList.remove(army);
+        armyList.remove(asset);
     }
-
+    
     public RallyPoint getRallyPoint(Army army){
         for (RallyPoint rp : rallyPointList){
             if (rp.getArmy() == army){
@@ -53,8 +56,10 @@ public class ArmyManager{
         }
         return null;
     }
+    
 
     //free an army's ID when they are done using it for recycling
+    @Override
     public void freeID(String assetID) {
     	int escapee = Integer.parseInt(assetID.substring(assetID.lastIndexOf("u") + 1).trim());
     	for (int i = 0; i < armyIDs.size(); i++) {
@@ -68,6 +73,7 @@ public class ArmyManager{
     }
 
     //calculate total upkeep from each army, unit by unit
+    @Override
     public int calculateTotalUpkeep(){
         int totalUpkeep = 0;
         return totalUpkeep;
@@ -75,16 +81,14 @@ public class ArmyManager{
 
     //Go through all of the armies and, if possible, execute a command
     public void executeCommands(){
-        for (Army a: armyList) {
-            a.executeCommand();
-        }
+        Iterator<Army> iter = armyList.iterator();
+        iter.forEachRemaining(Army::executeCommand);
     }
 
     //reset all of the armies' abilities to execute commands
     public void resetCommands(){
-        for (Army a: armyList) {
-            a.resetCommands();
-        }
+        Iterator<Army> iter = armyList.iterator();
+        iter.forEachRemaining(Army::resetCommands);
     }
 
     //Should be in abstract class
