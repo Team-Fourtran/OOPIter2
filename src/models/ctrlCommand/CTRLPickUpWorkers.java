@@ -23,14 +23,16 @@ public class CTRLPickUpWorkers implements CTRLCommand{
     }
 
     @Override
-    public void callback() throws CommandNotConfiguredException {
+    //TODO: Make this work using the CommandComponents mechanaism
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
 
     }
 
     @Override
-    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-
+    public void callback() throws CommandNotConfiguredException {
+        //Unused...For now?
     }
+
 
     @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException {
