@@ -26,6 +26,7 @@ public class CTRLCreateUnitCommand implements CTRLCommand {
         this.structure = (Structure) parts.getRequestingAsset();
         this.unitType = parts.getUnitType();
         isConfigured = true;
+        parts.requestExecution();
     }
 
     public boolean isConfigured(){
