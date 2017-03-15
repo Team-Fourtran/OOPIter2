@@ -1,7 +1,5 @@
 package models.playerAsset.Assets.Structures;
 
-import models.playerAsset.Assets.Structures.Structure;
-import models.assetOwnership.Radius;
 import models.assetOwnership.TileAssociation;
 import models.assetOwnership.WorkRadius;
 import models.playerAsset.Assets.Worker;

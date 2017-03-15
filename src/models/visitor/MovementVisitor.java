@@ -3,6 +3,7 @@ package models.visitor;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.MoveCommand;
+import models.command.PickupWorkersCommand;
 import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
@@ -14,6 +15,9 @@ public class MovementVisitor implements AssetVisitor{
     private GameMap gameMap;
     private Player player;
     private ArrayList<TileAssociation> armyPath;
+    private boolean needWorkers = false;
+    private int numWorkers;
+    private Structure workersStructure;
 
     public MovementVisitor(GameMap gameMap, Player player, TileAssociation destination){
         this.destination = destination; //Ask about static methods...!
@@ -48,6 +52,11 @@ public class MovementVisitor implements AssetVisitor{
                 );
                 cur = next;
             }
+            if(needWorkers){
+                army.addCommand(
+                        new PickupWorkersCommand(gameMap, army, this.workersStructure, this.numWorkers)
+                );
+            }
         }
         for (Unit _u : army.getReinforcements()){
             this.visitUnit(_u);
@@ -64,5 +73,11 @@ public class MovementVisitor implements AssetVisitor{
         armyPath = gameMap.generatePath(rallyPoint, destination);
         gameMap.generateImmediateMovement(rallyPoint, destination);
         this.visitArmy(rallyPoint.getArmy());
+    }
+
+    public void setNeedWorkers(Structure workersStructure, int numWorkers){
+        this.needWorkers = true;
+        this.numWorkers = numWorkers;
+        this.workersStructure = workersStructure;
     }
 }
