@@ -11,28 +11,28 @@ public class CTRLHarvestCommand implements CTRLCommand {
 	private ResourceStructure harvester;
 	private TileAssociation target;
 	private int assignedWorkers;
-	
+
 	private boolean isConfigured;
-	
+
 	public CTRLHarvestCommand() {
 		isConfigured = false;
 	}
-	
+
 	public void configure(PlayerAsset harvester, TileAssociation target, int assignedWorkers) {
 		isConfigured = true;
 		this.harvester = (ResourceStructure) harvester;
 		this.target = target;
 		this.assignedWorkers = assignedWorkers;
 	}
-	
+
 	@Override
 	public void execute(GameMap map, Player player) throws CommandNotConfiguredException {
 		if(isConfigured){
 			harvester.addUniversalCommand(
 						new HarvestCommand(
 								player,
-								map, 
-								harvester, 
+								map,
+								harvester,
 								target,
 								assignedWorkers
 								)
