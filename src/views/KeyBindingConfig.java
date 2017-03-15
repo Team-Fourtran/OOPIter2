@@ -61,6 +61,8 @@ public class KeyBindingConfig {
             setMoveMapping("move_south");
             setMoveMapping("move_southwest");
             setMoveMapping("move_northwest");
+            setMoveMapping("move_confirm");
+            setMoveMapping("move_cancel");
 
 
         } catch (IOException ex) {

@@ -40,7 +40,7 @@ public class MainScreen implements TileObserver {
     static final Color COLOURTWO = new Color(0,0,0,124);
 
     private int[][] board = new int[BSIZE][BSIZE];
-    KeyBindingConfig customKeyBinds;
+    KeyBindingConfig customKeyBinds = new KeyBindingConfig();
     private KeyPressInformer keyInformer;
 
     private TileAssociation[] tiles;
@@ -130,7 +130,6 @@ public class MainScreen implements TileObserver {
 //        keyMap.put("RIGHT",false);
 //        keyInformer = new KeyPressInformer(keyMap);
 
-        customKeyBinds = new KeyBindingConfig();
 
         keyInformer = new KeyPressInformer(customKeyBinds);
         tileReceiver = new TileTargetting(this);
@@ -230,7 +229,7 @@ public class MainScreen implements TileObserver {
             requestFocusInWindow();
             toggleHT = false;
             commandListener = new CommandListener();
-            tHL = new TileHighlightListener(customKeyBinds);
+            tHL = new TileHighlightListener();
             addKeyListener(commandListener);
         }
         @Override
@@ -325,8 +324,8 @@ public class MainScreen implements TileObserver {
 
         class TileHighlightListener extends KeyAdapter {
             HashMap<String, Integer> customMoveMappings;
-            TileHighlightListener(KeyBindingConfig kbf){
-                this.customMoveMappings = kbf.customMoveMappings();
+            TileHighlightListener(){
+                this.customMoveMappings = customKeyBinds.customMoveMappings();
             }
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
