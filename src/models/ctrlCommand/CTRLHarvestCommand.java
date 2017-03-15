@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.command.HarvestCommand;
@@ -13,7 +14,12 @@ public class CTRLHarvestCommand implements CTRLCommand {
 	private int assignedWorkers;
 	
 	private boolean isConfigured;
-	
+
+	@Override
+	public boolean isConfigured(){
+		return this.isConfigured;
+	}
+
 	public CTRLHarvestCommand() {
 		isConfigured = false;
 	}
@@ -24,7 +30,17 @@ public class CTRLHarvestCommand implements CTRLCommand {
 		this.target = target;
 		this.assignedWorkers = assignedWorkers;
 	}
-	
+
+	@Override
+	//TODO: Make this work using the CommandComponents mechanaism
+	public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+	}
+
+	@Override
+	public void callback() throws CommandNotConfiguredException {
+		//Unused...for now?
+	}
+
 	@Override
 	public void execute(GameMap map, Player player) throws CommandNotConfiguredException {
 		if(isConfigured){
