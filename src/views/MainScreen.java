@@ -252,6 +252,7 @@ public class MainScreen implements TileObserver {
                     ind++;
                 }
             }
+            System.out.println(visibleTiles);
             for(int i = 0; i < tiles.length; i++ ){
                 if(!(visibleTiles.contains(tiles[i]))) {
                     int xInd = i / BSIZE;

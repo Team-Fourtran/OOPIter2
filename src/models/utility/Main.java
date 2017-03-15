@@ -87,30 +87,34 @@ class modelTest{
 
         TileGen tileGen = new TileGen(length, length);
         this._tiles = tileGen.execute();
-        Unit u0 = um.addNewUnit("colonist");
-        _tiles.get(6).add(u0);
-        Unit u1 = um.addNewUnit("explorer");
 
-        _tiles.get(7).add(u1);
+        Unit u0 = um.addNewUnit("colonist");
+        Unit u1 = um.addNewUnit("explorer");
         Unit u2 = um.addNewUnit("melee");
-        _tiles.get(8).add(u2);
         Unit u3 = um.addNewUnit("ranged");
-        _tiles.get(9).add(u3);
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2, u3);
 
         Unit u4 = umEnemy.addNewUnit("ranged");
-        _tiles.get(82).add(u4);
         Unit u5 = umEnemy.addNewUnit("melee");
-        _tiles.get(83).add(u5);
         Unit u6 = umEnemy.addNewUnit("ranged");
-        _tiles.get(84).add(u6);
         Unit u7 = umEnemy.addNewUnit("melee");
-        _tiles.get(85).add(u7);
+        PlayerAssetOwnership.addPlayerAsset(enemyPlayer, u4, u5, u6, u7);
 
         Structure ss = sm.createStructure("university", _tiles.get(32));
-        _tiles.get(32).add(ss);
+        PlayerAssetOwnership.addPlayerAsset(player, ss);
 
         this.game = new Game(player, enemyPlayer, _tiles);
         this.map = game.getMap();
+
+        map.addAssetToMap(u0, _tiles.get(6));
+        map.addAssetToMap(u1, _tiles.get(7));
+        map.addAssetToMap(u2, _tiles.get(8));
+        map.addAssetToMap(u3, _tiles.get(9));
+        map.addAssetToMap(u4, _tiles.get(82));
+        map.addAssetToMap(u5, _tiles.get(83));
+        map.addAssetToMap(u6, _tiles.get(84));
+        map.addAssetToMap(u7, _tiles.get(85));
+        map.addAssetToMap(ss, _tiles.get(32));
 
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
         cac.configure(_tiles.get(16), u1, u2);
