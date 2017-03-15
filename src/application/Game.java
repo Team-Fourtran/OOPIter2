@@ -44,6 +44,8 @@ public class Game {
               currentPlayer.makeIterator(),
               mainScreen.getTileTargetter()
       );
+
+      this.mainScreen.getTurnSwitchNotifier().addListener(this);
       Thread.sleep(1000);
   }
 
@@ -51,10 +53,11 @@ public class Game {
 	  return map;
   }
 
+
   public void turnSwitch(){
       togglePlayers();
       this.kbc.updateIterator(currentPlayer.makeIterator());        //Update the KeyboardController
-      this.mainScreen.updatePlayer(this.currentPlayer);
+      this.mainScreen.updatePlayer(this.currentPlayer);             //Update the Main Screen
   }
 
   private void togglePlayers(){
