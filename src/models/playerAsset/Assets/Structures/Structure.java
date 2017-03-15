@@ -24,7 +24,7 @@ public class Structure extends CombatAsset {
         return productionRate;
     }
 
-    public void assignWorkers(Worker... workers){
+    public void assignWorkers(ArrayList<Worker> workers){
         for (Worker w: workers) {
             staff.add(w);
             productionRate += w.getProduction();
