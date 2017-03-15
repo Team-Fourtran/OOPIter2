@@ -1,7 +1,10 @@
 package tests;
 
+import views.KeyBindingConfig;
+
 public class TestKeyBinding {
     public static void main(String[] args){
-        System.out.println("hi");
+        KeyBindingConfig kbc = new KeyBindingConfig();
+        kbc.readConfig();
     }
 }

@@ -6,12 +6,17 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class KeyBindingConfig {
-    Properties prop = new Properties();
-    InputStream input = null;
+    Properties prop;// = new Properties();
+    InputStream input;// = null;
+
+    public KeyBindingConfig(){
+        prop = new Properties();
+        input = null;
+    }
 
     public void readConfig(){
         input = null;
-        readFileForReal(input,"configs/KeyBindings.properties");
+        readConfigFile(input,"KeyBindings.properties");
 
         try {
             // load a properties file
@@ -27,8 +32,11 @@ public class KeyBindingConfig {
         }
     }
 
-    public void readFileForReal(InputStream stream, String filepath){
-        try {stream = new FileInputStream(filepath);}
-        catch (IOException ex) {ex.printStackTrace();}
+    private void readConfigFile(InputStream stream, String filename){
+        try {
+            stream = new FileInputStream(System.getProperty("user.dir") + "/src/configs/" + filename);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
