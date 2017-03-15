@@ -7,8 +7,10 @@ import models.command.HarvestCommand;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.Structures.ResourceStructure;
+import models.playerAsset.Assets.Structures.Structure;
 
 public class CTRLHarvestCommand implements CTRLCommand {
+	private CommandComponents parts;
 	private ResourceStructure harvester;
 	private TileAssociation target;
 	private int assignedWorkers;
@@ -32,13 +34,23 @@ public class CTRLHarvestCommand implements CTRLCommand {
 	}
 
 	@Override
-	//TODO: Make this work using the CommandComponents mechanaism
 	public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+	    this.parts = parts;
+		this.harvester = (ResourceStructure)parts.getRequestingAsset();
+		this.assignedWorkers = parts.getNumWorkers();
+		parts.requestDestinationTile(this);
+		isConfigured = false;
 	}
 
 	@Override
 	public void callback() throws CommandNotConfiguredException {
-		//Unused...for now?
+        this.target = parts.getDestinationTile(); //Query parts for the destination tile.
+        if(null != target){
+            isConfigured = true;
+            parts.requestExecution();   //Request execution
+        } else {
+            throw new CommandNotConfiguredException("damn");
+        }
 	}
 
 	@Override
@@ -55,5 +67,8 @@ public class CTRLHarvestCommand implements CTRLCommand {
 						);
 		}
 	}
-
+    @Override
+    public String toString(){
+	    return "Harvest";
+    }
 }
