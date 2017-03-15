@@ -38,4 +38,8 @@ public class Structure extends CombatAsset {
             productionRate -= w.getProduction();
         }
     }
+
+    public int getStaffCount(){
+        return staff.size();
+    }
 }

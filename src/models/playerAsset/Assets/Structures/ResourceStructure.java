@@ -14,19 +14,20 @@ public class ResourceStructure extends Structure{
     ArrayList<Worker> gatherers;
     ArrayList<Worker> producers;
     int workerDensity;
-    ArrayList<Worker> idlers;
     private int workRadiusSize;
     private WorkRadius workRadius;
     private HarvestStrategy harvestStrategy;
     private HashMap<String, Integer> resourceCount;
+    private HashMap<String, Integer> producedCount;
 
 
     public ResourceStructure() {
     	this.workRadiusSize = 0;
         gatherers = new ArrayList<Worker>();
         producers = new ArrayList<Worker>();
-        idlers = new ArrayList<Worker>();
+        staff = new ArrayList<Worker>();
         resourceCount = new HashMap<String, Integer>();
+        producedCount = new HashMap<String, Integer>();
     }
     
     public ArrayList<Worker> removeWorkersFromGathering(int num){
@@ -50,16 +51,16 @@ public class ResourceStructure extends Structure{
     }
 
     public void addWorkersToIdle(ArrayList<Worker> worker){
-    	idlers.addAll(worker);
+    	staff.addAll(worker);
     }
     
     /*
      * set workers that are gathering resources
      */
     public void addWorkersToGathering(int assignedWorkers){
-    	if (assignedWorkers >= idlers.size()) {
+    	if (assignedWorkers >= staff.size()) {
     		for (int i = 0; i < assignedWorkers; i++) {
-    			gatherers.add(idlers.get(i));
+    			gatherers.add(staff.get(i));
     		}
     	}
     }
@@ -68,9 +69,9 @@ public class ResourceStructure extends Structure{
      * set workers that are at structure, producing
      */
     public void addWorkersToProduction(int assignedWorkers){
-    	if (assignedWorkers >= idlers.size()) {
+    	if (assignedWorkers >= staff.size()) {
     		for (int i = 0; i < assignedWorkers; i++) {
-    			producers.add(idlers.get(i));
+    			producers.add(staff.get(i));
     		}
     	}
     }
@@ -114,6 +115,21 @@ public class ResourceStructure extends Structure{
     	} else {
     		resourceCount.put(type, count);
     	}
+    }
+
+    public void produce(String type){
+        if (resourceCount.containsKey(type)){
+            int resources = resourceCount.get(type);
+            int amtToProduce = producers.size()*5;
+            if (producedCount.containsKey(type) && amtToProduce >= resources) {
+                producedCount.put(type, producedCount.get(type) + resources);
+                resourceCount.put(type, 0);
+            }
+            else {
+                producedCount.put(type, producedCount.get(type) + amtToProduce);
+                resourceCount.put(type, resourceCount.get(type) - amtToProduce);
+            }
+        }
     }
 
     public void increaseProduction(String type, double i){};
