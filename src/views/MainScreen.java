@@ -21,6 +21,7 @@ public class MainScreen implements TileObserver {
     private JFrame mainScreen;
     private Player currentPlayer;
     private PlayerInfoArea playerInfoArea;
+    private ControllerInfoArea controllerInfoArea;
 
     private final int EMPTY = 0;
     private final int BSIZE = 10;
@@ -146,9 +147,9 @@ public class MainScreen implements TileObserver {
         content.setLayout(new GridBagLayout());
 
         //Controller information area
-        ControllerInfoArea controllerInfoArea = new ControllerInfoArea(content);
+        this.controllerInfoArea = new ControllerInfoArea(content);
 
-        //Player Information Area with Resources
+        //Player information area with resources
         this.playerInfoArea = new PlayerInfoArea(content);
 
         //Unit OV Table
@@ -353,7 +354,7 @@ public class MainScreen implements TileObserver {
                     tileReceiver.receiveTile(null);
                 }
 
-                if(id == KeyEvent.VK_ENTER){
+                if(id == KeyEvent.VK_NUMPAD5){
                     board[x][y] = 0;
                     tileAssociationIndex = (x*BSIZE) + y;
                     disableHighlight();
