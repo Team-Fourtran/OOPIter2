@@ -26,7 +26,7 @@ public class MainScreen implements TileObserver {
     private ControllerInfoArea controllerInfoArea;
 
     private final int EMPTY = 0;
-    private final int BSIZE = 10;
+    private final int BSIZE = 15;
     private final int HEXSIZE = 64;
     private final int BORDERS = 10;
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;

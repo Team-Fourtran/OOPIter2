@@ -22,7 +22,6 @@ public class PowerPlant extends ResourceStructure {
         setRadiusOfInfluence(1);
         setProductionRate(1);
         setWorkerDensity(10);
-        setWorkRadius(0);
         energyProductionMultiplier = 1;
         staff = new ArrayList<>();
 

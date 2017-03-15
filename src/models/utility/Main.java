@@ -47,7 +47,7 @@ class modelTest{
     modelTest() throws InterruptedException {
 
 //        liveTest();
-//        configure(); //Comment out KeyboardController in Game
+        configure(); //Comment out KeyboardController in Game
 //        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
@@ -60,8 +60,8 @@ class modelTest{
 //        testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
-//        testInfluenceReaction();
-         testTech();
+        testInfluenceReaction();
+//         testTech();
 
 
 //        testBuild();
@@ -564,7 +564,6 @@ class modelTest{
         cdcmd.configure(s0);
         game.notifyOfCommand(cdcmd);
 
-
         changeTurn(1);
 	}
 
@@ -659,15 +658,15 @@ class modelTest{
     private void testTech() {
         Player p1 = new Player("Chaz");
         //StructureManager m = new StructureManager();
-        Structure farm = player.getStructures().createStructure("farm", null);
-        Structure capital = p1.getStructures().createStructure("capital", null);
-        Structure fort = p1.getStructures().createStructure("fort",null);
+        Structure farm = p1.getStructures().createStructure("farm", _tiles.get(4));
+//        Structure capital = p1.getStructures().createStructure("capital",_tiles.get(4));
+        Structure fort = p1.getStructures().createStructure("fort",_tiles.get(4));
 
         Farm farm1 = (Farm) farm;
         farm1.printStats();
         System.out.println();
-        Capital c = (Capital) capital;
-        c.printStats();
+//        Capital c = (Capital) capital;
+//        c.printStats();
         System.out.println();
 
         CTRLResearchTechnologyCommand com1 = new CTRLResearchTechnologyCommand();
@@ -684,11 +683,11 @@ class modelTest{
 
         farm1.printStats();
         System.out.println();
-        c.printStats();
+//        c.printStats();
         System.out.println();
 
-        Structure capital1 = p1.getStructures().createStructure("capital", null);
-        Structure powerplant = p1.getStructures().createStructure("powerplant", null);
+        Structure capital1 = p1.getStructures().createStructure("capital", _tiles.get(4));
+        Structure powerplant = p1.getStructures().createStructure("powerplant", _tiles.get(4));
         Capital c1 = (Capital) capital1;
         PowerPlant power = (PowerPlant) powerplant;
 
@@ -707,7 +706,7 @@ class modelTest{
     }
     private void testHarvest() throws InterruptedException {
     	// put a capital on this same tile
-    	Structure s1 = sm.createStructure("power plant", _tiles.get(4)); // add to manager
+    	Structure s1 = sm.createStructure("powerplant", _tiles.get(4)); // add to manager
     	PlayerAssetOwnership.addPlayerAsset(player, s1); // add to player list. Actually this could be done in the managers maybe
     	map.addAssetToMap(s1, _tiles.get(4)); // add to map
     	
@@ -723,7 +722,7 @@ class modelTest{
     	CTRLHarvestCommand chc = new CTRLHarvestCommand();
     	chc.configure(t, _tiles.get(4), 1); // pick any tile. won't perform if not in work radius. have view show work radius properly
     	game.notifyOfCommand(chc);
-    	
+
     	changeTurn(6);
 
     }

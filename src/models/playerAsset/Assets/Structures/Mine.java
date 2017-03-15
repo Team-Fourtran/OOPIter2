@@ -22,7 +22,6 @@ public class Mine extends ResourceStructure{
         setRadiusOfInfluence(1);
         setProductionRate(1);
         setWorkerDensity(1);
-        setWorkRadius(0);
 
         oreProductionMultiplier = 1;
         staff = new ArrayList<>();

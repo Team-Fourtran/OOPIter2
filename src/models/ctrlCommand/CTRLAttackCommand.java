@@ -22,7 +22,8 @@ public class CTRLAttackCommand implements CTRLCommand{
     public void configure(CombatAsset giver, TileAssociation receiver){
         this.giver = giver;
         this.receiver = receiver;
-        parts.requestDestinationTile(this);
+//        parts.requestDestinationTile(this);
+        isConfigured = true;
     }
 
     @Override

@@ -25,13 +25,11 @@ public class StructureFactory {
             	WorkRadius rm = configureWorkRadius(m, baseTile);
             	m.setHarvestType(new OreHarvestStrategy(rm, m));
             	return m;
-
             case "powerplant":
             	PowerPlant p = new PowerPlant();
             	WorkRadius rp = configureWorkRadius(p, baseTile);
             	p.setHarvestType(new EnergyHarvestStrategy(rp, p));
             	return p;
-
             case "fort":
                 return new Fort();
             case "observationtower":

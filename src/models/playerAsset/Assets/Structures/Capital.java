@@ -28,7 +28,6 @@ public class Capital extends ResourceStructure {
         setRadiusOfInfluence(2);
         setProductionRate(1);
         setWorkerDensity(10);
-        setWorkRadius(0);
 
         foodProductionMultiplier = 1;
         oreProductionMultiplier = 1;

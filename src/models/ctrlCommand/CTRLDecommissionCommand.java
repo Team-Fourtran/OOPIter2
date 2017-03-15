@@ -18,6 +18,7 @@ public class CTRLDecommissionCommand implements CTRLCommand{
     public void configure(CombatAsset asset){
         isConfigured = true;
         this.asset = asset;
+        isConfigured = true;
     }
 
     @Override

@@ -22,7 +22,6 @@ public class Farm  extends ResourceStructure{
         setRadiusOfInfluence(1);
         setProductionRate(0);
         setWorkerDensity(10);
-        setWorkRadius(0);
         foodProductionMultiplier = 1;
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();

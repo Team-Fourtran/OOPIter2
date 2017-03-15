@@ -1,4 +1,5 @@
 package models.ctrlCommand;
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.Structures.University;
@@ -25,6 +26,16 @@ public class CTRLResearchTechnologyCommand implements CTRLCommand{
         this.univ = univ;
     }
 
+    @Override
+    public void callback() throws CommandNotConfiguredException {
+
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+
+    }
+
     public void execute(GameMap map, Player player){
         player.accept(
                 new NewTechVisitor(
@@ -32,5 +43,10 @@ public class CTRLResearchTechnologyCommand implements CTRLCommand{
                         asset,
                         univ
         ));
+    }
+
+    @Override
+    public boolean isConfigured() {
+        return false;
     }
 }
