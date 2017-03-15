@@ -9,16 +9,17 @@ import models.playerAsset.Assets.Units.Unit;
 public interface CommandComponents {
     PlayerAsset getRequestingAsset();
     PlayerAsset getTargetAsset();
-
-    void requestDestinationTile(CTRLCommand callbackObj);   //Initiates a request to update the destination tile using the View's mechanism
-    TileAssociation getDestinationTile();   //Actually gets the tile
+    TileAssociation getRequestingTile();
+    void requestDestinationTile(CTRLCommand callbackObj);
+    void requestDestinationStructure(CTRLCommand callbackObj);
+    void requestDestinationRallypoint(CTRLCommand callbackObj);
+    TileAssociation getDestinationTile();
 
     Player getOpposingPlayer();
     String getStructureType();
     String getUnitType();
     int getInt();
     Unit[] getUnitList();
-
     void requestExecution();    //Called by CTRLCommands once they think they're ready to be executed
 
 }

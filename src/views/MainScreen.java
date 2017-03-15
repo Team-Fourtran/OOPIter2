@@ -16,6 +16,7 @@ import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Iterators.AssetIterator;
+import models.playerAsset.Iterators.TypeIterator2;
 
 import java.util.*;
 
@@ -50,6 +51,7 @@ public class MainScreen implements TileObserver {
     private int tileAssociationIndex;
 
     TileTargetting tileReceiver;
+    AssetTargetting assetReceiver;
 
     private DrawingPanel map;
     public MainScreen(Player p, TileAssociation[] tiles){
@@ -87,6 +89,9 @@ public class MainScreen implements TileObserver {
     public TileTargetting getTileTargetter(){
         return tileReceiver;
     }
+    public AssetTargetting getAssetTargetter(){
+        return assetReceiver;
+    }
     public void showMainScreen(){
         mainScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainScreen.setVisible(true);
@@ -123,6 +128,7 @@ public class MainScreen implements TileObserver {
         keyMap.put("RIGHT",false);
         keyInformer = new KeyPressInformer(keyMap);
         tileReceiver = new TileTargetting(this);
+        assetReceiver = new AssetTargetting(this);
     }
 
     //For communication between CommandGenerator. Focusing on unit/army to highlight the tile.
@@ -296,6 +302,7 @@ public class MainScreen implements TileObserver {
                 }
             }
         }
+
         class TileHighlightListener extends KeyAdapter {
 
             public void keyPressed(KeyEvent e) {
@@ -371,6 +378,48 @@ public class MainScreen implements TileObserver {
         }
     }
 
+    class AssetCycleListener extends KeyAdapter {
+        private TypeIterator2 iter;
+        private PlayerAsset selected;
+
+        public AssetCycleListener(TypeIterator2<PlayerAsset> iter){
+            this.iter = iter;
+            selected = iter.current();
+        }
+
+        public void keyPressed(KeyEvent e) {
+            int id = e.getKeyCode();
+
+            if(id == KeyEvent.VK_LEFT){
+                System.out.println("LEFT");
+                iter.prev();
+                selected = (PlayerAsset) iter.current();
+                System.out.println(selected.toString());
+                searchTileAssociation(selected);
+            }
+            if(id == KeyEvent.VK_RIGHT){
+                System.out.println("RIGHT");
+                iter.next();
+                selected = (PlayerAsset) iter.current();
+                System.out.println(selected.toString());
+                searchTileAssociation(selected);
+            }
+
+            if(id == KeyEvent.VK_ESCAPE){
+                map.removeKeyListener(this);
+                map.enableCommand();
+                assetReceiver.receiveAsset(null);
+            }
+
+            if(id == KeyEvent.VK_ENTER){
+                map.removeKeyListener(this);
+                map.enableCommand();
+                assetReceiver.receiveAsset(selected);
+            }
+            map.repaint();
+        }
+    }
+
     public void doTileTargetting(TileTargetting ttr, PlayerAsset startingHighlight){
         tileReceiver = ttr;
 
@@ -381,6 +430,17 @@ public class MainScreen implements TileObserver {
         map.enableHighlight();
 
         //Key listeners will call receiveTile on tileReceiver
+    }
+
+    public void doAssetTargetting(AssetTargetting at){
+        assetReceiver = at;
+        TypeIterator2<PlayerAsset> iter = at.getIterator();
+        iter.first();
+        if (iter.current() == null){
+            return;
+        }
+        map.disableCommand();
+        map.addKeyListener(new AssetCycleListener(iter));
     }
 
     @Override

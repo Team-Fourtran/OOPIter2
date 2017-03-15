@@ -78,19 +78,30 @@ class modelTest{
         TileGen tileGen = new TileGen(length, length);
         this._tiles = tileGen.execute();
         Unit u0 = um.addNewUnit("colonist");
-        _tiles.get(8).add(u0);
+        _tiles.get(6).add(u0);
         Unit u1 = um.addNewUnit("explorer");
-        _tiles.get(9).add(u1);
-        Unit u2 = umEnemy.addNewUnit("ranged");
-        _tiles.get(10).add(u2);
-        Unit u3 = umEnemy.addNewUnit("melee");
-        _tiles.get(11).add(u3);
+        _tiles.get(7).add(u1);
+        Unit u2 = um.addNewUnit("melee");
+        _tiles.get(8).add(u2);
+        Unit u3 = um.addNewUnit("ranged");
+        _tiles.get(9).add(u3);
+
+        Unit u4 = umEnemy.addNewUnit("ranged");
+        _tiles.get(82).add(u4);
+        Unit u5 = umEnemy.addNewUnit("melee");
+        _tiles.get(83).add(u5);
+        Unit u6 = umEnemy.addNewUnit("ranged");
+        _tiles.get(84).add(u6);
+        Unit u7 = umEnemy.addNewUnit("melee");
+        _tiles.get(85).add(u7);
+
+
         this.game = new Game(player, enemyPlayer, _tiles);
         this.map = game.getMap();
 
-//        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
-//        cac.configure(_tiles.get(20), u2, u3);
-//        game.notifyOfCommand(cac);
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(16), u1, u2);
+        game.notifyOfCommand(cac);
     }
 
 	private void configure() throws InterruptedException {
