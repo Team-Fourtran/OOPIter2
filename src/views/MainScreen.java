@@ -68,7 +68,7 @@ public class MainScreen implements TileObserver {
 
     public void updatePlayer(Player p){
         this.currentPlayer = p;
-        playerInfoArea.update(p.getName());
+        playerInfoArea.update(currentPlayer);
     }
 
     public KeyPressInformer getKeyInformer(){
@@ -125,13 +125,14 @@ public class MainScreen implements TileObserver {
 
     //For communication between CommandGenerator. Focusing on unit/army to highlight the tile.
     public void highlightAsset(PlayerAsset playerAsset){
-        board[x][y] = 0;
+        map.isHighlighted = false;
         for(int i = 0; i < tiles.length; i++){
             if(tiles[i].isAssetOwner(playerAsset)){
                 HexProperties hp = hexMech.getHexProperties(tiles[i]);
                 this.x = hp.getActualX();
                 this.y = hp.getActualY();
-                board[x][y] = (int)' ';
+                map.isHighlighted = true;
+                map.repaint();
                 return;
             }
         }
@@ -159,6 +160,7 @@ public class MainScreen implements TileObserver {
 
         //Player information area with resources
         this.playerInfoArea = new PlayerInfoArea(content, new TurnSwitchNotifier());
+        playerInfoArea.update(currentPlayer);
 
         //Unit OV Table
         Dimension d = new Dimension(900, 700);
@@ -460,6 +462,7 @@ public class MainScreen implements TileObserver {
     }
 
     public void updateControls(AssetIterator iter){
+        highlightAsset((PlayerAsset) iter.current());
         controllerInfoArea.update(iter);
     }
 }

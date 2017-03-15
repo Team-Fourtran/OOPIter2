@@ -34,7 +34,7 @@ public class ModifyWorkersCommand implements Command{
                 }
             }
             else{
-                structure.assignWorkers(army.removeWorkers());
+                structure.assignWorkers(army.removeWorkers(numWorkers));
             }
         }
     }

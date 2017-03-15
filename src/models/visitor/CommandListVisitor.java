@@ -55,7 +55,6 @@ public class CommandListVisitor implements SpecificAssetVisitor{
         }
         else{
             cmdList.add(new CTRLPowerDownCommand());
-            cmdList.add(new CTRLHealCommand());
             cmdList.add(new CTRLDecommissionCommand());
         }
         cmdList.add(new CTRLCancelQueuedOrders());
@@ -77,6 +76,7 @@ public class CommandListVisitor implements SpecificAssetVisitor{
     @Override
     public void visitCapital(Capital capital) {
         cmdList.add(new CTRLCreateUnitCommand());
+        cmdList.add(new CTRLHealCommand());
         this.visitStructure(capital);
     }
 
@@ -109,6 +109,7 @@ public class CommandListVisitor implements SpecificAssetVisitor{
 
     @Override
     public void visitUniversity(University university) {
+        cmdList.add(new CTRLResearchTechnologyCommand());
         this.visitStructure(university);
     }
 

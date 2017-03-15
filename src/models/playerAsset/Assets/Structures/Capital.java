@@ -8,14 +8,9 @@ import java.util.ArrayList;
 
 public class Capital extends ResourceStructure {
 
-    int rawFood;
-    int producedFood;
+
     double foodProductionMultiplier;
-    int rawOre;
-    int producedOre;
     double oreProductionMultiplier;
-    int rawEnergy;
-    int producedEnergy;
     double energyProductionMultiplier;
 
     public Capital() {

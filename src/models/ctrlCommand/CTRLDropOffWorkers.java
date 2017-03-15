@@ -40,7 +40,7 @@ public class CTRLDropOffWorkers implements CTRLCommand{
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
         this.parts = parts;
         this.rallyPoint = parts.getRequestingAsset();
-        this.numWorkers = parts.getInt();
+        this.numWorkers = parts.getNumWorkers();
         parts.requestDestinationStructure(this);
         isConfigured = false;
     }

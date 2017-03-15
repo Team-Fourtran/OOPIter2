@@ -28,7 +28,6 @@ public class University extends Structure{
         return factory.makeTech(tech);
     }
 
-
     @Override
     public void accept(AssetVisitor v) {
         if (v instanceof SpecificAssetVisitor){

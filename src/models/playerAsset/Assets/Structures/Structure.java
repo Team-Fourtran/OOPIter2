@@ -38,6 +38,10 @@ public class Structure extends CombatAsset {
         }
     }
 
+    public int getStaffCount(){
+        return staff.size();
+    }
+
     public ArrayList<Worker> acquireWorkers(int num){
         ArrayList<Worker> list = new ArrayList<>();
         if(staff.isEmpty()){
