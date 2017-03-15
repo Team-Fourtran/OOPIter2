@@ -27,14 +27,13 @@ public class Capital extends ResourceStructure {
         setUpkeep(1);
         setRadiusOfInfluence(2);
         setProductionRate(1);
-        setRange(3);
         setWorkerDensity(10);
         setWorkRadius(0);
 
         foodProductionMultiplier = 1;
         oreProductionMultiplier = 1;
         energyProductionMultiplier = 1;
-
+        // Important: need to set harvest strategy of capital before it can gather resources
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();

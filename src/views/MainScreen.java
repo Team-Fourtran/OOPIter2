@@ -1,7 +1,6 @@
 package views;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -11,31 +10,34 @@ import controllers.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyAdapter;
-
-import models.command.Command;
+import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import models.playerAsset.Assets.Player;
+import models.playerAsset.Assets.PlayerAsset;
+import models.playerAsset.Iterators.AssetIterator;
+
 import java.util.*;
 
 public class MainScreen implements TileObserver {
     private JFrame mainScreen;
+    private Player currentPlayer;
+    private PlayerInfoArea playerInfoArea;
+    private ControllerInfoArea controllerInfoArea;
 
     private final int EMPTY = 0;
-    private final int BSIZE = 15;
+    private final int BSIZE = 10;
     private final int HEXSIZE = 64;
     private final int BORDERS = 10;
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
     static final Color COLOURBACK =  Color.WHITE;
-    static final Color COLOURCELL =  Color.ORANGE;
+    static final Color COLOURCELL =  Color.BLACK;
     static final Color COLOURGRID =  Color.BLACK;
     static final Color COLOURONE = new Color(255,223,255,200);
     static final Color COLOURTWO = new Color(0,0,0,124);
 
     private int[][] board = new int[BSIZE][BSIZE];
-
     private KeyPressInformer keyInformer;
 
     private TileAssociation[] tiles;
@@ -45,9 +47,13 @@ public class MainScreen implements TileObserver {
 
     private int x = 0;
     private int y = 0;
+    private int tileAssociationIndex;
+
+    TileTargetting tileReceiver;
 
     private DrawingPanel map;
-    public MainScreen(TileAssociation[] tiles){
+    public MainScreen(Player p, TileAssociation[] tiles){
+        this.currentPlayer = p;
         this.tiles = tiles;
         for (int i = 0; i < tiles.length; i++) {
             tiles[i].addObserver(this);
@@ -66,11 +72,37 @@ public class MainScreen implements TileObserver {
         }
     }
 
+    public void updatePlayer(Player p){
+        this.currentPlayer = p;
+        playerInfoArea.update(p.getName());
+    }
+
     public KeyPressInformer getKeyInformer(){
         return this.keyInformer;
     }
+    public TurnSwitchNotifier getTurnSwitchNotifier(){
+        return playerInfoArea.getTurnSwitchNotifier();
+    }
+
+    public TileTargetting getTileTargetter(){
+        return tileReceiver;
+    }
     public void showMainScreen(){
+        mainScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainScreen.setVisible(true);
+
+        //FullScreen
+        mainScreen.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //mainScreen.setUndecorated(true);
+        mainScreen.setVisible(true);
+//        StructureCreationDialog structureCreationDialog = new StructureCreationDialog();
+//        structureCreationDialog.createDialog();
+//        String structure = structureCreationDialog.returnStructureType();
+//        System.out.println(structure);
+//        structureCreationDialog.closeDialog();
+//        structureCreationDialog.createDialog();
+//        structure = structureCreationDialog.returnStructureType();
+//        System.out.println(structure);
     }
     public void initialize(){
         hexMech.setXYasVertex(false);
@@ -90,6 +122,7 @@ public class MainScreen implements TileObserver {
         keyMap.put("LEFT",false);
         keyMap.put("RIGHT",false);
         keyInformer = new KeyPressInformer(keyMap);
+        tileReceiver = new TileTargetting(this);
     }
 
     //For communication between CommandGenerator. Focusing on unit/army to highlight the tile.
@@ -106,37 +139,55 @@ public class MainScreen implements TileObserver {
         map = new DrawingPanel();
         map.setBackground(Color.blue);
         JScrollPane mapPane = new JScrollPane(map);
-        Dimension d1 = new Dimension(1200, 1200);
-        mapPane.setPreferredSize(d1);
+        //Dimension d1 = new Dimension(1200, 1200);
+        //mapPane.setPreferredSize(d1);
         mainScreen = new JFrame("Fourtran Game");
 
         JPanel startScreen = new JPanel();
+        GridBagConstraints c = new GridBagConstraints();
 
         tabbedPane = new JTabbedPane();
 
         Container content = mainScreen.getContentPane();
-        content.add(new JButton("Something"), BorderLayout.SOUTH);
+        content.setLayout(new GridBagLayout());
+
+        //Controller information area
+        this.controllerInfoArea = new ControllerInfoArea(content);
+
+        //Player information area with resources
+        this.playerInfoArea = new PlayerInfoArea(content, new TurnSwitchNotifier());
 
         //Unit OV Table
-
         Dimension d = new Dimension(900, 700);
+
         unitTable = new UnitOverview(d);
         strTable = new StructureOverview(d);
 
         tabbedPane.addTab("Map", mapPane);
         tabbedPane.addTab("Unit Overview", unitTable);
         tabbedPane.addTab("Structure Overview", strTable);
-
+        //tabbedPane.setPreferredSize(d1);
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged(ChangeEvent changeEvent) {
                 JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
                 int index = sourceTabbedPane.getSelectedIndex();
+                if (sourceTabbedPane.getSelectedComponent() instanceof DataTable){
+                    ((DataTable)sourceTabbedPane.getSelectedComponent()).update(currentPlayer);
+                }
                 System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
             }
         };
         tabbedPane.addChangeListener(changeListener);
 
-        content.add(tabbedPane, BorderLayout.CENTER);
+        c.gridwidth = 4;
+        c.gridheight = 2;
+        c.gridx = 0;
+        c.gridy = 1;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.fill = GridBagConstraints.BOTH;
+        content.add(tabbedPane, c);
+
         tabbedPane.setFocusable(false);
         mapPane.setFocusable(false);
         map.setFocusable(true);
@@ -149,18 +200,14 @@ public class MainScreen implements TileObserver {
             }
 
         });
-
         mainScreen.setSize( (int)(SCRSIZE/1.23), SCRSIZE);
+        mainScreen.pack();
         mainScreen.setResizable(true);
         mainScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //mainScreen.setLocationRelativeTo(null);
+
     }
 
     class DrawingPanel extends JPanel{
-        //        int xPoint = 100;
-//        int yPoint = 100;
-        //int x = 0;
-        //int y = 0;
         private TileHighlightListener tHL;
         private CommandListener commandListener;
         private boolean toggleHT;
@@ -168,15 +215,14 @@ public class MainScreen implements TileObserver {
             setBackground(COLOURBACK);
             setFocusable(true);
             requestFocusInWindow();
-            toggleHT = true;
+            toggleHT = false;
             commandListener = new CommandListener();
             tHL = new TileHighlightListener();
-            addKeyListener(tHL);
             addKeyListener(commandListener);
         }
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(1200, 1200);
+            return new Dimension(600, 700);
         }
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
@@ -208,6 +254,14 @@ public class MainScreen implements TileObserver {
             toggleHT = false;
             removeKeyListener(tHL);
         }
+
+        public void enableCommand(){
+            addKeyListener(commandListener);
+        }
+        public void disableCommand(){
+            removeKeyListener(commandListener);
+        }
+
         class CommandListener extends KeyAdapter{
             @Override
             public void keyReleased(KeyEvent e){
@@ -227,7 +281,9 @@ public class MainScreen implements TileObserver {
             }
             @Override
             public void keyPressed(KeyEvent e){
-                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+                if(e.getKeyCode() == KeyEvent.VK_CONTROL) {
+                    keyInformer.update("CONTROL", true);
+                } else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
                     keyInformer.update("RIGHT", true);
                 } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
                     keyInformer.update("LEFT", true);
@@ -235,60 +291,113 @@ public class MainScreen implements TileObserver {
                     keyInformer.update("UP", true);
                 } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
                     keyInformer.update("DOWN", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
-                    keyInformer.update("CONTROL", true);
                 } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
                     keyInformer.update("ENTER", true);
                 }
             }
         }
         class TileHighlightListener extends KeyAdapter {
+
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
 
-                if(id == KeyEvent.VK_RIGHT){
-                    //hexMech.highlight(560, 500);
-                    /*xPoint += 45;
-                    Point p = new Point( hexMech.pxtoHex(xPoint, 300 ));
-                    x = p.x;
-                    y = p.y;
-                    System.out.println(xPoint);
-                    System.out.println(p.x + ", " + p.y);*/
+                if(id == KeyEvent.VK_Q || id == KeyEvent.VK_NUMPAD7){
                     board[x][y] = 0;
-                    x++;
+                    if(x % 2 == 0 || x == 0){
+                        x = (x-1 < 0)? BSIZE-1 : x-1;
+                        y = (y-1 < 0)? BSIZE-1 : y-1;
+                    } else {
+                        x = (x-1 < 0)? BSIZE-1 : x-1;
+                    }
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_LEFT){
+                if(id == KeyEvent.VK_W || id == KeyEvent.VK_NUMPAD8){
                     board[x][y] = 0;
-                    x--;
+                    y = (y-1 < 0)? BSIZE-1 : y-1;
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_UP){
+                if(id == KeyEvent.VK_E || id == KeyEvent.VK_NUMPAD9){
                     board[x][y] = 0;
-                    y--;
+                    if(x % 2 == 0 || x == 0){
+                        x = (x+1) % BSIZE;
+                        y = (y-1 < 0)? BSIZE-1 : y-1;
+                    } else{
+                        x = (x+1) % BSIZE;
+                    }
+
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_DOWN){
+                if(id == KeyEvent.VK_A || id == KeyEvent.VK_NUMPAD1){
                     board[x][y] = 0;
-                    y++;
+                    if(x % 2 == 1 || x == 0) {
+                        y = (y+1) % BSIZE;
+                        x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
+                    } else{
+                        x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
+                    }
+                    board[x][y] = (int)' ';
+                }
+                if(id == KeyEvent.VK_S || id == KeyEvent.VK_NUMPAD2){
+                    board[x][y] = 0;
+                    y = (y+1) % BSIZE;
+                    board[x][y] = (int)' ';
+                }
+                if(id == KeyEvent.VK_D || id == KeyEvent.VK_NUMPAD3){
+                    board[x][y] = 0;
+                    if(x % 2 == 1 || x == 0) {
+                        y = (y+1) % BSIZE;
+                        x = (x+1) % BSIZE;
+                    } else{
+                        x = (x+1) % BSIZE;
+                    }
                     board[x][y] = (int)' ';
                 }
                 if(id == KeyEvent.VK_ESCAPE){
                     board[x][y] = 0;
                     disableHighlight();
+                    enableCommand();
+                    tileReceiver.receiveTile(null);
+                }
+
+                if(id == KeyEvent.VK_NUMPAD5){
+                    board[x][y] = 0;
+                    tileAssociationIndex = (x*BSIZE) + y;
+                    disableHighlight();
+                    enableCommand();
+                    tileReceiver.receiveTile(tiles[tileAssociationIndex]);
                 }
                 repaint();
             }
         }
     }
 
-    public void updateMainScreen() {
-        mainScreen.repaint();
+    public void doTileTargetting(TileTargetting ttr, PlayerAsset startingHighlight){
+        tileReceiver = ttr;
+
+        /* Disable command cycling until we press Enter */
+        map.disableCommand();
+
+        /* Enable highlighting */
+        map.enableHighlight();
+
+        //Key listeners will call receiveTile on tileReceiver
     }
 
     @Override
-    public void update(TileAssociation t) {
+    public void updateAdd(TileAssociation t, PlayerAsset p) {
+    	updateTile(t);
+    }
+    
+    public void updateRemove(TileAssociation t, PlayerAsset p) {
+    	updateTile(t);
+    }
+    
+    public void updateTile(TileAssociation t) {
         hexMech.updateTile(t);
         mainScreen.repaint();
+    }
+
+    public void updateControls(AssetIterator iter){
+        controllerInfoArea.update(iter);
     }
 }

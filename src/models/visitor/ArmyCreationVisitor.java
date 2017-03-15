@@ -1,6 +1,7 @@
 package models.visitor;
 
 import models.assetOwnership.GameMap;
+import models.assetOwnership.PlayerAssetOwnership;
 import models.assetOwnership.TileAssociation;
 import models.command.JoinBattleGroupCommand;
 import models.playerAsset.Assets.*;
@@ -30,10 +31,10 @@ public class ArmyCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitArmyManager(ArmyManager armyManager) {
-
         //Should have Army Factory to return new army...
         Army newArmy = armyManager.formArmy(units);
         RallyPoint rp = armyManager.formRallyPoint(newArmy);
+        PlayerAssetOwnership.addPlayerAsset(player, newArmy, rp);
 
         rp.setArmy(newArmy);
         map.addAssetToMap(rp, location);
@@ -43,7 +44,7 @@ public class ArmyCreationVisitor implements PlayerVisitor{
                     new JoinBattleGroupCommand(newArmy, u, map)
             );
         }
-        rp.accept(
+        rp.accept( //TODO Bug here that adds stuff to TA twice
                 new MovementVisitor(map, player, location)
         );
 
@@ -56,6 +57,9 @@ public class ArmyCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitUnitManager(UnitManager unitManager) {
+//        for (Unit u : units){
+//            unitManager.removeUnit(u);
+//        }
         //TODO Ask Clay what happens to the units here that are added to an army
     }
 }

@@ -10,15 +10,13 @@ import models.playerAsset.Assets.PlayerAsset;
 
 public class AttackCommand implements Command{
     private Player givingPlayer;
-    private Player receivingPlayer;
     private CombatAsset giver;
     private TileAssociation receiver;
     private GameMap map;
 
 
-    public AttackCommand(Player givingPlayer, Player receivingPlayer, GameMap map, CombatAsset giver, TileAssociation receiver){
+    public AttackCommand(Player givingPlayer, GameMap map, CombatAsset giver, TileAssociation receiver){
         this.givingPlayer = givingPlayer;
-        this.receivingPlayer = receivingPlayer;
         this.map = map;
         this.giver = giver;
         this.receiver = receiver;
@@ -30,7 +28,6 @@ public class AttackCommand implements Command{
         receiver.accept(
             new AttackVisitor(
                     givingPlayer,
-                    receivingPlayer,
                     map,
                     giver,
                     receiver,
@@ -42,5 +39,21 @@ public class AttackCommand implements Command{
     @Override
     public double getTurns() {
         return 1;
+    }
+    
+    public Player getGivingPlayer() {
+    	return givingPlayer;
+    }
+    
+    public CombatAsset getGiver() {
+    	return giver;
+    }
+    
+    public TileAssociation getReceiver() {
+    	return receiver;
+    }
+    
+    public GameMap getMap() {
+    	return map;
     }
 }

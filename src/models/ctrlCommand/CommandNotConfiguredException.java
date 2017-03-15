@@ -10,4 +10,6 @@ public class CommandNotConfiguredException extends Exception {
         super(message, throwable);
     }
 
+
+
 }

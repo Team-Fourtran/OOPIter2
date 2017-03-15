@@ -20,8 +20,8 @@ public class TestCommandGen{
     private static KeyPressInformer keySim;
 
     public static void main(String[] args) throws InterruptedException{
-        int length = 15;
-        Player player = new Player();
+        int length = 10;
+        Player player = new Player("Player 1");
         ArmyManager am = player.getArmies();
         UnitManager um = player.getUnits();
         StructureManager sm = player.getStructures();
@@ -42,11 +42,11 @@ public class TestCommandGen{
         um.addNewUnit("ranged");
 
 
-        sm.createStructure("fort");
-        sm.createStructure("university");
-        sm.createStructure("mine");
-        sm.createStructure("farm");
-        sm.createStructure("university");
+        sm.createStructure("fort", null);
+        sm.createStructure("university", null);
+        sm.createStructure("mine", null);
+        sm.createStructure("farm", null);
+        sm.createStructure("university", null);
 
         //Make a hashmap for simulating keypresses
         keySimMap = new HashMap<String, Boolean>();
@@ -60,20 +60,13 @@ public class TestCommandGen{
         //Make a KeyPressInformer, which alerts registered listeners of changes in the hashmap
         keySim = new KeyPressInformer(keySimMap);
 
-        AssetIterator assIter = player.getAssetIterator();
-
-        KeyboardController kbc = new KeyboardController(keySim, assIter);
-
+        AssetIterator assIter = player.makeIterator();
 
         TileGen tileGen = new TileGen(length, length);
         ArrayList<TileAssociation> _tiles = tileGen.executeFancy();
-        Game thisGame = new Game(player, _tiles);
+
+        Game thisGame = new Game(player, player, _tiles);
         GameMap map = new GameMap(_tiles, 5, 5);
-
-
-        MainScreen ms = new MainScreen((TileAssociation[]) _tiles.toArray());
-        ms.generateMainScreen();
-        ms.showMainScreen();
 
         /*  Tests  */
         //testModeIteration();

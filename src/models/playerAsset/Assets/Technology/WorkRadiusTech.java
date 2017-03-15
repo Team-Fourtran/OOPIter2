@@ -11,6 +11,6 @@ public class WorkRadiusTech implements Technology {
     @Override
     public void apply(CombatAsset a) {
         ResourceStructure s = (ResourceStructure)a;
-        s.setWorkRadius(1 + s.getWorkRadius());
+        s.setRadiusSize(1 + s.getWorkRadiusSize());
     }
 }

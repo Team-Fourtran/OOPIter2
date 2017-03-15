@@ -14,9 +14,8 @@ public class RangedUnit extends Unit{
         setMaxHealth(200);
         setCurrentHealth(200);
         setUpkeep(1);
-        setRadiusOfInfluence(2);
+        setRadiusOfInfluence(3);
         setMovesPerTurn(.33);
-        setRange(3);
     }
     public String getType(){
         return "ranged";
