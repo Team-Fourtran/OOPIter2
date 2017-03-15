@@ -24,7 +24,7 @@ public class MainScreen implements TileObserver {
     private ControllerInfoArea controllerInfoArea;
 
     private final int EMPTY = 0;
-    private final int BSIZE = 10;
+    private final int BSIZE = 20;
     private final int HEXSIZE = 64;
     private final int BORDERS = 10;
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
@@ -39,6 +39,8 @@ public class MainScreen implements TileObserver {
 
     private int x = 0;
     private int y = 0;
+    private int coordX = 0;
+    private int coordY = 0;
     private int tileAssociationIndex;
 
     TileTargetting tileReceiver;
@@ -131,6 +133,8 @@ public class MainScreen implements TileObserver {
                 HexProperties hp = hexMech.getHexProperties(tiles[i]);
                 this.x = hp.getActualX();
                 this.y = hp.getActualY();
+                this.coordX = hp.getX();
+                this.coordY = hp.getY();
                 map.isHighlighted = true;
                 map.repaint();
                 return;
@@ -228,7 +232,7 @@ public class MainScreen implements TileObserver {
         }
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(600, 700);
+            return new Dimension(600, 600);
         }
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
@@ -236,6 +240,8 @@ public class MainScreen implements TileObserver {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
             g2.translate(-10, -10);
+            if(map.isHighlighted)
+                g2.translate((-coordX+250), (-coordY+300));
             super.paintComponent(g2);
             //draw grid
             int ind = 0;
@@ -316,7 +322,8 @@ public class MainScreen implements TileObserver {
 
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
-
+                coordX = x - 300;
+                coordY = y + 700;
                 if(id == KeyEvent.VK_Q || id == KeyEvent.VK_NUMPAD7){
                     if(x % 2 == 0 || x == 0){
                         x = (x-1 < 0)? BSIZE-1 : x-1;
@@ -324,11 +331,17 @@ public class MainScreen implements TileObserver {
                     } else {
                         x = (x-1 < 0)? BSIZE-1 : x-1;
                     }
+                    coordX = x - 300;
+                    coordY = y + 700;
                     isHighlighted = true;
+                    map.repaint();
                 }
                 if(id == KeyEvent.VK_W || id == KeyEvent.VK_NUMPAD8){
                     y = (y-1 < 0)? BSIZE-1 : y-1;
                     isHighlighted = true;
+                    coordX = x - 300;
+                    coordY = y + 700;
+                    map.repaint();
                 }
                 if(id == KeyEvent.VK_E || id == KeyEvent.VK_NUMPAD9){
                     if(x % 2 == 0 || x == 0){
@@ -337,7 +350,10 @@ public class MainScreen implements TileObserver {
                     } else{
                         x = (x+1) % BSIZE;
                     }
+                    coordX = x - 300;
+                    coordY = y + 700;
                     isHighlighted = true;
+                    map.repaint();
                 }
                 if(id == KeyEvent.VK_A || id == KeyEvent.VK_NUMPAD1){
                     if(x % 2 == 1 || x == 0) {
@@ -346,11 +362,17 @@ public class MainScreen implements TileObserver {
                     } else{
                         x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
                     }
+                    coordX = x - 300;
+                    coordY = y + 700;
                     isHighlighted = true;
+                    map.repaint();
                 }
                 if(id == KeyEvent.VK_S || id == KeyEvent.VK_NUMPAD2){
                     y = (y+1) % BSIZE;
+                    coordX = x - 300;
+                    coordY = y + 700;
                     isHighlighted = true;
+                    map.repaint();
                 }
                 if(id == KeyEvent.VK_D || id == KeyEvent.VK_NUMPAD3){
                     if(x % 2 == 1 || x == 0) {
@@ -359,7 +381,10 @@ public class MainScreen implements TileObserver {
                     } else{
                         x = (x+1) % BSIZE;
                     }
+                    coordX = x - 300;
+                    coordY = y + 700;
                     isHighlighted = true;
+                    map.repaint();
                 }
                 if(id == KeyEvent.VK_ESCAPE){
                     disableHighlight();

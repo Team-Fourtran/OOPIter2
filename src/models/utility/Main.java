@@ -73,7 +73,7 @@ class modelTest{
     }
 
     private void liveTest() throws InterruptedException {
-        int length = 10;
+        int length = 20;
         this.player = new Player("Player 1");
         this.am = player.getArmies();
         this.um = player.getUnits();
