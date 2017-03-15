@@ -16,7 +16,9 @@ public class KeyBindingConfig {
 
     public void readConfig(){
         input = null;
-        readConfigFile(input,"KeyBindings.properties");
+        input = readConfigFile(input,"KeyBindings.properties");
+
+        System.out.println(input);
 
         try {
             // load a properties file
@@ -32,11 +34,12 @@ public class KeyBindingConfig {
         }
     }
 
-    private void readConfigFile(InputStream stream, String filename){
+    private InputStream readConfigFile(InputStream stream, String filename){
         try {
             stream = new FileInputStream(System.getProperty("user.dir") + "/src/configs/" + filename);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        return stream;
     }
 }
