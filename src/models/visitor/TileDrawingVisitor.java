@@ -49,8 +49,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 		try {
 			texture = ImageIO.read(new File("src/application/images/misc/Target.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            try {
+                texture = ImageIO.read(new File("../src/application/images/misc/Target.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }		}
 		texture = resizeImage(texture);
 		addToPriorityQueue(ITEM, texture);
 	}
@@ -61,8 +64,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 		try {
 			texture = ImageIO.read(new File("src/application/images/misc/Cursor.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            try {
+                texture = ImageIO.read(new File("../src/application/images/misc/Cursor.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }		}
 		texture = resizeImage(texture);
 		addToPriorityQueue(ITEM, texture);
 	}
@@ -73,8 +79,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 		try {
 			texture = ImageIO.read(new File("src/application/images/terrain/Grass.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            try {
+                texture = ImageIO.read(new File("../src/application/images/terrain/Grass.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }		}
         texture = resizeImage(texture);
 		addToPriorityQueue(TERRAIN, texture);
 	}
@@ -85,8 +94,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 		try {
 			texture = ImageIO.read(new File("src/application/images/terrain/Dirt.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            try {
+                texture = ImageIO.read(new File("../src/application/images/terrain/Dirt.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }		}
 		texture = resizeImage(texture);
 		addToPriorityQueue(TERRAIN, texture);
 	}
@@ -97,8 +109,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 		try {
 			texture = ImageIO.read(new File("src/application/images/terrain/Water.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            try {
+                texture = ImageIO.read(new File("../src/application/images/terrain/Water.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }		}
 		texture = resizeImage(texture);
 		addToPriorityQueue(TERRAIN, texture);
 	}
@@ -112,8 +127,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 		try {
 			texture = ImageIO.read(new File("src/application/images/units/BlueArmy.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            try {
+                texture = ImageIO.read(new File("../src/application/images/units/BlueArmy.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }		}
         texture = resizeImage(texture);
 		addToPriorityQueue(ARMY, texture);
 	}
@@ -125,8 +143,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 		try {
 			texture = ImageIO.read(new File("src/application/images/assets/Flag.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            try {
+                texture = ImageIO.read(new File("../src/application/images/assets/Flag.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }		}
         texture = resizeImage(texture);
 		addToPriorityQueue(RALLYPOINT, texture);
 	}
@@ -137,8 +158,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
         try {
             texture = ImageIO.read(new File("src/application/images/assets/Building.png"));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                texture = ImageIO.read(new File("../src/application/images/assets/Building.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
         texture = resizeImage(texture);
         addToPriorityQueue(STRUCTURE, texture);
     }
@@ -149,8 +173,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
         try {
             texture = ImageIO.read(new File("src/application/images/assets/Tower.png"));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                texture = ImageIO.read(new File("../src/application/images/assets/Tower.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
         texture = resizeImage(texture);
         addToPriorityQueue(STRUCTURE, texture);
     }
@@ -161,8 +188,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
         try {
             texture = ImageIO.read(new File("src/application/images/assets/Tower.png"));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                texture = ImageIO.read(new File("../src/application/images/assets/Tower.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
         texture = resizeImage(texture);
         addToPriorityQueue(STRUCTURE, texture);
     }
@@ -193,8 +223,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
         try{
             texture = ImageIO.read(new File("src/application/images/units/colonist.png"));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try{
+                texture = ImageIO.read(new File("../src/application/images/units/colonist.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
 //        texture = resizeImage(texture);
         addToPriorityQueue(UNIT, texture);
     }
@@ -205,8 +238,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
         try{
             texture = ImageIO.read(new File("src/application/images/units/red_explorer_trans.png"));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try{
+                texture = ImageIO.read(new File("../src/application/images/units/red_explorer_trans.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
         //texture = resizeImage(texture);
         addToPriorityQueue(UNIT, texture);
     }
@@ -217,8 +253,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
         try{
             texture = ImageIO.read(new File("src/application/images/units/BlueSword.png"));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try{
+                texture = ImageIO.read(new File("../src/application/images/units/BlueSword.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
         texture = resizeImage(texture);
         addToPriorityQueue(UNIT, texture);
     }
@@ -229,8 +268,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
         try{
             texture = ImageIO.read(new File("src/application/images/units/ranged.png"));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try{
+                texture = ImageIO.read(new File("../src/application/images/units/ranged.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
         texture = resizeImage(texture);
         addToPriorityQueue(STRUCTURE, texture);
     }
@@ -241,8 +283,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
         try {
             texture = ImageIO.read(new File("src/application/images/misc/Mountain.png"));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                texture = ImageIO.read(new File("../src/application/images/misc/Mountain.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
         texture = resizeImage(texture);
         addToPriorityQueue(STRUCTURE, texture);
     }
@@ -253,8 +298,11 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
         try{
             texture = ImageIO.read(new File("src/application/images/misc/Mountain.png"));
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try{
+                texture = ImageIO.read(new File("../src/application/images/misc/Mountain.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
         texture = resizeImage(texture);
         addToPriorityQueue(UNIT, texture);
     }
