@@ -284,7 +284,7 @@ public class StructureManager implements Manager {
         for (Structure s: structureList)
             if (s instanceof ResourceStructure) {
                 rs = (ResourceStructure) s;
-                sum += rs.getProductionCount("food");
+                sum += rs.getProductionCount("energy");
             }
         return sum;
     }
