@@ -24,13 +24,20 @@ public class HarvestCommand implements Command {
 	
 	@Override
 	public void execute() {
-		if (firstExecution) {
-			harvester.addWorkersToGathering(assignedWorkers);
-			firstExecution = false;
+		if (assignedWorkers == 0){
+			harvester.ceaseProduction();
+			harvester.removeUniversalCommand(this);
+			return;
 		}
-		
+		else{
+			if (firstExecution) {
+				harvester.addWorkersToProduction(assignedWorkers);
+				firstExecution = false;
+			}
+		}
+
 		int harvest = harvester.harvest(target);
-		if ((harvester == null) || (harvest <= 0)) {
+		if ((harvester == null) || (harvest <= 0) || harvester.getNumHarvesters() == 0) {
 			harvester.removeUniversalCommand(this);
 		}
 		// there needs to be a universal command so the structure continuously harvests

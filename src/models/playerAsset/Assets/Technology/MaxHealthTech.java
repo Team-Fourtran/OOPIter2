@@ -10,4 +10,6 @@ public class MaxHealthTech implements Technology {
     public void apply(CombatAsset a){
         a.setMaxHealth(10 + a.getMaxHealth());
     }
+
+    public String toString(){return "MaxHealthTech";}
 }

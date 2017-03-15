@@ -30,6 +30,10 @@ public class GameMap {
         this.tileVisibility = new HashMap<CombatAsset, RadiusOfVisibilityAssociation>();
     }
 
+    public TileAssociation getLocation(PlayerAsset asset){
+        return searchForTileAssociation(asset);
+    }
+
     // Gerneate degrees representing the optimal path to get from start to end
     public ArrayList<TileAssociation> generatePath(TileAssociation start, TileAssociation end)  {
         AStarPathfinder path = new AStarPathfinder(start, end);

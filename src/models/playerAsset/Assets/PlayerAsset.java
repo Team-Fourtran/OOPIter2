@@ -60,12 +60,13 @@ public abstract class PlayerAsset extends Observable {
 
             if (turns != 0) {
                 commandCount++;
-                if (equal(commandQueue.peek().getTurns(), commandCount)) {
+                if (equal(turns, commandCount)) {
                     commandQueue.remove().execute();
                     commandCount = 0;
-                    hasExecutedCommand = true;
                 }
-            } else {
+                hasExecutedCommand = true;
+            }
+            else {
                 int numCommands = 0;
                 double turnCount = 0;
                 boolean endMovement = false;

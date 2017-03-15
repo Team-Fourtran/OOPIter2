@@ -11,4 +11,6 @@ public class VisibilityTech implements Technology {
         a.setVisibility(1 + a.getVisibility());
     }
 
+    public String toString(){return "VisibilityTech";}
+
 }

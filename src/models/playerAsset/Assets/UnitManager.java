@@ -107,13 +107,25 @@ public class UnitManager implements Manager {
         }
     }
 
-    @Override
     public int calculateTotalUpkeep(){
         int totalUpkeep = 0;
         for (Unit u: unitList){
             totalUpkeep += u.getUpkeep();
         }
         return totalUpkeep;
+    }
+
+    public int upkeep(int food){
+        int remainder = food;
+        for (Unit u : unitList)
+            if (remainder - u.getUpkeep() < 0) {
+                u.setCurrentHealth(u.getCurrentHealth() - 20);
+                remainder = 0;
+            }
+            else
+                remainder -= u.getUpkeep();
+
+        return remainder;
     }
 
     public Iterator2<Unit> makeIterator(){
@@ -188,12 +200,17 @@ public class UnitManager implements Manager {
     }
 
 
+    public HashMap<String, ArrayList<Technology>> getTech(){
+        return techMap;
+    }
 
 
+    //debugging method
     public int checkTech(String type){
         return techMap.get(type).size();
     }
 
+    //debugging method
     public void printArmor(){
         for (Unit u: unitList)
             System.out.println(u.getArmor());

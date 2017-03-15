@@ -6,12 +6,12 @@ import models.visitor.SpecificAssetVisitor;
 public class ObservationTower extends Structure {
     public ObservationTower() {
 
-        setOffDamage(75);
+        setOffDamage(0);
         setDefDamage(75);
-        setArmor(150);
-        setMaxHealth(200);
-        setCurrentHealth(200);
-        setUpkeep(1);
+        setArmor(100);
+        setMaxHealth(100);
+        setCurrentHealth(100);
+        setUpkeep(10);
         setRadiusOfInfluence(2);
         setProductionRate(1);
     }

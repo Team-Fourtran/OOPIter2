@@ -14,11 +14,12 @@ public interface CommandComponents {
     void requestDestinationStructure(CTRLCommand callbackObj);
     void requestDestinationRallypoint(CTRLCommand callbackObj);
     TileAssociation getDestinationTile();
-
+    String getTechTypeString();
+    String getTechAssetString();
+    int getNumWorkers();
     Player getOpposingPlayer();
     String getStructureType();
     String getUnitType();
-    int getInt();
     Unit[] getUnitList();
     void requestExecution();    //Called by CTRLCommands once they think they're ready to be executed
 

@@ -10,6 +10,7 @@ import models.playerAsset.Assets.Player;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.HashMap;
 import models.visitor.*;
 
 public class hexMech {
@@ -19,10 +20,10 @@ public class hexMech {
 
     private static int BORDERS = 30;	//default number of pixels for the border.
 
-    private static int s=0;	// length of one side
-    private static int t=0;	// short side of 30o triangle outside of each hex
-    private static int r=0;	// radius of inscribed circle (centre to middle of each side). r= h/2
-    private static int h=0;	// height. Distance between centres of two adjacent hexes. Distance between two opposite sides in a hex.
+    static int s=0;	// length of one side
+    static int t=0;	// short side of 30o triangle outside of each hex
+    static int r=0;	// radius of inscribed circle (centre to middle of each side). r= h/2
+    static int h=0;	// height. Distance between centres of two adjacent hexes. Distance between two opposite sides in a hex.
 
     private static HashMap<TileAssociation, HexProperties> gps = new HashMap<>();
     private static Graphics2D gg;
@@ -90,50 +91,21 @@ public class hexMech {
         int x = i * (s+t);
         int y = j * h + (i%2) * h/2;
         Polygon poly = hex(x,y);
+        Stroke oldStroke = g2.getStroke();
+        g2.setStroke(new BasicStroke(10));
 
-        HexProperties h = new HexProperties(x, y, g2);
+        HexProperties h = new HexProperties(x, y, i, j, g2);
         gps.put(tileAssoc, h);
-        ;       gg = g2;
+        gg = g2;
+
         g2.setColor(MainScreen.COLOURCELL);
         g2.drawPolygon(poly);
-        //g2.fillPolygon(poly);
 
         TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2, p);
         tileAssoc.accept(v);
         v.drawTile();
-//        g2.setBackground(Color.black);
-    }
 
-    /***************************************************************************
-     * Name: fillHex()
-     * Parameters: (i,j) : the x,y coordinates of the initial point of the hexagon
-     n   : an integer number to indicate a letter to draw in the hex
-     g2  : the graphics context to draw on
-     * Return: void
-     * Called from:
-     * Calls: hex()
-     *Purpose: This draws a filled in polygon based on the coordinates of the hexagon.
-     The colour depends on whether n is negative or positive.
-     The colour is set by MainScreen.COLOURONE and MainScreen.COLOURTWO.
-     The value of n is converted to letter and drawn in the hexagon.
-     *****************************************************************************/
-    public static void fillHex(int i, int j, int n, Graphics2D g2) {
-        char c= 'o';
-        int x = i * (s+t);
-        gg = g2;
-        int y = j * h + (i%2) * h/2;
-        if (n < 0) {
-            g2.setColor(MainScreen.COLOURONE);
-            g2.fillPolygon(hex(x,y));
-            c = (char)(-n);
-            g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4);
-        }
-        if (n > 0) {
-            g2.setColor(MainScreen.COLOURTWO);
-            g2.fillPolygon(hex(x,y));
-            c = (char)n;
-            g2.drawString(""+c, x+r+BORDERS, y+r+BORDERS+4);
-        }
+        g2.setStroke(oldStroke);
     }
 
     public static void updateTile(TileAssociation t2, Player player) {

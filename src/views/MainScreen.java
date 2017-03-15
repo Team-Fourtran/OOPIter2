@@ -12,9 +12,6 @@ import java.awt.event.*;
 import java.awt.event.KeyAdapter;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
-
-import models.playerAsset.Assets.Player;
-import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Iterators.AssetIterator;
 import models.playerAsset.Iterators.TypeIterator2;
 
@@ -34,9 +31,6 @@ public class MainScreen implements TileObserver {
 
     static final Color COLOURBACK =  Color.WHITE;
     static final Color COLOURCELL =  Color.BLACK;
-    static final Color COLOURGRID =  Color.BLACK;
-    static final Color COLOURONE = new Color(255,223,255,200);
-    static final Color COLOURTWO = new Color(0,0,0,124);
 
     private int[][] board = new int[BSIZE][BSIZE];
     private KeyPressInformer keyInformer;
@@ -54,6 +48,7 @@ public class MainScreen implements TileObserver {
     AssetTargetting assetReceiver;
 
     private DrawingPanel map;
+
     public MainScreen(Player p, TileAssociation[] tiles){
         this.currentPlayer = p;
         this.tiles = tiles;
@@ -76,7 +71,7 @@ public class MainScreen implements TileObserver {
 
     public void updatePlayer(Player p){
         this.currentPlayer = p;
-        playerInfoArea.update(p.getName());
+        playerInfoArea.update(currentPlayer);
     }
 
     public KeyPressInformer getKeyInformer(){
@@ -132,14 +127,21 @@ public class MainScreen implements TileObserver {
     }
 
     //For communication between CommandGenerator. Focusing on unit/army to highlight the tile.
-    public void searchTileAssociation(PlayerAsset playerAsset){
+    public void highlightAsset(PlayerAsset playerAsset){
+        map.isHighlighted = false;
         for(int i = 0; i < tiles.length; i++){
             if(tiles[i].isAssetOwner(playerAsset)){
                 HexProperties hp = hexMech.getHexProperties(tiles[i]);
-                this.x = hp.getX();
-                this.y = hp.getY();
+                this.x = hp.getActualX();
+                this.y = hp.getActualY();
+                map.isHighlighted = true;
+                map.repaint();
+                return;
             }
         }
+    }
+    public void stopHighlightingAsset(){
+        board[x][y] = 0;
     }
     public void generateMainScreen(){
         map = new DrawingPanel();
@@ -151,7 +153,6 @@ public class MainScreen implements TileObserver {
 
         JPanel startScreen = new JPanel();
         GridBagConstraints c = new GridBagConstraints();
-
         tabbedPane = new JTabbedPane();
 
         Container content = mainScreen.getContentPane();
@@ -162,9 +163,10 @@ public class MainScreen implements TileObserver {
 
         //Player information area with resources
         this.playerInfoArea = new PlayerInfoArea(content, new TurnSwitchNotifier());
+        playerInfoArea.update(currentPlayer);
 
         //Unit OV Table
-        Dimension d = new Dimension(900, 700);
+        Dimension d = new Dimension(1400, 700);
 
         unitTable = new UnitOverview(d);
         strTable = new StructureOverview(d);
@@ -217,6 +219,8 @@ public class MainScreen implements TileObserver {
         private TileHighlightListener tHL;
         private CommandListener commandListener;
         private boolean toggleHT;
+        protected boolean isHighlighted;
+        protected Graphics2D gg2;
         public DrawingPanel(){
             setBackground(COLOURBACK);
             setFocusable(true);
@@ -232,6 +236,7 @@ public class MainScreen implements TileObserver {
         }
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
+            this.gg2 = g2;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
             g2.translate(-10, -10);
@@ -244,12 +249,20 @@ public class MainScreen implements TileObserver {
                     ind++;
                 }
             }
+            if(isHighlighted){
+                int h = HEXSIZE;
+                int r = h/2;
+                int s = (int) (h / 1.73205);
+                int t = (int) (r / 1.73205);
+                int i = x * (s+t);
+                int j = y * h + (x%2) * h/2;
 
-            //fill in hexes
-            for (int i=0;i<BSIZE;i++) {
-                for (int j=0;j<BSIZE;j++) {
-                    hexMech.fillHex(i,j,board[i][j],g2);
-                }
+                Polygon poly = hexMech.hex(i,j);
+                Stroke oldStroke = g2.getStroke();
+                g2.setStroke(new BasicStroke(10));
+                g2.setColor(Color.yellow);
+                g2.drawPolygon(poly);
+                g2.setStroke(oldStroke);
             }
         }
         public void enableHighlight(){
@@ -309,68 +322,61 @@ public class MainScreen implements TileObserver {
                 int id = e.getKeyCode();
 
                 if(id == KeyEvent.VK_Q || id == KeyEvent.VK_NUMPAD7){
-                    board[x][y] = 0;
                     if(x % 2 == 0 || x == 0){
                         x = (x-1 < 0)? BSIZE-1 : x-1;
                         y = (y-1 < 0)? BSIZE-1 : y-1;
                     } else {
                         x = (x-1 < 0)? BSIZE-1 : x-1;
                     }
-                    board[x][y] = (int)' ';
+                    isHighlighted = true;
                 }
                 if(id == KeyEvent.VK_W || id == KeyEvent.VK_NUMPAD8){
-                    board[x][y] = 0;
                     y = (y-1 < 0)? BSIZE-1 : y-1;
-                    board[x][y] = (int)' ';
+                    isHighlighted = true;
                 }
                 if(id == KeyEvent.VK_E || id == KeyEvent.VK_NUMPAD9){
-                    board[x][y] = 0;
                     if(x % 2 == 0 || x == 0){
                         x = (x+1) % BSIZE;
                         y = (y-1 < 0)? BSIZE-1 : y-1;
                     } else{
                         x = (x+1) % BSIZE;
                     }
-
-                    board[x][y] = (int)' ';
+                    isHighlighted = true;
                 }
                 if(id == KeyEvent.VK_A || id == KeyEvent.VK_NUMPAD1){
-                    board[x][y] = 0;
                     if(x % 2 == 1 || x == 0) {
                         y = (y+1) % BSIZE;
                         x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
                     } else{
                         x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
                     }
-                    board[x][y] = (int)' ';
+                    isHighlighted = true;
                 }
                 if(id == KeyEvent.VK_S || id == KeyEvent.VK_NUMPAD2){
-                    board[x][y] = 0;
                     y = (y+1) % BSIZE;
-                    board[x][y] = (int)' ';
+                    isHighlighted = true;
                 }
                 if(id == KeyEvent.VK_D || id == KeyEvent.VK_NUMPAD3){
-                    board[x][y] = 0;
                     if(x % 2 == 1 || x == 0) {
                         y = (y+1) % BSIZE;
                         x = (x+1) % BSIZE;
                     } else{
                         x = (x+1) % BSIZE;
                     }
-                    board[x][y] = (int)' ';
+                    isHighlighted = true;
                 }
                 if(id == KeyEvent.VK_ESCAPE){
-                    board[x][y] = 0;
                     disableHighlight();
                     enableCommand();
+                    isHighlighted = false;
                     tileReceiver.receiveTile(null);
                 }
 
-                if(id == KeyEvent.VK_NUMPAD5){
-                    board[x][y] = 0;
+                if(id == KeyEvent.VK_NUMPAD5 || id == KeyEvent.VK_ENTER){
                     tileAssociationIndex = (x*BSIZE) + y;
                     disableHighlight();
                     enableCommand();
+                    isHighlighted = false;
                     tileReceiver.receiveTile(tiles[tileAssociationIndex]);
                 }
                 repaint();
@@ -395,23 +401,25 @@ public class MainScreen implements TileObserver {
                 iter.prev();
                 selected = (PlayerAsset) iter.current();
                 System.out.println(selected.toString());
-                searchTileAssociation(selected);
+                highlightAsset(selected);
             }
             if(id == KeyEvent.VK_RIGHT){
                 System.out.println("RIGHT");
                 iter.next();
                 selected = (PlayerAsset) iter.current();
                 System.out.println(selected.toString());
-                searchTileAssociation(selected);
+                highlightAsset(selected);
             }
 
             if(id == KeyEvent.VK_ESCAPE){
+                stopHighlightingAsset();
                 map.removeKeyListener(this);
                 map.enableCommand();
                 assetReceiver.receiveAsset(null);
             }
 
             if(id == KeyEvent.VK_ENTER){
+                stopHighlightingAsset();
                 map.removeKeyListener(this);
                 map.enableCommand();
                 assetReceiver.receiveAsset(selected);
@@ -458,6 +466,7 @@ public class MainScreen implements TileObserver {
     }
 
     public void updateControls(AssetIterator iter){
+        highlightAsset((PlayerAsset) iter.current());
         controllerInfoArea.update(iter);
     }
 }
