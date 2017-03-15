@@ -15,12 +15,15 @@ import models.playerAsset.Assets.PlayerAsset;
 
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
+import models.playerAsset.Iterators.AssetIterator;
+
 import java.util.*;
 
 public class MainScreen implements TileObserver {
     private JFrame mainScreen;
     private Player currentPlayer;
     private PlayerInfoArea playerInfoArea;
+    private ControllerInfoArea controllerInfoArea;
 
     private final int EMPTY = 0;
     private final int BSIZE = 10;
@@ -146,7 +149,7 @@ public class MainScreen implements TileObserver {
         content.setLayout(new GridBagLayout());
 
         //Controller information area
-        ControllerInfoArea controllerInfoArea = new ControllerInfoArea(content);
+        this.controllerInfoArea = new ControllerInfoArea(content);
 
         //Player Information Area with Resources
         this.playerInfoArea = new PlayerInfoArea(content);
@@ -389,5 +392,9 @@ public class MainScreen implements TileObserver {
     public void updateTile(TileAssociation t) {
         hexMech.updateTile(t);
         mainScreen.repaint();
+    }
+
+    public void updateControls(AssetIterator iter){
+        controllerInfoArea.update(iter);
     }
 }

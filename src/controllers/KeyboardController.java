@@ -30,7 +30,7 @@ public class KeyboardController {
     }
 
     public void updateCommands(AssetIterator iter){
-//        mainScreen.updateControls(iter);
+        mainScreen.updateControls(iter);
     }
 }
 

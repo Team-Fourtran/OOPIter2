@@ -1,5 +1,7 @@
 package views;
 
+import models.playerAsset.Iterators.AssetIterator;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -65,5 +67,11 @@ public class ControllerInfoArea {
         b.gridx = 3;
         b.gridy = 2;
         cont.add(commandsPane, b);
+    }
+    public void update(AssetIterator iter){
+        modeTextField.setText(iter.getCurrentMode());
+        typeTextField.setText(iter.getElement());
+        typeInstanceTextField.setText(iter.current().toString());
+        commandsTextField.setText(iter.getCommand().toString());
     }
 }
