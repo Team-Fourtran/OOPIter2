@@ -20,7 +20,7 @@ public class ResourceStructure extends Structure{
 
 
     public ResourceStructure() {
-    	this.workRadiusSize = 0;
+    	this.workRadiusSize = 1;
         gatherers = new ArrayList<Worker>();
         producers = new ArrayList<Worker>();
         staff = new ArrayList<Worker>();

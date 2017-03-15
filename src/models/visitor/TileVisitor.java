@@ -8,4 +8,5 @@ public interface TileVisitor extends ObjectVisitor {
 	void visitImpassable(Impassable tile);
 	void visitLandMine(LandMine item);
 	void visitObstacleItem(ObstacleItem item);
+	void visitResourcePackage(ResourcePackage resourcePackage);
 }

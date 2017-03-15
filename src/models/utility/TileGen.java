@@ -71,6 +71,7 @@ public class TileGen {
 
     public ArrayList<TileAssociation> executeFancy(){
         Item item;
+        ResourcePackage resourcePackage;
         tiles = new TileAssociation[total];
         Terrain t;
         ArrayList<Integer> normalList = new ArrayList<>();
@@ -81,12 +82,13 @@ public class TileGen {
         normalList.add(7*length + 2);
         for (int i = 0; i < total; i++){
             item = null;
+            resourcePackage = null;
             if (normalList.contains(i)){
                 t = new Normal();
             }
-            else if(i%length == 5 && i < (length-1)*length){
-                t = new Impassable();
-            }
+//            else if(i%length == 5 && i < (length-1)*length){
+//                t = new Impassable();
+//            }
             else if(i%length == 4 && i < (length-1)*length){
                 t = new Slowing();
             }
@@ -96,9 +98,9 @@ public class TileGen {
             else if(i%length == 2 && i < (length-1)*length){
                 t = new Slowing();
             }
-            else if(i%length == 13){
-                t = new Impassable();
-            }
+//            else if(i%length == 13){
+//                t = new Impassable();
+//            }
             else {
                 t = new Normal();
             }
@@ -107,8 +109,12 @@ public class TileGen {
             if(i % 30 == 8){
                 item = new LandMine();
             }
+            if(i == 33){
+                resourcePackage = new ResourcePackage(13, 14, 15);
+            }
 
-            Tile tile = new Tile(t, item);
+            Tile tile = new Tile(t, resourcePackage, item);
+
             tiles[i] = new TileAssociation(tile);
         }
         //HEX:

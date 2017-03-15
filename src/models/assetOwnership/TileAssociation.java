@@ -56,6 +56,10 @@ public class TileAssociation extends Observable{
     public ResourcePackage getResourcePackage() {
     	return tile.getResourcePackage();
     }
+
+    public boolean hasResourcePackage(){
+        return tile.hasResourcePackage();
+    }
     
     public ResourcePackage occupyResourcePackage() {
     	return tile.occupyResourcePackage();

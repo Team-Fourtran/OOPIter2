@@ -22,25 +22,27 @@ public class WorkRadius extends Radius {
 		ArrayList<TileAssociation> tilesWithResources = new ArrayList<TileAssociation>();
 		Vector<TileAssociation> tiles = getInfluencedTiles();
 		for (int i = 0; i < tiles.size(); i++) {
-	        switch (resourceType){
-		        case "food":
-	            	if (tiles.get(i).getResourcePackage().getFoodCount() > 0) {
-	            		tilesWithResources.add(tiles.get(i));     	
-	            	}
-		        	break;
-		        case "ore":
-	            	if (tiles.get(i).getResourcePackage().getOreCount() > 0) {
-	            		tilesWithResources.add(tiles.get(i));       	
-	            	}
-		        	break;
-		        case "energy":
-	            	if (tiles.get(i).getResourcePackage().getEnergyCount() > 0) {
-	            		tilesWithResources.add(tiles.get(i));     	
-	            	}
-		        	break;
-		        default: 
-		        	break;
-	        }
+		    if(tiles.get(i).hasResourcePackage()){
+                switch (resourceType){
+                    case "food":
+                        if (tiles.get(i).getResourcePackage().getFoodCount() > 0) {
+                            tilesWithResources.add(tiles.get(i));
+                        }
+                        break;
+                    case "ore":
+                        if (tiles.get(i).getResourcePackage().getOreCount() > 0) {
+                            tilesWithResources.add(tiles.get(i));
+                        }
+                        break;
+                    case "energy":
+                        if (tiles.get(i).getResourcePackage().getEnergyCount() > 0) {
+                            tilesWithResources.add(tiles.get(i));
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
 		}
 		return tilesWithResources;
 	}

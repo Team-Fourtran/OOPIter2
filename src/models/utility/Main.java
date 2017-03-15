@@ -84,9 +84,9 @@ class modelTest{
         this.amEnemy = enemyPlayer.getArmies();
 
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+        this._tiles = tileGen.executeFancy();
         Unit u0 = um.addNewUnit("colonist");
-        _tiles.get(6).add(u0);
+        _tiles.get(23).add(u0);
         Unit u1 = um.addNewUnit("explorer");
 
         _tiles.get(7).add(u1);

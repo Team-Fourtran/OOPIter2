@@ -31,7 +31,7 @@ public class HarvestCommand implements Command {
 		}
 		else{
 			if (firstExecution) {
-				harvester.addWorkersToProduction(assignedWorkers);
+				harvester.addWorkersToGathering(assignedWorkers);
 				firstExecution = false;
 			}
 		}

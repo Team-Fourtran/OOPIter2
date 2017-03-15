@@ -8,9 +8,6 @@ import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.Structures.ResourceStructure;
 
-/**
- * Created by Clay on 3/15/2017.
- */
 public class CTRLProduceCommand implements CTRLCommand {
     private ResourceStructure producer;
     private int assignedWorkers;
