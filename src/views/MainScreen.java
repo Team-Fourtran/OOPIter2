@@ -15,6 +15,7 @@ import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Iterators.AssetIterator;
 import models.playerAsset.Iterators.TypeIterator2;
 
+import java.security.Key;
 import java.util.*;
 
 public class MainScreen implements TileObserver {
@@ -33,6 +34,7 @@ public class MainScreen implements TileObserver {
     static final Color COLOURCELL =  Color.BLACK;
 
     private int[][] board = new int[BSIZE][BSIZE];
+    KeyBindingConfig customKeyBinds = new KeyBindingConfig();
     private KeyPressInformer keyInformer;
 
     private TileAssociation[] tiles;
@@ -115,15 +117,19 @@ public class MainScreen implements TileObserver {
         }
 
         HashMap<String, Boolean> keyMap = new HashMap<>();
-        keyMap.put("ENTER",false);
-        keyMap.put("CONTROL",false);
-        keyMap.put("UP",false);
-        keyMap.put("DOWN",false);
-        keyMap.put("LEFT",false);
-        keyMap.put("RIGHT",false);
-        keyInformer = new KeyPressInformer(keyMap);
+//        keyMap.put("ENTER",false);
+//        keyMap.put("CONTROL",false);
+//        keyMap.put("UP",false);
+//        keyMap.put("DOWN",false);
+//        keyMap.put("LEFT",false);
+//        keyMap.put("RIGHT",false);
+//        keyInformer = new KeyPressInformer(keyMap);
+
+
+        keyInformer = new KeyPressInformer(customKeyBinds);
         tileReceiver = new TileTargetting(this);
         assetReceiver = new AssetTargetting(this);
+
     }
 
     //For communication between CommandGenerator. Focusing on unit/army to highlight the tile.
@@ -282,46 +288,63 @@ public class MainScreen implements TileObserver {
         }
 
         class CommandListener extends KeyAdapter{
-            @Override
-            public void keyReleased(KeyEvent e){
-                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    keyInformer.update("RIGHT", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    keyInformer.update("LEFT", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_UP){
-                    keyInformer.update("UP", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-                    keyInformer.update("DOWN", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
-                    keyInformer.update("CONTROL", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    keyInformer.update("ENTER", false);
-                }
-            }
+            /* Forwards KeyEvents to the keyInformer, which will interpret their meanings */
             @Override
             public void keyPressed(KeyEvent e){
-                if(e.getKeyCode() == KeyEvent.VK_CONTROL) {
-                    keyInformer.update("CONTROL", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    keyInformer.update("RIGHT", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    keyInformer.update("LEFT", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_UP){
-                    keyInformer.update("UP", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-                    keyInformer.update("DOWN", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    keyInformer.update("ENTER", true);
-                }
+                keyInformer.keyPressed(e.getKeyCode());
             }
+
+            @Override
+            public void keyReleased(KeyEvent e){
+                keyInformer.keyReleased(e.getKeyCode());
+            }
+
+            /* For reference: Original KeyListeners */
+//            @Override
+//            public void keyReleased(KeyEvent e){
+//                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+//                    keyInformer.update("RIGHT", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+//                    keyInformer.update("LEFT", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_UP){
+//                    keyInformer.update("UP", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+//                    keyInformer.update("DOWN", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
+//                    keyInformer.update("CONTROL", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+//                    keyInformer.update("ENTER", false);
+//                }
+//            }
+//            @Override
+//            public void keyPressed(KeyEvent e){
+//                if(e.getKeyCode() == KeyEvent.VK_CONTROL) {
+//                    keyInformer.update("CONTROL", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+//                    keyInformer.update("RIGHT", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+//                    keyInformer.update("LEFT", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_UP){
+//                    keyInformer.update("UP", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+//                    keyInformer.update("DOWN", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+//                    keyInformer.update("ENTER", true);
+//                }
+//            }
+
         }
 
         class TileHighlightListener extends KeyAdapter {
-
+            HashMap<String, Integer> customMoveMappings;
+            TileHighlightListener(){
+                this.customMoveMappings = customKeyBinds.customMoveMappings();
+            }
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
 
-                if(id == KeyEvent.VK_Q || id == KeyEvent.VK_NUMPAD7){
+                if(id == customMoveMappings.get("move_northwest")){
+
                     if(x % 2 == 0 || x == 0){
                         x = (x-1 < 0)? BSIZE-1 : x-1;
                         y = (y-1 < 0)? BSIZE-1 : y-1;
@@ -330,11 +353,13 @@ public class MainScreen implements TileObserver {
                     }
                     isHighlighted = true;
                 }
-                if(id == KeyEvent.VK_W || id == KeyEvent.VK_NUMPAD8){
+
+                if(id == customMoveMappings.get("move_north")){
                     y = (y-1 < 0)? BSIZE-1 : y-1;
                     isHighlighted = true;
                 }
-                if(id == KeyEvent.VK_E || id == KeyEvent.VK_NUMPAD9){
+
+                if(id == customMoveMappings.get("move_northeast")){
                     if(x % 2 == 0 || x == 0){
                         x = (x+1) % BSIZE;
                         y = (y-1 < 0)? BSIZE-1 : y-1;
@@ -343,20 +368,23 @@ public class MainScreen implements TileObserver {
                     }
                     isHighlighted = true;
                 }
-                if(id == KeyEvent.VK_A || id == KeyEvent.VK_NUMPAD1){
-                    if(x % 2 == 1 || x == 0) {
-                        y = (y+1) % BSIZE;
+
+                if(id == customMoveMappings.get("move_southwest")) {
+                    if (x % 2 == 1 || x == 0) {
+                        y = (y + 1) % BSIZE;
                         x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
-                    } else{
+                    } else {
                         x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
                     }
                     isHighlighted = true;
                 }
-                if(id == KeyEvent.VK_S || id == KeyEvent.VK_NUMPAD2){
+
+                if(id == customMoveMappings.get("move_south")){
                     y = (y+1) % BSIZE;
                     isHighlighted = true;
                 }
-                if(id == KeyEvent.VK_D || id == KeyEvent.VK_NUMPAD3){
+
+                if(id == customMoveMappings.get("move_southeast")){
                     if(x % 2 == 1 || x == 0) {
                         y = (y+1) % BSIZE;
                         x = (x+1) % BSIZE;
@@ -365,14 +393,15 @@ public class MainScreen implements TileObserver {
                     }
                     isHighlighted = true;
                 }
-                if(id == KeyEvent.VK_ESCAPE){
+
+                if(id == customMoveMappings.get("move_cancel")){
                     disableHighlight();
                     enableCommand();
                     isHighlighted = false;
                     tileReceiver.receiveTile(null);
                 }
 
-                if(id == KeyEvent.VK_NUMPAD5 || id == KeyEvent.VK_ENTER){
+                if(id == customMoveMappings.get("move_confirm")){
                     tileAssociationIndex = (x*BSIZE) + y;
                     disableHighlight();
                     enableCommand();
@@ -380,6 +409,75 @@ public class MainScreen implements TileObserver {
                     tileReceiver.receiveTile(tiles[tileAssociationIndex]);
                 }
                 repaint();
+
+
+                //Old version
+//                if(id == KeyEvent.VK_Q || id == KeyEvent.VK_NUMPAD7){
+//                    board[x][y] = 0;
+//                    if(x % 2 == 0 || x == 0){
+//                        x = (x-1 < 0)? BSIZE-1 : x-1;
+//                        y = (y-1 < 0)? BSIZE-1 : y-1;
+//                    } else {
+//                        x = (x-1 < 0)? BSIZE-1 : x-1;
+//                    }
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_W || id == KeyEvent.VK_NUMPAD8){
+//                    board[x][y] = 0;
+//                    y = (y-1 < 0)? BSIZE-1 : y-1;
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_E || id == KeyEvent.VK_NUMPAD9){
+//                    board[x][y] = 0;
+//                    if(x % 2 == 0 || x == 0){
+//                        x = (x+1) % BSIZE;
+//                        y = (y-1 < 0)? BSIZE-1 : y-1;
+//                    } else{
+//                        x = (x+1) % BSIZE;
+//                    }
+//
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_A || id == KeyEvent.VK_NUMPAD1){
+//                    board[x][y] = 0;
+//                    if(x % 2 == 1 || x == 0) {
+//                        y = (y+1) % BSIZE;
+//                        x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
+//                    } else{
+//                        x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
+//                    }
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_S || id == KeyEvent.VK_NUMPAD2){
+//                    board[x][y] = 0;
+//                    y = (y+1) % BSIZE;
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_D || id == KeyEvent.VK_NUMPAD3){
+//                    board[x][y] = 0;
+//                    if(x % 2 == 1 || x == 0) {
+//                        y = (y+1) % BSIZE;
+//                        x = (x+1) % BSIZE;
+//                    } else{
+//                        x = (x+1) % BSIZE;
+//                    }
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_ESCAPE){
+//                    board[x][y] = 0;
+//                    disableHighlight();
+//                    enableCommand();
+//                    tileReceiver.receiveTile(null);
+//                }
+//
+//                if(id == KeyEvent.VK_NUMPAD5){
+//                    board[x][y] = 0;
+//                    tileAssociationIndex = (x*BSIZE) + y;
+//                    disableHighlight();
+//                    enableCommand();
+//                    tileReceiver.receiveTile(tiles[tileAssociationIndex]);
+//                }
+//                repaint();
             }
         }
     }
@@ -451,15 +549,15 @@ public class MainScreen implements TileObserver {
         map.addKeyListener(new AssetCycleListener(iter));
     }
 
-    @Override
+
     public void updateAdd(TileAssociation t, PlayerAsset p) {
     	updateTile(t);
     }
-    
+
     public void updateRemove(TileAssociation t, PlayerAsset p) {
     	updateTile(t);
     }
-    
+
     public void updateTile(TileAssociation t) {
         hexMech.updateTile(t);
         mainScreen.repaint();
