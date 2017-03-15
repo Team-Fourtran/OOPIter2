@@ -42,11 +42,11 @@ public class TestCommandGen{
         um.addNewUnit("ranged");
 
 
-        sm.createStructure("fort");
-        sm.createStructure("capital");
-        sm.createStructure("mine");
-        sm.createStructure("farm");
-        sm.createStructure("university");
+        sm.createStructure("fort", null);
+        sm.createStructure("university", null);
+        sm.createStructure("mine", null);
+        sm.createStructure("farm", null);
+        sm.createStructure("university", null);
 
         //Make a hashmap for simulating keypresses
         keySimMap = new HashMap<String, Boolean>();

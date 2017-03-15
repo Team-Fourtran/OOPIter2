@@ -1,6 +1,7 @@
 package models.playerAsset.Assets;
 
 
+import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.Structures.*;
 import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.Iterator2;
@@ -41,8 +42,10 @@ public class StructureManager implements Manager {
     }
 
     //add a new structure to the map on an Army's location
-    public Structure createStructure(String type) {
-        Structure s = factory.makeStructure(type);
+    // need base tile to configure the structure's work radius
+    // this is here cause map shouldn't know if it needs to configure it (Resource vs nonResource structure)
+    public Structure createStructure(String type, TileAssociation baseTile) {
+        Structure s = factory.makeStructure(type, baseTile);
         s.setID(structureIDs.get(0));
         structureIDs.remove(0);
         //TODO: fix addStructureToList

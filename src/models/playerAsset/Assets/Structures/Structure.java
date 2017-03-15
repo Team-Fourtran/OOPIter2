@@ -10,13 +10,7 @@ public class Structure extends CombatAsset {
 
     int productionRate;     //turns it takes to create a unit
     ArrayList<Worker> staff;
-    private int workRadiusSize;
-    private Radius workRadius;
 
-    public Structure() {
-    	this.workRadiusSize = 0;
-    }
-    
     public void accept(AssetVisitor v) {
         v.visitStructure(this);
     }
@@ -25,21 +19,6 @@ public class Structure extends CombatAsset {
         return "Basic structure";
     }
     
-    public int getWorkRadiusSize() {
-    	return workRadiusSize;
-    }
-    
-    public void setRadiusSize(int r) {
-    	this.workRadiusSize = r;
-    	workRadius.setRadiusSize(workRadiusSize);
-    	workRadius.updateInfluencedTiles();
-    }
-    
-    public void setWorkRadius(Radius workRadius) {
-    	this.workRadius = workRadius;
-    	System.out.println(workRadius.getInfluencedTiles());
-    }
-
     public void setProductionRate(int productionRate){this.productionRate = productionRate;}
 
     public int getProductionRate(){
