@@ -47,7 +47,7 @@ class modelTest{
     modelTest() throws InterruptedException {
 
 //        liveTest();
-        configure(); //Comment out KeyboardController in Game
+//        configure(); //Comment out KeyboardController in Game
 //        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
@@ -747,6 +747,11 @@ class modelTest{
         f.produce("food");
         System.out.println(f.getHarvestCount());
         System.out.println(f.getProduced());
+        f.addWorkers(10000);
+        f.produce("food");
+        System.out.println(f.getHarvestCount());
+        System.out.println(f.getProduced());
+
     }
 }
 

@@ -129,12 +129,18 @@ public class ResourceStructure extends Structure{
         if (resourceCount.containsKey(type)){
             int resources = resourceCount.get(type);
             int amtToProduce = producers.size()*5;
-            if (producedCount.containsKey(type) && amtToProduce >= resources) {
-                producedCount.put(type, producedCount.get(type) + resources);
+            if (amtToProduce >= resources) {
+                if (producedCount.containsKey(type))
+                    producedCount.put(type, producedCount.get(type) + resources);
+                else
+                    producedCount.put(type, resources);
                 resourceCount.put(type, 0);
             }
             else {
-                producedCount.put(type, amtToProduce);
+                if (producedCount.containsKey(type))
+                    producedCount.put(type, producedCount.get(type) + amtToProduce);
+                else
+                    producedCount.put(type, amtToProduce);
                 resourceCount.put(type, resourceCount.get(type) - amtToProduce);
             }
         }
