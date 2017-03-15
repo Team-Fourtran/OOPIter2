@@ -54,6 +54,7 @@ public class Game {
   public void turnSwitch(){
       togglePlayers();
       this.kbc.updateIterator(currentPlayer.makeIterator());        //Update the KeyboardController
+      this.mainScreen.updatePlayer(this.currentPlayer);
   }
 
   private void togglePlayers(){
