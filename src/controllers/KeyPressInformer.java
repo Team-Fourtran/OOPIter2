@@ -12,6 +12,7 @@ public class KeyPressInformer {
     private HashMap<String, Boolean> keyMap;
     private ArrayList<KeyPressListener> clients;
 
+    KeyBindingConfig kbf;
     HashMap<String, int[]> customKeyBindings;
     String[] commandsList;
 
@@ -21,6 +22,7 @@ public class KeyPressInformer {
 
     public KeyPressInformer(KeyBindingConfig kbf){
         //this.keyMap = keyMap; (used to be a parameter)
+        this.kbf = kbf;
         this.clients = new ArrayList<>();
         currentlyPressedKeys = new ArrayList<>();
         customKeyBindings = kbf.customCmdMappings();
@@ -50,6 +52,14 @@ public class KeyPressInformer {
             if(currentlyPressedKeys.get(i) == keyID)
                 currentlyPressedKeys.remove(i);
         }
+    }
+
+    //reset everything
+    public void reset(){
+        currentlyPressedKeys = new ArrayList<>();
+//        customKeyBindings = this.kbf.customCmdMappings();
+//        commandsList = new String[customKeyBindings.size()];
+//        commandsList = customKeyBindings.keySet().toArray(commandsList);
     }
 
     //Check the array of currently pressed keys to see if they constitute a command

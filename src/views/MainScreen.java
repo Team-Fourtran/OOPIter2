@@ -286,6 +286,9 @@ public class MainScreen implements TileObserver {
                 keyInformer.keyReleased(e.getKeyCode());
             }
 
+            protected void reset(){
+                keyInformer.reset();
+            }
             /* For reference: Original KeyListeners */
 //            @Override
 //            public void keyReleased(KeyEvent e){
@@ -385,6 +388,7 @@ public class MainScreen implements TileObserver {
                     board[x][y] = 0;
                     disableHighlight();
                     enableCommand();
+                    commandListener.reset();
                     tileReceiver.receiveTile(null);
                 }
 
@@ -393,6 +397,7 @@ public class MainScreen implements TileObserver {
                     tileAssociationIndex = (x*BSIZE) + y;
                     disableHighlight();
                     enableCommand();
+                    commandListener.reset();
                     tileReceiver.receiveTile(tiles[tileAssociationIndex]);
                 }
                 repaint();
