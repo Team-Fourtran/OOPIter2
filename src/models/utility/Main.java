@@ -51,15 +51,15 @@ class modelTest{
 //        testHeal();
 //        testDecommission();
 //        testPowerUpDown();
-        //testIterator();
+//        testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
 //        testBuild();
-//          testHarvest();
+        testHarvest();
 //        testPathfinding();
 //        testLandMine();
-        testLandMine2();
+//        testLandMine2();
     }
 
 	private void configure() throws InterruptedException {
@@ -68,7 +68,7 @@ class modelTest{
         this.enemyPlayer = new Player();
         this.currentPlayer = player;
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.executeFancy();
+        this._tiles = tileGen.execute();
         this.game = new Game(player, _tiles);
         this.map = game.getMap();
         this.am = player.getArmies();
@@ -614,34 +614,45 @@ class modelTest{
     }
     
     private void testHarvest() throws InterruptedException {
-    	// configure tile with food resource
-    	_tiles.get(4).getResourcePackage().setFoodCount(5);
     	// put a capital on this same tile
-    	Structure s1 = sm.createStructure("capital", _tiles.get(4)); // add to manager
-    	// how can we configure the capital's work radius?
+    	Structure s1 = sm.createStructure("mine", _tiles.get(4)); // add to manager
     	PlayerAssetOwnership.addPlayerAsset(player, s1); // add to player list. Actually this could be done in the managers maybe
     	map.addAssetToMap(s1, _tiles.get(4)); // add to map
+    	
     	ResourceStructure t = (ResourceStructure) s1; // need to treat it as a resource structure
-    	t.setHarvestType(new FoodHarvestStrategy(t.getWorkRadius()));
-    	t.startHarvest();
+    	ArrayList<Worker> worker = new ArrayList<Worker>();
+    	worker.add(new Worker());
+    	t.addWorkersToIdle(worker);
     	
-    	_tiles.get(4).getResourcePackage().setFoodCount(0);
-    	_tiles.get(5).getResourcePackage().setFoodCount(5);
-    	t.setRadiusSize(1); // increase radius
-    	t.startHarvest();
+    	// configure tile with food resource
+    	_tiles.get(4).getResourcePackage().setOreCount(50);
     	
-    	// change strategy to ore harvest
-    	_tiles.get(3).getResourcePackage().setOreCount(1);
-    	t.setHarvestType(new OreHarvestStrategy(t.getWorkRadius()));
-    	t.startHarvest();
+    	// start to harvest
+    	CTRLHarvestCommand chc = new CTRLHarvestCommand();
+    	chc.configure(t, _tiles.get(4), 1); // pick any tile. won't perform if not in work radius. have view show work radius properly
+    	game.notifyOfCommand(chc);
     	
-    	// change strategy to energy harvest
-    	_tiles.get(5).getResourcePackage().setEnergyCount(2);
-    	t.setHarvestType(new EnergyHarvestStrategy(t.getWorkRadius()));
-    	t.startHarvest();
+    	changeTurn(6);
+    	//    	t.startHarvest();
+    	// this start to harvest
     	
-    	t.setRadiusSize(0);
-    	t.startHarvest(); // shouldn't be able to harvest that energy anymore
+//    	_tiles.get(4).getResourcePackage().setFoodCount(1);
+//    	_tiles.get(5).getResourcePackage().setFoodCount(5);
+//    	t.setRadiusSize(1); // increase radius
+//    	t.startHarvest();
+//    	
+//    	// change strategy to ore harvest
+//    	_tiles.get(3).getResourcePackage().setOreCount(1);
+//    	t.setHarvestType(new OreHarvestStrategy(t.getWorkRadius()));
+//    	t.startHarvest();
+//    	
+//    	// change strategy to energy harvest
+//    	_tiles.get(5).getResourcePackage().setEnergyCount(2);
+//    	t.setHarvestType(new EnergyHarvestStrategy(t.getWorkRadius()));
+//    	t.startHarvest();
+//    	
+//    	t.setRadiusSize(0);
+//    	t.startHarvest(); // shouldn't be able to harvest that energy anymore
     }
 }
 

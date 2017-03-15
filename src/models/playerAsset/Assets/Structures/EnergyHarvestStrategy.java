@@ -1,20 +1,21 @@
 package models.playerAsset.Assets.Structures;
 
+import java.util.ArrayList;
+
 import models.assetOwnership.TileAssociation;
 import models.assetOwnership.WorkRadius;
+import models.tileInfo.ResourcePackage;
 
-public class EnergyHarvestStrategy implements HarvestStrategy {
+public class EnergyHarvestStrategy extends HarvestStrategy {
 	private WorkRadius harvestRadius;
 	private TileAssociation harvestTile;
 	
 	public EnergyHarvestStrategy(WorkRadius harvestRadius) {
-		this.harvestRadius = harvestRadius;
+		super(harvestRadius);
 	}
 
 	@Override
-	public TileAssociation harvest() {
-		harvestTile = harvestRadius.getTileWithResource("energy");
-		return harvestTile;
+	protected int specificHarvest(ResourcePackage resources) {
+		return resources.harvestEnergy();
 	}
-	
 }
