@@ -43,6 +43,11 @@ public class PlayerInfoArea {
         oreTextField.setEditable(false);
         energyTextField.setEditable(false);
 
+        playerTextField.setFocusable(false);
+        foodTextField.setFocusable(false);
+        oreTextField.setFocusable(false);
+        energyTextField.setFocusable(false);
+
         playerLabel.setLabelFor(playerTextField);
         energyLabel.setLabelFor(energyTextField);
         oreLabel.setLabelFor(oreTextField);
@@ -62,6 +67,7 @@ public class PlayerInfoArea {
         orePane.add(oreTextField);
 
         endTurnButton = new JButton("End Turn");
+        endTurnButton.setFocusable(false);
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
