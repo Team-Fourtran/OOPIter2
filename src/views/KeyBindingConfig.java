@@ -155,6 +155,7 @@ public class KeyBindingConfig {
     private InputStream readConfigFile(InputStream stream, String filename){
         try {
             stream = new FileInputStream(System.getProperty("user.dir") + "/src/configs/" + filename);
+//            stream = new FileInputStream("../src/configs/" + filename);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
