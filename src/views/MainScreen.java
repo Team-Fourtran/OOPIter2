@@ -74,6 +74,7 @@ public class MainScreen implements TileObserver {
     public void updatePlayer(Player p){
         this.currentPlayer = p;
         playerInfoArea.update(currentPlayer);
+        visibleTiles = PlayerVisibility.getTilesForPlayer(p);
     }
 
     public KeyPressInformer getKeyInformer(){
@@ -252,18 +253,17 @@ public class MainScreen implements TileObserver {
                     ind++;
                 }
             }
-            System.out.println(visibleTiles);
             for(int i = 0; i < tiles.length; i++ ){
-                if(!(visibleTiles.contains(tiles[i]))) {
+                if ((visibleTiles == null) || !(visibleTiles.contains(tiles[i]))) {
                     int xInd = i / BSIZE;
                     int yInd = i % BSIZE;
                     int h = HEXSIZE;
-                    int r = h/2;
+                    int r = h / 2;
                     int s = (int) (h / 1.73205);
                     int t = (int) (r / 1.73205);
-                    int a = xInd * (s+t);
-                    int b = yInd * h + (xInd%2) * h/2;
-                    Polygon poly = hexMech.hex(a,b);
+                    int a = xInd * (s + t);
+                    int b = yInd * h + (xInd % 2) * h / 2;
+                    Polygon poly = hexMech.hex(a, b);
                     g2.setColor(Color.black);
                     g2.fillPolygon(poly);
                     g2.drawPolygon(poly);
