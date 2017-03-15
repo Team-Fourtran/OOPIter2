@@ -1,5 +1,7 @@
 package models.tileInfo;
 
+import models.visitor.TileVisitor;
+
 /*
  * An encapsulation of resources (food, building materials, research materials), to be kept in a TileInfo object
  * Allows for harvesting of these resources one unit at a time.
@@ -85,5 +87,9 @@ public class ResourcePackage {
 			energyCount = 0;
 			return remainingEnergy;
 		}
+	}
+
+	public void accept(TileVisitor visitor){
+		visitor.visitResourcePackage(this);
 	}
 }

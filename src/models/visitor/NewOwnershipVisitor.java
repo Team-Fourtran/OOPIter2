@@ -46,4 +46,9 @@ public class NewOwnershipVisitor implements TileVisitor{
     public void visitObstacleItem(ObstacleItem item) {
 
     }
+
+    @Override
+    public void visitResourcePackage(ResourcePackage resourcePackage) {
+
+    }
 }

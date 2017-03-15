@@ -78,6 +78,7 @@ public class CommandListVisitor implements SpecificAssetVisitor{
         cmdList.add(new CTRLCreateUnitCommand());
         cmdList.add(new CTRLHealCommand());
         cmdList.add(new CTRLHarvestCommand());
+        cmdList.add(new CTRLProduceCommand());
         this.visitStructure(capital);
     }
 
@@ -85,6 +86,7 @@ public class CommandListVisitor implements SpecificAssetVisitor{
     public void visitFarm(Farm farm) {
         cmdList.add(new CTRLHarvestCommand());
         this.visitStructure(farm);
+        cmdList.add(new CTRLProduceCommand());
     }
 
     @Override
@@ -98,6 +100,7 @@ public class CommandListVisitor implements SpecificAssetVisitor{
     public void visitMine(Mine mine) {
         this.visitStructure(mine);
         cmdList.add(new CTRLHarvestCommand());
+        cmdList.add(new CTRLProduceCommand());
     }
 
     @Override
@@ -109,6 +112,7 @@ public class CommandListVisitor implements SpecificAssetVisitor{
     public void visitPowerPlant(PowerPlant powerPlant) {
         this.visitStructure(powerPlant);
         cmdList.add(new CTRLHarvestCommand());
+        cmdList.add(new CTRLProduceCommand());
     }
 
     @Override
