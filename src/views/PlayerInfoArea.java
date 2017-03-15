@@ -48,34 +48,55 @@ public class PlayerInfoArea {
         foodLabel = new JLabel("Food");
 
         playerTextField = new JTextField();
+        scienceTextField = new JTextField();
         energyTextField = new JTextField();
+        metalTextField = new JTextField();
         oreTextField = new JTextField();
+        wheatTextField = new JTextField();
         foodTextField = new JTextField();
 
         playerTextField.setEditable(false);
+        wheatTextField.setEditable(false);
         foodTextField.setEditable(false);
+        metalTextField.setEditable(false);
         oreTextField.setEditable(false);
+        scienceTextField.setEditable(false);
         energyTextField.setEditable(false);
 
         playerTextField.setFocusable(false);
+        wheatTextField.setFocusable(false);
         foodTextField.setFocusable(false);
+        metalTextField.setFocusable(false);
         oreTextField.setFocusable(false);
+        scienceTextField.setFocusable(false);
         energyTextField.setFocusable(false);
 
         playerLabel.setLabelFor(playerTextField);
+        scienceLabel.setLabelFor(scienceTextField);
         energyLabel.setLabelFor(energyTextField);
+        metalLabel.setLabelFor(metalTextField);
         oreLabel.setLabelFor(oreTextField);
+        wheatLabel.setLabelFor(wheatTextField);
         foodLabel.setLabelFor(foodTextField);
 
         playerPane = new JPanel(new GridLayout(1, 2, 0, 0));
         playerPane.add(playerLabel);
         playerPane.add(playerTextField);
+        wheatPane = new JPanel(new GridLayout(1, 2, 0, 0));
+        wheatPane.add(wheatLabel);
+        wheatPane.add(wheatTextField);
         foodPane = new JPanel(new GridLayout(1, 2, 0, 0));
         foodPane.add(foodLabel);
         foodPane.add(foodTextField);
+        sciencePane = new JPanel(new GridLayout(1, 2, 0, 0));
+        sciencePane.add(scienceLabel);
+        sciencePane.add(scienceTextField);
         energyPane = new JPanel(new GridLayout(1, 2, 0, 0));
         energyPane.add(energyLabel);
         energyPane.add(energyTextField);
+        metalPane = new JPanel(new GridLayout(1, 2,0 ,0 ));
+        metalPane.add(metalLabel);
+        metalPane.add(metalTextField);
         orePane = new JPanel(new GridLayout(1, 2,0 ,0 ));
         orePane.add(oreLabel);
         orePane.add(oreTextField);
@@ -88,10 +109,13 @@ public class PlayerInfoArea {
                 turnSwitchNotifier.notifyOfTurnSwitch();
             }
         });
-        pane = new JPanel(new GridLayout(5, 1, 0, 0));
+        pane = new JPanel(new GridLayout(8, 1, 0, 0));
         pane.add(playerPane);
+        pane.add(wheatPane);
         pane.add(foodPane);
+        pane.add(sciencePane);
         pane.add(energyPane);
+        pane.add(metalPane);
         pane.add(orePane);
         pane.add(endTurnButton);
 
@@ -124,6 +148,5 @@ public class PlayerInfoArea {
     public void update(Player player){
         this.player = player;
         playerTextField.setText(player.getName());
-
     }
 }

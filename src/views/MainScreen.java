@@ -166,7 +166,7 @@ public class MainScreen implements TileObserver {
         playerInfoArea.update(currentPlayer);
 
         //Unit OV Table
-        Dimension d = new Dimension(900, 700);
+        Dimension d = new Dimension(1400, 700);
 
         unitTable = new UnitOverview(d);
         strTable = new StructureOverview(d);
