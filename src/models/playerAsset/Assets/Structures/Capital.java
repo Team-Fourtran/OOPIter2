@@ -14,12 +14,12 @@ public class Capital extends ResourceStructure {
     double energyProductionMultiplier;
 
     public Capital() {
-        setOffDamage(75);
+        setOffDamage(0);
         setDefDamage(75);
         setArmor(150);
         setMaxHealth(200);
         setCurrentHealth(200);
-        setUpkeep(1);
+        setUpkeep(30);
         setRadiusOfInfluence(2);
         setProductionRate(1);
         setWorkerDensity(10);

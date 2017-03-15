@@ -8,12 +8,12 @@ import models.visitor.SpecificAssetVisitor;
 public class MeleeUnit extends Unit{
 
     public MeleeUnit(){
-        setOffDamage(75);
-        setDefDamage(75);
-        setArmor(150);
-        setMaxHealth(200);
-        setCurrentHealth(200);
-        setUpkeep(1);
+        setOffDamage(50);
+        setDefDamage(50);
+        setArmor(50);
+        setMaxHealth(75);
+        setCurrentHealth(75);
+        setUpkeep(25);
         setRadiusOfInfluence(2);
         setMovesPerTurn(.33);
     }
