@@ -2,6 +2,7 @@ package models.visitor;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
+import models.command.ModifyWorkersCommand;
 import models.command.MoveCommand;
 import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
@@ -14,6 +15,10 @@ public class MovementVisitor implements AssetVisitor{
     private GameMap gameMap;
     private Player player;
     private ArrayList<TileAssociation> armyPath;
+    private boolean pickingUpWorkers = false;
+    private boolean droppingOffWorkers = false;
+    private int numWorkers;
+    private Structure workersStructure;
 
     public MovementVisitor(GameMap gameMap, Player player, TileAssociation destination){
         this.destination = destination; //Ask about static methods...!
@@ -48,6 +53,16 @@ public class MovementVisitor implements AssetVisitor{
                 );
                 cur = next;
             }
+            if(pickingUpWorkers){
+                army.addCommand(
+                        new ModifyWorkersCommand(true, gameMap, army, this.workersStructure, this.numWorkers)
+                );
+            }
+            else if(droppingOffWorkers){
+                army.addCommand(
+                        new ModifyWorkersCommand(false, gameMap, army, this.workersStructure, this.numWorkers)
+                );
+            }
         }
         for (Unit _u : army.getReinforcements()){
             this.visitUnit(_u);
@@ -64,5 +79,16 @@ public class MovementVisitor implements AssetVisitor{
         armyPath = gameMap.generatePath(rallyPoint, destination);
         gameMap.generateImmediateMovement(rallyPoint, destination);
         this.visitArmy(rallyPoint.getArmy());
+    }
+
+    public void setNeedWorkers(boolean pickingUp, Structure workersStructure, int numWorkers){
+        if(pickingUp){
+            this.pickingUpWorkers = true;
+        }
+        else{
+            this.droppingOffWorkers = true;
+        }
+        this.numWorkers = numWorkers;
+        this.workersStructure = workersStructure;
     }
 }

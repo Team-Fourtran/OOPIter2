@@ -1,6 +1,5 @@
 package models.playerAsset.Assets.Structures;
 
-import models.assetOwnership.Radius;
 import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.Worker;
 import models.visitor.AssetVisitor;
@@ -25,7 +24,7 @@ public class Structure extends CombatAsset {
         return productionRate;
     }
 
-    public void assignWorkers(Worker... workers){
+    public void assignWorkers(ArrayList<Worker> workers){
         for (Worker w: workers) {
             staff.add(w);
             productionRate += w.getProduction();
@@ -40,6 +39,28 @@ public class Structure extends CombatAsset {
     }
 
     public int getStaffCount(){
+        return staff.size();
+    }
+
+    public ArrayList<Worker> acquireWorkers(int num){
+        ArrayList<Worker> list = new ArrayList<>();
+        if(staff.isEmpty()){
+            return null;
+        }
+        else if (num > staff.size()){
+            for(int i = 0; i < staff.size(); i++){
+                list.addAll(staff);
+            }
+        }
+        else{
+            for(int i = 0; i < num; i++){
+                list.add(staff.remove(0));
+            }
+        }
+        return list;
+    }
+
+    public int getNumWorkers(){
         return staff.size();
     }
 }

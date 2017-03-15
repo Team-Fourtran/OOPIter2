@@ -7,6 +7,7 @@ import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.Units.Colonist;
 import models.playerAsset.Assets.Units.Unit;
 import models.visitor.CapitalCreationVisitor;
+import models.visitor.UnitCreationVisitor;
 
 public class CTRLCreateCapitalCommand implements CTRLCommand{
     private Unit unit;  //TODO: Might be able to make of type Colonist
@@ -36,11 +37,23 @@ public class CTRLCreateCapitalCommand implements CTRLCommand{
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             if(unit instanceof Colonist){
+                CapitalCreationVisitor creationVisitor = new CapitalCreationVisitor(unit, map, player);
                 player.accept(
-                        new CapitalCreationVisitor(
-                                unit,
+                        creationVisitor
+                );
+
+                player.accept(
+                        new UnitCreationVisitor(
                                 map,
-                                player
+                                creationVisitor.getCreation(),
+                                "melee"
+                        )
+                );
+                player.accept(
+                        new UnitCreationVisitor(
+                                map,
+                                creationVisitor.getCreation(),
+                                "melee"
                         )
                 );
             }

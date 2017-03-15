@@ -3,12 +3,8 @@ import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.Structures.University;
-import models.playerAsset.Assets.Technology.Technology;
 import models.visitor.NewTechVisitor;
 
-/**
- * Created by Clay on 3/13/2017.
- */
 public class CTRLResearchTechnologyCommand implements CTRLCommand{
 
     String type,asset;

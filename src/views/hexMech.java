@@ -87,7 +87,7 @@ public class hexMech {
         int y = j * h + (i%2) * h/2;
         Polygon poly = hex(x,y);
 
-        HexProperties h = new HexProperties(x, y, g2);
+        HexProperties h = new HexProperties(x, y, i, j, g2);
         gps.put(tileAssoc, h);
         ;       gg = g2;
         g2.setColor(MainScreen.COLOURCELL);

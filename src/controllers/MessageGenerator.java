@@ -291,7 +291,7 @@ class MessageGenerator implements KeyPressListener {
         @Override
         //TODO: This
         public int getInt() {
-            return 0;
+            return 5;
         }
 
         @Override

@@ -30,6 +30,7 @@ public class CTRLBuildCommand implements CTRLCommand{
         this.structureType = parts.getStructureType();
         this.numWorkersAssigned = parts.getInt();
         isConfigured = true;
+        parts.requestExecution();
     }
 
     public boolean isConfigured(){

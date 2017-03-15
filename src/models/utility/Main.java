@@ -46,8 +46,8 @@ class modelTest{
 
     modelTest() throws InterruptedException {
 
-//        liveTest();
-        configure(); //Comment out KeyboardController in Game
+        liveTest();
+//        configure(); //Comment out KeyboardController in Game
 //        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
@@ -752,10 +752,16 @@ class modelTest{
         System.out.println(f.getHarvestCount());
         System.out.println(f.getProduced());
 
-        changeTurn(10);
+        changeTurn(5);
 
         System.out.println(f.getHarvestCount());
         System.out.println(f.getProduced());
+
+        CTRLProduceCommand cmd2 = new CTRLProduceCommand();
+        cmd2.configure(f,0,"food");
+        game.notifyOfCommand(cmd2);
+
+        changeTurn(5);
 
 
 

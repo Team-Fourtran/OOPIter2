@@ -6,6 +6,7 @@ import models.playerAsset.Assets.ArmyManager;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.StructureManager;
+import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.UnitManager;
 import models.playerAsset.Assets.Units.Unit;
 
@@ -14,6 +15,7 @@ public class CapitalCreationVisitor implements PlayerVisitor{
     private Unit colonistToRemove;
     private GameMap map;
     private Player player;
+    private Structure creation;
 
     public CapitalCreationVisitor(Unit unit, GameMap map, Player player){
         this.player = player;
@@ -32,9 +34,10 @@ public class CapitalCreationVisitor implements PlayerVisitor{
     @Override
     public void visitStructureManager(StructureManager structureManager) {
         //TODO: See if we can pass the TileAssociation so we don't have to call this map method
+        this.creation = structureManager.createStructure("capital", map.searchForTileAssociation(colonistToRemove));
         PlayerAsset s = map.replaceAsset(
                 colonistToRemove,
-                structureManager.createStructure("capital", map.searchForTileAssociation(colonistToRemove))
+                creation
         );
         PlayerAssetOwnership.addPlayerAsset(player, s);
         System.out.println("Created Capital");
@@ -49,5 +52,9 @@ public class CapitalCreationVisitor implements PlayerVisitor{
     public void visitUnitManager(UnitManager unitManager) {
         unitManager.removeUnit(colonistToRemove);   //Will this get removed from the Army?
         PlayerAssetOwnership.removePlayerAsset(colonistToRemove);
+    }
+
+    public Structure getCreation(){
+        return creation;
     }
 }

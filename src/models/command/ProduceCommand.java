@@ -22,21 +22,26 @@ public class ProduceCommand implements Command{
 
     @Override
     public void execute() {
-        if (firstExecution) {
-            if (assignedWorkers != 0) {
+        if (assignedWorkers == 0){
+            producer.ceaseProduction();
+            producer.removeUniversalCommand(this);
+            System.out.println("gone1");
+            return;
+        }
+        else{
+            if (firstExecution) {
                 producer.addWorkersToProduction(assignedWorkers);
                 firstExecution = false;
             }
-            else {
-                producer.ceaseProduction();
-                producer.removeUniversalCommand(this);
-            }
-
         }
 
-        producer.produce(type);
-        if ((producer == null))
+        System.out.println(producer.getNumProducers());
+        if ((producer == null || producer.getNumProducers() == 0)) {
             producer.removeUniversalCommand(this);
+            System.out.println("gone2");
+            return;
+        }
+        producer.produce(type);
 
     }
 

@@ -1,7 +1,5 @@
 package models.playerAsset.Assets.Structures;
 
-import models.playerAsset.Assets.Structures.Structure;
-import models.assetOwnership.Radius;
 import models.assetOwnership.TileAssociation;
 import models.assetOwnership.WorkRadius;
 import models.playerAsset.Assets.Worker;
@@ -32,9 +30,10 @@ public class ResourceStructure extends Structure{
     
     public ArrayList<Worker> removeWorkersFromGathering(int num){
         ArrayList<Worker> newList = new ArrayList<>();
-        for (int i = 0; i < num && i < gatherers.size(); i++){
-            newList.add(gatherers.get(i));
-            gatherers.remove(i);
+        int min = Math.min(num, gatherers.size());
+        for (int i = 0; i < min; i++){
+            newList.add(gatherers.get(0));
+            gatherers.remove(0);
         }
 
         return newList;
@@ -42,9 +41,10 @@ public class ResourceStructure extends Structure{
 
     public ArrayList<Worker> removeWorkersFromProduction(int num){
         ArrayList<Worker> newList = new ArrayList<>();
-        for (int i = 0; i < num && i < producers.size(); i++){
-            newList.add(producers.get(i));
-            producers.remove(i);
+        int min = Math.min(num, producers.size());
+        for (int i = 0; i < min; i++){
+            newList.add(producers.get(0));
+            producers.remove(0);
         }
 
         return newList;
@@ -151,6 +151,14 @@ public class ResourceStructure extends Structure{
     public int getWorkerDensity(){return workerDensity;}
     public void setWorkerDensity(int w){workerDensity = w;}
 
+    public int getNumHarvesters(){
+        return gatherers.size();
+    }
+
+    public int getNumProducers(){
+        return producers.size();
+    }
+
     public void printStats(){
         System.out.println(getWorkerDensity());
         System.out.println(getWorkRadius());
@@ -177,4 +185,5 @@ public class ResourceStructure extends Structure{
         else
             return 0;
     }
+
 }
