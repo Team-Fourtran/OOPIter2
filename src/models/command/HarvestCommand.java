@@ -25,10 +25,15 @@ public class HarvestCommand implements Command {
 	@Override
 	public void execute() {
 		if (firstExecution) {
-			harvester.addWorkersToGathering(assignedWorkers);
-			firstExecution = false;
+			if (assignedWorkers != 0) {
+				harvester.addWorkersToGathering(assignedWorkers);
+				firstExecution = false;
+			}
+			else {
+				harvester.ceaseHarvesting();
+				harvester.removeUniversalCommand(this);
+			}
 		}
-		
 		int harvest = harvester.harvest(target);
 		if ((harvester == null) || (harvest <= 0)) {
 			harvester.removeUniversalCommand(this);

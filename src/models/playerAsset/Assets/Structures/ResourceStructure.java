@@ -117,6 +117,14 @@ public class ResourceStructure extends Structure{
     	}
     }
 
+    public void ceaseHarvesting(){
+        addWorkersToIdle(removeWorkersFromGathering(gatherers.size()));
+    }
+
+    public void ceaseProduction(){
+        addWorkersToIdle(removeWorkersFromProduction(producers.size()));
+    }
+
     public void produce(String type){
         if (resourceCount.containsKey(type)){
             int resources = resourceCount.get(type);
@@ -126,7 +134,7 @@ public class ResourceStructure extends Structure{
                 resourceCount.put(type, 0);
             }
             else {
-                producedCount.put(type, producedCount.get(type) + amtToProduce);
+                producedCount.put(type, amtToProduce);
                 resourceCount.put(type, resourceCount.get(type) - amtToProduce);
             }
         }

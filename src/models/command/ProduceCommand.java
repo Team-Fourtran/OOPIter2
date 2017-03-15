@@ -1,13 +1,9 @@
 package models.command;
 
 import models.assetOwnership.GameMap;
-import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.Structures.ResourceStructure;
 
-/**
- * Created by Clay on 3/15/2017.
- */
 public class ProduceCommand implements Command{
     private Player givingPlayer;
     private ResourceStructure producer;
@@ -26,8 +22,15 @@ public class ProduceCommand implements Command{
     @Override
     public void execute() {
         if (firstExecution) {
-            producer.addWorkersToProduction(assignedWorkers);
-            firstExecution = false;
+            if (assignedWorkers != 0) {
+                producer.addWorkersToProduction(assignedWorkers);
+                firstExecution = false;
+            }
+            else {
+                producer.ceaseProduction();
+                producer.removeUniversalCommand(this);
+            }
+
         }
 
         producer.produce(type);
