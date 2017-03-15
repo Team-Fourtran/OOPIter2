@@ -177,6 +177,7 @@ public class MainScreen implements TileObserver {
                 System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
             }
         };
+        tabbedPane.addChangeListener(changeListener);
 
         c.gridwidth = 4;
         c.gridheight = 2;

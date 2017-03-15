@@ -32,6 +32,7 @@ public class TableFormatVisitor implements PlayerVisitor {
     @Override
     public void visitArmyManager(ArmyManager armyManager) {
         Iterator2<Army> iter = armyManager.makeIterator();
+        armyList = new ArrayList<>(0);
         iter.first();
         if (iter.current() == null){
             return;
@@ -51,13 +52,12 @@ public class TableFormatVisitor implements PlayerVisitor {
             }
         }
         this.armyList = armyList;
-        formatUnits();
-
     }
 
     @Override
     public void visitStructureManager(StructureManager structureManager) {
         Iterator2<Structure> iter = structureManager.makeIterator();
+        structureList = new ArrayList<>(0);
         iter.first();
         if (iter.current() == null){
             return;
@@ -81,6 +81,7 @@ public class TableFormatVisitor implements PlayerVisitor {
     @Override
     public void visitUnitManager(UnitManager unitManager) {
         Iterator2<Unit> iter = unitManager.makeIterator();
+        unitList = new ArrayList<>(0);
         iter.first();
         if (iter.current() == null){
             return;
@@ -99,28 +100,34 @@ public class TableFormatVisitor implements PlayerVisitor {
         }
         this.unitList = list;
         this.visitArmyManager(player.getArmies());
+        formatUnits();
     }
 
     private void formatUnits(){
-        String[][] unitData = new String[unitList.size()+armyList.size()][10];
+        int size = 0;
         if(!unitList.isEmpty()) {
-            for (int num = 0; num < unitList.size(); num++) {
-                if(armyList.contains(unitList.get(num))){
-                    unitData[num][2] = "YES";
-                }
-                else{
-                    unitData[num][2] = "NO";
-                }
-                unitData[num][0] = unitList.get(num).getID();
-                unitData[num][1] = unitList.get(num).getType();
-                unitData[num][3] = Integer.toString(unitList.get(num).getOffDamage(0));
-                unitData[num][4] = Integer.toString(unitList.get(num).getDefDamage(0));
-                unitData[num][5] = Integer.toString(unitList.get(num).getArmor());
-                unitData[num][6] = Integer.toString(unitList.get(num).getMaxHealth());
-                unitData[num][7] = Integer.toString(unitList.get(num).getCurrentHealth());
-                unitData[num][8] = Integer.toString(unitList.get(num).getUpkeep());
-                unitData[num][9] = Integer.toString(unitList.get(num).getRadiusOfInfluence());
+            size += unitList.size();
+            if (!armyList.isEmpty()) {
+                size += armyList.size();
             }
+        }
+        String[][] unitData = new String[size][10];
+        for (int num = 0; num < unitList.size(); num++) {
+            if(armyList.contains(unitList.get(num))){
+                unitData[num][2] = "YES";
+            }
+            else{
+                unitData[num][2] = "NO";
+            }
+            unitData[num][0] = unitList.get(num).getID();
+            unitData[num][1] = unitList.get(num).getType();
+            unitData[num][3] = Integer.toString(unitList.get(num).getOffDamage(0));
+            unitData[num][4] = Integer.toString(unitList.get(num).getDefDamage(0));
+            unitData[num][5] = Integer.toString(unitList.get(num).getArmor());
+            unitData[num][6] = Integer.toString(unitList.get(num).getMaxHealth());
+            unitData[num][7] = Integer.toString(unitList.get(num).getCurrentHealth());
+            unitData[num][8] = Integer.toString(unitList.get(num).getUpkeep());
+            unitData[num][9] = Integer.toString(unitList.get(num).getRadiusOfInfluence());
         }
         this.formattedTable = new NonEditableTable(unitData, unitColumnStats);
     }
