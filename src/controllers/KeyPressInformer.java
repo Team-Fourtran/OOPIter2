@@ -19,11 +19,11 @@ public class KeyPressInformer {
 
     //Maps command name to the legacy keys that perform it. E.g: "previous_type"->"CONTROL LEFT"
 
-    public KeyPressInformer(){
+    public KeyPressInformer(KeyBindingConfig kbf){
         //this.keyMap = keyMap; (used to be a parameter)
         this.clients = new ArrayList<>();
         currentlyPressedKeys = new ArrayList<>();
-        customKeyBindings = new KeyBindingConfig().getMappings();
+        customKeyBindings = kbf.customCmdMappings();
         commandsList = new String[customKeyBindings.size()];
         commandsList = customKeyBindings.keySet().toArray(commandsList);
 

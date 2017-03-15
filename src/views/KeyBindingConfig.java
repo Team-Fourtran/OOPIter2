@@ -12,12 +12,20 @@ public class KeyBindingConfig {
     Properties prop;// = new Properties();
     InputStream input;// = null;
     HashMap<String, Integer> keyNamesToCodes;// = makeKeycodeMap();
-    HashMap<String, int[]> customMappings;// = new HashMap<>();
+    HashMap<String, int[]> customCmdMappings;// = new HashMap<>();
+    HashMap<String, Integer> customMoveMappings;// = new HashMap<>();
+
 
     //Returns a hashmap that maps control commands to an array of the key event ints that should trigger the command
-    public HashMap<String, int[]> getMappings(){
-        return this.customMappings;
+    public HashMap<String, int[]> customCmdMappings(){
+        return this.customCmdMappings;
     }
+
+    //Returns a hashmap that maps movement controls to an array of the key event ints that should trigger the command
+    public HashMap<String, Integer> customMoveMappings(){
+        return this.customMoveMappings;
+    }
+
     public KeyBindingConfig(){
         prop = new Properties();
         input = null;
@@ -25,26 +33,35 @@ public class KeyBindingConfig {
 
         keyNamesToCodes = makeKeycodeMap();     //Makes a map of all of KeyEvent's constants (e.g. VK_RIGHT) to their int values
 
-        customMappings = new HashMap<>();       //Will hold the mappings for game controls to keys as specified
-
+        customCmdMappings = new HashMap<>();       //Will hold the mappings for game controls to keys as specified
+        customMoveMappings = new HashMap<>();       //Sill hold the mappings for movement controls as specified
         try {
             // load a properties file
             prop.load(input);
 
             //Call setMapping for each game control
-            setMapping("previous_mode");
-            setMapping("next_mode");
+            setCmdMapping("previous_mode");
+            setCmdMapping("next_mode");
 
-            setMapping("previous_type");
-            setMapping("next_type");
+            setCmdMapping("previous_type");
+            setCmdMapping("next_type");
 
-            setMapping("previous_instance");
-            setMapping("next_instance");
+            setCmdMapping("previous_instance");
+            setCmdMapping("next_instance");
 
-            setMapping("previous_command");
-            setMapping("next_command");
+            setCmdMapping("previous_command");
+            setCmdMapping("next_command");
 
-            setMapping("issue_command");
+            setCmdMapping("issue_command");
+
+            //Call setMapping for each movement control
+            setMoveMapping("move_north");
+            setMoveMapping("move_northeast");
+            setMoveMapping("move_southeast");
+            setMoveMapping("move_south");
+            setMoveMapping("move_southwest");
+            setMoveMapping("move_northwest");
+
 
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -53,7 +70,7 @@ public class KeyBindingConfig {
     }
 
     //Sets the value of customMappings to the integer that the property value corresponds to in KeyEvent
-    private void setMapping(String controlName){
+    private void setCmdMapping(String controlName){
         String[] sKeys = null;
         try{
             sKeys = prop.getProperty(controlName).split(" ");
@@ -65,11 +82,35 @@ public class KeyBindingConfig {
         }
         try{
             int[] iKeys = getKeyCodes(sKeys);
-            customMappings.put(controlName , iKeys);
+            customCmdMappings.put(controlName , iKeys);
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println("ERROR: KeyBindings.properties contains invalid key mappings. Please check them again.");
+//            System.out.println("controlName: " + controlName + "   givenMap: " + customCmdMappings);
+            System.exit(1);
+        };
+    }
+
+    //Sets the value of moveMappings to the integer that the property value corresponds to in KeyEvent
+    private void setMoveMapping(String moveName){
+        String[] sKeys = null;
+        try{
+            sKeys = prop.getProperty(moveName).split(" ");
+        }
+        catch(Exception e) {
+            System.out.println("No such mapping in KeyBindings.properties: " + moveName);
+            e.printStackTrace();
+            System.exit(1);
+        }
+        try{
+            int[] iKeys = getKeyCodes(sKeys);
+            customMoveMappings.put(moveName , iKeys[0]);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.out.println("ERROR: KeyBindings.properties contains invalid key mappings. Please check them again.");
+//            System.out.println("moveName: " + moveName + "   givenMap: " + customMoveMappings);
             System.exit(1);
         };
     }

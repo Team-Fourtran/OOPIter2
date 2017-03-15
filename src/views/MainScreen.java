@@ -18,6 +18,7 @@ import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Iterators.AssetIterator;
 import models.playerAsset.Iterators.TypeIterator2;
 
+import java.security.Key;
 import java.util.*;
 
 public class MainScreen implements TileObserver {
@@ -39,6 +40,7 @@ public class MainScreen implements TileObserver {
     static final Color COLOURTWO = new Color(0,0,0,124);
 
     private int[][] board = new int[BSIZE][BSIZE];
+    KeyBindingConfig customKeyBinds;
     private KeyPressInformer keyInformer;
 
     private TileAssociation[] tiles;
@@ -127,9 +129,13 @@ public class MainScreen implements TileObserver {
 //        keyMap.put("LEFT",false);
 //        keyMap.put("RIGHT",false);
 //        keyInformer = new KeyPressInformer(keyMap);
-        keyInformer = new KeyPressInformer();
+
+        customKeyBinds = new KeyBindingConfig();
+
+        keyInformer = new KeyPressInformer(customKeyBinds);
         tileReceiver = new TileTargetting(this);
         assetReceiver = new AssetTargetting(this);
+
     }
 
     //For communication between CommandGenerator. Focusing on unit/army to highlight the tile.
@@ -224,7 +230,7 @@ public class MainScreen implements TileObserver {
             requestFocusInWindow();
             toggleHT = false;
             commandListener = new CommandListener();
-            tHL = new TileHighlightListener();
+            tHL = new TileHighlightListener(customKeyBinds);
             addKeyListener(commandListener);
         }
         @Override
@@ -318,11 +324,14 @@ public class MainScreen implements TileObserver {
         }
 
         class TileHighlightListener extends KeyAdapter {
-
+            HashMap<String, Integer> customMoveMappings;
+            TileHighlightListener(KeyBindingConfig kbf){
+                this.customMoveMappings = kbf.customMoveMappings();
+            }
             public void keyPressed(KeyEvent e) {
                 int id = e.getKeyCode();
 
-                if(id == KeyEvent.VK_Q || id == KeyEvent.VK_NUMPAD7){
+                if(id == customMoveMappings.get("move_northwest")){
                     board[x][y] = 0;
                     if(x % 2 == 0 || x == 0){
                         x = (x-1 < 0)? BSIZE-1 : x-1;
@@ -332,12 +341,12 @@ public class MainScreen implements TileObserver {
                     }
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_W || id == KeyEvent.VK_NUMPAD8){
+                if(id == customMoveMappings.get("move_north")){
                     board[x][y] = 0;
                     y = (y-1 < 0)? BSIZE-1 : y-1;
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_E || id == KeyEvent.VK_NUMPAD9){
+                if(id == customMoveMappings.get("move_northeast")){
                     board[x][y] = 0;
                     if(x % 2 == 0 || x == 0){
                         x = (x+1) % BSIZE;
@@ -348,7 +357,7 @@ public class MainScreen implements TileObserver {
 
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_A || id == KeyEvent.VK_NUMPAD1){
+                if(id == customMoveMappings.get("move_southwest")){
                     board[x][y] = 0;
                     if(x % 2 == 1 || x == 0) {
                         y = (y+1) % BSIZE;
@@ -358,12 +367,12 @@ public class MainScreen implements TileObserver {
                     }
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_S || id == KeyEvent.VK_NUMPAD2){
+                if(id == customMoveMappings.get("move_south")){
                     board[x][y] = 0;
                     y = (y+1) % BSIZE;
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_D || id == KeyEvent.VK_NUMPAD3){
+                if(id == customMoveMappings.get("move_southeast")){
                     board[x][y] = 0;
                     if(x % 2 == 1 || x == 0) {
                         y = (y+1) % BSIZE;
@@ -373,14 +382,14 @@ public class MainScreen implements TileObserver {
                     }
                     board[x][y] = (int)' ';
                 }
-                if(id == KeyEvent.VK_ESCAPE){
+                if(id == customMoveMappings.get("move_cancel")){
                     board[x][y] = 0;
                     disableHighlight();
                     enableCommand();
                     tileReceiver.receiveTile(null);
                 }
 
-                if(id == KeyEvent.VK_NUMPAD5){
+                if(id == customMoveMappings.get("move_confirm")){
                     board[x][y] = 0;
                     tileAssociationIndex = (x*BSIZE) + y;
                     disableHighlight();
@@ -388,6 +397,75 @@ public class MainScreen implements TileObserver {
                     tileReceiver.receiveTile(tiles[tileAssociationIndex]);
                 }
                 repaint();
+
+
+                //Old version
+//                if(id == KeyEvent.VK_Q || id == KeyEvent.VK_NUMPAD7){
+//                    board[x][y] = 0;
+//                    if(x % 2 == 0 || x == 0){
+//                        x = (x-1 < 0)? BSIZE-1 : x-1;
+//                        y = (y-1 < 0)? BSIZE-1 : y-1;
+//                    } else {
+//                        x = (x-1 < 0)? BSIZE-1 : x-1;
+//                    }
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_W || id == KeyEvent.VK_NUMPAD8){
+//                    board[x][y] = 0;
+//                    y = (y-1 < 0)? BSIZE-1 : y-1;
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_E || id == KeyEvent.VK_NUMPAD9){
+//                    board[x][y] = 0;
+//                    if(x % 2 == 0 || x == 0){
+//                        x = (x+1) % BSIZE;
+//                        y = (y-1 < 0)? BSIZE-1 : y-1;
+//                    } else{
+//                        x = (x+1) % BSIZE;
+//                    }
+//
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_A || id == KeyEvent.VK_NUMPAD1){
+//                    board[x][y] = 0;
+//                    if(x % 2 == 1 || x == 0) {
+//                        y = (y+1) % BSIZE;
+//                        x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
+//                    } else{
+//                        x = (x - 1 < 0) ? BSIZE - 1 : x - 1;
+//                    }
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_S || id == KeyEvent.VK_NUMPAD2){
+//                    board[x][y] = 0;
+//                    y = (y+1) % BSIZE;
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_D || id == KeyEvent.VK_NUMPAD3){
+//                    board[x][y] = 0;
+//                    if(x % 2 == 1 || x == 0) {
+//                        y = (y+1) % BSIZE;
+//                        x = (x+1) % BSIZE;
+//                    } else{
+//                        x = (x+1) % BSIZE;
+//                    }
+//                    board[x][y] = (int)' ';
+//                }
+//                if(id == KeyEvent.VK_ESCAPE){
+//                    board[x][y] = 0;
+//                    disableHighlight();
+//                    enableCommand();
+//                    tileReceiver.receiveTile(null);
+//                }
+//
+//                if(id == KeyEvent.VK_NUMPAD5){
+//                    board[x][y] = 0;
+//                    tileAssociationIndex = (x*BSIZE) + y;
+//                    disableHighlight();
+//                    enableCommand();
+//                    tileReceiver.receiveTile(tiles[tileAssociationIndex]);
+//                }
+//                repaint();
             }
         }
     }
