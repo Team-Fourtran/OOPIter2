@@ -148,5 +148,11 @@ public class PlayerInfoArea {
     public void update(Player player){
         this.player = player;
         playerTextField.setText(player.getName());
+        wheatTextField.setText(Integer.toString(player.getWheat()));
+        foodTextField.setText(Integer.toString(player.getFood()));
+        scienceTextField.setText(Integer.toString(player.getScience()));
+        oreTextField.setText(Integer.toString(player.getOre()));
+        metalTextField.setText(Integer.toString(player.getMetal()));
+        energyTextField.setText(Integer.toString(player.getEnergy()));
     }
 }
