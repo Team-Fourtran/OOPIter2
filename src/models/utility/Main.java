@@ -459,7 +459,7 @@ class modelTest{
     private void testCommandIterator() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Structure s0 = sm.createStructure("fort", null);
-        PlayerAssetOwnership.addPlayerAsset(player, u0, s0);
+//        PlayerAssetOwnership.addPlayerAsset(player, u0, s0);
 
         CTRLPowerUpCommand cmd = new CTRLPowerUpCommand();
         cmd.configure(s0);
