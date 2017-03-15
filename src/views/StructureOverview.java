@@ -31,6 +31,7 @@ public class StructureOverview extends JPanel implements DataTable {
         vis.visitStructureManager(currentPlayer.getStructures());
         NonEditableTable table = vis.getFormattedTable();
         if(table == null){
+            table.setRowCount(0);
             return;
         }
         structureTable.setModel(table);
