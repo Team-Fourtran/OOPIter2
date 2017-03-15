@@ -8,6 +8,15 @@ import java.util.ArrayList;
 
 public class Capital extends ResourceStructure {
 
+    int rawFood;
+    int producedFood;
+    double foodProductionMultiplier;
+    int rawOre;
+    int producedOre;
+    double oreProductionMultiplier;
+    int rawEnergy;
+    int producedEnergy;
+    double energyProductionMultiplier;
 
     public Capital() {
         setOffDamage(75);
@@ -18,10 +27,16 @@ public class Capital extends ResourceStructure {
         setUpkeep(1);
         setRadiusOfInfluence(2);
         setProductionRate(1);
+        setWorkerDensity(10);
+
+        foodProductionMultiplier = 1;
+        oreProductionMultiplier = 1;
+        energyProductionMultiplier = 1;
         // Important: need to set harvest strategy of capital before it can gather resources
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();
+
         //TODO: this needs to go through worker manager
         for (int i = 0; i < 5; i++) {
             Worker w = new Worker();
@@ -30,9 +45,16 @@ public class Capital extends ResourceStructure {
         }
         //create 2 melee units
     }
+    public void increaseProduction(String type, double i){
+        switch (type){
+            case "ore": oreProductionMultiplier += i; break;
+            case "food": foodProductionMultiplier += i; break;
+            case "energy": energyProductionMultiplier += i; break;
+        }
+    }
 
     public String getType() {
-        return "Capital";
+        return "capital";
     }
 
     @Override
@@ -42,5 +64,14 @@ public class Capital extends ResourceStructure {
         } else {
             super.accept(v);
         }
+    }
+
+    public void printStats(){
+        super.printStats();
+        System.out.println(oreProductionMultiplier);
+        System.out.println(foodProductionMultiplier);
+        System.out.println(energyProductionMultiplier);
+
+
     }
 }

@@ -35,6 +35,6 @@ public class Fort extends Structure{
     }
 
     public String getType(){
-        return "Fort";
+        return "fort";
     }
 }

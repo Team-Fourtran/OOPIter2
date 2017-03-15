@@ -32,6 +32,7 @@ public abstract class PlayerAsset extends Observable {
     public double getMovementTurns(){
         return movementTurns;
     }
+    public void setMovementTurns(double moves) {movementTurns = moves;}
 
     public String getType(){
         return "basic asset type";

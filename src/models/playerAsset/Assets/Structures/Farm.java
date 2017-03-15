@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class Farm  extends ResourceStructure{
 
+    int rawMaterial;
+    int producedMaterial;
+    double foodProductionMultiplier;
+
     public Farm() {
 
         setOffDamage(75);
@@ -16,10 +20,17 @@ public class Farm  extends ResourceStructure{
         setCurrentHealth(200);
         setUpkeep(1);
         setRadiusOfInfluence(1);
-        setProductionRate(1);
+        setProductionRate(0);
+        setWorkerDensity(10);
+        foodProductionMultiplier = 1;
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();
+    }
+
+    public void increaseProduction(String type, double i){
+        if (type.equals("food"))
+            foodProductionMultiplier += i;
     }
 
     public void accept(AssetVisitor v) {
@@ -33,7 +44,12 @@ public class Farm  extends ResourceStructure{
 
 
     public String getType(){
-        return "Farm";
+        return "farm";
+    }
+
+    public void printStats(){
+        super.printStats();
+        System.out.println(foodProductionMultiplier);
     }
 
 }

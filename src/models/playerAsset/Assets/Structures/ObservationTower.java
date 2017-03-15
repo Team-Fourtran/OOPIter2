@@ -26,4 +26,8 @@ public class ObservationTower extends Structure {
             super.accept(v);
         }
     }
+
+    public String getType(){
+        return "observationtower";
+    }
 }

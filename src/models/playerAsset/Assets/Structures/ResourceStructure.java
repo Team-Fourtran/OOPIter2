@@ -9,18 +9,17 @@ import models.playerAsset.Assets.Worker;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by Clay on 3/8/2017.
- */
 public class ResourceStructure extends Structure{
 
     ArrayList<Worker> gatherers;
     ArrayList<Worker> producers;
+    int workerDensity;
     ArrayList<Worker> idlers;
     private int workRadiusSize;
     private WorkRadius workRadius;
     private HarvestStrategy harvestStrategy;
     private HashMap<String, Integer> resourceCount;
+
 
     public ResourceStructure() {
     	this.workRadiusSize = 0;
@@ -116,4 +115,15 @@ public class ResourceStructure extends Structure{
     		resourceCount.put(type, count);
     	}
     }
+
+    public void increaseProduction(String type, double i){};
+
+    public int getWorkerDensity(){return workerDensity;}
+    public void setWorkerDensity(int w){workerDensity = w;}
+
+    public void printStats(){
+        System.out.println(getWorkerDensity());
+        System.out.println(getWorkRadius());
+    }
+
 }

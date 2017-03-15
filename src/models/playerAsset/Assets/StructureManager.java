@@ -3,6 +3,7 @@ package models.playerAsset.Assets;
 
 import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.Structures.*;
+import models.playerAsset.Assets.Technology.Technology;
 import models.playerAsset.Iterators.Iterator;
 import models.playerAsset.Iterators.Iterator2;
 import models.playerAsset.Iterators.TypeIterator2;
@@ -12,8 +13,10 @@ import models.visitor.TypeListVisitor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 
 /* Management class for a Player's structures
    Passes commands to specific structures
@@ -25,6 +28,8 @@ public class StructureManager implements Manager {
     final int maxStructures = 10;
     static ArrayList<String> structureIDs = new ArrayList<>();
     final private StructureFactory factory;
+    HashMap<String, ArrayList<Technology>> techMap;
+
 
     public StructureManager() {
         structureList = new CopyOnWriteArrayList<>();
@@ -34,6 +39,20 @@ public class StructureManager implements Manager {
 //        structureIterators.add(makeIterator(baseList));
         for (int i = 1; i <= 20; i++)
             structureIDs.add("s" + i);
+        techMap = new HashMap<>();
+        initMap();
+
+    }
+
+    public void initMap(){
+        techMap.put("capital", new ArrayList<>());
+        techMap.put("farm", new ArrayList<>());
+        techMap.put("mine", new ArrayList<>());
+        techMap.put("powerplant", new ArrayList<>());
+        techMap.put("fort", new ArrayList<>());
+        techMap.put("observationtower", new ArrayList<>());
+        techMap.put("university", new ArrayList<>());
+        techMap.put("worker", new ArrayList<>());
     }
 
     //return amount of structures a Player has
@@ -48,16 +67,14 @@ public class StructureManager implements Manager {
         Structure s = factory.makeStructure(type, baseTile);
         s.setID(structureIDs.get(0));
         structureIDs.remove(0);
-        //TODO: fix addStructureToList
-        structureList.add(s);
         addStructureToList(s, type);
-        //TODO END
+        applyTech(s);
         return s;
     }
 
     public void addStructureToList(Structure s, String type) {
         switch (type) {
-            case "base":
+            case "capital":
                 structureList.add(s);
                 baseList.add((Capital) s);
                 break;
@@ -70,7 +87,7 @@ public class StructureManager implements Manager {
                 structureList.add(s);
                 baseList.add((Mine) s);
                 break;
-            case "power plant":
+            case "powerplant":
                 structureList.add(s);
                 baseList.add((PowerPlant) s);
                 break;
@@ -78,7 +95,7 @@ public class StructureManager implements Manager {
                 structureList.add(s);
                 baseList.add((Fort) s);
                 break;
-            case "observation tower":
+            case "observationtower":
                 structureList.add(s);
                 baseList.add((ObservationTower) s);
                 break;
@@ -87,6 +104,36 @@ public class StructureManager implements Manager {
                 baseList.add((University) s);
                 break;
         }
+    }
+
+    public void addTech(String type, Technology tech){
+        if (techMap.containsKey(type)) {
+            techMap.get(type).add(tech);
+            applyTech(type, tech);
+        }
+    }
+
+    //apply tech to pertinent units upon discovery
+    public void applyTech(String structureType, Technology tech){
+        if (techMap.containsKey(structureType))
+            if (structureType.equals("worker")) {
+                for (Structure s : structureList)
+                    if (s instanceof ResourceStructure)
+                        tech.apply(s);
+            }
+            else
+                for (Structure s: structureList)
+                    if (structureType.equals( s.getType()))
+                        tech.apply(s);
+    }
+
+    //apply existing tech to new unit
+    public void applyTech(Structure s){
+        for (Technology tech: techMap.get(s.getType()))
+            tech.apply(s);
+        if (s instanceof ResourceStructure)
+            for (Technology tech: techMap.get("worker"))
+                tech.apply(s);
     }
 
     //destroy a structure

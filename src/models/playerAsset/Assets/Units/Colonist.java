@@ -20,7 +20,7 @@ public class Colonist extends Unit{
     }
 
     public String getType(){
-        return "Colonist";
+        return "colonist";
     }
 
     @Override
