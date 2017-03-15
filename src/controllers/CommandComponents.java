@@ -11,6 +11,8 @@ public interface CommandComponents {
     PlayerAsset getTargetAsset();
     TileAssociation getRequestingTile();
     void requestDestinationTile(CTRLCommand callbackObj);
+    void requestDestinationStructure(CTRLCommand callbackObj);
+    void requestDestinationRallypoint(CTRLCommand callbackObj);
     TileAssociation getDestinationTile();
     Player getOpposingPlayer();
     String getStructureType();
@@ -18,4 +20,5 @@ public interface CommandComponents {
     int getInt();
     Unit[] getUnitList();
     void requestExecution();
+
 }

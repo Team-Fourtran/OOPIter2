@@ -13,7 +13,12 @@ public class KeyboardController {
 
     public KeyboardController(Game game, MainScreen mainScreen, AssetIterator assIter){
         //Initializes the message generator, setting itself as the reciever, and forwarding the keysPressedList
-        this.msgGen = new MessageGenerator(this, mainScreen.getKeyInformer(), assIter, mainScreen.getTileTargetter());
+        this.msgGen = new MessageGenerator(this,
+                mainScreen.getKeyInformer(),
+                assIter,
+                mainScreen.getTileTargetter(),
+                mainScreen.getAssetTargetter()
+        );
         this.game = game;
         this.mainScreen = mainScreen;
     }

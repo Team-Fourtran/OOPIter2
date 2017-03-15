@@ -16,14 +16,15 @@ class MessageGenerator implements KeyPressListener {
     private AssetIterator assetIterator;  //Used to iterate through current Player's assets
     private KeyboardController receiver;
     private TileTargetting tileTargetter;
+    private AssetTargetting assetTargetter;
 
     State currentState;
 
-    MessageGenerator(KeyboardController receiver, KeyPressInformer keyInformer, AssetIterator assIter, TileTargetting tt) {
+    MessageGenerator(KeyboardController receiver, KeyPressInformer keyInformer, AssetIterator assIter, TileTargetting tt, AssetTargetting at) {
         this.receiver = receiver;                   //Set up who will receive Commands once they're generated
 
         keyInformer.registerClient(this);    //Register self to get keypress notifications from the keyInformer
-
+        assetTargetter = at;
         tileTargetter = tt;                         //Used for querying the game map for a target tile
         this.assetIterator = assIter;               //Set up the asset iterator
         assetIterator.first();
@@ -123,8 +124,15 @@ class MessageGenerator implements KeyPressListener {
         tileTargetter.targetTile(this, initialHighlightAsset);
     }
 
+    public void requestAsset(String mode){
+        assetTargetter.targetAsset(this, assetIterator, mode);
+    }
+
     public void receiveTargetTile(TileAssociation cbTile) {
         currentState.setDestinationTile(cbTile);
+    }
+    public void receiveTargetAsset(PlayerAsset asset) {
+        currentState.setDestinationAsset(asset);
     }
 
 
@@ -137,6 +145,7 @@ class MessageGenerator implements KeyPressListener {
         private CTRLCommand currentCommand;
         private MessageGenerator msgGen;
         private TileAssociation destinationTile;
+        private PlayerAsset destinationAsset;
 
         State(MessageGenerator msgGen, String m, String t, PlayerAsset i) {
             this.msgGen = msgGen;
@@ -230,7 +239,34 @@ class MessageGenerator implements KeyPressListener {
             msgGen.requestTile((PlayerAsset)assetIterator.current());    //Tell the MessageGenerator to initiate the tile request process
             //The method below (setDestinationTile) gets called once the tile is ready.
         }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        @Override
+        public void requestDestinationStructure(CTRLCommand callbackObject){
+            this.currentCommand = callbackObject;
+            this.destinationAsset = null;
+            msgGen.requestAsset("Structure Mode");
+        }
 
+        @Override
+        public void requestDestinationRallypoint(CTRLCommand callbackObject){
+            this.currentCommand = callbackObject;
+            this.destinationAsset = null;
+            msgGen.requestAsset("Rally Point Mode");
+        }
+
+        protected void setDestinationAsset(PlayerAsset asset) {
+            System.out.println("In State: Got asset back: " + asset + "\nCalling back to CTRLCommand " + currentCommand.hashCode());
+            this.destinationAsset = asset;       //Update the destination asset
+            try {
+                currentCommand.callback();
+            } catch (CommandNotConfiguredException e) {
+                e.printStackTrace();
+            }
+            //Tell the current command to query again, signaling that the tile is done.
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
         @Override
         //TODO: This
         public Player getOpposingPlayer() {
