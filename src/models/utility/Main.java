@@ -87,6 +87,7 @@ class modelTest{
         Unit u0 = um.addNewUnit("colonist");
         _tiles.get(6).add(u0);
         Unit u1 = um.addNewUnit("explorer");
+
         _tiles.get(7).add(u1);
         Unit u2 = um.addNewUnit("melee");
         _tiles.get(8).add(u2);
