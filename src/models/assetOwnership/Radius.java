@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import models.playerAsset.Assets.CombatAsset;
 
-public class Radius {
+public abstract class Radius {
 	private int radiusSize;
 	private TileAssociation baseTile;
 	private Vector<TileAssociation> influencedTiles;
@@ -12,11 +12,23 @@ public class Radius {
 	public Radius(TileAssociation baseTile, int radiusSize) {
 		this.baseTile = baseTile;
 		this.radiusSize = radiusSize;
-		assignTileAssociationsWithinRadius();
+		this.influencedTiles = assignTileAssociationsWithinRadius();
 	}
 	
-	public Vector<TileAssociation> getInfluencedTiles() {
+	public Vector<TileAssociation> getTilesWithinRadius() {
 		return influencedTiles;
+	}
+
+	public void setTilesWithinRadius(Vector<TileAssociation> influencedTiles) {
+		this.influencedTiles =  influencedTiles;
+	}
+
+	public TileAssociation getBaseTile() {
+		return baseTile;
+	}
+
+	public int getRadiusSize() {
+		return radiusSize;
 	}
 	
 	public void setRadiusSize(int radiusSize) {
@@ -37,14 +49,15 @@ public class Radius {
 		return influencedTiles;
 	}
 	
-	private void assignTileAssociationsWithinRadius(TileAssociation s, int radius, Vector<TileAssociation> vec) {
+	protected void assignTileAssociationsWithinRadius(TileAssociation s, int radius, Vector<TileAssociation> vec) {
 		if (!vec.contains(s)) {
 			vec.add(s);
 		}
 		if (radius != 0) {
 			for (TileAssociation t : s.getNeighbors()) {
-				assignTileAssociationsWithinRadius(t, radius-1, vec);
+				assignTileAssociationsWithinRadius(t, radius - 1, vec);
 			}
 		}
 	}
+
 }

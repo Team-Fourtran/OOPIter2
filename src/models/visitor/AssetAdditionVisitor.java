@@ -45,5 +45,6 @@ public class AssetAdditionVisitor implements AssetVisitor {
 	private void addWithInfluence(CombatAsset asset) {
 		location.add(asset);
 		map.addInfluenceRadius(asset, location);
+		map.addVisibilityRadius(asset, location);
 	}
 }

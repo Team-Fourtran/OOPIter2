@@ -52,6 +52,17 @@ public class Army extends CombatAsset implements AssetObserver {
     	}
     	return maxRadius;
     }
+
+    @Override
+    public int getVisibility() {
+        int maxRadius = 0;
+        for (Unit _u : battleGroup) {
+            if (_u.getVisibility() > maxRadius) {
+                maxRadius = _u.getVisibility();
+            }
+        }
+        return maxRadius;
+    }
     
     public double getMovementSpeed(){
         double minMoves = 100;

@@ -20,7 +20,6 @@ public abstract class PlayerAsset extends Observable {
     private int moveCounter = 0;
     private CopyOnWriteArrayList<AssetObserver> observers = new CopyOnWriteArrayList<AssetObserver>();
     
-    
 
     public void setID(String id){
         assetID = id;

@@ -19,8 +19,8 @@ public class RadiusOfInfluenceAssociation extends Radius implements TileObserver
 		this.asset = asset;
 		this.map = map;
 		// register itself as an observer of each of those tiles
-		for (int i = 0; i < getInfluencedTiles().size(); i++) {
-			getInfluencedTiles().get(i).addObserver(this);
+		for (int i = 0; i < getTilesWithinRadius().size(); i++) {
+			getTilesWithinRadius().get(i).addObserver(this);
 		}
 	}
 
@@ -28,15 +28,15 @@ public class RadiusOfInfluenceAssociation extends Radius implements TileObserver
 	public Vector<TileAssociation> updateInfluencedTiles() {
 		// need to no longer be observer of the old ones
 		setRadiusSize(asset.getRadiusOfInfluence());
-		for (int i = 0; i < getInfluencedTiles().size(); i++) {
-			getInfluencedTiles().get(i).removeObserver(this);
+		for (int i = 0; i < getTilesWithinRadius().size(); i++) {
+			getTilesWithinRadius().get(i).removeObserver(this);
 		}
 		
 		assignTileAssociationsWithinRadius();
-		for (int i = 0; i < getInfluencedTiles().size(); i++) {
-			getInfluencedTiles().get(i).addObserver(this);
+		for (int i = 0; i < getTilesWithinRadius().size(); i++) {
+			getTilesWithinRadius().get(i).addObserver(this);
 		}
-		return getInfluencedTiles();
+		return getTilesWithinRadius();
 	}
 
 	/*
@@ -52,7 +52,7 @@ public class RadiusOfInfluenceAssociation extends Radius implements TileObserver
 
 	@Override
 	public void updateRemove(TileAssociation tileAssociation, PlayerAsset p) {
-		// TODO Auto-generated method stub
+		// TODO implement asset leaving visitor
 		
 	}
 }

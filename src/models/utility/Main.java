@@ -4,6 +4,7 @@ package models.utility;
 import application.Game;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.PlayerAssetOwnership;
+import models.assetOwnership.PlayerVisibility;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.*;
 import models.playerAsset.Assets.*;
@@ -46,8 +47,8 @@ class modelTest{
 
     modelTest() throws InterruptedException {
 
-        liveTest();
-//        configure(); //Comment out KeyboardController in Game
+//        liveTest();
+        configure(); //Comment out KeyboardController in Game
 //        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
@@ -62,13 +63,14 @@ class modelTest{
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
 //         testTech();
+//        testVisibility();
 
 
 //        testBuild();
 //        testHarvest();
 //        testPathfinding();
 //        testLandMine();
-//        testLandMine2();
+        testLandMine2();
     }
 
     private void liveTest() throws InterruptedException {
@@ -122,7 +124,7 @@ class modelTest{
         this.smEnemy = enemyPlayer.getStructures();
         this.amEnemy = enemyPlayer.getArmies();
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+        this._tiles = tileGen.executeFancy();
         this.game = new Game(player, enemyPlayer, _tiles);
         this.map = game.getMap();
     }
@@ -194,10 +196,10 @@ class modelTest{
         Structure s0 = sm.createStructure("capital", _tiles.get(22));
         Unit u0 = um.addNewUnit("melee");
         Unit u1 = um.addNewUnit("colonist");
+        PlayerAssetOwnership.addPlayerAsset(player, s0, u0, u1);
         map.addAssetToMap(s0, _tiles.get(22));
         map.addAssetToMap(u0, _tiles.get(67));
         map.addAssetToMap(u1, _tiles.get(67));
-        PlayerAssetOwnership.addPlayerAsset(player, s0, u0, u1);
 
         CTRLCreateArmyCommand c = new CTRLCreateArmyCommand();
         c.configure(_tiles.get(73), u0, u1);
@@ -218,10 +220,10 @@ class modelTest{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
         map.addAssetToMap(u0, _tiles.get(0));
         map.addAssetToMap(u1, _tiles.get(1));
         map.addAssetToMap(u2, _tiles.get(2));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
 
         Thread.sleep(1000);
 
@@ -249,10 +251,10 @@ class modelTest{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
         map.addAssetToMap(u0, _tiles.get(4));
         map.addAssetToMap(u1, _tiles.get(3));
         map.addAssetToMap(u2, _tiles.get(24));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
         Thread.sleep(1000);
 
         CTRLCreateCapitalCommand ccc = new CTRLCreateCapitalCommand();
@@ -267,11 +269,10 @@ class modelTest{
         Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("melee");
         Unit u2 = um.addNewUnit("melee");
-        // PlayerOwnership.add(player, u0, u1, u2)
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
         map.addAssetToMap(u0, _tiles.get(8));
         map.addAssetToMap(u1, _tiles.get(9));
         map.addAssetToMap(u2, _tiles.get(10));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
 
         changeTurn(1);
 
@@ -299,13 +300,13 @@ class modelTest{
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("ranged");
         Structure s0 = smEnemy.createStructure("capital", _tiles.get(2));
-
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
+        PlayerAssetOwnership.addPlayerAsset(enemyPlayer, s0);
         map.addAssetToMap(s0, _tiles.get(2));
         map.addAssetToMap(u2, _tiles.get(2));
         map.addAssetToMap(u0, _tiles.get(8));
         map.addAssetToMap(u1, _tiles.get(9));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
-        PlayerAssetOwnership.addPlayerAsset(enemyPlayer, s0);
+
 
         CTRLCreateArmyCommand ccacmd = new CTRLCreateArmyCommand();
         ccacmd.configure(_tiles.get(8), u0, u1);
@@ -353,10 +354,10 @@ class modelTest{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
         map.addAssetToMap(u0, _tiles.get(0));
         map.addAssetToMap(u1, _tiles.get(1));
         map.addAssetToMap(u2, _tiles.get(11));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
 
         CTRLCreateArmyCommand cacmd = new CTRLCreateArmyCommand();
         cacmd.configure(_tiles.get(0), u0, u1, u2);
@@ -377,10 +378,10 @@ class modelTest{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("colonist");
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
         map.addAssetToMap(u0, _tiles.get(4));
         map.addAssetToMap(u1, _tiles.get(9));
         map.addAssetToMap(u2, _tiles.get(10));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
 
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
         cac.configure(_tiles.get(14), u0, u1, u2);
@@ -463,8 +464,8 @@ class modelTest{
 
     private void testPathfinding() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
-        map.addAssetToMap(u0, _tiles.get(203));
         PlayerAssetOwnership.addPlayerAsset(player, u0);
+        map.addAssetToMap(u0, _tiles.get(203));
 
         changeTurn(1);
 
@@ -488,11 +489,11 @@ class modelTest{
         Unit u1 = um.addNewUnit("melee");
         Unit u2 = um.addNewUnit("melee");
         Unit u3 = um.addNewUnit("ranged");
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2, u3);
         map.addAssetToMap(u0, _tiles.get(8));
         map.addAssetToMap(u1, _tiles.get(9));
         map.addAssetToMap(u2, _tiles.get(10));
         map.addAssetToMap(u3, _tiles.get(11));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2, u3);
 
         changeTurn(1);
 
@@ -504,7 +505,7 @@ class modelTest{
 
         changeTurn(4);
         Army a = am.debugGetArmy();
-        Vector<TileAssociation> v0 = map.getRadiusOfInfluence(a);
+        Vector<TileAssociation> v0 = map.getRadiusOfVisibility(a);
         for (int i = 0; i < v0.size(); i++) {
         	v0.get(i).add(u0);
         }
@@ -519,11 +520,11 @@ class modelTest{
         
         changeTurn(4);
         
-        Vector<TileAssociation> v1 = map.getRadiusOfInfluence(a);
+        Vector<TileAssociation> v1 = map.getRadiusOfVisibility(a);
         for (int i = 0; i < v1.size(); i++) {
         	v1.get(i).add(u0);
         }
-        
+
         // add ranged unit as reinforcement
         CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
         rac.configure(u3, am.debugGetRallyPoint());
@@ -531,11 +532,11 @@ class modelTest{
 
         for (int i = 0; i < v1.size(); i++) {
         	v1.get(i).remove(u0);
-        }       
-        
+        }
+
         changeTurn(4);
-        
-        Vector<TileAssociation> v2 = map.getRadiusOfInfluence(a);
+
+        Vector<TileAssociation> v2 = map.getRadiusOfVisibility(a);
         for (int i = 0; i < v2.size(); i++) {
         	v2.get(i).add(u0);
         }
@@ -548,13 +549,13 @@ class modelTest{
 		
 		// Create fort
 		Structure s0 = sm.createStructure("fort", _tiles.get(4));
-		map.addAssetToMap(s0, _tiles.get(4));
         PlayerAssetOwnership.addPlayerAsset(player, s0);
+		map.addAssetToMap(s0, _tiles.get(4));
 		
         // Create enemy army
         Unit u0 = umEnemy.addNewUnit("melee");
-        map.addAssetToMap(u0, _tiles.get(8));
         PlayerAssetOwnership.addPlayerAsset(enemyPlayer, u0);
+        map.addAssetToMap(u0, _tiles.get(8));
         
         changeTurn(2);
         
@@ -581,9 +582,9 @@ class modelTest{
     private void testLandMine() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1);
         map.addAssetToMap(u0, _tiles.get(10));
         map.addAssetToMap(u1, _tiles.get(11));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1);
 
         changeTurn(1);
 
@@ -605,9 +606,9 @@ class modelTest{
     private void testLandMine2() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1);
         map.addAssetToMap(u0, _tiles.get(26));
         map.addAssetToMap(u1, _tiles.get(27));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1);
 
         changeTurn(1);
 
@@ -637,10 +638,10 @@ class modelTest{
         Unit u0 = um.addNewUnit("colonist");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("melee");
+        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
         map.addAssetToMap(u0, _tiles.get(4));
         map.addAssetToMap(u1, _tiles.get(3));
         map.addAssetToMap(u2, _tiles.get(5));
-        PlayerAssetOwnership.addPlayerAsset(player, u0, u1, u2);
         
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
         cac.configure(_tiles.get(7), u0, u1);
@@ -718,9 +719,9 @@ class modelTest{
     private void testHarvest() throws InterruptedException {
     	// put a capital on this same tile
     	Structure s1 = sm.createStructure("powerplant", _tiles.get(4)); // add to manager
-    	PlayerAssetOwnership.addPlayerAsset(player, s1); // add to player list. Actually this could be done in the managers maybe
-    	map.addAssetToMap(s1, _tiles.get(4)); // add to map
-    	
+        PlayerAssetOwnership.addPlayerAsset(player, s1); // add to player list. Actually this could be done in the managers maybe
+        map.addAssetToMap(s1, _tiles.get(4)); // add to map
+
     	ResourceStructure t = (ResourceStructure) s1; // need to treat it as a resource structure
     	ArrayList<Worker> worker = new ArrayList<Worker>();
     	worker.add(new Worker());
@@ -736,6 +737,60 @@ class modelTest{
 
     	changeTurn(6);
 
+    }
+
+    private void testVisibility() throws InterruptedException {
+        Unit u0 = um.addNewUnit("melee");
+        PlayerAssetOwnership.addPlayerAsset(player, u0);
+        map.addAssetToMap(u0, _tiles.get(4));
+
+        changeTurn(1);
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(1), u0);
+        game.notifyOfCommand(cac);
+//
+//        RallyPoint rallyPoint = am.debugGetRallyPoint();
+//
+        changeTurn(4);
+        Army a = am.debugGetArmy();
+
+        // only update these tiles in the visitor. Must configure with Player!! all other ones are shrouded
+        // now we must keep a memento of this
+        for (TileAssociation t : PlayerVisibility.getTilesForPlayer(PlayerAssetOwnership.getPlayerOwnership(a))) {
+            t.add(u0);
+        }
+//
+//        CTRLMoveRallyPointCommand mrp = new CTRLMoveRallyPointCommand();
+//        mrp.configure(rallyPoint, _tiles.get(100));
+//        game.notifyOfCommand(mrp);
+//
+//        for (int i = 0; i < v0.size(); i++) {
+//            v0.get(i).remove(u0);
+//        }
+//
+//        changeTurn(4);
+//
+//        Vector<TileAssociation> v1 = map.getRadiusOfVisibility(a);
+//        for (int i = 0; i < v1.size(); i++) {
+//            v1.get(i).add(u0);
+//        }
+//
+//        // add ranged unit as reinforcement
+//        CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
+//        rac.configure(u3, am.debugGetRallyPoint());
+//        game.notifyOfCommand(rac);
+//
+//        for (int i = 0; i < v1.size(); i++) {
+//            v1.get(i).remove(u0);
+//        }
+//
+//        changeTurn(4);
+//
+//        Vector<TileAssociation> v2 = map.getRadiusOfVisibility(a);
+//        for (int i = 0; i < v2.size(); i++) {
+//            v2.get(i).add(u0);
+//        }
     }
 }
 

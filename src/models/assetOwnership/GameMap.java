@@ -18,6 +18,7 @@ import java.util.Vector;
 public class GameMap {
     private ArrayList<TileAssociation> tiles;
     private HashMap<CombatAsset, RadiusOfInfluenceAssociation> tileInfluence;
+    private HashMap<CombatAsset, RadiusOfVisibilityAssociation> tileVisibility;
     private int length;
     private int width;
 
@@ -26,6 +27,7 @@ public class GameMap {
     	this.width = width;
         this.tiles = new ArrayList<>(tiles);
         this.tileInfluence = new HashMap<CombatAsset, RadiusOfInfluenceAssociation>();
+        this.tileVisibility = new HashMap<CombatAsset, RadiusOfVisibilityAssociation>();
     }
 
     // Gerneate degrees representing the optimal path to get from start to end
@@ -83,6 +85,7 @@ public class GameMap {
             removal = location.remove(asset);
         }
     	tileInfluence.remove(asset);
+        tileVisibility.remove(asset);
     	return removal;
     }
 
@@ -117,8 +120,26 @@ public class GameMap {
     }
     
 	public Vector<TileAssociation> getRadiusOfInfluence(CombatAsset asset) {
-		return tileInfluence.get(asset).getInfluencedTiles();
+		return tileInfluence.get(asset).getTilesWithinRadius();
 	}
+
+	// this is important for adding assets to the tile
+	public void addVisibilityRadius(CombatAsset asset, TileAssociation baseTile) {
+        RadiusOfVisibilityAssociation rov = new RadiusOfVisibilityAssociation(asset, baseTile, this);
+        PlayerVisibility.setSeenTiles(rov, PlayerAssetOwnership.getPlayerOwnership(asset));
+        tileVisibility.put(asset, rov);
+    }
+
+    // if radius of visibility changes
+    public void updateVisibilityRadius(CombatAsset asset) {
+        RadiusOfVisibilityAssociation rov = tileVisibility.get(asset);
+        rov.updateInfluencedTiles();
+        PlayerVisibility.setSeenTiles(rov, PlayerAssetOwnership.getPlayerOwnership(asset));
+    }
+
+    public Vector<TileAssociation> getRadiusOfVisibility(CombatAsset asset) {
+        return tileVisibility.get(asset).getTilesWithinRadius();
+    }
 
     public void generateImmediateMovement(PlayerAsset asset, TileAssociation destination){
         //Precondition -> asset exists on a tile

@@ -39,7 +39,6 @@ public class CapitalCreationVisitor implements PlayerVisitor{
                 colonistToRemove,
                 creation
         );
-        PlayerAssetOwnership.addPlayerAsset(player, s);
         System.out.println("Created Capital");
     }
 

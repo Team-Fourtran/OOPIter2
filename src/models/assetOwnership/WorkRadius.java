@@ -20,7 +20,7 @@ public class WorkRadius extends Radius {
 	// Return a list of all TAs with this resource
 	public ArrayList<TileAssociation> getTilesWithResource(String resourceType) {
 		ArrayList<TileAssociation> tilesWithResources = new ArrayList<TileAssociation>();
-		Vector<TileAssociation> tiles = getInfluencedTiles();
+		Vector<TileAssociation> tiles = getTilesWithinRadius();
 		for (int i = 0; i < tiles.size(); i++) {
 	        switch (resourceType){
 		        case "food":
