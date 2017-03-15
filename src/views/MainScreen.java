@@ -241,7 +241,7 @@ public class MainScreen implements TileObserver {
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
             g2.translate(-10, -10);
             if(map.isHighlighted)
-                g2.translate((-coordX+250), (-coordY+300));
+                g2.translate((-coordX+450), (-coordY+300));
             super.paintComponent(g2);
             //draw grid
             int ind = 0;
