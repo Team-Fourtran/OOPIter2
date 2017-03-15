@@ -23,8 +23,11 @@ public class PlayerInfoArea {
     private JPanel pane;
 
     private JButton endTurnButton;
+    private TurnSwitchNotifier turnSwitchNotifier;
+    public PlayerInfoArea(Container cont, TurnSwitchNotifier turnSwitchNotifier){
 
-    public PlayerInfoArea(Container cont){
+        this.turnSwitchNotifier = turnSwitchNotifier;
+
         playerLabel = new JLabel("Player");
         energyLabel = new JLabel("Energy");
         oreLabel = new JLabel("Ore");
@@ -62,7 +65,7 @@ public class PlayerInfoArea {
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Clicked");
+                turnSwitchNotifier.notifyOfTurnSwitch();
             }
         });
         pane = new JPanel(new GridLayout(5, 1, 0, 0));
@@ -94,6 +97,9 @@ public class PlayerInfoArea {
 ////        c.gridx = 3;
 //        c.gridy = 3;
 //        cont.add(orePane, c);
+    }
+    public TurnSwitchNotifier getTurnSwitchNotifier(){
+        return this.turnSwitchNotifier;
     }
     public void update(String playerName){
         this.playerName = playerName;

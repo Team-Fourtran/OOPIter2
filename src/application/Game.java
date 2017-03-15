@@ -59,7 +59,7 @@ public class Game {
   }
 
   private void togglePlayers(){
-      int newIndex = java.util.Arrays.asList(players).indexOf(currentPlayer)+1 % 2; //mod magic
+      int newIndex = (java.util.Arrays.asList(players).indexOf(currentPlayer)+1) % 2; //mod magic
       this.currentPlayer = players[newIndex];
   }
 

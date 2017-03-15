@@ -40,8 +40,6 @@ public class MainScreen implements TileObserver {
     private int[][] board = new int[BSIZE][BSIZE];
     private KeyPressInformer keyInformer;
 
-    private TurnSwitchNotifier turnNotifier;
-
     private TileAssociation[] tiles;
     private UnitOverview unitTable;
     private JTabbedPane tabbedPane;
@@ -83,7 +81,7 @@ public class MainScreen implements TileObserver {
         return this.keyInformer;
     }
     public TurnSwitchNotifier getTurnSwitchNotifier(){
-        return this.turnNotifier;
+        return playerInfoArea.getTurnSwitchNotifier();
     }
 
     public TileTargetting getTileTargetter(){
@@ -125,8 +123,6 @@ public class MainScreen implements TileObserver {
         keyMap.put("RIGHT",false);
         keyInformer = new KeyPressInformer(keyMap);
         tileReceiver = new TileTargetting(this);
-
-        this.turnNotifier = new TurnSwitchNotifier();
     }
 
     //For communication between CommandGenerator. Focusing on unit/army to highlight the tile.
@@ -159,7 +155,7 @@ public class MainScreen implements TileObserver {
         this.controllerInfoArea = new ControllerInfoArea(content);
 
         //Player information area with resources
-        this.playerInfoArea = new PlayerInfoArea(content);
+        this.playerInfoArea = new PlayerInfoArea(content, new TurnSwitchNotifier());
 
         //Unit OV Table
         Dimension d = new Dimension(900, 700);
