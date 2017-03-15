@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.command.PowerUpCommand;
 import models.playerAsset.Assets.CombatAsset;
@@ -14,9 +15,21 @@ public class CTRLPowerUpCommand implements CTRLCommand{
         isConfigured = false;
     }
 
+
     public void configure (CombatAsset asset){
         isConfigured = true;
         this.asset = asset;
+    }
+
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        isConfigured = true;
+        this.asset = (CombatAsset) parts.getRequestingAsset();
+        parts.requestExecution();
+    }
+
+    public boolean isConfigured(){
+        return this.isConfigured;
     }
 
     @Override
@@ -29,6 +42,15 @@ public class CTRLPowerUpCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
+    }
 
+    @Override
+    public String toString(){
+        return "Power Up";
+    }
+
+    @Override
+    public void callback() throws CommandNotConfiguredException {
+        //unused
     }
 }

@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.Player;
@@ -23,6 +24,21 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
     }
 
     @Override
+    public void callback() throws CommandNotConfiguredException {
+        //TODO: This. Not sure if it'll be used or not. But needed to build.
+    }
+
+    @Override
+    //TODO: Figure out how this command will work. Not CommandParts...
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        isConfigured = true;
+    }
+
+    public boolean isConfigured(){
+        return this.isConfigured;
+    }
+
+    @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException{
         if(isConfigured){
             player.accept(
@@ -31,6 +47,10 @@ public class CTRLCreateArmyCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("[" + this + "] is not configured.");
         }
+    }
 
+    @Override
+    public String toString(){
+        return "Create Army";
     }
 }

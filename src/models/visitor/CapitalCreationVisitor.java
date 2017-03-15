@@ -15,7 +15,8 @@ public class CapitalCreationVisitor implements PlayerVisitor{
     private GameMap map;
     private Player player;
 
-    public CapitalCreationVisitor(Unit unit, GameMap map){
+    public CapitalCreationVisitor(Unit unit, GameMap map, Player player){
+        this.player = player;
         this.colonistToRemove = unit;
         this.map = map;
     }
@@ -36,6 +37,7 @@ public class CapitalCreationVisitor implements PlayerVisitor{
                 structureManager.createStructure("capital", map.searchForTileAssociation(colonistToRemove))
         );
         PlayerAssetOwnership.addPlayerAsset(player, s);
+        System.out.println("Created Capital");
     }
 
     @Override

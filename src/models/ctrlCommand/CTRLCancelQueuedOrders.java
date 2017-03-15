@@ -1,5 +1,6 @@
 package models.ctrlCommand;
 
+import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
@@ -12,9 +13,16 @@ public class CTRLCancelQueuedOrders implements CTRLCommand{
         isConfigured = false;
     }
 
-    public void configure(PlayerAsset asset){
+    @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.asset = parts.getRequestingAsset();
         isConfigured = true;
-        this.asset = asset;
+        this.asset = parts.getRequestingAsset();
+        parts.requestExecution();
+    }
+
+    public boolean isConfigured(){
+        return this.isConfigured;
     }
 
     @Override
@@ -22,5 +30,15 @@ public class CTRLCancelQueuedOrders implements CTRLCommand{
         if(isConfigured)
             asset.clearQueue();
         else throw new CommandNotConfiguredException("[" + this + "] is not configured.");
+    }
+
+    @Override
+    public String toString(){
+        return "Cancel Queued Orders";
+    }
+
+    @Override
+    public void callback() throws CommandNotConfiguredException {
+        //unused
     }
 }

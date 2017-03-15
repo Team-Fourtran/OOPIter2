@@ -132,34 +132,4 @@ public class GameMap {
 	        addAssetToMap(asset, destination);
         }
     }
-
-    public void debugPrint(){
-        System.out.print(" ");
-        for(int i = 0; i < length; i++){
-            System.out.print("_____ ");
-        }
-        System.out.print("\n");
-        for (int i = 0; i < width; i++){
-            for (int k = 0; k < length; k++){
-                System.out.print("|     ");
-            }
-            System.out.print("|\n");
-            for (int j = 0; j < length; j++){
-                System.out.print("|");
-                if(tiles.get(length*i+j).isAssetOwner()){
-                    System.out.print(" X:" + tiles.get(length*i+j).debugNumAssets() + " ");
-                }
-                else
-                    System.out.print("     ");
-            }
-            System.out.print("|\n");
-            for (int k = 0; k < length; k++){
-                System.out.print("|_____");
-            }
-            System.out.print("|\n");
-        }
-        for (int i = 0 ; i < 16*length; i++){
-            System.out.print("\b");
-        }
-    }
 }

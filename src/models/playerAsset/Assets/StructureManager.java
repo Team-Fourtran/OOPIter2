@@ -4,9 +4,15 @@ package models.playerAsset.Assets;
 import models.assetOwnership.TileAssociation;
 import models.playerAsset.Assets.Structures.*;
 import models.playerAsset.Iterators.Iterator;
-import models.playerAsset.Iterators.TypeIterator;
+import models.playerAsset.Iterators.Iterator2;
+import models.playerAsset.Iterators.TypeIterator2;
+import models.playerAsset.Iterators.specificTypeIterator;
 import models.visitor.PlayerVisitor;
+import models.visitor.TypeListVisitor;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /* Management class for a Player's structures
@@ -19,14 +25,13 @@ public class StructureManager implements Manager {
     final int maxStructures = 10;
     static ArrayList<String> structureIDs = new ArrayList<>();
     final private StructureFactory factory;
-    ArrayList<Iterator<PlayerAsset>> structureIterators;
 
     public StructureManager() {
         structureList = new CopyOnWriteArrayList<>();
         factory = new StructureFactory();
         baseList = new ArrayList<>();
-        structureIterators = new ArrayList<>();
-        structureIterators.add(makeIterator(baseList));
+//        structureIterators = new ArrayList<>();
+//        structureIterators.add(makeIterator(baseList));
         for (int i = 1; i <= 20; i++)
             structureIDs.add("s" + i);
     }
@@ -128,91 +133,74 @@ public class StructureManager implements Manager {
         v.visitStructureManager(this);
     }
 
-    public Iterator<PlayerAsset> makeIterator(ArrayList<PlayerAsset> list) {
-        return new Iterator<PlayerAsset>() {
-
-            private int index = 0;
+    public Iterator2<Structure> makeIterator(){
+        return new Iterator2<Structure>() {
+            private int current;
+            private specificTypeIterator<Structure> entryIter;
+            private ArrayList<Structure> currentStructureList;
+            private Map<String, ArrayList<Structure>> map = new HashMap<>();
 
             @Override
-            public PlayerAsset first() {
-                if (!list.isEmpty())
-                    return list.get(0);
-                return null;
+            public Iterator2<Structure> first() {
+                TypeListVisitor vis = new TypeListVisitor();
+                for (Structure u : structureList){
+                    u.accept(
+                            vis
+                    );
+                }
+                map = vis.getStructureMap();
+                entryIter = new specificTypeIterator<>(map);
+                entryIter.first();
+                if (entryIter.current() == null){
+                    currentStructureList = null;
+                }
+                else{
+                    currentStructureList = entryIter.current().getValue();
+                }
+                current = 0;
+                return this;
             }
 
             @Override
             public void next() {
-                index = (index + 1) % list.size();
+                current += 1;
+                current %= currentStructureList.size();
             }
 
             @Override
             public void prev() {
-                if (index != 0)
-                    index--;
-                else
-                    index = list.size() - 1;
+                current -= 1;
+                if (current < 0){
+                    current = currentStructureList.size()-1;
+                }
             }
-
-            public PlayerAsset current() {
-                //System.out.println(list.get(index).getType());
-                return list.get(index);
-            }
-
-            public PlayerAsset getElement() {
-                return list.get(index);
-            }
-        };
-    }
-
-    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> makeTypeIterator(ArrayList<Iterator<PlayerAsset>> list) {
-        return new TypeIterator<PlayerAsset, Iterator<PlayerAsset>>() {
-
-            private int index = 0;
-            private Iterator<PlayerAsset> current = current();
 
             @Override
-            public Iterator<PlayerAsset> first() {
-                return list.get(0);
+            public Structure current() {
+                if (currentStructureList == null){
+                    return null;
+                }
+                return currentStructureList.get(current);
             }
 
+            @Override
             public void nextType() {
-                index = (index + 1) % list.size();
-                current = list.get(index);
+                current = 0;    //Reset since the next type may have less instances
+                entryIter.next();
+                currentStructureList = entryIter.current().getValue();
             }
 
+            @Override
             public void prevType() {
-                if (index != 0)
-                    index--;
-                else
-                    index = list.size() - 1;
-                current = list.get(index);
+                current = 0;    //Reset since the next type may have less instances
+                entryIter.prev();
+                currentStructureList = entryIter.current().getValue();
             }
 
-            public void next() {
-                current.next();
+            @Override
+            public String getElement() {
+                return entryIter.current().getKey();
             }
-
-            public void prev() {
-                current.prev();
-            }
-
-            public Iterator<PlayerAsset> current() {
-                return list.get(index);
-            }
-
-            public PlayerAsset getElement() {
-                return current.current();
-            }
-
-            public String getCurrentType(){
-                return getElement().getType();
-            }
-
         };
-    }
-
-    /*test method to grab iterator*/
-    public TypeIterator<PlayerAsset, Iterator<PlayerAsset>> getTypeIterator() {
-        return makeTypeIterator(structureIterators);
     }
 }

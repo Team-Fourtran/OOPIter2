@@ -42,7 +42,6 @@ public class UnitCreationVisitor implements PlayerVisitor{
     public void visitUnitManager(UnitManager unitManager) {
     	Unit u = unitManager.addNewUnit(unitType);
     	PlayerAssetOwnership.addPlayerAsset(player, u);
-        //TODO: see if we can pass in the TileAssociation so we dont have to call this map method...
         map.addAssetToMap(
                 u,
                 structure

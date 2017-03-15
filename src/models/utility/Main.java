@@ -28,7 +28,6 @@ public class Main {
 }
 
 class modelTest{
-	private Player currentPlayer;
     private Player player;
     private Player enemyPlayer;
     private Game game;
@@ -42,7 +41,8 @@ class modelTest{
     private StructureManager smEnemy;
 
     modelTest() throws InterruptedException {
-        configure();
+        liveTest();
+//        configure(); //Comment out KeyboardController in Game
 //        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
@@ -50,11 +50,13 @@ class modelTest{
 //        testArmyCreationAndMovement();
 //        testHeal();
 //        testDecommission();
-//        testPowerUpDown();
+        //testPowerUpDown();
+
 //        testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
+
 //        testBuild();
         testHarvest();
 //        testPathfinding();
@@ -62,29 +64,57 @@ class modelTest{
 //        testLandMine2();
     }
 
-	private void configure() throws InterruptedException {
-        int length = 15;
-        this.player = new Player();
-        this.enemyPlayer = new Player();
-        this.currentPlayer = player;
-        TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
-        this.game = new Game(player, _tiles);
-        this.map = game.getMap();
+    private void liveTest() throws InterruptedException {
+        int length = 10;
+        this.player = new Player("Player 1");
         this.am = player.getArmies();
         this.um = player.getUnits();
         this.sm = player.getStructures();
-        this.amEnemy = enemyPlayer.getArmies();
+        this.enemyPlayer = new Player("Player 2");
         this.umEnemy = enemyPlayer.getUnits();
         this.smEnemy = enemyPlayer.getStructures();
+        this.amEnemy = enemyPlayer.getArmies();
+
+        TileGen tileGen = new TileGen(length, length);
+        this._tiles = tileGen.execute();
+        Unit u0 = um.addNewUnit("colonist");
+        _tiles.get(8).add(u0);
+        Unit u1 = um.addNewUnit("explorer");
+        _tiles.get(9).add(u1);
+        Unit u2 = umEnemy.addNewUnit("ranged");
+        _tiles.get(10).add(u2);
+        Unit u3 = umEnemy.addNewUnit("melee");
+        _tiles.get(11).add(u3);
+        this.game = new Game(player, enemyPlayer, _tiles);
+        this.map = game.getMap();
+
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(20), u2, u3);
+        game.notifyOfCommand(cac);
+    }
+
+	private void configure() throws InterruptedException {
+        int length = 15;
+        this.player = new Player("Player 1");
+        this.am = player.getArmies();
+        this.um = player.getUnits();
+        this.sm = player.getStructures();
+        this.enemyPlayer = new Player("Player 2");
+        this.umEnemy = enemyPlayer.getUnits();
+        this.smEnemy = enemyPlayer.getStructures();
+        this.amEnemy = enemyPlayer.getArmies();
+        TileGen tileGen = new TileGen(length, length);
+        this._tiles = tileGen.execute();
+        this.game = new Game(player, enemyPlayer, _tiles);
+        this.map = game.getMap();
     }
 
     private void changeTurn(int n) throws InterruptedException {
         for(int i = 0; i < n; i++){
             System.out.println("NewTurn:");
             Thread.sleep(250);
-            currentPlayer.endTurn();
-            currentPlayer.beginTurn();
+            player.endTurn();
+            player.beginTurn();
             Thread.sleep(250);
         }
     }
@@ -94,9 +124,10 @@ class modelTest{
         Unit u1 = um.addNewUnit("colonist");
         Structure s1 = sm.createStructure("capital", _tiles.get(4));
         PlayerAssetOwnership.addPlayerAsset(player, u0, u1, s1);
+
         Structure s0 = smEnemy.createStructure("capital", _tiles.get(6));
         PlayerAssetOwnership.addPlayerAsset(enemyPlayer, s0);
-        
+
         map.addAssetToMap(s0, _tiles.get(6));
         map.addAssetToMap(s1, _tiles.get(4));
         map.addAssetToMap(u0, _tiles.get(11));
@@ -186,7 +217,7 @@ class modelTest{
         rac.configure(u2, am.debugGetRallyPoint());
         game.notifyOfCommand(rac);
 
-        changeTurn(3);
+        changeTurn(2);
 
         CTRLMoveRallyPointCommand mrpc = new CTRLMoveRallyPointCommand();
         mrpc.configure(am.debugGetRallyPoint(), _tiles.get(223));
@@ -360,38 +391,42 @@ class modelTest{
         um.addNewUnit("ranged");
         um.addNewUnit("ranged");
 
+
         sm.createStructure("capital", null);
         sm.createStructure("capital", null);
         sm.createStructure("capital", null);
         sm.createStructure("capital", null);
         sm.createStructure("capital", null);
 
-        AssetIterator iter = player.getAssetIterator();
+        AssetIterator iter = player.makeIterator();
 
         iter.first();
-        iter.getCurrentMode();
-        iter.getCurrentType();
-        iter.getElement();
-        iter.next();
-        iter.getElement();
-        iter.prevType();
-        iter.getElement();
-        iter.next();
-        iter.getElement();
-        iter.nextType();
-        iter.getElement();
-        iter.prev();
-        iter.getElement();
-        iter.prev();
-        iter.getElement();
-        iter.nextMode();
-        iter.getElement();
-        iter.next();
-        iter.getElement();
-        iter.nextMode();
-        iter.getElement();
-        iter.prevMode();
-        iter.getElement();
+        printIterator(iter);
+
+        for (int i = 0; i < 4; i++){
+            iter.next();
+            printIterator(iter);
+        }
+        for (int i = 0; i < 4; i++){
+            iter.prev();
+            printIterator(iter);
+        }
+        for (int i = 0; i < 4; i++){
+            iter.nextType();
+            printIterator(iter);
+        }
+        for (int i = 0; i < 4; i++){
+            iter.prevType();
+            printIterator(iter);
+        }
+        for (int i = 0; i < 4; i++){
+            iter.nextInstance();
+            printIterator(iter);
+        }
+        for (int i = 0; i < 4; i++){
+            iter.prevInstance();
+            printIterator(iter);
+        }
     }
 
     private void testCommandIterator() throws InterruptedException{
@@ -505,7 +540,7 @@ class modelTest{
         
         changeTurn(2);
         
-        this.currentPlayer = enemyPlayer;
+        this.player = enemyPlayer;
         game.setCurrentPlayer(enemyPlayer);
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
         cac.configure(_tiles.get(6), u0);
@@ -513,7 +548,7 @@ class modelTest{
         
 		changeTurn(1);
 		
-        this.currentPlayer = player;
+        this.player = player;
         game.setCurrentPlayer(player);
 		
         changeTurn(2);
@@ -600,11 +635,11 @@ class modelTest{
         cmr.configure(am.debugGetRallyPoint(), _tiles.get(174));
         game.notifyOfCommand(cmr);
         CTRLBuildCommand cbc = new CTRLBuildCommand();
-        cbc.configure(am.debugGetRallyPoint(), "fort", 0);
+        try{cbc.configure(am.debugGetRallyPoint(), "fort", 0);} catch (Exception e){e.printStackTrace();}
         game.notifyOfCommand(cbc);
         changeTurn(8);
         CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
-        rac.configure(u2, am.debugGetRallyPoint());
+        try{rac.configure(u2, am.debugGetRallyPoint());} catch(Exception e){e.printStackTrace();}
         game.notifyOfCommand(rac);
 
         cmr = new CTRLMoveRallyPointCommand();
@@ -612,7 +647,10 @@ class modelTest{
         game.notifyOfCommand(cmr);
         changeTurn(12);
     }
-    
+
+    private void printIterator(AssetIterator iter) {
+        System.out.println(iter.getCurrentMode() + "  " + iter.getElement() + "  " + iter.getElement() + "  " + iter.current().toString());
+    }
     private void testHarvest() throws InterruptedException {
     	// put a capital on this same tile
     	Structure s1 = sm.createStructure("power plant", _tiles.get(4)); // add to manager
