@@ -15,6 +15,8 @@ import models.playerAsset.Assets.PlayerAsset;
 
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.PlayerAsset;
+import models.playerAsset.Iterators.AssetIterator;
+
 import java.util.*;
 
 public class MainScreen implements TileObserver {
@@ -390,5 +392,9 @@ public class MainScreen implements TileObserver {
     public void updateTile(TileAssociation t) {
         hexMech.updateTile(t);
         mainScreen.repaint();
+    }
+
+    public void updateControls(AssetIterator iter){
+        controllerInfoArea.update(iter);
     }
 }
