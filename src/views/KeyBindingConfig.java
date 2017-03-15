@@ -44,6 +44,8 @@ public class KeyBindingConfig {
             setMapping("previous_command");
             setMapping("next_command");
 
+            setMapping("issue_command");
+
         } catch (IOException ex) {
             ex.printStackTrace();
             System.exit(1);
@@ -52,7 +54,15 @@ public class KeyBindingConfig {
 
     //Sets the value of customMappings to the integer that the property value corresponds to in KeyEvent
     private void setMapping(String controlName){
-        String[] sKeys = prop.getProperty(controlName).split(" ");
+        String[] sKeys = null;
+        try{
+            sKeys = prop.getProperty(controlName).split(" ");
+        }
+        catch(Exception e) {
+            System.out.println("No such mapping in KeyBindings.properties: " + controlName);
+            e.printStackTrace();
+            System.exit(1);
+        }
         try{
             int[] iKeys = getKeyCodes(sKeys);
             customMappings.put(controlName , iKeys);

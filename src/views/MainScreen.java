@@ -120,13 +120,14 @@ public class MainScreen implements TileObserver {
         }
 
         HashMap<String, Boolean> keyMap = new HashMap<>();
-        keyMap.put("ENTER",false);
-        keyMap.put("CONTROL",false);
-        keyMap.put("UP",false);
-        keyMap.put("DOWN",false);
-        keyMap.put("LEFT",false);
-        keyMap.put("RIGHT",false);
-        keyInformer = new KeyPressInformer(keyMap);
+//        keyMap.put("ENTER",false);
+//        keyMap.put("CONTROL",false);
+//        keyMap.put("UP",false);
+//        keyMap.put("DOWN",false);
+//        keyMap.put("LEFT",false);
+//        keyMap.put("RIGHT",false);
+//        keyInformer = new KeyPressInformer(keyMap);
+        keyInformer = new KeyPressInformer();
         tileReceiver = new TileTargetting(this);
         assetReceiver = new AssetTargetting(this);
     }
@@ -269,16 +270,15 @@ public class MainScreen implements TileObserver {
         }
 
         class CommandListener extends KeyAdapter{
+            /* Forwards KeyEvents to the keyInformer, which will interpret their meanings */
+            @Override
+            public void keyPressed(KeyEvent e){
+                keyInformer.keyPressed(e.getKeyCode());
+            }
 
-            /* Simulate the keystrokes that MessageGenerator will interpret */
-            private void pressKeys(String keyList){
-                String[] keys = keyList.split(" ");
-                for(int k = 0; k<keys.length; k++){
-                    keyInformer.update(keys[k],true);
-                }
-                for(int f = 0; f<keys.length; f++){
-                    keyInformer.update(keys[f],false);
-                }
+            @Override
+            public void keyReleased(KeyEvent e){
+                keyInformer.keyReleased(e.getKeyCode());
             }
 
             /* For reference: Original KeyListeners */

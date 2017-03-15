@@ -38,56 +38,94 @@ class MessageGenerator implements KeyPressListener {
         );
     }
 
-    @Override //Listen to notifications from a KeyPressInformer
-    public void updateKeysPressed(HashMap<String, Boolean> kp) {
-        interpretKeystrokes(kp);
-    }
+//    @Override //Listen to notifications from a KeyPressInformer
+//    public void updateKeysPressed(HashMap<String, Boolean> kp) {
+//        interpretKeystrokes(kp);
+//    }
 
-    /* Updates the State object based on the keystrokes detected */
-    private void interpretKeystrokes(HashMap<String, Boolean> keystrokes) {
-        if (keystrokes.get("ENTER")) {
+    @Override
+    public void performAction(String commandName){
+        if (commandName.equals("issue_command")) {
             currentState.setCmd(assetIterator.getCommand());
             dispatchCommandForConfig(assetIterator.getCommand());
-            keystrokes.replace("ENTER", false);
         }
 
-        /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
-
-        /* CONTROL+{UP/DOWN}: Cycle MODE */
-        else if (keystrokes.get("CONTROL") && keystrokes.get("UP")) {
-            assetIterator.prev();           //CONTROL+UP: Previous Mode
-        } else if (keystrokes.get("CONTROL") && keystrokes.get("DOWN")) {
-            assetIterator.next();           //CONTROL+DOWN: Next Mode
+        else if (commandName.equals("previous_mode")) {
+            assetIterator.prev();
+        } else if (commandName.equals("next_mode")) {
+            assetIterator.next();
         }
 
-        /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
-
-        else if (keystrokes.get("CONTROL") && keystrokes.get("LEFT")) {        //CONTROL+LEFT: Previous Type
+        else if (commandName.equals("previous_type")) {
             assetIterator.prevType();
-        } else if (keystrokes.get("CONTROL") && keystrokes.get("RIGHT")) {     //CONTROL+RIGHT: Next Type
+        } else if (commandName.equals("next_type")) {
             assetIterator.nextType();
         }
 
-        /* Keypresses without control cycle TYPE INSTANCES and COMMANDS */
-
-        //LEFT/RIGHT: Cycle Type Instances
-        else if (!(keystrokes.get("CONTROL")) && keystrokes.get("LEFT")) {
+        else if (commandName.equals("previous_instance")) {
             assetIterator.prevInstance();
-        } else if (!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")) {
+        } else if (commandName.equals("next_instance")) {
             assetIterator.nextInstance();
         }
 
-        /* UP/DOWN: Cycle Commands */
-        else if (!(keystrokes.get("CONTROL")) && keystrokes.get("UP")) {               /* Previous command */
+        else if (commandName.equals("previous_command")) {
             assetIterator.prevCommand();
-        } else if (!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")) {      /* Next command */
+        } else if (commandName.equals("next_command")) {
             assetIterator.nextCommand();
         }
+
         else{
             return;
         }
+
         updateView(assetIterator);
     }
+    /* Old way: Interpret Stringified keystrokes
+    Updates the State object based on the keystrokes detected */
+//    private void interpretKeystrokes(HashMap<String, Boolean> keystrokes) {
+//        if (keystrokes.get("ENTER")) {
+//            currentState.setCmd(assetIterator.getCommand());
+//            dispatchCommandForConfig(assetIterator.getCommand());
+//            keystrokes.replace("ENTER", false);
+//        }
+//
+//        /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */
+//
+//        /* CONTROL+{UP/DOWN}: Cycle MODE */
+//        else if (keystrokes.get("CONTROL") && keystrokes.get("UP")) {
+//            assetIterator.prev();           //CONTROL+UP: Previous Mode
+//        } else if (keystrokes.get("CONTROL") && keystrokes.get("DOWN")) {
+//            assetIterator.next();           //CONTROL+DOWN: Next Mode
+//        }
+//
+//        /* CONTROL+{LEFT/RIGHT}: Cycle TYPE */
+//
+//        else if (keystrokes.get("CONTROL") && keystrokes.get("LEFT")) {        //CONTROL+LEFT: Previous Type
+//            assetIterator.prevType();
+//        } else if (keystrokes.get("CONTROL") && keystrokes.get("RIGHT")) {     //CONTROL+RIGHT: Next Type
+//            assetIterator.nextType();
+//        }
+//
+//        /* Keypresses without control cycle TYPE INSTANCES and COMMANDS */
+//
+//        //LEFT/RIGHT: Cycle Type Instances
+//        else if (!(keystrokes.get("CONTROL")) && keystrokes.get("LEFT")) {
+//            assetIterator.prevInstance();
+//        } else if (!(keystrokes.get("CONTROL")) && keystrokes.get("RIGHT")) {
+//            assetIterator.nextInstance();
+//        }
+//
+//        /* UP/DOWN: Cycle Commands */
+//        else if (!(keystrokes.get("CONTROL")) && keystrokes.get("UP")) {               /* Previous command */
+//            assetIterator.prevCommand();
+//        } else if (!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")) {      /* Next command */
+//            assetIterator.nextCommand();
+//        }
+//        else{
+//            return;
+//        }
+//        updateView(assetIterator);
+//    }
 
     private void updateView(AssetIterator iter){
         receiver.updateCommands(iter);
