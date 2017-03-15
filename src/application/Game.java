@@ -65,11 +65,6 @@ public class Game {
       currentPlayer.beginTurn();
   }
 
-
-
-
-
-
   //Leaving this so as to not break some tests in Utility/Main
   public void setCurrentPlayer(Player p) {
 	  this.currentPlayer = p;

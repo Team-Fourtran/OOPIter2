@@ -1,7 +1,10 @@
 package models.playerAsset.Assets.Technology;
 
-/**
- * Created by Clay on 3/2/2017.
- */
-public class EfficiencyTech extends StatTechnology {
+import models.playerAsset.Assets.CombatAsset;
+
+public class EfficiencyTech implements Technology {
+
+    public void apply(CombatAsset a){
+        a.setUpkeep(a.getUpkeep()-10);
+    }
 }

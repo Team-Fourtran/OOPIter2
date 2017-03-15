@@ -4,9 +4,12 @@ import models.visitor.AssetVisitor;
 import models.visitor.SpecificAssetVisitor;
 
 import java.util.ArrayList;
+import models.playerAsset.Assets.Technology.*;
+import models.visitor.PlayerVisitor;
 
 public class University extends Structure{
 
+    TechFactory factory;
     public University() {
 
         setOffDamage(75);
@@ -18,6 +21,11 @@ public class University extends Structure{
         setRadiusOfInfluence(1);
         setProductionRate(1);
         staff = new ArrayList<>();
+        factory = new TechFactory();
+    }
+
+    public Technology discoverTechnology(String tech){
+        return factory.makeTech(tech);
     }
 
 
@@ -29,5 +37,9 @@ public class University extends Structure{
         else{
             super.accept(v);
         }
+    }
+
+    public String getType(){
+        return "university";
     }
 }

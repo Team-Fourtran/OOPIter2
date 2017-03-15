@@ -86,7 +86,7 @@ public class hexMech {
         Stroke oldStroke = g2.getStroke();
         g2.setStroke(new BasicStroke(10));
 
-        HexProperties h = new HexProperties(x, y, g2);
+        HexProperties h = new HexProperties(x, y, i, j, g2);
         gps.put(tileAssoc, h);
         gg = g2;
 

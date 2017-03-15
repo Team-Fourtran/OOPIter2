@@ -25,6 +25,7 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
     public void configure(PlayerAsset rallyPoint, TileAssociation destination) {
         this.destination = destination;
         this.rallyPoint = rallyPoint;
+        isConfigured = true;
     }
 
     @Override

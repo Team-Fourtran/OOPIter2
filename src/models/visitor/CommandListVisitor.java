@@ -66,6 +66,8 @@ public class CommandListVisitor implements SpecificAssetVisitor{
         cmdList.add(new CTRLBuildCommand());
         cmdList.add(new CTRLCancelQueuedOrders());
         cmdList.add(new CTRLMoveRallyPointCommand());
+        cmdList.add(new CTRLPickUpWorkers());
+        cmdList.add(new CTRLDropOffWorkers());
     }
 
     public CommandIterator getIterator(){

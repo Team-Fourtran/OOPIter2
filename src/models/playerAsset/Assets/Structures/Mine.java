@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class Mine extends ResourceStructure{
 
+    int rawMaterial;
+    int producedMaterial;
+    double oreProductionMultiplier;
+
     public Mine() {
 
         setOffDamage(75);
@@ -17,9 +21,17 @@ public class Mine extends ResourceStructure{
         setUpkeep(1);
         setRadiusOfInfluence(1);
         setProductionRate(1);
+        setWorkerDensity(1);
+
+        oreProductionMultiplier = 1;
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();
+    }
+
+    public void increaseProduction(String type, double i){
+        if (type.equals("ore"))
+            oreProductionMultiplier += i;
     }
 
     @Override
@@ -33,7 +45,12 @@ public class Mine extends ResourceStructure{
     }
 
     public String getType(){
-        return "Mine";
+        return "mine";
+    }
+
+    public void printStats(){
+        super.printStats();
+        System.out.println(oreProductionMultiplier);
     }
 
 }

@@ -18,7 +18,7 @@ public class RangedUnit extends Unit{
         setMovesPerTurn(.33);
     }
     public String getType(){
-        return "Ranged";
+        return "ranged";
     }
 
     @Override

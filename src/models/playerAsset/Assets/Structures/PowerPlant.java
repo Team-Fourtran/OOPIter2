@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class PowerPlant extends ResourceStructure {
 
+    int rawMaterial;
+    int producedMaterial;
+    double energyProductionMultiplier;
+
     public PowerPlant() {
 
         setOffDamage(75);
@@ -17,10 +21,17 @@ public class PowerPlant extends ResourceStructure {
         setUpkeep(1);
         setRadiusOfInfluence(1);
         setProductionRate(1);
+        setWorkerDensity(10);
+        energyProductionMultiplier = 1;
         staff = new ArrayList<>();
 
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();
+    }
+
+    public void increaseProduction(String type, double i){
+        if (type.equals("energy"))
+            energyProductionMultiplier += i;
     }
 
     @Override
@@ -34,7 +45,12 @@ public class PowerPlant extends ResourceStructure {
     }
 
     public String getType(){
-        return "Power Plant";
+        return "powerplant";
+    }
+
+    public void printStats(){
+        super.printStats();
+        System.out.println(energyProductionMultiplier);
     }
 
 }

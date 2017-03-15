@@ -1,11 +1,11 @@
 
 package models.playerAsset.Assets;
+import models.playerAsset.Assets.Technology.Technology;
 import models.playerAsset.Assets.Units.*;
 import models.playerAsset.Iterators.Iterator2;
 import models.playerAsset.Iterators.specificTypeIterator;
 import models.visitor.PlayerVisitor;
 import models.visitor.TypeListVisitor;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,12 +20,46 @@ public class UnitManager implements Manager {
     final int maxUnits = 25;
     final int maxUnitType = 10;
     static ArrayList<String> unitIDs = new ArrayList<>();
+    HashMap<String, ArrayList<Technology>> techMap;
 
     public UnitManager() {
         unitList = new CopyOnWriteArrayList<>();
         factory = new UnitFactory();
+        techMap = new HashMap<>();
+        initMap();
         for (int i = 1; i <= 50; i++)
             unitIDs.add("u" + i);
+    }
+
+    public void initMap(){
+        techMap.put("melee", new ArrayList<>());
+        techMap.put("ranged", new ArrayList<>());
+        techMap.put("colonist", new ArrayList<>());
+        techMap.put("explorer", new ArrayList<>());
+    }
+
+    public void addTech(String unitType, Technology tech) {
+        if (techMap.containsKey(unitType)) {
+            techMap.get(unitType).add(tech);
+            applyTech(unitType, tech);
+        }
+    }
+
+    //apply tech to pertinent units upon discovery
+    public void applyTech(String unitType, Technology tech){
+        if (techMap.containsKey(unitType)) {
+            for (Unit u : unitList) {
+                if (unitType.equals(u.getType()))
+                    tech.apply(u);
+            }
+        }
+
+    }
+
+    //apply existing tech to new unit
+    public void applyTech(Unit u){
+        for (Technology tech: techMap.get(u.getType()))
+            tech.apply(u);
     }
 
     public void removeUnit(PlayerAsset unit){
@@ -36,7 +70,9 @@ public class UnitManager implements Manager {
         Unit newUnit = factory.makeUnit(type);
         newUnit.setID(unitIDs.get(0));
         unitIDs.remove(0);
+        applyTech(newUnit);
         unitList.add(newUnit);
+
         return newUnit;
     }
 
@@ -149,5 +185,17 @@ public class UnitManager implements Manager {
                 return entryIter.current().getKey();
             }
         };
+    }
+
+
+
+
+    public int checkTech(String type){
+        return techMap.get(type).size();
+    }
+
+    public void printArmor(){
+        for (Unit u: unitList)
+            System.out.println(u.getArmor());
     }
 }

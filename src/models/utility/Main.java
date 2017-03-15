@@ -7,11 +7,15 @@ import models.assetOwnership.PlayerAssetOwnership;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.*;
 import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Structures.*;
 import models.playerAsset.Assets.Structures.EnergyHarvestStrategy;
 import models.playerAsset.Assets.Structures.FoodHarvestStrategy;
 import models.playerAsset.Assets.Structures.OreHarvestStrategy;
-import models.playerAsset.Assets.Structures.ResourceStructure;
-import models.playerAsset.Assets.Structures.Structure;
+import models.playerAsset.Assets.Technology.ArmorTech;
+import models.playerAsset.Assets.Technology.FoodProductionTech;
+import models.playerAsset.Assets.Technology.Technology;
+import models.playerAsset.Assets.Technology.WorkRadiusTech;
+import models.playerAsset.Assets.Units.Colonist;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
 import models.playerAsset.Iterators.CommandIterator;
@@ -41,6 +45,7 @@ class modelTest{
     private StructureManager smEnemy;
 
     modelTest() throws InterruptedException {
+
         liveTest();
 //        configure(); //Comment out KeyboardController in Game
 //        testAttack();
@@ -56,6 +61,8 @@ class modelTest{
 //        testCommandIterator();
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
+//         testTech();
+
 
 //        testBuild();
 //        testHarvest();
@@ -78,20 +85,30 @@ class modelTest{
         TileGen tileGen = new TileGen(length, length);
         this._tiles = tileGen.execute();
         Unit u0 = um.addNewUnit("colonist");
-        _tiles.get(8).add(u0);
+        _tiles.get(6).add(u0);
         Unit u1 = um.addNewUnit("explorer");
-        _tiles.get(9).add(u1);
-        Unit u2 = um.addNewUnit("ranged");
-        _tiles.get(10).add(u2);
-        Unit u3 = um.addNewUnit("melee");
-        _tiles.get(11).add(u3);
-        Unit u4 = umEnemy.addNewUnit("melee");
-        _tiles.get(99).add(u4);
+
+        _tiles.get(7).add(u1);
+        Unit u2 = um.addNewUnit("melee");
+        _tiles.get(8).add(u2);
+        Unit u3 = um.addNewUnit("ranged");
+        _tiles.get(9).add(u3);
+
+        Unit u4 = umEnemy.addNewUnit("ranged");
+        _tiles.get(82).add(u4);
+        Unit u5 = umEnemy.addNewUnit("melee");
+        _tiles.get(83).add(u5);
+        Unit u6 = umEnemy.addNewUnit("ranged");
+        _tiles.get(84).add(u6);
+        Unit u7 = umEnemy.addNewUnit("melee");
+        _tiles.get(85).add(u7);
+
+
         this.game = new Game(player, enemyPlayer, _tiles);
         this.map = game.getMap();
 
         CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
-        cac.configure(_tiles.get(20), u2, u3);
+        cac.configure(_tiles.get(16), u1, u2);
         game.notifyOfCommand(cac);
     }
 
@@ -559,7 +576,6 @@ class modelTest{
         cdcmd.configure(s0);
         game.notifyOfCommand(cdcmd);
 
-
         changeTurn(1);
 	}
 
@@ -650,12 +666,59 @@ class modelTest{
         changeTurn(12);
     }
 
+
+    private void testTech() {
+        Player p1 = new Player("Chaz");
+        //StructureManager m = new StructureManager();
+        Structure farm = p1.getStructures().createStructure("farm", _tiles.get(4));
+//        Structure capital = p1.getStructures().createStructure("capital",_tiles.get(4));
+        Structure fort = p1.getStructures().createStructure("fort",_tiles.get(4));
+
+        Farm farm1 = (Farm) farm;
+        farm1.printStats();
+        System.out.println();
+//        Capital c = (Capital) capital;
+//        c.printStats();
+        System.out.println();
+
+        CTRLResearchTechnologyCommand com1 = new CTRLResearchTechnologyCommand();
+        com1.configure("food", "worker", new University());
+        com1.execute(map, p1);
+
+        CTRLResearchTechnologyCommand com2 = new CTRLResearchTechnologyCommand();
+        com2.configure("radius", "worker", new University());
+        com2.execute(map, p1);
+
+        CTRLResearchTechnologyCommand com3 = new CTRLResearchTechnologyCommand();
+        com3.configure("energy", "worker", new University());
+        com3.execute(map, p1);
+
+        farm1.printStats();
+        System.out.println();
+//        c.printStats();
+        System.out.println();
+
+        Structure capital1 = p1.getStructures().createStructure("capital", _tiles.get(4));
+        Structure powerplant = p1.getStructures().createStructure("powerplant", _tiles.get(4));
+        Capital c1 = (Capital) capital1;
+        PowerPlant power = (PowerPlant) powerplant;
+
+        c1.printStats();
+        System.out.println();
+        power.printStats();
+        System.out.println();
+
+        System.out.println(fort.getMaxHealth());
+        System.out.println(fort.getDefDamage(0));
+
+    }
+
     private void printIterator(AssetIterator iter) {
         System.out.println(iter.getCurrentMode() + "  " + iter.getElement() + "  " + iter.getElement() + "  " + iter.current().toString());
     }
     private void testHarvest() throws InterruptedException {
     	// put a capital on this same tile
-    	Structure s1 = sm.createStructure("power plant", _tiles.get(4)); // add to manager
+    	Structure s1 = sm.createStructure("powerplant", _tiles.get(4)); // add to manager
     	PlayerAssetOwnership.addPlayerAsset(player, s1); // add to player list. Actually this could be done in the managers maybe
     	map.addAssetToMap(s1, _tiles.get(4)); // add to map
     	
@@ -671,8 +734,9 @@ class modelTest{
     	CTRLHarvestCommand chc = new CTRLHarvestCommand();
     	chc.configure(t, _tiles.get(4), 1); // pick any tile. won't perform if not in work radius. have view show work radius properly
     	game.notifyOfCommand(chc);
-    	
+
     	changeTurn(6);
+
     }
 }
 
