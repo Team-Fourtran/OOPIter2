@@ -20,7 +20,7 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 	private final int STRUCTURE = 3;
 	private final int ITEM = 4;
 	private final int RALLYPOINT = 5;
-	
+
 	private Graphics2D g2;
 	private int x;
 	private int y;
@@ -214,7 +214,17 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 
     @Override
     public void visitUniversity(University university) {
-
+        BufferedImage texture = null;
+        try {
+            texture = ImageIO.read(new File("src/application/images/assets/university.png"));
+        } catch (IOException e) {
+            try {
+                texture = ImageIO.read(new File("../src/application/images/assets/university.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
+        texture = resizeImage(texture);
+        addToPriorityQueue(STRUCTURE, texture);
     }
 
     @Override
@@ -305,6 +315,49 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
             }        }
         texture = resizeImage(texture);
         addToPriorityQueue(UNIT, texture);
+    }
+
+    @Override
+    public void visitResourcePackage(ResourcePackage resourcePackage) {
+        String text = "E: " + Integer.toString(resourcePackage.getEnergyCount()) + "\n" +
+                "O: " + Integer.toString(resourcePackage.getOreCount()) + "\n" +
+                "F: " + Integer.toString(resourcePackage.getFoodCount());
+        BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = img.createGraphics();
+        Font font = new Font("Arial", Font.PLAIN, 12);
+        g2d.setFont(font);
+        FontMetrics fm = g2d.getFontMetrics();
+        int width = fm.stringWidth(text);
+        int height = fm.getHeight();
+        g2d.dispose();
+
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        g2d = img.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+        g2d.setFont(font);
+        fm = g2d.getFontMetrics();
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(text, 0, fm.getAscent());
+        g2d.dispose();
+//        try {
+//            ImageIO.write(img, "png", new File("Text.png"));
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//        img = resizeImage(img);
+        int type = img.getType() == 0? BufferedImage.TYPE_INT_ARGB : img.getType();
+        BufferedImage resizedImage = new BufferedImage(64, 64, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(img, 0, 0, 64, 32, null);
+        g.dispose();
+        addToPriorityQueue(UNIT, resizedImage);
     }
 
     private BufferedImage resizeImage(BufferedImage texture){

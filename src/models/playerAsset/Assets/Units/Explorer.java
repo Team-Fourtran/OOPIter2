@@ -8,12 +8,12 @@ import models.visitor.SpecificAssetVisitor;
 public class Explorer extends Unit{
 
     public Explorer(){
-        setOffDamage(75);
-        setDefDamage(75);
-        setArmor(150);
-        setMaxHealth(200);
-        setCurrentHealth(200);
-        setUpkeep(1);
+        setOffDamage(10);
+        setDefDamage(10);
+        setArmor(50);
+        setMaxHealth(50);
+        setCurrentHealth(50);
+        setUpkeep(15);
         setRadiusOfInfluence(2);
         setMovesPerTurn(.33);
     }

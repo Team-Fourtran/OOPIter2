@@ -11,4 +11,6 @@ public class ArmorTech implements Technology{
         a.setArmor(10 + a.getArmor());
     }
 
+    public String toString(){return "ArmorTech";}
+
 }

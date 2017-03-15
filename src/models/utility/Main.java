@@ -62,6 +62,7 @@ class modelTest{
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
 //         testTech();
+//        testProduction();
 
 
 //        testBuild();
@@ -83,10 +84,11 @@ class modelTest{
         this.amEnemy = enemyPlayer.getArmies();
 
         TileGen tileGen = new TileGen(length, length);
-        this._tiles = tileGen.execute();
+        this._tiles = tileGen.executeFancy();
         Unit u0 = um.addNewUnit("colonist");
-        _tiles.get(6).add(u0);
+        _tiles.get(23).add(u0);
         Unit u1 = um.addNewUnit("explorer");
+
         _tiles.get(7).add(u1);
         Unit u2 = um.addNewUnit("melee");
         _tiles.get(8).add(u2);
@@ -102,6 +104,8 @@ class modelTest{
         Unit u7 = umEnemy.addNewUnit("melee");
         _tiles.get(85).add(u7);
 
+        Structure ss = sm.createStructure("university", _tiles.get(32));
+        _tiles.get(32).add(ss);
 
         this.game = new Game(player, enemyPlayer, _tiles);
         this.map = game.getMap();
@@ -735,6 +739,43 @@ class modelTest{
     	game.notifyOfCommand(chc);
 
     	changeTurn(6);
+
+    }
+
+    public void testProduction() throws InterruptedException{
+        Structure farm = sm.createStructure("farm", _tiles.get(4));
+        Farm f = (Farm)farm;
+        f.addWorkers(10);
+        f.harvestTest(1000);
+
+        CTRLProduceCommand cmd = new CTRLProduceCommand();
+        cmd.configure(f,10,"food");
+        game.notifyOfCommand(cmd);
+
+        System.out.println(f.getHarvestCount("food"));
+        System.out.println(f.getProductionCount("food"));
+
+        changeTurn(5);
+
+        System.out.println(f.getHarvestCount("food"));
+        System.out.println(f.getProductionCount("food"));
+
+        CTRLProduceCommand cmd2 = new CTRLProduceCommand();
+        cmd2.configure(f,0,"food");
+        game.notifyOfCommand(cmd2);
+
+        changeTurn(5);
+
+
+
+        //System.out.println(f.getHarvestCount());
+        //f.produce("food");
+        //System.out.println(f.getHarvestCount());
+        //System.out.println(f.getProduced());
+        //f.addWorkers(10000);
+        //f.produce("food");
+        //System.out.println(f.getHarvestCount());
+        //System.out.println(f.getProduced());
 
     }
 }

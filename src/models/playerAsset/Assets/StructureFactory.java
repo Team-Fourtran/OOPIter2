@@ -1,6 +1,5 @@
 package models.playerAsset.Assets;
 
-import models.assetOwnership.Radius;
 import models.assetOwnership.TileAssociation;
 import models.assetOwnership.WorkRadius;
 import models.playerAsset.Assets.Structures.*;
@@ -12,7 +11,8 @@ public class StructureFactory {
         switch (type){
             case "capital":
             	Capital c = new Capital();
-            	configureWorkRadius(c, baseTile);
+            	WorkRadius cf = configureWorkRadius(c, baseTile);
+            	c.setHarvestType(new FoodHarvestStrategy(cf, c));
             	// player needs to configure capital resource type
                 return c;
             case "farm":

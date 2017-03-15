@@ -12,4 +12,6 @@ public class EnergyProductionTech extends ProductionTech {
         ResourceStructure s = (ResourceStructure)a;
         s.increaseProduction("energy", 0.5);
     }
+
+    public String toString(){return "EnergyProductionTech";}
 }

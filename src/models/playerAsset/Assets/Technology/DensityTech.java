@@ -13,4 +13,6 @@ public class DensityTech implements Technology {
         ResourceStructure s = (ResourceStructure)a;
         s.setWorkerDensity(5 + s.getWorkerDensity());
     }
+
+    public String toString(){return "WorkerDensityTech";}
 }

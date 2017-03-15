@@ -108,9 +108,17 @@ public class StructureManager implements Manager {
         }
     }
 
-    @Override
-    public int calculateTotalUpkeep() {
-        return 0;
+    public int upkeep(int metal) {
+        int remainder = metal;
+        for (Structure s : structureList)
+            if (remainder - s.getUpkeep() < 0) {
+                s.setCurrentHealth(s.getCurrentHealth() - 20);
+                remainder = 0;
+            }
+            else
+                remainder -= s.getUpkeep();
+
+        return remainder;
     }
 
     //recycle a structure's ID after it is done using it
@@ -213,5 +221,75 @@ public class StructureManager implements Manager {
                 return entryIter.current().getKey();
             }
         };
+    }
+
+    public int getWheatCount(){
+        ResourceStructure rs;
+        int sum = 0;
+        for (Structure s: structureList)
+            if (s instanceof ResourceStructure) {
+                rs = (ResourceStructure) s;
+                sum += rs.getHarvestCount("food");
+            }
+        return sum;
+    }
+
+    public int getFoodCount(){
+        ResourceStructure rs;
+        int sum = 0;
+        for (Structure s: structureList)
+            if (s instanceof ResourceStructure) {
+                rs = (ResourceStructure) s;
+                sum += rs.getProductionCount("food");
+            }
+        return sum;
+    }
+
+    public int getOreCount(){
+        ResourceStructure rs;
+        int sum = 0;
+        for (Structure s: structureList)
+            if (s instanceof ResourceStructure) {
+                rs = (ResourceStructure) s;
+                sum += rs.getHarvestCount("ore");
+            }
+        return sum;
+    }
+
+    public int getMetalCount(){
+        ResourceStructure rs;
+        int sum = 0;
+        for (Structure s: structureList)
+            if (s instanceof ResourceStructure) {
+                rs = (ResourceStructure) s;
+                sum += rs.getProductionCount("ore");
+            }
+        return sum;
+    }
+
+    public int getEnergyCount(){
+        ResourceStructure rs;
+        int sum = 0;
+        for (Structure s: structureList)
+            if (s instanceof ResourceStructure) {
+                rs = (ResourceStructure) s;
+                sum += rs.getHarvestCount("energy");
+            }
+        return sum;
+    }
+
+    public int getScienceCount(){
+        ResourceStructure rs;
+        int sum = 0;
+        for (Structure s: structureList)
+            if (s instanceof ResourceStructure) {
+                rs = (ResourceStructure) s;
+                sum += rs.getProductionCount("food");
+            }
+        return sum;
+    }
+
+    public HashMap<String, ArrayList<Technology>> getTech(){
+        return techMap;
     }
 }

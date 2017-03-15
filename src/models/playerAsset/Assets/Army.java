@@ -14,6 +14,7 @@ import java.util.Arrays;
 public class Army extends CombatAsset implements AssetObserver {
     private ArrayList<Unit> battleGroup = new ArrayList<>();
     private ArrayList<Unit> reinforcements = new ArrayList<>();
+    private ArrayList<Worker> workers = new ArrayList<>();
 
     public Army(Unit ... units) {
         reinforcements.addAll(Arrays.asList(units));
@@ -91,6 +92,24 @@ public class Army extends CombatAsset implements AssetObserver {
     public void addReinforcement(Unit u){
         reinforcements.add(u);
         u.addObserver(this);
+    }
+
+    public void addWorker(Worker w){
+        workers.add(w);
+    }
+
+    public ArrayList<Worker> removeWorkers(int num){
+        ArrayList<Worker> _workers = new ArrayList<>(2);
+        if(num >= workers.size()){
+            _workers.addAll(workers);
+            workers.clear();
+        }
+        else{
+            for (int i = 0; i < num; i++){
+                _workers.add(workers.get(i));
+            }
+        }
+        return _workers;
     }
 
     public void removeUnit(PlayerAsset asset){

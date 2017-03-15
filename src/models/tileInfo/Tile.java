@@ -22,6 +22,12 @@ public class Tile {
         this.item = i;
         this.resourcesOccupied = false;
     }
+    public Tile(Terrain t, ResourcePackage p, Item i) {
+        this.terrainType = t;
+        this.myResources = p;
+        this.item = i;
+        this.resourcesOccupied = false;
+    }
 
     public void removeItem(){
         this.item = null;
@@ -65,5 +71,14 @@ public class Tile {
         if(aoE != null){
             aoE.accept(v);
         }
+        if(myResources != null){
+            myResources.accept(v);
+        }
+    }
+    public boolean hasResourcePackage(){
+        if (myResources == null){
+            return false;
+        }
+        return true;
     }
 }

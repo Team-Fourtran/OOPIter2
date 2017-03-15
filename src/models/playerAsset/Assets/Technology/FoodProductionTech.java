@@ -12,4 +12,6 @@ public class FoodProductionTech extends ProductionTech {
         ResourceStructure s = (ResourceStructure)a;
         s.increaseProduction("food",0.5);
     }
+
+    public String toString(){return "FoodProductionTech";}
 }

@@ -8,14 +8,14 @@ import models.playerAsset.Assets.RallyPoint;
 import models.playerAsset.Assets.Structures.Structure;
 import models.visitor.MovementVisitor;
 
-public class CTRLPickUpWorkers implements CTRLCommand{
+public class CTRLDropOffWorkers implements CTRLCommand{
     private CommandComponents parts;
     private Structure destination;
     private PlayerAsset rallyPoint;
     private int numWorkers;
     private boolean isConfigured;
 
-    public CTRLPickUpWorkers(){
+    public CTRLDropOffWorkers(){
         isConfigured = false;
     }
 
@@ -27,14 +27,12 @@ public class CTRLPickUpWorkers implements CTRLCommand{
 
     @Override
     public void callback() throws CommandNotConfiguredException {
-        System.out.println(parts + "\n" + destination);
         this.destination = (Structure) parts.getTargetAsset();
-        System.out.println(parts + "\n" + destination);
         if(null != destination){
             isConfigured = true;
             parts.requestExecution();   //Request execution
         } else {
-            throw new CommandNotConfiguredException("queryAgain() was called, but the DestinationTile is null");
+            throw new CommandNotConfiguredException("ShitShit");
         }
     }
 
@@ -52,7 +50,7 @@ public class CTRLPickUpWorkers implements CTRLCommand{
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException {
         System.out.println(rallyPoint.toString() + "\n" + destination.toString());
         MovementVisitor vis = new MovementVisitor(map, player, map.getLocation(destination));
-        vis.setNeedWorkers(true, destination, numWorkers);
+        vis.setNeedWorkers(false, destination, numWorkers);
         if(isConfigured){
             rallyPoint.accept(
                     vis
@@ -70,6 +68,6 @@ public class CTRLPickUpWorkers implements CTRLCommand{
 
     @Override
     public String toString(){
-        return "Pick Up Workers";
+        return "Drop Off Workers";
     }
 }

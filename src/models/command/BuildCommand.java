@@ -23,20 +23,24 @@ public class BuildCommand implements Command{
 
     @Override
     public void execute() {
+        StructureCreationVisitor vis = new StructureCreationVisitor(map, rallyPoint, structureType);
         player.accept(
-                new StructureCreationVisitor(
-                        map,
-                        rallyPoint,
-                        structureType
-                )
+                vis
         );
-//        rallyPoint.addCommand(
-//                new DropOffWorkersCommand();
-//        );
+        if(numWorkersAssigned > 0){
+            rallyPoint.addCommand(
+                    new ModifyWorkersCommand(false,
+                            map,
+                            rallyPoint.getArmy(),
+                            vis.getCreation(),
+                            numWorkersAssigned
+                    )
+            );
+        }
     }
 
     @Override
     public double getTurns() {
-        return 3; //TODO based on something...
+        return 3;
     }
 }

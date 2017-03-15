@@ -3,11 +3,11 @@ package controllers;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.CTRLCommand;
 import models.ctrlCommand.CommandNotConfiguredException;
+import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
 import models.playerAsset.Assets.*;
-import views.StructureCreationDialog;
-import views.UnitCreationDialog;
+import views.*;
 
 import java.util.HashMap;
 
@@ -274,6 +274,7 @@ class MessageGenerator implements KeyPressListener {
         public TileAssociation getDestinationTile() {
             return this.destinationTile;
         }
+
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         @Override
@@ -327,9 +328,31 @@ class MessageGenerator implements KeyPressListener {
         }
 
         @Override
+        public String getTechTypeString() {
+            TechTypeDialog dialog = new TechTypeDialog();
+            dialog.createDialog();
+            String type = dialog.returnTechType();
+            dialog.closeDialog();
+            return type;
+        }
+
+        @Override
+        public String getTechAssetString() {
+            TechAssetDialog dialog = new TechAssetDialog();
+            dialog.createDialog();
+            String type = dialog.returnTechAsset();
+            dialog.closeDialog();
+            return type;
+        }
+
+        @Override
         //TODO: This
-        public int getInt() {
-            return 0;
+        public int getNumWorkers() {
+            NumWorkersDialog dialog = new NumWorkersDialog();
+            dialog.createDialog();
+            int type = dialog.returnWorkerCount();
+            dialog.closeDialog();
+            return type;
         }
 
         @Override
