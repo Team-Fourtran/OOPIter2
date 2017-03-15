@@ -79,6 +79,7 @@ public class hexMech {
 
     }
 
+    //Updating the tiles by calling visitors.
     public static void updateTile(TileAssociation t2) {
         HexProperties p = gps.get(t2);
         TileDrawingVisitor v = new TileDrawingVisitor(p.getX(), p.getY(), p.getGraphic());
