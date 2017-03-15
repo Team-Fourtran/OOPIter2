@@ -10,6 +10,5 @@ import java.util.ArrayList;
 public class RunGame {
     public static void main(String[] args) throws InterruptedException{
     	//Game game = new Game();
-
     }
 }

@@ -56,7 +56,7 @@ public class GameMap {
         return calculateDistance(start, asset2);
     }
     
-    private TileAssociation searchForTileAssociation(PlayerAsset asset){
+    public TileAssociation searchForTileAssociation(PlayerAsset asset){
         for (TileAssociation t : tiles){
             if (t.isAssetOwner(asset)){
                 return t;

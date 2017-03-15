@@ -11,13 +11,14 @@ import models.playerAsset.Assets.Player;
 public class CTRLAttackCommand implements CTRLCommand{
     private CombatAsset giver;  //RallyPoint or Structure
     private TileAssociation receiver;
-    private CommandComponents parts;
     private boolean isConfigured;
+    private CommandComponents parts;
 
     public CTRLAttackCommand(){
         isConfigured = false;
     }
 
+    /* For testing  */
     public void configure(CombatAsset giver, TileAssociation receiver){
         this.giver = giver;
         this.receiver = receiver;

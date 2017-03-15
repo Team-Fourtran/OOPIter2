@@ -628,11 +628,11 @@ class modelTest{
         cmr.configure(am.debugGetRallyPoint(), _tiles.get(174));
         game.notifyOfCommand(cmr);
         CTRLBuildCommand cbc = new CTRLBuildCommand();
-        cbc.configure(am.debugGetRallyPoint(), "fort", 0);
+        try{cbc.configure(am.debugGetRallyPoint(), "fort", 0);} catch (Exception e){e.printStackTrace();}
         game.notifyOfCommand(cbc);
         changeTurn(8);
         CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
-        rac.configure(u2, am.debugGetRallyPoint());
+        try{rac.configure(u2, am.debugGetRallyPoint());} catch(Exception e){e.printStackTrace();}
         game.notifyOfCommand(rac);
 
         cmr = new CTRLMoveRallyPointCommand();

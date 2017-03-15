@@ -40,6 +40,8 @@ public class MainScreen implements TileObserver {
     private int[][] board = new int[BSIZE][BSIZE];
     private KeyPressInformer keyInformer;
 
+    private TurnSwitchNotifier turnNotifier;
+
     private TileAssociation[] tiles;
     private UnitOverview unitTable;
     private JTabbedPane tabbedPane;
@@ -79,6 +81,9 @@ public class MainScreen implements TileObserver {
 
     public KeyPressInformer getKeyInformer(){
         return this.keyInformer;
+    }
+    public TurnSwitchNotifier getTurnSwitchNotifier(){
+        return this.turnNotifier;
     }
 
     public TileTargetting getTileTargetter(){
@@ -120,6 +125,8 @@ public class MainScreen implements TileObserver {
         keyMap.put("RIGHT",false);
         keyInformer = new KeyPressInformer(keyMap);
         tileReceiver = new TileTargetting(this);
+
+        this.turnNotifier = new TurnSwitchNotifier();
     }
 
     //For communication between CommandGenerator. Focusing on unit/army to highlight the tile.
@@ -174,7 +181,6 @@ public class MainScreen implements TileObserver {
                 System.out.println("Tab changed to: " + sourceTabbedPane.getTitleAt(index));
             }
         };
-        tabbedPane.addChangeListener(changeListener);
 
         c.gridwidth = 4;
         c.gridheight = 2;
