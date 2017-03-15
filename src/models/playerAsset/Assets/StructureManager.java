@@ -56,19 +56,16 @@ public class StructureManager implements Manager {
     //add a new structure to the map on an Army's location
     public Structure createStructure(String type) {
         Structure s = factory.makeStructure(type);
-        applyTech(s);
         s.setID(structureIDs.get(0));
         structureIDs.remove(0);
-        //TODO: fix addStructureToList
-        structureList.add(s);
         addStructureToList(s, type);
-        //TODO END
+        applyTech(s);
         return s;
     }
 
     public void addStructureToList(Structure s, String type) {
         switch (type) {
-            case "base":
+            case "capital":
                 structureList.add(s);
                 baseList.add((Capital) s);
                 break;
@@ -81,7 +78,7 @@ public class StructureManager implements Manager {
                 structureList.add(s);
                 baseList.add((Mine) s);
                 break;
-            case "power plant":
+            case "powerplant":
                 structureList.add(s);
                 baseList.add((PowerPlant) s);
                 break;
@@ -89,7 +86,7 @@ public class StructureManager implements Manager {
                 structureList.add(s);
                 baseList.add((Fort) s);
                 break;
-            case "observation tower":
+            case "observationtower":
                 structureList.add(s);
                 baseList.add((ObservationTower) s);
                 break;
@@ -98,6 +95,36 @@ public class StructureManager implements Manager {
                 baseList.add((University) s);
                 break;
         }
+    }
+
+    public void addTech(String type, Technology tech){
+        if (techMap.containsKey(type)) {
+            techMap.get(type).add(tech);
+            applyTech(type, tech);
+        }
+    }
+
+    //apply tech to pertinent units upon discovery
+    public void applyTech(String structureType, Technology tech){
+        if (techMap.containsKey(structureType))
+            if (structureType.equals("worker")) {
+                for (Structure s : structureList)
+                    if (s instanceof ResourceStructure)
+                        tech.apply(s);
+            }
+            else
+                for (Structure s: structureList)
+                    if (structureType.equals( s.getType()))
+                        tech.apply(s);
+    }
+
+    //apply existing tech to new unit
+    public void applyTech(Structure s){
+        for (Technology tech: techMap.get(s.getType()))
+            tech.apply(s);
+        if (s instanceof ResourceStructure)
+            for (Technology tech: techMap.get("worker"))
+                tech.apply(s);
     }
 
     //destroy a structure
@@ -125,34 +152,6 @@ public class StructureManager implements Manager {
                 break;
             }
         }
-    }
-
-    public void addTech(String type, Technology tech){
-        if (techMap.containsKey(type))
-            techMap.get(type).add(tech);
-    }
-
-    //apply tech to pertinent units upon discovery
-    public void applyTech(String structureType, Technology tech){
-        if (techMap.containsKey(structureType))
-            if (structureType.equals("worker")) {
-                for (Structure s : structureList)
-                    if (s instanceof ResourceStructure)
-                        tech.apply(s);
-            }
-            else
-                for (Structure s: structureList)
-                    if (structureType == s.getType())
-                        tech.apply(s);
-    }
-
-    //apply existing tech to new unit
-    public void applyTech(Structure s){
-        for (Technology tech: techMap.get(s.getType()))
-            tech.apply(s);
-        if (s instanceof ResourceStructure)
-            for (Technology tech: techMap.get("worker"))
-                tech.apply(s);
     }
 
     public void resetCommands() {

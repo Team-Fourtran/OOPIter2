@@ -38,4 +38,8 @@ public class University extends Structure{
             super.accept(v);
         }
     }
+
+    public String getType(){
+        return "university";
+    }
 }

@@ -3,14 +3,10 @@ package models.playerAsset.Assets.Technology;
 import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.Structures.ResourceStructure;
 
-/**
- * Created by Clay on 3/2/2017.
- */
-public class WorkRadiusTech implements Technology {
+public class OreProductionTech extends ProductionTech{
 
-    @Override
-    public void apply(CombatAsset a) {
+    public void apply(CombatAsset a){
         ResourceStructure s = (ResourceStructure)a;
-        s.setWorkRadius(1 + s.getWorkRadius());
+        s.increaseProduction("ore",0.5);
     }
 }

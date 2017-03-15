@@ -6,7 +6,13 @@ import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.*;
 import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Structures.*;
 import models.playerAsset.Assets.Structures.Structure;
+import models.playerAsset.Assets.Technology.ArmorTech;
+import models.playerAsset.Assets.Technology.FoodProductionTech;
+import models.playerAsset.Assets.Technology.Technology;
+import models.playerAsset.Assets.Technology.WorkRadiusTech;
+import models.playerAsset.Assets.Units.Colonist;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
 import models.playerAsset.Iterators.CommandIterator;
@@ -32,7 +38,7 @@ class modelTest{
     private StructureManager sm;
 
     modelTest() throws InterruptedException {
-        configure();
+//        configure();
 //        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
@@ -47,8 +53,9 @@ class modelTest{
 //        testInfluenceMovement();
 //        testInfluenceReaction();
 //        testLandMine();
-        testLandMine2();
+//        testLandMine2();
 //        testBuild();
+//          testTech();
     }
 
 	private void configure() throws InterruptedException {
@@ -534,6 +541,59 @@ class modelTest{
         cmr.configure(am.debugGetRallyPoint(), _tiles.get(216));
         game.notifyOfCommand(cmr);
         changeTurn(12);
+    }
+
+    private void testTech(){
+        Player p1 = new Player();
+        //StructureManager m = new StructureManager();
+        Structure farm = p1.getStructures().createStructure("farm");
+        Structure capital = p1.getStructures().createStructure("capital");
+        Structure fort = p1.getStructures().createStructure("fort");
+
+        Farm farm1 = (Farm)farm;
+        farm1.printStats();
+        System.out.println();
+        Capital c = (Capital)capital;
+        c.printStats();
+        System.out.println();
+
+        CTRLResearchTechnologyCommand com1 = new CTRLResearchTechnologyCommand();
+        com1.configure("food", "worker", new University());
+        com1.execute(map, p1);
+
+        CTRLResearchTechnologyCommand com2 = new CTRLResearchTechnologyCommand();
+        com2.configure("radius", "worker", new University());
+        com2.execute(map, p1);
+
+        CTRLResearchTechnologyCommand com3 = new CTRLResearchTechnologyCommand();
+        com3.configure("energy", "worker", new University());
+        com3.execute(map, p1);
+
+        farm1.printStats();
+        System.out.println();
+        c.printStats();
+        System.out.println();
+
+        Structure capital1 = p1.getStructures().createStructure("capital");
+        Structure powerplant = p1.getStructures().createStructure("powerplant");
+        Capital c1 = (Capital)capital1;
+        PowerPlant power = (PowerPlant)powerplant;
+
+        c1.printStats();
+        System.out.println();
+        power.printStats();
+        System.out.println();
+
+        System.out.println(fort.getMaxHealth());
+        System.out.println(fort.getDefDamage(0));
+
+
+
+
+
+
+
+
     }
 }
 

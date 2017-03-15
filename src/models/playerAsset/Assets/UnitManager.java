@@ -50,17 +50,21 @@ public class UnitManager implements Manager {
         techMap.put("explorer", new ArrayList<>());
     }
 
-    public void addTech(String unitType, Technology tech){
-        if (techMap.containsKey(unitType))
-                techMap.get(unitType).add(tech);
+    public void addTech(String unitType, Technology tech) {
+        if (techMap.containsKey(unitType)) {
+            techMap.get(unitType).add(tech);
+            applyTech(unitType, tech);
+        }
     }
 
     //apply tech to pertinent units upon discovery
     public void applyTech(String unitType, Technology tech){
-        if (techMap.containsKey(unitType))
-            for (Unit u: unitList)
-                if (unitType == u.getType())
+        if (techMap.containsKey(unitType)) {
+            for (Unit u : unitList) {
+                if (unitType.equals(u.getType()))
                     tech.apply(u);
+            }
+        }
 
     }
 
@@ -81,10 +85,10 @@ public class UnitManager implements Manager {
 
     public Unit addNewUnit(String type){
         Unit newUnit = factory.makeUnit(type);
-        applyTech(newUnit);
         newUnit.setID(unitIDs.get(0));
         unitIDs.remove(0);
         addUnitToList(newUnit, type);
+        applyTech(newUnit);
         return newUnit;
     }
 
@@ -231,5 +235,17 @@ public class UnitManager implements Manager {
             }
 
         };
+    }
+
+
+
+
+    public int checkTech(String type){
+        return techMap.get(type).size();
+    }
+
+    public void printArmor(){
+        for (Unit u: unitList)
+            System.out.println(u.getArmor());
     }
 }

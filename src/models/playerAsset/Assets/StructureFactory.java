@@ -13,11 +13,11 @@ public class StructureFactory {
                 return new Farm();
             case "mine":
                 return new Mine();
-            case "power plant":
+            case "powerplant":
                 return new PowerPlant();
             case "fort":
                 return new Fort();
-            case "observation tower":
+            case "observationtower":
                 return new ObservationTower();
             case "university":
                 return new University();

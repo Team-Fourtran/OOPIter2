@@ -19,7 +19,7 @@ public class MeleeUnit extends Unit{
     }
 
     public String getType(){
-        return "Melee";
+        return "melee";
     }
 
     @Override

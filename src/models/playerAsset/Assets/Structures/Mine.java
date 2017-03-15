@@ -9,6 +9,7 @@ public class Mine extends ResourceStructure{
 
     int rawMaterial;
     int producedMaterial;
+    double oreProductionMultiplier;
 
     public Mine() {
 
@@ -22,9 +23,16 @@ public class Mine extends ResourceStructure{
         setProductionRate(1);
         setWorkerDensity(1);
         setWorkRadius(0);
+
+        oreProductionMultiplier = 1;
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();
+    }
+
+    public void increaseProduction(String type, double i){
+        if (type.equals("ore"))
+            oreProductionMultiplier += i;
     }
 
     @Override
@@ -38,7 +46,12 @@ public class Mine extends ResourceStructure{
     }
 
     public String getType(){
-        return "Mine";
+        return "mine";
+    }
+
+    public void printStats(){
+        super.printStats();
+        System.out.println(oreProductionMultiplier);
     }
 
 }

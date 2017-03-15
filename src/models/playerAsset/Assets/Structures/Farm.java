@@ -9,6 +9,7 @@ public class Farm  extends ResourceStructure{
 
     int rawMaterial;
     int producedMaterial;
+    double foodProductionMultiplier;
 
     public Farm() {
 
@@ -19,10 +20,18 @@ public class Farm  extends ResourceStructure{
         setCurrentHealth(200);
         setUpkeep(1);
         setRadiusOfInfluence(1);
-        setProductionRate(1);
+        setProductionRate(0);
+        setWorkerDensity(10);
+        setWorkRadius(0);
+        foodProductionMultiplier = 1;
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();
+    }
+
+    public void increaseProduction(String type, double i){
+        if (type.equals("food"))
+            foodProductionMultiplier += i;
     }
 
     public void accept(AssetVisitor v) {
@@ -36,7 +45,12 @@ public class Farm  extends ResourceStructure{
 
 
     public String getType(){
-        return "Farm";
+        return "farm";
+    }
+
+    public void printStats(){
+        super.printStats();
+        System.out.println(foodProductionMultiplier);
     }
 
 }

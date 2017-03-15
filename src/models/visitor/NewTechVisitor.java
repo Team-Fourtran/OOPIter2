@@ -25,8 +25,8 @@ public class NewTechVisitor implements PlayerVisitor{
         tech = univ.discoverTechnology(type);
         structureManager.addTech(asset, tech);
 
-
     }
+
     public void visitUnitManager(UnitManager unitManager){
         tech = univ.discoverTechnology(type);
         unitManager.addTech(asset, tech);

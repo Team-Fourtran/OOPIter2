@@ -19,7 +19,7 @@ public class Explorer extends Unit{
     }
 
     public String getType(){
-        return "Explorer";
+        return "explorer";
     }
 
     @Override

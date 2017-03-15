@@ -12,8 +12,14 @@ public class CTRLResearchTechnologyCommand implements CTRLCommand{
 
     String type,asset;
     University univ;
+    boolean isConfigured;
 
-    public CTRLResearchTechnologyCommand(String type, String asset, University univ){
+    public CTRLResearchTechnologyCommand(){
+        isConfigured = false;
+    }
+
+    public void configure(String type, String asset, University univ) {
+        isConfigured = true;
         this.type = type;
         this.asset = asset;
         this.univ = univ;

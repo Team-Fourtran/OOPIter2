@@ -16,7 +16,9 @@ public class TechFactory {
             case "visibility": return new VisibilityTech();
             case "density": return new DensityTech();
             case "radius": return new WorkRadiusTech();
-            case "production": return new ProductionTech();
+            case "food": return new FoodProductionTech();
+            case "ore": return new OreProductionTech();
+            case "energy": return new EnergyProductionTech();
         }
         return null;
     }

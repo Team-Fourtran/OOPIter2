@@ -40,9 +40,16 @@ public class ResourceStructure extends Structure{
         producers.addAll(list);
     }
 
+    public void increaseProduction(String type, double i){};
+
     public int getWorkerDensity(){return workerDensity;}
     public int getWorkRadius(){return workRadius;}
     public void setWorkerDensity(int w){workerDensity = w;}
     public void setWorkRadius(int r){workRadius = r;}
+
+    public void printStats(){
+        System.out.println(getWorkerDensity());
+        System.out.println(getWorkRadius());
+    }
 
 }
