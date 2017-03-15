@@ -80,6 +80,14 @@ class MessageGenerator implements KeyPressListener {
         } else if (!(keystrokes.get("CONTROL")) && keystrokes.get("DOWN")) {      /* Next command */
             assetIterator.nextCommand();
         }
+        else{
+            return;
+        }
+        updateView(assetIterator);
+    }
+
+    private void updateView(AssetIterator iter){
+        receiver.updateCommands(iter);
     }
 
     private void printStatus() {
@@ -98,7 +106,7 @@ class MessageGenerator implements KeyPressListener {
             e.printStackTrace();
         }
         if(thisCmd.isConfigured()){
-            receiveConfiguredCmd(thisCmd);  //TODO JUAN Why is this not there? Issues arise
+            receiveConfiguredCmd(thisCmd);
         }
     }
 
