@@ -78,7 +78,6 @@ public class ArmyManager implements Manager {
     }
 
     //calculate total upkeep from each army, unit by unit
-    @Override
     public int calculateTotalUpkeep(){
         int totalUpkeep = 0;
         return totalUpkeep;

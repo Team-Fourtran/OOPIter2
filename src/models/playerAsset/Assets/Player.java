@@ -15,12 +15,14 @@ public class Player {
     private final ArmyManager armies;
     private final UnitManager units;
     private final StructureManager structures;
+    private int wheat, food, ore, metal, energy, science;
 
     public Player(String playerName){
         this.playerName = playerName;
         armies = new ArmyManager();
         units = new UnitManager();
         structures = new StructureManager();
+        wheat = food = ore = metal = energy = science = 0;
     }
 
     public String getName(){
@@ -32,6 +34,8 @@ public class Player {
         armies.executeCommands();
         structures.executeCommands();
         units.executeCommands();
+        getResourceCounts();
+        subtractResources();
     }
 
     //do end of turn housekeeping like resetting commands
@@ -57,6 +61,44 @@ public class Player {
 
     public StructureManager getStructures() {
         return structures;
+    }
+
+    public void getResourceCounts(){
+        wheat = structures.getWheatCount();
+        food = structures.getFoodCount();
+        ore = structures.getOreCount();
+        metal = structures.getMetalCount();
+        energy = structures.getEnergyCount();
+        science = structures.getScienceCount();
+    }
+
+    public void subtractResources(){
+        food = units.upkeep(food);
+        metal = structures.upkeep(metal);
+    }
+
+    public int getWheat(){
+        return wheat;
+    }
+
+    public int getFood(){
+        return food;
+    }
+
+    public int getOre(){
+        return ore;
+    }
+
+    public int getMetal(){
+        return metal;
+    }
+
+    public int getEnergy(){
+        return energy;
+    }
+
+    public int getScience(){
+        return science;
     }
 
     public AssetIterator makeIterator(){

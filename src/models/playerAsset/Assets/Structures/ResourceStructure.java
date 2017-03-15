@@ -169,8 +169,17 @@ public class ResourceStructure extends Structure{
         resourceCount.put("food", 1000);
     }
 
-    public int getHarvestCount(){
-        return resourceCount.get("food");
+    public int getHarvestCount(String type){
+        if (resourceCount.containsKey(type))
+            return resourceCount.get(type);
+        else
+            return 0;
+    }
+    public int getProductionCount(String type){
+        if (producedCount.containsKey(type))
+            return producedCount.get(type);
+        else
+            return 0;
     }
 
     public void addWorkers(int j){
@@ -179,11 +188,5 @@ public class ResourceStructure extends Structure{
         }
     }
 
-    public int getProduced(){
-        if (producedCount.containsKey("food"))
-            return producedCount.get("food");
-        else
-            return 0;
-    }
 
 }
