@@ -46,8 +46,8 @@ class modelTest{
 
     modelTest() throws InterruptedException {
 
-//        liveTest();
-        configure(); //Comment out KeyboardController in Game
+        liveTest();
+//        configure(); //Comment out KeyboardController in Game
 //        testAttack();
 //        testCreateUnit();
 //        testReinforceArmy();
@@ -60,7 +60,7 @@ class modelTest{
 //        testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
-        testInfluenceReaction();
+//        testInfluenceReaction();
 //         testTech();
 
 

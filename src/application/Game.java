@@ -36,11 +36,11 @@ public class Game {
       mainScreen.generateMainScreen();
       mainScreen.showMainScreen();
 
-//      this.kbc = new KeyboardController(
-//              this,
-//              mainScreen,
-//              currentPlayer.makeIterator()
-//      );
+      this.kbc = new KeyboardController(
+              this,
+              mainScreen,
+              currentPlayer.makeIterator()
+      );
 
       this.mainScreen.getTurnSwitchNotifier().addListener(this);    //Register to listen to turn switches
 

@@ -24,7 +24,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class StructureManager implements Manager {
     private CopyOnWriteArrayList<Structure> structureList;
-    ArrayList<PlayerAsset> baseList;
     final int maxStructures = 10;
     static ArrayList<String> structureIDs = new ArrayList<>();
     final private StructureFactory factory;
@@ -34,7 +33,6 @@ public class StructureManager implements Manager {
     public StructureManager() {
         structureList = new CopyOnWriteArrayList<>();
         factory = new StructureFactory();
-        baseList = new ArrayList<>();
 //        structureIterators = new ArrayList<>();
 //        structureIterators.add(makeIterator(baseList));
         for (int i = 1; i <= 20; i++)
@@ -67,43 +65,9 @@ public class StructureManager implements Manager {
         Structure s = factory.makeStructure(type, baseTile);
         s.setID(structureIDs.get(0));
         structureIDs.remove(0);
-        addStructureToList(s, type);
+        structureList.add(s);
         applyTech(s);
         return s;
-    }
-
-    public void addStructureToList(Structure s, String type) {
-        switch (type) {
-            case "capital":
-                structureList.add(s);
-                baseList.add((Capital) s);
-                break;
-
-            case "farm":
-                structureList.add(s);
-                baseList.add((Farm) s);
-                break;
-            case "mine":
-                structureList.add(s);
-                baseList.add((Mine) s);
-                break;
-            case "powerplant":
-                structureList.add(s);
-                baseList.add((PowerPlant) s);
-                break;
-            case "fort":
-                structureList.add(s);
-                baseList.add((Fort) s);
-                break;
-            case "observationtower":
-                structureList.add(s);
-                baseList.add((ObservationTower) s);
-                break;
-            case "university":
-                structureList.add(s);
-                baseList.add((University) s);
-                break;
-        }
     }
 
     public void addTech(String type, Technology tech){
