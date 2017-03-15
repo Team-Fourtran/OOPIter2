@@ -1,9 +1,9 @@
 package models.ctrlCommand;
 import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
+import models.command.ResearchCommand;
 import models.playerAsset.Assets.Player;
 import models.playerAsset.Assets.Structures.University;
-import models.visitor.NewTechVisitor;
 
 public class CTRLResearchTechnologyCommand implements CTRLCommand{
     private String type,asset;
@@ -31,19 +31,23 @@ public class CTRLResearchTechnologyCommand implements CTRLCommand{
         this.univ = (University)parts.getRequestingAsset();
         this.type = parts.getTechTypeString();
         this.asset = parts.getTechAssetString();
+        isConfigured = true;
+        parts.requestExecution();
     }
 
     public void execute(GameMap map, Player player){
-        player.accept(
-                new NewTechVisitor(
+        univ.addCommand(
+                new ResearchCommand(
+                        player,
+                        univ,
                         type,
-                        asset,
-                        univ
-        ));
+                        asset
+                )
+        );
     }
 
     @Override
     public boolean isConfigured() {
-        return false;
+        return isConfigured;
     }
 }
