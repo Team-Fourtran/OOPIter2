@@ -752,13 +752,13 @@ class modelTest{
         cmd.configure(f,10,"food");
         game.notifyOfCommand(cmd);
 
-        System.out.println(f.getHarvestCount());
-        System.out.println(f.getProduced());
+        System.out.println(f.getHarvestCount("food"));
+        System.out.println(f.getProductionCount("food"));
 
         changeTurn(5);
 
-        System.out.println(f.getHarvestCount());
-        System.out.println(f.getProduced());
+        System.out.println(f.getHarvestCount("food"));
+        System.out.println(f.getProductionCount("food"));
 
         CTRLProduceCommand cmd2 = new CTRLProduceCommand();
         cmd2.configure(f,0,"food");
