@@ -150,4 +150,22 @@ public class ResourceStructure extends Structure{
         System.out.println(getWorkRadius());
     }
 
+
+    public void harvestTest(int i){
+        resourceCount.put("food", 1000);
+    }
+
+    public int getHarvestCount(){
+        return resourceCount.get("food");
+    }
+
+    public void addWorkers(int j){
+        for(int i = 0; i < j; i++){
+            producers.add(new Worker());
+        }
+    }
+
+    public int getProduced(){
+        return producedCount.get("food");
+    }
 }

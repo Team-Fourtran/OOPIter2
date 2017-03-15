@@ -60,8 +60,9 @@ class modelTest{
 //        testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
-        testInfluenceReaction();
+//        testInfluenceReaction();
 //         testTech();
+        testProduction();
 
 
 //        testBuild();
@@ -736,6 +737,16 @@ class modelTest{
 
     	changeTurn(6);
 
+    }
+
+    public void testProduction(){
+        Farm f = new Farm();
+        f.addWorkers(10);
+        f.harvestTest(1000);
+        System.out.println(f.getHarvestCount());
+        f.produce("food");
+        System.out.println(f.getHarvestCount());
+        System.out.println(f.getProduced());
     }
 }
 
