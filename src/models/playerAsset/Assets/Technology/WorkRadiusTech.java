@@ -13,4 +13,6 @@ public class WorkRadiusTech implements Technology {
         ResourceStructure s = (ResourceStructure)a;
         s.setRadiusSize(1 + s.getWorkRadiusSize());
     }
+
+    public String toString(){return "WorkRadiusTech";}
 }

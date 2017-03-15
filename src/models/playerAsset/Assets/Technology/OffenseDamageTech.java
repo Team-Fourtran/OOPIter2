@@ -10,4 +10,6 @@ public class OffenseDamageTech implements Technology {
     public void apply(CombatAsset a){
         a.setOffDamage(10 + a.getOffDamage(0));
     }
+
+    public String toString(){return "OffDamageTech";}
 }

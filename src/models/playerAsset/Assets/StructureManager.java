@@ -288,4 +288,8 @@ public class StructureManager implements Manager {
             }
         return sum;
     }
+
+    public HashMap<String, ArrayList<Technology>> getTech(){
+        return techMap;
+    }
 }

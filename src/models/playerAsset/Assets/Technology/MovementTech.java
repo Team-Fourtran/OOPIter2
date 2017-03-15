@@ -12,4 +12,6 @@ public class MovementTech implements Technology {
     public void apply(CombatAsset a){
         a.setMovementTurns(a.getMovementTurns() / 2);
     }
+
+    public String toString(){return "MovementTech";}
 }

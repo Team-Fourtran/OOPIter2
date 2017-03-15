@@ -7,4 +7,6 @@ public class EfficiencyTech implements Technology {
     public void apply(CombatAsset a){
         a.setUpkeep(a.getUpkeep()-10);
     }
+
+    public String toString(){return "EfficiencyTech";}
 }
