@@ -98,9 +98,17 @@ public class Army extends CombatAsset implements AssetObserver {
         workers.add(w);
     }
 
-    public ArrayList<Worker> removeWorkers(){
-        ArrayList<Worker> _workers = new ArrayList<>(workers);
-        workers.clear();
+    public ArrayList<Worker> removeWorkers(int num){
+        ArrayList<Worker> _workers = new ArrayList<>(2);
+        if(num >= workers.size()){
+            _workers.addAll(workers);
+            workers.clear();
+        }
+        else{
+            for (int i = 0; i < num; i++){
+                _workers.add(workers.get(i));
+            }
+        }
         return _workers;
     }
 

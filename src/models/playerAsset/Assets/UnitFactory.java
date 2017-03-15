@@ -18,7 +18,6 @@ public class UnitFactory {
                 return new RangedUnit();
 
         }
-
         return null;
     }
 }
