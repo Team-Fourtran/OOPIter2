@@ -81,16 +81,18 @@ class modelTest{
         _tiles.get(8).add(u0);
         Unit u1 = um.addNewUnit("explorer");
         _tiles.get(9).add(u1);
-        Unit u2 = umEnemy.addNewUnit("ranged");
+        Unit u2 = um.addNewUnit("ranged");
         _tiles.get(10).add(u2);
-        Unit u3 = umEnemy.addNewUnit("melee");
+        Unit u3 = um.addNewUnit("melee");
         _tiles.get(11).add(u3);
+        Unit u4 = umEnemy.addNewUnit("melee");
+        _tiles.get(99).add(u4);
         this.game = new Game(player, enemyPlayer, _tiles);
         this.map = game.getMap();
 
-//        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
-//        cac.configure(_tiles.get(20), u2, u3);
-//        game.notifyOfCommand(cac);
+        CTRLCreateArmyCommand cac = new CTRLCreateArmyCommand();
+        cac.configure(_tiles.get(20), u2, u3);
+        game.notifyOfCommand(cac);
     }
 
 	private void configure() throws InterruptedException {

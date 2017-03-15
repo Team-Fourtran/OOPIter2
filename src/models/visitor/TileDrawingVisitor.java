@@ -20,7 +20,7 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 	private final int STRUCTURE = 3;
 	private final int ITEM = 4;
 	private final int RALLYPOINT = 5;
-	
+
 	private Graphics2D g2;
 	private int x;
 	private int y;
