@@ -167,11 +167,14 @@ public class ResourceStructure extends Structure{
 
     public void addWorkers(int j){
         for(int i = 0; i < j; i++){
-            producers.add(new Worker());
+            staff.add(new Worker());
         }
     }
 
     public int getProduced(){
-        return producedCount.get("food");
+        if (producedCount.containsKey("food"))
+            return producedCount.get("food");
+        else
+            return 0;
     }
 }

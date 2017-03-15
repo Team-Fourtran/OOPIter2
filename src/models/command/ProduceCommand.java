@@ -17,6 +17,7 @@ public class ProduceCommand implements Command{
         this.producer = producer;
         this.assignedWorkers = assignedWorkers;
         this.type = type;
+        firstExecution = true;
     }
 
     @Override
