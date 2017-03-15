@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 public class Mine extends ResourceStructure{
 
-    int rawMaterial;
-    int producedMaterial;
     double oreProductionMultiplier;
 
     public Mine() {

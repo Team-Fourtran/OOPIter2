@@ -62,6 +62,7 @@ class modelTest{
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
 //         testTech();
+        testProduction();
 
 
 //        testBuild();
@@ -738,6 +739,43 @@ class modelTest{
     	game.notifyOfCommand(chc);
 
     	changeTurn(6);
+
+    }
+
+    public void testProduction() throws InterruptedException{
+        Structure farm = sm.createStructure("farm", _tiles.get(4));
+        Farm f = (Farm)farm;
+        f.addWorkers(10);
+        f.harvestTest(1000);
+
+        CTRLProduceCommand cmd = new CTRLProduceCommand();
+        cmd.configure(f,10,"food");
+        game.notifyOfCommand(cmd);
+
+        System.out.println(f.getHarvestCount());
+        System.out.println(f.getProduced());
+
+        changeTurn(5);
+
+        System.out.println(f.getHarvestCount());
+        System.out.println(f.getProduced());
+
+        CTRLProduceCommand cmd2 = new CTRLProduceCommand();
+        cmd2.configure(f,0,"food");
+        game.notifyOfCommand(cmd2);
+
+        changeTurn(5);
+
+
+
+        //System.out.println(f.getHarvestCount());
+        //f.produce("food");
+        //System.out.println(f.getHarvestCount());
+        //System.out.println(f.getProduced());
+        //f.addWorkers(10000);
+        //f.produce("food");
+        //System.out.println(f.getHarvestCount());
+        //System.out.println(f.getProduced());
 
     }
 }

@@ -7,10 +7,7 @@ import java.util.ArrayList;
 
 public class Farm  extends ResourceStructure{
 
-    int rawMaterial;
-    int producedMaterial;
     double foodProductionMultiplier;
-
     public Farm() {
 
         setOffDamage(75);
@@ -23,6 +20,7 @@ public class Farm  extends ResourceStructure{
         setProductionRate(0);
         setWorkerDensity(10);
         foodProductionMultiplier = 1;
+
         staff = new ArrayList<>();
         gatherers = new ArrayList<>();
         producers = new ArrayList<>();
