@@ -45,7 +45,8 @@ public class Game {
               mainScreen.getTileTargetter()
       );
 
-      this.mainScreen.getTurnSwitchNotifier().addListener(this);
+      this.mainScreen.getTurnSwitchNotifier().addListener(this);    //Register to listen to turn switches
+
       Thread.sleep(1000);
   }
 
