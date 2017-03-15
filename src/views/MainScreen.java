@@ -269,38 +269,52 @@ public class MainScreen implements TileObserver {
         }
 
         class CommandListener extends KeyAdapter{
-            @Override
-            public void keyReleased(KeyEvent e){
-                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    keyInformer.update("RIGHT", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    keyInformer.update("LEFT", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_UP){
-                    keyInformer.update("UP", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-                    keyInformer.update("DOWN", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
-                    keyInformer.update("CONTROL", false);
-                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    keyInformer.update("ENTER", false);
+
+            /* Simulate the keystrokes that MessageGenerator will interpret */
+            private void pressKeys(String keyList){
+                String[] keys = keyList.split(" ");
+                for(int k = 0; k<keys.length; k++){
+                    keyInformer.update(keys[k],true);
+                }
+                for(int f = 0; f<keys.length; f++){
+                    keyInformer.update(keys[f],false);
                 }
             }
-            @Override
-            public void keyPressed(KeyEvent e){
-                if(e.getKeyCode() == KeyEvent.VK_CONTROL) {
-                    keyInformer.update("CONTROL", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-                    keyInformer.update("RIGHT", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-                    keyInformer.update("LEFT", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_UP){
-                    keyInformer.update("UP", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-                    keyInformer.update("DOWN", true);
-                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                    keyInformer.update("ENTER", true);
-                }
-            }
+
+            /* For reference: Original KeyListeners */
+//            @Override
+//            public void keyReleased(KeyEvent e){
+//                if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+//                    keyInformer.update("RIGHT", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+//                    keyInformer.update("LEFT", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_UP){
+//                    keyInformer.update("UP", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+//                    keyInformer.update("DOWN", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_CONTROL){
+//                    keyInformer.update("CONTROL", false);
+//                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+//                    keyInformer.update("ENTER", false);
+//                }
+//            }
+//            @Override
+//            public void keyPressed(KeyEvent e){
+//                if(e.getKeyCode() == KeyEvent.VK_CONTROL) {
+//                    keyInformer.update("CONTROL", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+//                    keyInformer.update("RIGHT", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+//                    keyInformer.update("LEFT", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_UP){
+//                    keyInformer.update("UP", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){
+//                    keyInformer.update("DOWN", true);
+//                } else if(e.getKeyCode() == KeyEvent.VK_ENTER){
+//                    keyInformer.update("ENTER", true);
+//                }
+//            }
+
         }
 
         class TileHighlightListener extends KeyAdapter {
