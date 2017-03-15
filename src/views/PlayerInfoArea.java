@@ -1,23 +1,34 @@
 package views;
 
+import models.playerAsset.Assets.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PlayerInfoArea {
-    private String playerName = "";
+    private Player player;
     private JLabel playerLabel;
+    private JLabel wheatLabel;
     private JLabel foodLabel;
+    private JLabel scienceLabel;
     private JLabel energyLabel;
+    private JLabel metalLabel;
     private JLabel oreLabel;
     private JTextField playerTextField;
+    private JTextField scienceTextField;
     private JTextField energyTextField;
+    private JTextField metalTextField;
     private JTextField oreTextField;
+    private JTextField wheatTextField;
     private JTextField foodTextField;
     private JPanel playerPane;
+    private JPanel wheatPane;
     private JPanel foodPane;
+    private JPanel sciencePane;
     private JPanel energyPane;
+    private JPanel metalPane;
     private JPanel orePane;
 
     private JPanel pane;
@@ -29,8 +40,11 @@ public class PlayerInfoArea {
         this.turnSwitchNotifier = turnSwitchNotifier;
 
         playerLabel = new JLabel("Player");
+        scienceLabel = new JLabel("Science");
         energyLabel = new JLabel("Energy");
+        metalLabel = new JLabel("Metal");
         oreLabel = new JLabel("Ore");
+        wheatLabel = new JLabel("Wheat");
         foodLabel = new JLabel("Food");
 
         playerTextField = new JTextField();
@@ -107,7 +121,9 @@ public class PlayerInfoArea {
     public TurnSwitchNotifier getTurnSwitchNotifier(){
         return this.turnSwitchNotifier;
     }
-    public void update(String playerName){
-        this.playerName = playerName;
+    public void update(Player player){
+        this.player = player;
+        playerTextField.setText(player.getName());
+
     }
 }
