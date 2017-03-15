@@ -57,6 +57,7 @@ public class KeyPressInformer {
     //reset everything
     public void reset(){
         currentlyPressedKeys = new ArrayList<>();
+        alertClient("next_command");
 //        customKeyBindings = this.kbf.customCmdMappings();
 //        commandsList = new String[customKeyBindings.size()];
 //        commandsList = customKeyBindings.keySet().toArray(commandsList);
