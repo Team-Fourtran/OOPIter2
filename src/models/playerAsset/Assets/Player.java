@@ -2,11 +2,14 @@ package models.playerAsset.Assets;
 
 
 import models.ctrlCommand.CTRLCommand;
+import models.playerAsset.Assets.Technology.Technology;
 import models.playerAsset.Iterators.AssetIterator;
 import models.playerAsset.Iterators.CommandIterator;
 import models.playerAsset.Iterators.Iterator2;
 import models.visitor.CommandListVisitor;
 import models.visitor.PlayerVisitor;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,6 +102,14 @@ public class Player {
 
     public int getScience(){
         return science;
+    }
+
+    public HashMap<String, ArrayList<Technology>> getUnitTech(){
+        return units.getTech();
+    }
+
+    public HashMap<String, ArrayList<Technology>> getStructureTech(){
+        return structures.getTech();
     }
 
     public AssetIterator makeIterator(){

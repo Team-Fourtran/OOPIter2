@@ -200,12 +200,17 @@ public class UnitManager implements Manager {
     }
 
 
+    public HashMap<String, ArrayList<Technology>> getTech(){
+        return techMap;
+    }
 
 
+    //debugging method
     public int checkTech(String type){
         return techMap.get(type).size();
     }
 
+    //debugging method
     public void printArmor(){
         for (Unit u: unitList)
             System.out.println(u.getArmor());

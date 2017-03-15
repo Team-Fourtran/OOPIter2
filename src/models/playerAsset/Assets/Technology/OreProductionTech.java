@@ -9,4 +9,6 @@ public class OreProductionTech extends ProductionTech{
         ResourceStructure s = (ResourceStructure)a;
         s.increaseProduction("ore",0.5);
     }
+
+    public String toString(){return "OreProductionTech";}
 }
