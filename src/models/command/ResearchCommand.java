@@ -18,12 +18,15 @@ public class ResearchCommand implements Command {
 
     @Override
     public void execute() {
-        player.accept(
+        if (player.getScience() >= 50)
+            player.accept(
                 new NewTechVisitor(
                         type,
                         asset,
                         univ
                 ));
+        else
+            System.out.println("not enough science");
     }
 
     @Override

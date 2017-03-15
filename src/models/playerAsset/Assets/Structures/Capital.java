@@ -21,24 +21,18 @@ public class Capital extends ResourceStructure {
         setCurrentHealth(200);
         setUpkeep(30);
         setRadiusOfInfluence(2);
-        setProductionRate(1);
         setWorkerDensity(10);
 
         foodProductionMultiplier = 1;
         oreProductionMultiplier = 1;
         energyProductionMultiplier = 1;
         // Important: need to set harvest strategy of capital before it can gather resources
-        staff = new ArrayList<>();
-        gatherers = new ArrayList<>();
-        producers = new ArrayList<>();
-
         //TODO: this needs to go through worker manager
         for (int i = 0; i < 5; i++) {
             Worker w = new Worker();
             staff.add(w);
             productionRate += w.getProduction();
         }
-        //create 2 melee units
     }
     public void increaseProduction(String type, double i){
         switch (type){

@@ -10,6 +10,13 @@ public class Structure extends CombatAsset {
     int productionRate;     //turns it takes to create a unit
     ArrayList<Worker> staff;
 
+    public Structure(){
+        staff = new ArrayList<>();
+        staff.add(new Worker());
+        staff.add(new Worker());
+        setProductionRate(2);
+    }
+
     public void accept(AssetVisitor v) {
         v.visitStructure(this);
     }
@@ -36,10 +43,6 @@ public class Structure extends CombatAsset {
             staff.remove(w);
             productionRate -= w.getProduction();
         }
-    }
-
-    public int getStaffCount(){
-        return staff.size();
     }
 
     public ArrayList<Worker> acquireWorkers(int num){

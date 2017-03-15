@@ -18,13 +18,9 @@ public class Mine extends ResourceStructure{
         setCurrentHealth(100);
         setUpkeep(10);
         setRadiusOfInfluence(1);
-        setProductionRate(1);
         setWorkerDensity(1);
 
         oreProductionMultiplier = 1;
-        staff = new ArrayList<>();
-        gatherers = new ArrayList<>();
-        producers = new ArrayList<>();
     }
 
     public void increaseProduction(String type, double i){

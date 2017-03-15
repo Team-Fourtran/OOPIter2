@@ -19,8 +19,6 @@ public class Fort extends Structure{
         setCurrentHealth(200);
         setUpkeep(20);
         setRadiusOfInfluence(2);
-        setProductionRate(1);
-        staff = new ArrayList<>();
         trainers = new ArrayList<>();
     }
 

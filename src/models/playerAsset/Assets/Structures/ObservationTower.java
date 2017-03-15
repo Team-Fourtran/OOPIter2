@@ -13,7 +13,6 @@ public class ObservationTower extends Structure {
         setCurrentHealth(100);
         setUpkeep(10);
         setRadiusOfInfluence(2);
-        setProductionRate(1);
     }
 
 

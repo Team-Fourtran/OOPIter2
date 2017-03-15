@@ -17,13 +17,9 @@ public class Farm  extends ResourceStructure{
         setCurrentHealth(100);
         setUpkeep(10);
         setRadiusOfInfluence(1);
-        setProductionRate(0);
         setWorkerDensity(10);
         foodProductionMultiplier = 1;
 
-        staff = new ArrayList<>();
-        gatherers = new ArrayList<>();
-        producers = new ArrayList<>();
     }
 
     public void increaseProduction(String type, double i){

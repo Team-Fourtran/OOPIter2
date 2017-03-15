@@ -23,7 +23,6 @@ public class ResourceStructure extends Structure{
     	this.workRadiusSize = 0;
         gatherers = new ArrayList<Worker>();
         producers = new ArrayList<Worker>();
-        staff = new ArrayList<Worker>();
         resourceCount = new HashMap<String, Integer>();
         producedCount = new HashMap<String, Integer>();
     }
@@ -58,22 +57,26 @@ public class ResourceStructure extends Structure{
      * set workers that are gathering resources
      */
     public void addWorkersToGathering(int assignedWorkers){
-    	if (assignedWorkers >= staff.size()) {
-    		for (int i = 0; i < assignedWorkers; i++) {
-    			gatherers.add(staff.get(i));
+    	if (assignedWorkers <= staff.size()) {
+    		for (int i = 0; i < assignedWorkers && gatherers.size() <= getWorkerDensity(); i++) {
+    			gatherers.add(staff.remove(0));
     		}
     	}
+    	else
+    	    gatherers.addAll(staff);
     }
 
     /*
      * set workers that are at structure, producing
      */
     public void addWorkersToProduction(int assignedWorkers){
-    	if (assignedWorkers >= staff.size()) {
-    		for (int i = 0; i < assignedWorkers; i++) {
-    			producers.add(staff.get(i));
-    		}
-    	}
+        if (assignedWorkers <= staff.size()) {
+            for (int i = 0; i < assignedWorkers; i++) {
+                producers.add(staff.remove(0));
+            }
+        }
+        else
+            producers.addAll(staff);
     }
     
     // structure will harvest from given tile. returns false if tile is depleted of resource

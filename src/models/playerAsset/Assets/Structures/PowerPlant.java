@@ -20,13 +20,8 @@ public class PowerPlant extends ResourceStructure {
         setCurrentHealth(100);
         setUpkeep(10);
         setRadiusOfInfluence(1);
-        setProductionRate(1);
         setWorkerDensity(10);
         energyProductionMultiplier = 1;
-        staff = new ArrayList<>();
-
-        gatherers = new ArrayList<>();
-        producers = new ArrayList<>();
     }
 
     public void increaseProduction(String type, double i){

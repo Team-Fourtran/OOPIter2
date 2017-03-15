@@ -19,8 +19,6 @@ public class University extends Structure{
         setCurrentHealth(100);
         setUpkeep(15);
         setRadiusOfInfluence(1);
-        setProductionRate(1);
-        staff = new ArrayList<>();
         factory = new TechFactory();
     }
 
