@@ -18,7 +18,7 @@ public class AttackContinueCommand extends AttackCommand {
         AttackVisitor v = new AttackVisitor(super.getGivingPlayer(), super.getMap(), super.getGiver(), super.getReceiver(), distance);
         super.getReceiver().accept(v);
         // if the attack visitor notes dead army, then remove universal command
-        if (v.isAllDead()) {
+        if (v.isAllDead() || (super.getGiver() == null)) {
         	super.getGiver().removeUniversalCommand(this);
         	return;
         }

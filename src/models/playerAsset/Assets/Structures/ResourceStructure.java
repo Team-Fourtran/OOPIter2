@@ -2,10 +2,12 @@ package models.playerAsset.Assets.Structures;
 
 import models.playerAsset.Assets.Structures.Structure;
 import models.assetOwnership.Radius;
+import models.assetOwnership.TileAssociation;
 import models.assetOwnership.WorkRadius;
 import models.playerAsset.Assets.Worker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Clay on 3/8/2017.
@@ -14,13 +16,18 @@ public class ResourceStructure extends Structure{
 
     ArrayList<Worker> gatherers;
     ArrayList<Worker> producers;
+    ArrayList<Worker> idlers;
     private int workRadiusSize;
     private WorkRadius workRadius;
     private HarvestStrategy harvestStrategy;
-    // resource type
+    private HashMap<String, Integer> resourceCount;
 
     public ResourceStructure() {
     	this.workRadiusSize = 0;
+        gatherers = new ArrayList<Worker>();
+        producers = new ArrayList<Worker>();
+        idlers = new ArrayList<Worker>();
+        resourceCount = new HashMap<String, Integer>();
     }
     
     public ArrayList<Worker> removeWorkersFromGathering(int num){
@@ -43,17 +50,40 @@ public class ResourceStructure extends Structure{
         return newList;
     }
 
-    public void addWorkersToGathering(ArrayList<Worker> list){
-        gatherers.addAll(list);
-    }
-
-    public void addWorkersToProduction(ArrayList<Worker> list){
-        producers.addAll(list);
+    public void addWorkersToIdle(ArrayList<Worker> worker){
+    	idlers.addAll(worker);
     }
     
-    public void startHarvest() {
-    	System.out.println("T to harvest: " + harvestStrategy.harvest());
-    	// TODO: send workers??? put workers as a parameter in this function
+    /*
+     * set workers that are gathering resources
+     */
+    public void addWorkersToGathering(int assignedWorkers){
+    	if (assignedWorkers >= idlers.size()) {
+    		for (int i = 0; i < assignedWorkers; i++) {
+    			gatherers.add(idlers.get(i));
+    		}
+    	}
+    }
+
+    /*
+     * set workers that are at structure, producing
+     */
+    public void addWorkersToProduction(int assignedWorkers){
+    	if (assignedWorkers >= idlers.size()) {
+    		for (int i = 0; i < assignedWorkers; i++) {
+    			producers.add(idlers.get(i));
+    		}
+    	}
+    }
+    
+    // structure will harvest from given tile. returns false if tile is depleted of resource
+    public int harvest(TileAssociation target) {
+    	int totalCount = 0;
+    	// for each worker, harvest
+    	for (int i = 0; i < gatherers.size(); i++) {
+    		totalCount += harvestStrategy.harvest(target);
+    	}
+		return totalCount;
     }
     
     public int getWorkRadiusSize() {
@@ -77,5 +107,13 @@ public class ResourceStructure extends Structure{
     
     public WorkRadius getWorkRadius() {
     	return workRadius;
+    }
+    
+    public void addResourceCount(String type, int count) {
+    	if (resourceCount.containsKey(type)) {
+    		resourceCount.put(type, resourceCount.get(type)+count);
+    	} else {
+    		resourceCount.put(type, count);
+    	}
     }
 }

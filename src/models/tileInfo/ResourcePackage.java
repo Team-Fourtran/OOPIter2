@@ -55,20 +55,35 @@ public class ResourcePackage {
 	 *  Allow the harvest of all of the units of one resource type at a time
 	 */
 	public int harvestFood() {
-		int harvest = foodCount;
-		foodCount = 0;
-		return harvest;
+		if (foodCount >= 10) {
+			foodCount -= 10; 
+			return 10;
+		} else {
+			int remainingFood = foodCount;
+			foodCount = 0;
+			return remainingFood;
+		}
 	}
 	
 	public int harvestOre() {
-		int harvest = oreCount;
-		oreCount = 0;
-		return harvest;
+		if (oreCount >= 10) {
+			oreCount -= 10; 
+			return 10;
+		} else {
+			int remainingOre = oreCount;
+			oreCount = 0;
+			return remainingOre;
+		}
 	}
 	
 	public int harvestEnergy() {
-		int harvest = energyCount;
-		energyCount = 0;
-		return harvest;
+		if (energyCount >= 10) {
+			energyCount -= 10; 
+			return 10;
+		} else {
+			int remainingEnergy = energyCount;
+			energyCount = 0;
+			return remainingEnergy;
+		}
 	}
 }
