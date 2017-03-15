@@ -48,6 +48,7 @@ class MessageGenerator implements KeyPressListener {
         if (keystrokes.get("ENTER")) {
             currentState.setCmd(assetIterator.getCommand());
             dispatchCommandForConfig(assetIterator.getCommand());
+            keystrokes.replace("ENTER", false);
         }
 
         /* Keypress combinations with CONTROL+[some key] cycle MODE or TYPE */

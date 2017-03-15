@@ -1,5 +1,6 @@
 package views;
 
+import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Iterators.AssetIterator;
 
 import javax.swing.*;
@@ -76,7 +77,7 @@ public class ControllerInfoArea {
     public void update(AssetIterator iter){
         modeTextField.setText(iter.getCurrentMode());
         typeTextField.setText(iter.getElement());
-        typeInstanceTextField.setText(iter.current().toString());
+        typeInstanceTextField.setText(((PlayerAsset)iter.current()).getID());
         commandsTextField.setText(iter.getCommand().toString());
     }
 }
