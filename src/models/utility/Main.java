@@ -62,7 +62,7 @@ class modelTest{
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
 //         testTech();
-        testProduction();
+//        testProduction();
 
 
 //        testBuild();
