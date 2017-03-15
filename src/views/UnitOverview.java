@@ -25,6 +25,19 @@ public class UnitOverview extends JPanel implements DataTable{
         this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
+//    public void createArmy(){
+//        if (unitTable.getRowCount() > 0) {
+//            if (unitTable.getSelectedRowCount() > 0) {
+//                int selectedRow[] = unitTable.getSelectedRows();
+//                for (int i : selectedRow) {
+//                    int id = Integer.parseInt(unitTable.getValueAt(i, 0).toString());
+//                    double val1 = Double.parseDouble(unitTable.getValueAt(i, 1).toString());
+//                    double val2 = Double.parseDouble(unitTable.getValueAt(i, 2).toString());
+//                }
+//            }
+//        }
+//    }
+
     @Override
     public void update(Player currentPlayer) {
         TableFormatVisitor vis = new TableFormatVisitor(currentPlayer);

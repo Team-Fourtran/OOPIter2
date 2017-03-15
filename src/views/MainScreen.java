@@ -29,9 +29,6 @@ public class MainScreen implements TileObserver {
     private final int BORDERS = 10;
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
 
-    static final Color COLOURBACK =  Color.WHITE;
-    static final Color COLOURCELL =  Color.BLACK;
-
     private int[][] board = new int[BSIZE][BSIZE];
     private KeyPressInformer keyInformer;
 
@@ -220,7 +217,6 @@ public class MainScreen implements TileObserver {
         protected boolean isHighlighted;
         protected Graphics2D gg2;
         public DrawingPanel(){
-            setBackground(COLOURBACK);
             setFocusable(true);
             requestFocusInWindow();
             toggleHT = false;
