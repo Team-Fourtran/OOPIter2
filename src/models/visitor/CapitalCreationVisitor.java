@@ -34,7 +34,7 @@ public class CapitalCreationVisitor implements PlayerVisitor{
         //TODO: See if we can pass the TileAssociation so we don't have to call this map method
         PlayerAsset s = map.replaceAsset(
                 colonistToRemove,
-                structureManager.createStructure("capital")
+                structureManager.createStructure("capital", map.searchForTileAssociation(colonistToRemove))
         );
         PlayerAssetOwnership.addPlayerAsset(player, s);
         System.out.println("Created Capital");

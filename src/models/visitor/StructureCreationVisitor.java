@@ -3,7 +3,9 @@ package models.visitor;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.PlayerAssetOwnership;
+import models.assetOwnership.Radius;
 import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Structures.ResourceStructure;
 import models.playerAsset.Assets.Structures.Structure;
 
 public class StructureCreationVisitor implements PlayerVisitor{
@@ -35,9 +37,8 @@ public class StructureCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitStructureManager(StructureManager structureManager) {
-        Structure s = structureManager.createStructure(structureType);
+        Structure s = structureManager.createStructure(structureType, map.searchForTileAssociation(rallyPoint));
         PlayerAssetOwnership.addPlayerAsset(player, s);
-        System.out.println("add structure");
         map.addAssetToMap(s, rallyPoint.getArmy());
     }
 

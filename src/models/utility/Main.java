@@ -7,6 +7,10 @@ import models.assetOwnership.PlayerAssetOwnership;
 import models.assetOwnership.TileAssociation;
 import models.ctrlCommand.*;
 import models.playerAsset.Assets.*;
+import models.playerAsset.Assets.Structures.EnergyHarvestStrategy;
+import models.playerAsset.Assets.Structures.FoodHarvestStrategy;
+import models.playerAsset.Assets.Structures.OreHarvestStrategy;
+import models.playerAsset.Assets.Structures.ResourceStructure;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
 import models.playerAsset.Iterators.AssetIterator;
@@ -47,13 +51,14 @@ class modelTest{
 //        testHeal();
 //        testDecommission();
         //testPowerUpDown();
+
 //        testIterator();
 //        testCommandIterator();
 //     	  testInfluenceMovement();
 //        testInfluenceReaction();
-//        testLandMine();
-//        testLandMine2();
+
 //        testBuild();
+//        testHarvest();
 //        testPathfinding();
 //        testLandMine();
 //        testLandMine2();
@@ -128,11 +133,12 @@ class modelTest{
     private void testAttack() throws InterruptedException {
         Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("colonist");
-        Structure s1 = sm.createStructure("capital");
+        Structure s1 = sm.createStructure("capital", _tiles.get(4));
         PlayerAssetOwnership.addPlayerAsset(player, u0, u1, s1);
-        Structure s0 = sm.createStructure("capital");
-//        PlayerAssetOwnership.addPlayerAsset(enemyPlayer, s0);
-        
+
+        Structure s0 = smEnemy.createStructure("capital", _tiles.get(6));
+        PlayerAssetOwnership.addPlayerAsset(enemyPlayer, s0);
+
         map.addAssetToMap(s0, _tiles.get(6));
         map.addAssetToMap(s1, _tiles.get(4));
         map.addAssetToMap(u0, _tiles.get(11));
@@ -178,7 +184,7 @@ class modelTest{
     }
 
     private void testCreateUnit() throws InterruptedException{
-        Structure s0 = sm.createStructure("capital");
+        Structure s0 = sm.createStructure("capital", _tiles.get(22));
         Unit u0 = um.addNewUnit("melee");
         Unit u1 = um.addNewUnit("colonist");
         map.addAssetToMap(s0, _tiles.get(22));
@@ -285,7 +291,7 @@ class modelTest{
         Unit u0 = um.addNewUnit("ranged");
         Unit u1 = um.addNewUnit("colonist");
         Unit u2 = um.addNewUnit("ranged");
-        Structure s0 = smEnemy.createStructure("capital");
+        Structure s0 = smEnemy.createStructure("capital", _tiles.get(2));
 
         map.addAssetToMap(s0, _tiles.get(2));
         map.addAssetToMap(u2, _tiles.get(2));
@@ -396,11 +402,12 @@ class modelTest{
         um.addNewUnit("ranged");
         um.addNewUnit("ranged");
 
-        sm.createStructure("capital");
-        sm.createStructure("capital");
-        sm.createStructure("capital");
-        sm.createStructure("capital");
-        sm.createStructure("capital");
+
+        sm.createStructure("capital", null);
+        sm.createStructure("capital", null);
+        sm.createStructure("capital", null);
+        sm.createStructure("capital", null);
+        sm.createStructure("capital", null);
 
         AssetIterator iter = player.makeIterator();
 
@@ -435,7 +442,7 @@ class modelTest{
 
     private void testCommandIterator() throws InterruptedException{
         Unit u0 = um.addNewUnit("colonist");
-        Structure s0 = sm.createStructure("fort");
+        Structure s0 = sm.createStructure("fort", null);
         PlayerAssetOwnership.addPlayerAsset(player, u0, s0);
 
         CTRLPowerUpCommand cmd = new CTRLPowerUpCommand();
@@ -533,7 +540,7 @@ class modelTest{
 		// The fort will receive some notification to attack
 		
 		// Create fort
-		Structure s0 = sm.createStructure("fort");
+		Structure s0 = sm.createStructure("fort", _tiles.get(4));
 		map.addAssetToMap(s0, _tiles.get(4));
         PlayerAssetOwnership.addPlayerAsset(player, s0);
 		
@@ -639,11 +646,11 @@ class modelTest{
         cmr.configure(am.debugGetRallyPoint(), _tiles.get(174));
         game.notifyOfCommand(cmr);
         CTRLBuildCommand cbc = new CTRLBuildCommand();
-        cbc.configure(am.debugGetRallyPoint(), "fort", 0);
+        try{cbc.configure(am.debugGetRallyPoint(), "fort", 0);} catch (Exception e){e.printStackTrace();}
         game.notifyOfCommand(cbc);
         changeTurn(8);
         CTRLReinforceArmyCommand rac = new CTRLReinforceArmyCommand();
-        rac.configure(u2, am.debugGetRallyPoint());
+        try{rac.configure(u2, am.debugGetRallyPoint());} catch(Exception e){e.printStackTrace();}
         game.notifyOfCommand(rac);
 
         cmr = new CTRLMoveRallyPointCommand();
@@ -652,8 +659,29 @@ class modelTest{
         changeTurn(12);
     }
 
-    private void printIterator(AssetIterator iter){
+    private void printIterator(AssetIterator iter) {
         System.out.println(iter.getCurrentMode() + "  " + iter.getElement() + "  " + iter.getElement() + "  " + iter.current().toString());
+    }
+    private void testHarvest() throws InterruptedException {
+    	// put a capital on this same tile
+    	Structure s1 = sm.createStructure("power plant", _tiles.get(4)); // add to manager
+    	PlayerAssetOwnership.addPlayerAsset(player, s1); // add to player list. Actually this could be done in the managers maybe
+    	map.addAssetToMap(s1, _tiles.get(4)); // add to map
+    	
+    	ResourceStructure t = (ResourceStructure) s1; // need to treat it as a resource structure
+    	ArrayList<Worker> worker = new ArrayList<Worker>();
+    	worker.add(new Worker());
+    	t.addWorkersToIdle(worker);
+    	
+    	// configure tile with food resource
+    	_tiles.get(4).getResourcePackage().setEnergyCount(50);
+    	
+    	// start to harvest
+    	CTRLHarvestCommand chc = new CTRLHarvestCommand();
+    	chc.configure(t, _tiles.get(4), 1); // pick any tile. won't perform if not in work radius. have view show work radius properly
+    	game.notifyOfCommand(chc);
+    	
+    	changeTurn(6);
     }
 }
 

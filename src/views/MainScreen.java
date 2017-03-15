@@ -82,6 +82,9 @@ public class MainScreen implements TileObserver {
     public KeyPressInformer getKeyInformer(){
         return this.keyInformer;
     }
+    public TurnSwitchNotifier getTurnSwitchNotifier(){
+        return playerInfoArea.getTurnSwitchNotifier();
+    }
 
     public TileTargetting getTileTargetter(){
         return tileReceiver;
@@ -157,8 +160,8 @@ public class MainScreen implements TileObserver {
         //Controller information area
         this.controllerInfoArea = new ControllerInfoArea(content);
 
-        //Player Information Area with Resources
-        this.playerInfoArea = new PlayerInfoArea(content);
+        //Player information area with resources
+        this.playerInfoArea = new PlayerInfoArea(content, new TurnSwitchNotifier());
 
         //Unit OV Table
         Dimension d = new Dimension(900, 700);
@@ -185,7 +188,7 @@ public class MainScreen implements TileObserver {
         c.gridwidth = 4;
         c.gridheight = 2;
         c.gridx = 0;
-        c.gridy = 0;
+        c.gridy = 1;
         c.weightx = 1;
         c.weighty = 1;
         c.fill = GridBagConstraints.BOTH;
@@ -225,7 +228,7 @@ public class MainScreen implements TileObserver {
         }
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(600, 1500);
+            return new Dimension(600, 700);
         }
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
@@ -363,7 +366,7 @@ public class MainScreen implements TileObserver {
                     tileReceiver.receiveTile(null);
                 }
 
-                if(id == KeyEvent.VK_ENTER){
+                if(id == KeyEvent.VK_NUMPAD5){
                     board[x][y] = 0;
                     tileAssociationIndex = (x*BSIZE) + y;
                     disableHighlight();

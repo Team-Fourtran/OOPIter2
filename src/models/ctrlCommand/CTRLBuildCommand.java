@@ -11,6 +11,7 @@ public class CTRLBuildCommand implements CTRLCommand{
     private String structureType;
     private int numWorkersAssigned;
     private boolean isConfigured;
+    private CommandComponents parts;
 
     public CTRLBuildCommand(){
         isConfigured = false;
@@ -21,11 +22,6 @@ public class CTRLBuildCommand implements CTRLCommand{
         this.structureType = structureType;
         this.numWorkersAssigned = numWorkersAssigned;
         isConfigured = true;
-    }
-
-    @Override
-    public void callback() throws CommandNotConfiguredException {
-
     }
 
     @Override
@@ -60,5 +56,10 @@ public class CTRLBuildCommand implements CTRLCommand{
     @Override
     public String toString(){
         return "Build";
+    }
+
+    @Override
+    public void callback() throws CommandNotConfiguredException {
+        //Unused
     }
 }

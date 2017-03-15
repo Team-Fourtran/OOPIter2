@@ -60,6 +60,7 @@ public class TableFormatVisitor implements PlayerVisitor {
         structureList = new ArrayList<>(0);
         iter.first();
         if (iter.current() == null){
+            formatStructures();
             return;
         }
         ArrayList<Structure> list = new ArrayList<>();
@@ -84,6 +85,8 @@ public class TableFormatVisitor implements PlayerVisitor {
         unitList = new ArrayList<>(0);
         iter.first();
         if (iter.current() == null){
+            this.visitArmyManager(player.getArmies());
+            formatUnits();
             return;
         }
         ArrayList<Unit> list = new ArrayList<>();

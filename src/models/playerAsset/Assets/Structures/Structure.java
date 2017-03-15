@@ -1,5 +1,6 @@
 package models.playerAsset.Assets.Structures;
 
+import models.assetOwnership.Radius;
 import models.playerAsset.Assets.CombatAsset;
 import models.playerAsset.Assets.Worker;
 import models.visitor.AssetVisitor;
@@ -17,7 +18,7 @@ public class Structure extends CombatAsset {
     public String getType(){
         return "Basic structure";
     }
-
+    
     public void setProductionRate(int productionRate){this.productionRate = productionRate;}
 
     public int getProductionRate(){

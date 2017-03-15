@@ -28,6 +28,18 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
     }
 
     @Override
+    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.parts = parts;
+        this.rallyPoint = parts.getRequestingAsset();
+        parts.requestDestinationTile(this);
+        isConfigured = false;   //Still not configured
+    }
+
+    public boolean isConfigured(){
+        return this.isConfigured;
+    }
+
+    @Override
     public void callback() throws CommandNotConfiguredException {
         System.out.println(parts + "\n" + destination);
         this.destination = parts.getDestinationTile(); //Query parts for the destination tile.
@@ -39,18 +51,6 @@ public class CTRLMoveRallyPointCommand implements CTRLCommand{
         } else {
             throw new CommandNotConfiguredException("queryAgain() was called, but the DestinationTile is null");
         }
-    }
-
-    @Override
-    public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-        this.parts = parts;
-        this.rallyPoint = parts.getRequestingAsset();
-        parts.requestDestinationTile(this);
-        isConfigured = false;   //Still not configured
-    }
-
-    public boolean isConfigured(){
-        return this.isConfigured;
     }
 
     @Override

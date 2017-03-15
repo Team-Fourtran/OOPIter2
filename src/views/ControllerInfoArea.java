@@ -19,6 +19,7 @@ public class ControllerInfoArea {
     private JPanel typeInstancePane;
     private JPanel commandsPane;
 
+    private JPanel pane;
     public ControllerInfoArea(Container cont){
         modeLabel = new JLabel("Mode");
         typeLabel = new JLabel("Type");
@@ -29,10 +30,16 @@ public class ControllerInfoArea {
         typeTextField = new JTextField();
         typeInstanceTextField = new JTextField();
         commandsTextField = new JTextField();
+
         modeTextField.setEditable(false);
         typeTextField.setEditable(false);
         typeInstanceTextField.setEditable(false);
         commandsTextField.setEditable(false);
+
+        modeTextField.setFocusable(false);
+        typeTextField.setFocusable(false);
+        typeInstanceTextField.setFocusable(false);
+        commandsTextField.setFocusable(false);
 
         modeLabel.setLabelFor(modeTextField);
         typeLabel.setLabelFor(typeTextField);
@@ -52,21 +59,19 @@ public class ControllerInfoArea {
         commandsPane.add(commandsLabel);
         commandsPane.add(commandsTextField);
 
+        pane = new JPanel(new GridLayout(1, 4, 0, 0));
+        pane.add(modePane);
+        pane.add(typePane);
+        pane.add(typeInstancePane);
+        pane.add(commandsPane);
+
         GridBagConstraints b = new GridBagConstraints();
         b.fill = GridBagConstraints.HORIZONTAL;
-        b.weightx = 1;
         b.gridx = 0;
-        b.gridy = 2;
-        cont.add(modePane, b);
-        b.gridx = 1;
-        b.gridy = 2;
-        cont.add(typePane, b);
-        b.gridx = 2;
-        b.gridy = 2;
-        cont.add(typeInstancePane, b);
-        b.gridx = 3;
-        b.gridy = 2;
-        cont.add(commandsPane, b);
+        b.gridy = 4;
+        b.weightx = 1;
+
+        cont.add(pane, b);
     }
     public void update(AssetIterator iter){
         modeTextField.setText(iter.getCurrentMode());

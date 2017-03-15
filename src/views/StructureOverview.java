@@ -16,13 +16,6 @@ public class StructureOverview extends JPanel implements DataTable {
         this.setLayout(new BorderLayout());
         //this.setPreferredSize(d);
         this.add(new JScrollPane(structureTable), BorderLayout.CENTER);
-
-        JPanel buttonPanel = new JPanel(new FlowLayout());
-        Dimension buttonDimension = new Dimension(100, 30);
-        JButton createArmyButton = new JButton("Create Army");
-        buttonPanel.add(createArmyButton);
-        createArmyButton.setPreferredSize(buttonDimension);
-        this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
     @Override
@@ -31,6 +24,7 @@ public class StructureOverview extends JPanel implements DataTable {
         vis.visitStructureManager(currentPlayer.getStructures());
         NonEditableTable table = vis.getFormattedTable();
         if(table == null){
+            table.setRowCount(0);
             return;
         }
         structureTable.setModel(table);

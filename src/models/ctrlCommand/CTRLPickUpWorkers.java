@@ -45,6 +45,7 @@ public class CTRLPickUpWorkers implements CTRLCommand{
         isConfigured = false;
     }
 
+
     @Override
     public void execute(GameMap map, Player player) throws CommandNotConfiguredException {
         System.out.println(rallyPoint.toString() + "\n" + destination.toString());

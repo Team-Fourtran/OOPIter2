@@ -29,4 +29,5 @@ public class StructureCreationDialog {
         frame.setVisible(false);
         frame.dispose();
     }
+
 }
