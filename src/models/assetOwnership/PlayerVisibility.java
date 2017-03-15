@@ -36,6 +36,9 @@ public class PlayerVisibility {
     // the rest needs to be shrouded
     public static ArrayList<TileAssociation> getTilesForPlayer(Player p) {
         ArrayList<TileAssociation> tiles = new ArrayList<TileAssociation>();
+        if (rovList.isEmpty()) {
+            return null;
+        }
         for (RadiusOfVisibilityAssociation r : rovList.get(p)) {
             tiles.addAll(r.getRadiusOfVisibility());
         }

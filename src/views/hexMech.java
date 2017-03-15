@@ -1,10 +1,14 @@
 package views;
 
 import java.awt.*;
+
+import models.assetOwnership.PlayerVisibility;
 import models.assetOwnership.TileAssociation;
 import models.assetOwnership.TileObserver;
+import models.playerAsset.Assets.Player;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Observable;
 import models.visitor.*;
 
@@ -82,7 +86,7 @@ public class hexMech {
      Purpose: This function draws a hexagon based on the initial point (x,y).
      The hexagon is drawn in the colour specified in MainScreen.COLOURELL.
      *********************************************************************/
-    public static void drawHex(int i, int j, Graphics2D g2, TileAssociation tileAssoc) {
+    public static void drawHex(int i, int j, Graphics2D g2, TileAssociation tileAssoc, Player p) {
         int x = i * (s+t);
         int y = j * h + (i%2) * h/2;
         Polygon poly = hex(x,y);
@@ -94,9 +98,10 @@ public class hexMech {
         g2.drawPolygon(poly);
         //g2.fillPolygon(poly);
 
-        TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2);
+        TileDrawingVisitor v = new TileDrawingVisitor(x, y, g2, p);
         tileAssoc.accept(v);
         v.drawTile();
+//        g2.setBackground(Color.black);
     }
 
     /***************************************************************************
@@ -131,11 +136,21 @@ public class hexMech {
         }
     }
 
-    public static void updateTile(TileAssociation t2) {
-        HexProperties p = gps.get(t2);
-        TileDrawingVisitor v = new TileDrawingVisitor(p.getX(), p.getY(), p.getGraphic());
-        t2.accept(v);
-        v.drawTile();
+    public static void updateTile(TileAssociation t2, Player player) {
+//        HexProperties p = gps.get(t2);
+//        TileDrawingVisitor v = new TileDrawingVisitor(p.getX(), p.getY(), p.getGraphic(), player);
+//        t2.accept(v);
+//        v.drawTile();
+        TileDrawingVisitor v = null;
+        ArrayList<TileAssociation> tList = PlayerVisibility.getTilesForPlayer(player);
+        if (tList != null) {
+            for (TileAssociation t : tList) {
+                HexProperties p = gps.get(t);
+                v = new TileDrawingVisitor(p.getX(), p.getY(), p.getGraphic(), player);
+                t.accept(v);
+            }
+            v.drawTile();
+        }
     }
 
     /*****************************************************************************

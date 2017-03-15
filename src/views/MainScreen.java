@@ -240,7 +240,7 @@ public class MainScreen implements TileObserver {
             int ind = 0;
             for (int i=0;i<BSIZE;i++) {
                 for (int j=0;j<BSIZE;j++) {
-                    hexMech.drawHex(i,j,g2, tiles[ind]);
+                    hexMech.drawHex(i,j,g2, tiles[ind], currentPlayer);
                     ind++;
                 }
             }
@@ -453,7 +453,7 @@ public class MainScreen implements TileObserver {
     }
     
     public void updateTile(TileAssociation t) {
-        hexMech.updateTile(t);
+        hexMech.updateTile(t, currentPlayer);
         mainScreen.repaint();
     }
 
