@@ -98,6 +98,12 @@ public class Army extends CombatAsset implements AssetObserver {
         workers.add(w);
     }
 
+    public ArrayList<Worker> removeWorkers(){
+        ArrayList<Worker> _workers = new ArrayList<>(workers);
+        workers.clear();
+        return _workers;
+    }
+
     public void removeUnit(PlayerAsset asset){
         battleGroup.remove(asset);
         reinforcements.remove(asset);

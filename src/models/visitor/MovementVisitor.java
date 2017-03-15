@@ -2,8 +2,8 @@ package models.visitor;
 
 import models.assetOwnership.GameMap;
 import models.assetOwnership.TileAssociation;
+import models.command.ModifyWorkersCommand;
 import models.command.MoveCommand;
-import models.command.PickupWorkersCommand;
 import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
@@ -15,7 +15,8 @@ public class MovementVisitor implements AssetVisitor{
     private GameMap gameMap;
     private Player player;
     private ArrayList<TileAssociation> armyPath;
-    private boolean needWorkers = false;
+    private boolean pickingUpWorkers = false;
+    private boolean droppingOffWorkers = false;
     private int numWorkers;
     private Structure workersStructure;
 
@@ -52,9 +53,14 @@ public class MovementVisitor implements AssetVisitor{
                 );
                 cur = next;
             }
-            if(needWorkers){
+            if(pickingUpWorkers){
                 army.addCommand(
-                        new PickupWorkersCommand(gameMap, army, this.workersStructure, this.numWorkers)
+                        new ModifyWorkersCommand(true, gameMap, army, this.workersStructure, this.numWorkers)
+                );
+            }
+            else if(droppingOffWorkers){
+                army.addCommand(
+                        new ModifyWorkersCommand(false, gameMap, army, this.workersStructure, this.numWorkers)
                 );
             }
         }
@@ -75,8 +81,13 @@ public class MovementVisitor implements AssetVisitor{
         this.visitArmy(rallyPoint.getArmy());
     }
 
-    public void setNeedWorkers(Structure workersStructure, int numWorkers){
-        this.needWorkers = true;
+    public void setNeedWorkers(boolean pickingUp, Structure workersStructure, int numWorkers){
+        if(pickingUp){
+            this.pickingUpWorkers = true;
+        }
+        else{
+            this.droppingOffWorkers = true;
+        }
         this.numWorkers = numWorkers;
         this.workersStructure = workersStructure;
     }
