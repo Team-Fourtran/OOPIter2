@@ -11,12 +11,12 @@ public class Mine extends ResourceStructure{
 
     public Mine() {
 
-        setOffDamage(75);
+        setOffDamage(0);
         setDefDamage(75);
-        setArmor(150);
-        setMaxHealth(200);
-        setCurrentHealth(200);
-        setUpkeep(1);
+        setArmor(50);
+        setMaxHealth(100);
+        setCurrentHealth(100);
+        setUpkeep(10);
         setRadiusOfInfluence(1);
         setProductionRate(1);
         setWorkerDensity(1);

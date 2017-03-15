@@ -8,12 +8,12 @@ import models.visitor.SpecificAssetVisitor;
 public class Colonist extends Unit{
 
     public Colonist(){
-        setOffDamage(75);
-        setDefDamage(75);
-        setArmor(150);
-        setMaxHealth(200);
-        setCurrentHealth(200);
-        setUpkeep(1);
+        setOffDamage(0);
+        setDefDamage(0);
+        setArmor(10);
+        setMaxHealth(50);
+        setCurrentHealth(50);
+        setUpkeep(15);
         setRadiusOfInfluence(1);
         setMovesPerTurn(.33);
 

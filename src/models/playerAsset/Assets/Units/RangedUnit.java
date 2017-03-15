@@ -8,12 +8,12 @@ import models.visitor.SpecificAssetVisitor;
 public class RangedUnit extends Unit{
 
     public RangedUnit(){
-        setOffDamage(75);
-        setDefDamage(75);
-        setArmor(150);
-        setMaxHealth(200);
-        setCurrentHealth(200);
-        setUpkeep(1);
+        setOffDamage(50);
+        setDefDamage(25);
+        setArmor(50);
+        setMaxHealth(60);
+        setCurrentHealth(60);
+        setUpkeep(25);
         setRadiusOfInfluence(3);
         setMovesPerTurn(.33);
     }
