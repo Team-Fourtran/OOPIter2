@@ -16,6 +16,7 @@ public class Explorer extends Unit{
         setUpkeep(15);
         setRadiusOfInfluence(2);
         setMovesPerTurn(.33);
+        setVisibility(2);
     }
 
     public String getType(){

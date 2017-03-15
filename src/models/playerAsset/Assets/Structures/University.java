@@ -20,6 +20,7 @@ public class University extends Structure{
         setUpkeep(15);
         setRadiusOfInfluence(1);
         setProductionRate(1);
+        setVisibility(10);
         staff = new ArrayList<>();
         factory = new TechFactory();
     }

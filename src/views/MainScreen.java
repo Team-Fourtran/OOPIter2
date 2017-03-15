@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import models.assetOwnership.PlayerVisibility;
 import models.assetOwnership.TileAssociation;
 import models.assetOwnership.TileObserver;
 import controllers.*;
@@ -24,7 +25,7 @@ public class MainScreen implements TileObserver {
     private ControllerInfoArea controllerInfoArea;
 
     private final int EMPTY = 0;
-    private final int BSIZE = 15;
+    private final int BSIZE = 10;
     private final int HEXSIZE = 64;
     private final int BORDERS = 10;
     private final int SCRSIZE = HEXSIZE * (BSIZE + 1) + BORDERS*3;
@@ -43,6 +44,7 @@ public class MainScreen implements TileObserver {
     private int x = 0;
     private int y = 0;
     private int tileAssociationIndex;
+    private ArrayList<TileAssociation> visibleTiles;
 
     TileTargetting tileReceiver;
     AssetTargetting assetReceiver;
@@ -232,14 +234,15 @@ public class MainScreen implements TileObserver {
         }
         @Override
         public Dimension getPreferredSize() {
-            return new Dimension(600, 700);
+            return new Dimension(800, 1000);
         }
         public void paintComponent(Graphics g){
+            visibleTiles = PlayerVisibility.getTilesForPlayer(currentPlayer);
             Graphics2D g2 = (Graphics2D)g;
             this.gg2 = g2;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-            g2.translate(-10, -10);
+            g2.translate(-10, -100);
             super.paintComponent(g2);
             //draw grid
             int ind = 0;
@@ -247,6 +250,22 @@ public class MainScreen implements TileObserver {
                 for (int j=0;j<BSIZE;j++) {
                     hexMech.drawHex(i,j,g2, tiles[ind], currentPlayer);
                     ind++;
+                }
+            }
+            for(int i = 0; i < tiles.length; i++ ){
+                if(!(visibleTiles.contains(tiles[i]))) {
+                    int xInd = i / BSIZE;
+                    int yInd = i % BSIZE;
+                    int h = HEXSIZE;
+                    int r = h/2;
+                    int s = (int) (h / 1.73205);
+                    int t = (int) (r / 1.73205);
+                    int a = xInd * (s+t);
+                    int b = yInd * h + (xInd%2) * h/2;
+                    Polygon poly = hexMech.hex(a,b);
+                    g2.setColor(Color.black);
+                    g2.fillPolygon(poly);
+                    g2.drawPolygon(poly);
                 }
             }
             if(isHighlighted){

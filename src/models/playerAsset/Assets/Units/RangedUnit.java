@@ -16,6 +16,7 @@ public class RangedUnit extends Unit{
         setUpkeep(25);
         setRadiusOfInfluence(3);
         setMovesPerTurn(.33);
+        setVisibility(2);
     }
     public String getType(){
         return "ranged";

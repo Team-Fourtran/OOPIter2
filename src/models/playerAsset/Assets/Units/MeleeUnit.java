@@ -16,6 +16,7 @@ public class MeleeUnit extends Unit{
         setUpkeep(25);
         setRadiusOfInfluence(2);
         setMovesPerTurn(.33);
+        setVisibility(1);
     }
 
     public String getType(){

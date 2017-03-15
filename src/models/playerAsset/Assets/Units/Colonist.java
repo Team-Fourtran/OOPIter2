@@ -16,6 +16,7 @@ public class Colonist extends Unit{
         setUpkeep(15);
         setRadiusOfInfluence(1);
         setMovesPerTurn(.33);
+        setVisibility(1);
 
     }
 
