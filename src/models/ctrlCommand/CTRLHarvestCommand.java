@@ -12,7 +12,7 @@ public class CTRLHarvestCommand implements CTRLCommand {
 	private ResourceStructure harvester;
 	private TileAssociation target;
 	private int assignedWorkers;
-	
+
 	private boolean isConfigured;
 
 	@Override
@@ -23,7 +23,7 @@ public class CTRLHarvestCommand implements CTRLCommand {
 	public CTRLHarvestCommand() {
 		isConfigured = false;
 	}
-	
+
 	public void configure(PlayerAsset harvester, TileAssociation target, int assignedWorkers) {
 		isConfigured = true;
 		this.harvester = (ResourceStructure) harvester;
@@ -47,8 +47,8 @@ public class CTRLHarvestCommand implements CTRLCommand {
 			harvester.addUniversalCommand(
 						new HarvestCommand(
 								player,
-								map, 
-								harvester, 
+								map,
+								harvester,
 								target,
 								assignedWorkers
 								)
