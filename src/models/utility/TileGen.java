@@ -110,7 +110,7 @@ public class TileGen {
                 item = new LandMine();
             }
             if(i == 33){
-                resourcePackage = new ResourcePackage(13, 14, 15);
+                resourcePackage = new ResourcePackage(500, 500, 500);
             }
 
             Tile tile = new Tile(t, resourcePackage, item);

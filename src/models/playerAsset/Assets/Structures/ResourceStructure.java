@@ -58,7 +58,7 @@ public class ResourceStructure extends Structure{
      * set workers that are gathering resources
      */
     public void addWorkersToGathering(int assignedWorkers){
-    	if (assignedWorkers >= staff.size()) {
+    	if (assignedWorkers <= staff.size()) {
     		for (int i = 0; i < assignedWorkers; i++) {
     			gatherers.add(staff.get(i));
     		}
@@ -69,7 +69,7 @@ public class ResourceStructure extends Structure{
      * set workers that are at structure, producing
      */
     public void addWorkersToProduction(int assignedWorkers){
-    	if (assignedWorkers >= staff.size()) {
+    	if (assignedWorkers <= staff.size()) {
     		for (int i = 0; i < assignedWorkers; i++) {
     			producers.add(staff.get(i));
     		}
