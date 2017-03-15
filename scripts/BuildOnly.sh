@@ -1,12 +1,15 @@
 #!/bin/bash
 echo "Building project..."
+cd ..	#Go to project root
+
 THE_CLASSPATH=
 PROGRAM_NAME=application/RunGame.java
 
-mkdir -p bin
+mkdir -p deploy	#Make deploy output folder
+
 cd src
 
-javac -d ../bin -classpath ".:${THE_CLASSPATH}" $PROGRAM_NAME
+javac -d ../deploy -classpath ".:${THE_CLASSPATH}" $PROGRAM_NAME
 
 if [ $? -eq 0 ]
 then

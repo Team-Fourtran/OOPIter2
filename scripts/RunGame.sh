@@ -2,5 +2,5 @@
 ./BuildOnly.sh
 
 echo "Running game..."
-cd bin/
+cd ../deploy/
 java application/RunGame
