@@ -18,17 +18,18 @@ public class StructureFactory {
             case "farm":
             	Farm f = new Farm();
             	WorkRadius rf = configureWorkRadius(f, baseTile);
-            	f.setHarvestType(new FoodHarvestStrategy(rf));
+            	f.setHarvestType(new FoodHarvestStrategy(rf, f));
             	return f;
             case "mine":
             	Mine m = new Mine();
             	WorkRadius rm = configureWorkRadius(m, baseTile);
-            	m.setHarvestType(new OreHarvestStrategy(rm));
+            	m.setHarvestType(new OreHarvestStrategy(rm, m));
             	return m;
             case "power plant":
             	PowerPlant p = new PowerPlant();
             	WorkRadius rp = configureWorkRadius(p, baseTile);
-            	p.setHarvestType(new EnergyHarvestStrategy(rp));
+            	p.setHarvestType(new EnergyHarvestStrategy(rp, p));
+            	return p;
             case "fort":
                 return new Fort();
             case "observation tower":

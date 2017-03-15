@@ -9,15 +9,26 @@ import models.tileInfo.ResourcePackage;
 
 public class FoodHarvestStrategy extends HarvestStrategy {
 	private WorkRadius harvestRadius;
-	private TileAssociation harvestTile;
+	private ResourceStructure harvester;
 	
-	public FoodHarvestStrategy(WorkRadius harvestRadius) {
-		super(harvestRadius);
+	public FoodHarvestStrategy(WorkRadius harvestRadius, ResourceStructure harvester) {
+		super(harvestRadius, harvester);
+		this.harvestRadius = harvestRadius;
+		this.harvester = harvester;
 	}
 
 	@Override
-	protected int specificHarvest(ResourcePackage resources) {
-		return resources.harvestFood();
+	public int harvest(TileAssociation target) {
+		ArrayList<TileAssociation> availableTiles = harvestRadius.getTilesWithResource("food");
+		if (availableTiles.contains(target)) {
+			// deplete from this tile
+			ResourcePackage resources = target.occupyResourcePackage(); // the strategy takes over resource package
+			int count = resources.harvestFood();
+			harvester.addResourceCount("food", count);
+			target.deoccupyResourcePackage();
+			return count;
+		} else {
+			return 0;
+		}
 	}
-	
 }

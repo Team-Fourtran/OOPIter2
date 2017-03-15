@@ -81,7 +81,7 @@ public class ResourceStructure extends Structure{
     	int totalCount = 0;
     	// for each worker, harvest
     	for (int i = 0; i < gatherers.size(); i++) {
-    		totalCount += harvestStrategy.harvest(target, this);
+    		totalCount += harvestStrategy.harvest(target);
     	}
 		return totalCount;
     }

@@ -615,7 +615,7 @@ class modelTest{
     
     private void testHarvest() throws InterruptedException {
     	// put a capital on this same tile
-    	Structure s1 = sm.createStructure("mine", _tiles.get(4)); // add to manager
+    	Structure s1 = sm.createStructure("power plant", _tiles.get(4)); // add to manager
     	PlayerAssetOwnership.addPlayerAsset(player, s1); // add to player list. Actually this could be done in the managers maybe
     	map.addAssetToMap(s1, _tiles.get(4)); // add to map
     	
@@ -625,7 +625,7 @@ class modelTest{
     	t.addWorkersToIdle(worker);
     	
     	// configure tile with food resource
-    	_tiles.get(4).getResourcePackage().setOreCount(50);
+    	_tiles.get(4).getResourcePackage().setEnergyCount(50);
     	
     	// start to harvest
     	CTRLHarvestCommand chc = new CTRLHarvestCommand();
@@ -633,26 +633,6 @@ class modelTest{
     	game.notifyOfCommand(chc);
     	
     	changeTurn(6);
-    	//    	t.startHarvest();
-    	// this start to harvest
-    	
-//    	_tiles.get(4).getResourcePackage().setFoodCount(1);
-//    	_tiles.get(5).getResourcePackage().setFoodCount(5);
-//    	t.setRadiusSize(1); // increase radius
-//    	t.startHarvest();
-//    	
-//    	// change strategy to ore harvest
-//    	_tiles.get(3).getResourcePackage().setOreCount(1);
-//    	t.setHarvestType(new OreHarvestStrategy(t.getWorkRadius()));
-//    	t.startHarvest();
-//    	
-//    	// change strategy to energy harvest
-//    	_tiles.get(5).getResourcePackage().setEnergyCount(2);
-//    	t.setHarvestType(new EnergyHarvestStrategy(t.getWorkRadius()));
-//    	t.startHarvest();
-//    	
-//    	t.setRadiusSize(0);
-//    	t.startHarvest(); // shouldn't be able to harvest that energy anymore
     }
 }
 

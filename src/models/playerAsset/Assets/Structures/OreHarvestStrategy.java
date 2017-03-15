@@ -8,15 +8,26 @@ import models.tileInfo.ResourcePackage;
 
 public class OreHarvestStrategy extends HarvestStrategy {
 	private WorkRadius harvestRadius;
-	private TileAssociation harvestTile;
+	private ResourceStructure harvester;
 	
-	public OreHarvestStrategy(WorkRadius harvestRadius) {
-		super(harvestRadius);
+	public OreHarvestStrategy(WorkRadius harvestRadius, ResourceStructure harvester) {
+		super(harvestRadius, harvester);
+		this.harvestRadius = harvestRadius;
+		this.harvester = harvester;
 	}
 
 	@Override
-	protected int specificHarvest(ResourcePackage resources) {
-		System.out.println("Hello?");
-		return resources.harvestOre();
+	public int harvest(TileAssociation target) {
+		ArrayList<TileAssociation> availableTiles = harvestRadius.getTilesWithResource("ore");
+		if (availableTiles.contains(target)) {
+			// deplete from this tile
+			ResourcePackage resources = target.occupyResourcePackage(); // the strategy takes over resource package
+			int count = resources.harvestOre();
+			harvester.addResourceCount("ore", count);
+			target.deoccupyResourcePackage();
+			return count;
+		} else {
+			return 0;
+		}
 	}
 }

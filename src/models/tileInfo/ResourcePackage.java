@@ -70,9 +70,9 @@ public class ResourcePackage {
 			oreCount -= 10; 
 			return 10;
 		} else {
-			int remainingFood = oreCount;
+			int remainingOre = oreCount;
 			oreCount = 0;
-			return remainingFood;
+			return remainingOre;
 		}
 	}
 	
@@ -81,9 +81,9 @@ public class ResourcePackage {
 			energyCount -= 10; 
 			return 10;
 		} else {
-			int remainingFood = energyCount;
+			int remainingEnergy = energyCount;
 			energyCount = 0;
-			return remainingFood;
+			return remainingEnergy;
 		}
 	}
 }
