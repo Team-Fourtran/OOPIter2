@@ -13,6 +13,7 @@ public class StructureCreationVisitor implements PlayerVisitor{
     private RallyPoint rallyPoint;
     private String structureType;
     private Player player;
+    private Structure creation;
 
     public StructureCreationVisitor(GameMap map, RallyPoint rallyPoint, String structureType){
         this.map = map;
@@ -37,13 +38,17 @@ public class StructureCreationVisitor implements PlayerVisitor{
 
     @Override
     public void visitStructureManager(StructureManager structureManager) {
-        Structure s = structureManager.createStructure(structureType, map.searchForTileAssociation(rallyPoint));
-        PlayerAssetOwnership.addPlayerAsset(player, s);
-        map.addAssetToMap(s, rallyPoint.getArmy());
+        this.creation = structureManager.createStructure(structureType, map.searchForTileAssociation(rallyPoint));
+        PlayerAssetOwnership.addPlayerAsset(player, creation);
+        map.addAssetToMap(creation, rallyPoint.getArmy());
     }
 
     @Override
     public void visitUnitManager(UnitManager unitManager) {
         //Don't think anything happens here
+    }
+
+    public Structure getCreation(){
+        return creation;
     }
 }
