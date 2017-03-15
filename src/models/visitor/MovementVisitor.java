@@ -7,7 +7,6 @@ import models.command.MoveCommand;
 import models.playerAsset.Assets.*;
 import models.playerAsset.Assets.Structures.Structure;
 import models.playerAsset.Assets.Units.Unit;
-
 import java.util.ArrayList;
 
 public class MovementVisitor implements AssetVisitor{

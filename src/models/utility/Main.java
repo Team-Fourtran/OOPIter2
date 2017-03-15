@@ -102,6 +102,8 @@ class modelTest{
         Unit u7 = umEnemy.addNewUnit("melee");
         _tiles.get(85).add(u7);
 
+        Structure ss = sm.createStructure("university", _tiles.get(32));
+        _tiles.get(32).add(ss);
 
         this.game = new Game(player, enemyPlayer, _tiles);
         this.map = game.getMap();

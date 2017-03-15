@@ -214,7 +214,17 @@ public class TileDrawingVisitor implements TileVisitor, SpecificAssetVisitor {
 
     @Override
     public void visitUniversity(University university) {
-
+        BufferedImage texture = null;
+        try {
+            texture = ImageIO.read(new File("src/application/images/assets/university.png"));
+        } catch (IOException e) {
+            try {
+                texture = ImageIO.read(new File("../src/application/images/assets/university.png"));
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }        }
+        texture = resizeImage(texture);
+        addToPriorityQueue(STRUCTURE, texture);
     }
 
     @Override

@@ -1,8 +1,5 @@
 package models.playerAsset.Assets.Technology;
 
-/**
- * Created by Clay on 3/13/2017.
- */
 public class TechFactory {
 
     public Technology makeTech(String type){
