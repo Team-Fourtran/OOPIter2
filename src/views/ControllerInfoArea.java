@@ -4,21 +4,29 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ControllerInfoArea {
-    public void generateControllerInfoArea(Container cont){
-        GridBagConstraints b = new GridBagConstraints();
-        b.gridx = 0;
-        b.gridy = 2;
-        b.fill = GridBagConstraints.HORIZONTAL;
-        JLabel modeLabel = new JLabel("Mode");
-        JLabel typeLabel = new JLabel("Type");
-        JLabel typeInstanceLabel = new JLabel("Type Instance");
-        JLabel commandsLabel = new JLabel("Commands");
+    private JLabel modeLabel;
+    private JLabel typeLabel;
+    private JLabel typeInstanceLabel;
+    private JLabel commandsLabel;
+    private JTextField modeTextField;
+    private JTextField typeTextField;
+    private JTextField typeInstanceTextField;
+    private JTextField commandsTextField;
+    private JPanel modePane;
+    private JPanel typePane;
+    private JPanel typeInstancePane;
+    private JPanel commandsPane;
 
-        JTextField modeTextField = new JTextField();
-        JTextField typeTextField = new JTextField();
-        JTextField typeInstanceTextField = new JTextField();
-        JTextField commandsTextField = new JTextField();
+    public ControllerInfoArea(Container cont){
+        modeLabel = new JLabel("Mode");
+        typeLabel = new JLabel("Type");
+        typeInstanceLabel = new JLabel("Type Instance");
+        commandsLabel = new JLabel("Commands");
 
+        modeTextField = new JTextField();
+        typeTextField = new JTextField();
+        typeInstanceTextField = new JTextField();
+        commandsTextField = new JTextField();
         modeTextField.setEditable(false);
         typeTextField.setEditable(false);
         typeInstanceTextField.setEditable(false);
@@ -29,19 +37,22 @@ public class ControllerInfoArea {
         typeInstanceLabel.setLabelFor(typeInstanceTextField);
         commandsLabel.setLabelFor(commandsTextField);
 
-        JPanel modePane = new JPanel(new GridLayout(1, 2, 0, 0));
+        modePane = new JPanel(new GridLayout(1, 2, 0, 0));
         modePane.add(modeLabel);
         modePane.add(modeTextField);
-        JPanel typePane = new JPanel(new GridLayout(1, 2, 0, 0));
+        typePane = new JPanel(new GridLayout(1, 2, 0, 0));
         typePane.add(typeLabel);
         typePane.add(typeTextField);
-        JPanel typeInstancePane = new JPanel(new GridLayout(1, 2,0 ,0 ));
+        typeInstancePane = new JPanel(new GridLayout(1, 2,0 ,0 ));
         typeInstancePane.add(typeInstanceLabel);
         typeInstancePane.add(typeInstanceTextField);
-        JPanel commandsPane = new JPanel(new GridLayout(1, 2,0 ,0 ));
+        commandsPane = new JPanel(new GridLayout(1, 2,0 ,0 ));
         commandsPane.add(commandsLabel);
         commandsPane.add(commandsTextField);
 
+        GridBagConstraints b = new GridBagConstraints();
+        b.fill = GridBagConstraints.HORIZONTAL;
+        b.weightx = 1;
         b.gridx = 0;
         b.gridy = 2;
         cont.add(modePane, b);
@@ -51,7 +62,6 @@ public class ControllerInfoArea {
         b.gridx = 2;
         b.gridy = 2;
         cont.add(typeInstancePane, b);
-        b.weightx = 1;
         b.gridx = 3;
         b.gridy = 2;
         cont.add(commandsPane, b);

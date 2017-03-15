@@ -146,12 +146,10 @@ public class MainScreen implements TileObserver {
         content.setLayout(new GridBagLayout());
 
         //Controller information area
-        ControllerInfoArea controllerInfoArea = new ControllerInfoArea();
-        controllerInfoArea.generateControllerInfoArea(content);
+        ControllerInfoArea controllerInfoArea = new ControllerInfoArea(content);
 
         //Player Information Area with Resources
-        this.playerInfoArea = new PlayerInfoArea();
-        playerInfoArea.generatePlayerInfoArea(content);
+        this.playerInfoArea = new PlayerInfoArea(content);
 
         //Unit OV Table
         Dimension d = new Dimension(900, 700);
