@@ -31,24 +31,25 @@ public class AssetTargetting {
 
     public TypeIterator2<PlayerAsset> getIterator(){
         return new TypeIterator2<PlayerAsset>() {
-            private ArrayList<PlayerAsset> list;
+            private ArrayList<PlayerAsset> list = new ArrayList<>(0);
             private int cur;
             private int size;
 
             @Override
             public void first() {
                 String firstmode = iter.getCurrentMode();
+                iter.next();
                 while(!iter.getCurrentMode().equals(mode)){
-                    iter.next();
                     if(iter.getCurrentMode().equals(firstmode)){
                         return;
                     }
+                    iter.next();
                 }
                 list = new ArrayList<>();
                 ///
                 list.add((PlayerAsset) iter.current());
                 while(true){
-                    iter.next();
+                    iter.nextInstance();
                     if(list.contains(iter.current())){
                         iter.nextType();
                         if(list.contains(iter.current())){
@@ -78,6 +79,9 @@ public class AssetTargetting {
 
             @Override
             public PlayerAsset current() {
+                if(list.isEmpty()){
+                    return null;
+                }
                 return list.get(cur);
             }
         };

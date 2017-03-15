@@ -388,27 +388,28 @@ public class MainScreen implements TileObserver {
             int id = e.getKeyCode();
 
             if(id == KeyEvent.VK_LEFT){
+                System.out.println("LEFT");
                 iter.prev();
                 selected = (PlayerAsset) iter.current();
+                System.out.println(selected.toString());
                 searchTileAssociation(selected);
             }
             if(id == KeyEvent.VK_RIGHT){
+                System.out.println("RIGHT");
                 iter.next();
                 selected = (PlayerAsset) iter.current();
+                System.out.println(selected.toString());
                 searchTileAssociation(selected);
             }
 
             if(id == KeyEvent.VK_ESCAPE){
-                board[x][y] = 0;
-                map.disableHighlight();
+                map.removeKeyListener(this);
                 map.enableCommand();
                 assetReceiver.receiveAsset(null);
             }
 
             if(id == KeyEvent.VK_ENTER){
-                board[x][y] = 0;
-                tileAssociationIndex = (x*BSIZE) + y;
-                map.disableHighlight();
+                map.removeKeyListener(this);
                 map.enableCommand();
                 assetReceiver.receiveAsset(selected);
             }
@@ -431,8 +432,11 @@ public class MainScreen implements TileObserver {
     public void doAssetTargetting(AssetTargetting at){
         assetReceiver = at;
         TypeIterator2<PlayerAsset> iter = at.getIterator();
+        iter.first();
+        if (iter.current() == null){
+            return;
+        }
         map.disableCommand();
-        map.enableHighlight();
         map.addKeyListener(new AssetCycleListener(iter));
     }
 

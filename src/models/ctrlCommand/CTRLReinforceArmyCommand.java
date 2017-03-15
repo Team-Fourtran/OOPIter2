@@ -8,6 +8,7 @@ import models.playerAsset.Assets.Units.Unit;
 import models.visitor.ReinforceArmyVisitor;
 
 public class CTRLReinforceArmyCommand implements CTRLCommand{
+    private CommandComponents parts;
     private Unit unit;
     private RallyPoint rallyPoint;
 
@@ -25,13 +26,21 @@ public class CTRLReinforceArmyCommand implements CTRLCommand{
 
     @Override
     public void callback() throws CommandNotConfiguredException {
-
+        this.rallyPoint = (RallyPoint) parts.getTargetAsset();
+        if(null != rallyPoint){
+            isConfigured = true;
+            parts.requestExecution();   //Request execution
+        } else {
+            throw new CommandNotConfiguredException("Well, Shit");
+        }
     }
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
+        this.parts = parts;
         this.unit = (Unit) parts.getRequestingAsset();
-        isConfigured = true;
+        parts.requestDestinationRallypoint(this);
+        isConfigured = false;
     }
 
     public boolean isConfigured(){

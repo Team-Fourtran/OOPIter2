@@ -193,7 +193,7 @@ class MessageGenerator implements KeyPressListener {
 
         @Override   //Called by CTRLCommands once they think they're ready to be executed.
         public void requestExecution() {
-            this.msgGen.receiveConfiguredCmd(getCmd());
+            this.msgGen.receiveConfiguredCmd(currentCommand);
         }
 
         @Override
@@ -204,7 +204,7 @@ class MessageGenerator implements KeyPressListener {
         @Override
         //TODO: This
         public PlayerAsset getTargetAsset() {
-            return null;
+            return destinationAsset;
         }
 
         @Override
@@ -245,14 +245,14 @@ class MessageGenerator implements KeyPressListener {
         public void requestDestinationStructure(CTRLCommand callbackObject){
             this.currentCommand = callbackObject;
             this.destinationAsset = null;
-            msgGen.requestAsset("Structure Mode");
+            msgGen.requestAsset("STRUCTURE MODE");
         }
 
         @Override
         public void requestDestinationRallypoint(CTRLCommand callbackObject){
             this.currentCommand = callbackObject;
             this.destinationAsset = null;
-            msgGen.requestAsset("Rally Point Mode");
+            msgGen.requestAsset("RALLY POINT MODE");
         }
 
         protected void setDestinationAsset(PlayerAsset asset) {
