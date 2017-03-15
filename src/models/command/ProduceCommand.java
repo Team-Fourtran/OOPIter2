@@ -2,21 +2,19 @@ package models.command;
 
 import models.assetOwnership.GameMap;
 import models.playerAsset.Assets.Player;
-import models.playerAsset.Assets.Structures.ResourceStructure;
+import models.playerAsset.Assets.Structures.*;
 
 public class ProduceCommand implements Command{
     private Player givingPlayer;
     private ResourceStructure producer;
     private int assignedWorkers;
-    private String type;
     private boolean firstExecution;
 
 
-    public ProduceCommand(GameMap map, Player player, ResourceStructure producer, int assignedWorkers, String type){
+    public ProduceCommand(GameMap map, Player player, ResourceStructure producer, int assignedWorkers){
         givingPlayer = player;
         this.producer = producer;
         this.assignedWorkers = assignedWorkers;
-        this.type = type;
         firstExecution = true;
     }
 
@@ -41,7 +39,21 @@ public class ProduceCommand implements Command{
             System.out.println("gone2");
             return;
         }
-        producer.produce(type);
+        if(producer instanceof Capital){
+            producer.produce("food");
+        }
+        else if (producer instanceof Farm){
+            producer.produce("food");
+        }
+        else if (producer instanceof Mine){
+            producer.produce("ore");
+        }
+        else if (producer instanceof PowerPlant){
+            producer.produce("energy");
+        }
+        else{
+            producer.removeUniversalCommand(this);
+        }
 
     }
 

@@ -2,19 +2,13 @@ package models.ctrlCommand;
 
 import controllers.CommandComponents;
 import models.assetOwnership.GameMap;
-import models.assetOwnership.TileAssociation;
 import models.command.ProduceCommand;
 import models.playerAsset.Assets.Player;
-import models.playerAsset.Assets.PlayerAsset;
 import models.playerAsset.Assets.Structures.ResourceStructure;
 
-/**
- * Created by Clay on 3/15/2017.
- */
 public class CTRLProduceCommand implements CTRLCommand {
     private ResourceStructure producer;
     private int assignedWorkers;
-    private String type;
     private boolean isConfigured;
 
 
@@ -24,7 +18,6 @@ public class CTRLProduceCommand implements CTRLCommand {
         isConfigured = true;
         this.producer = (ResourceStructure) producer;
         this.assignedWorkers = assignedWorkers;
-        this.type = type;
     }
 
     @Override
@@ -34,7 +27,10 @@ public class CTRLProduceCommand implements CTRLCommand {
 
     @Override
     public void configure(CommandComponents parts) throws CommandNotConfiguredException {
-
+        this.producer = (ResourceStructure) parts.getRequestingAsset();
+        this.assignedWorkers = parts.getNumWorkers();
+        isConfigured = true;
+        parts.requestExecution();
     }
 
     @Override
@@ -45,8 +41,7 @@ public class CTRLProduceCommand implements CTRLCommand {
                                 map,
                                 player,
                                 producer,
-                                assignedWorkers,
-                                type
+                                assignedWorkers
                         )
                 );
             }

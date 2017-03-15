@@ -11,7 +11,8 @@ public class StructureFactory {
         switch (type){
             case "capital":
             	Capital c = new Capital();
-            	configureWorkRadius(c, baseTile);
+            	WorkRadius cf = configureWorkRadius(c, baseTile);
+            	c.setHarvestType(new FoodHarvestStrategy(cf, c));
             	// player needs to configure capital resource type
                 return c;
             case "farm":
